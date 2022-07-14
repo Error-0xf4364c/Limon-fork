@@ -11,7 +11,8 @@ class economy(commands.Cog):
     
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-    
+
+    # ------ DAILY ------
     @app_commands.command(name = "daily", description = "Günlük Coin Al")
     @app_commands.checks.cooldown(
         10, 60.0, key=lambda i: (i.guild_id, i.user.id))
@@ -54,6 +55,8 @@ class economy(commands.Cog):
             await interaction.response.send_message(f"Lütfen `{timeRemaining}`s sonra tekrar deneyiniz.",
                                                     ephemeral=True)
 
+
+    # ------ WALLET ------
     @app_commands.command(name = "wallet", description="Cüzdanını Aç")
     @app_commands.checks.cooldown(
         10, 60.0, key=lambda i: (i.guild_id, i.user.id))

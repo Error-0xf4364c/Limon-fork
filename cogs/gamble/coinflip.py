@@ -16,7 +16,7 @@ class gambles(commands.Cog):
     @app_commands.command(name="coinflip", description="Yazı-Tura atarak para kazan.")
     @app_commands.checks.cooldown(
         10, 60.0, key=lambda i: (i.guild_id, i.user.id))
-    async def coinflip(self, interaction: discord.Interaction, miktar: int):
+    async def coinflip(self, interaction: discord.Interaction, miktar: app_commands.Range[int, 1, 50000]):
 
 
         db = self.bot.mongoConnect["cupcake"]
@@ -43,43 +43,38 @@ class gambles(commands.Cog):
             r = miktar * 2
             userData['coins'] += r
             await collection.replace_one({"_id" : interaction.user.id}, userData)
-            await interaction.response.send_message("Coinflipping...")
-            await interaction.edit_original_message(f"<:ccoin:996130482519552000> Tebrikler, **{r}** coin kazandınız!")
+            await interaction.response.send_message(f"<:ccoin:996130482519552000> Tebrikler, **{r}** coin kazandınız!")
+            #await interaction.edit_original_message(f"<:ccoin:996130482519552000> Tebrikler, **{r}** coin kazandınız!")
         else:
             userData['coins'] -= miktar
             await collection.replace_one({"_id" : interaction.user.id}, userData)
-            await interaction.response.send_message("Coinflipping...")
-            await interaction.edit_original_message(content = f"<:ccoin:996130482519552000> Maalesef bir dahaki sefere ;c")
+            await interaction.response.send_message(f"<:ccoin:996130482519552000> Maalesef bir dahaki sefere ;c")
+            #await interaction.edit_original_message(content = f"<:ccoin:996130482519552000> Maalesef bir dahaki sefere ;c")
 
     @coinflip.error
     async def coinflipError(self, interaction: discord.Interaction,
                          error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
-            await interaction.response.send_message(f"Lütfen `{timeRemaining}`s sonra tekrar deneyiniz.",
-                                                    ephemeral=True)
+            await interaction.response.send_message(f"Lütfen `{timeRemaining}`s sonra tekrar deneyiniz.",ephemeral=True)
+
 
     @app_commands.command(
-        name="guessnumber",
-        description="Sayıyı bil ve 5 katı coin kazan."
-    )
+        name="guess-number",
+        description="Sayıyı bil ve 5 katı coin kazan.")
+    @app_commands.describe(miktar='Enter the Amount', number="Your Guess")
     @app_commands.checks.cooldown(
         10, 60.0, key=lambda i: (i.guild_id, i.user.id))
-    async def guessnumber(self, interaction: discord.Interaction, miktar: int, number: int):
+
+    async def guessnumber(self, interaction: discord.Interaction, miktar: app_commands.Range[int, 1, 50000], number: app_commands.Range[int, 1, 10]):
 
 
-        if number >= 10 or number <= 1:
-            return await interaction.response.send_message("Lütfen yalnızca `1` ve `10` arası sayılar giriniz.", ephemeral=True)
 
         db = self.bot.mongoConnect["cupcake"]
         collection = db["economy"]
 
         if await collection.find_one({"_id": interaction.user.id}) == None:
-            newData = {
-                "_id": interaction.user.id,
-                "coins": 0
-            }
-            await collection.insert_one(newData)
+            return await interaction.response.send_message("Henüz bir hesabınız yok.")
 
         userData = await collection.find_one({"_id": interaction.user.id})
 
@@ -105,8 +100,7 @@ class gambles(commands.Cog):
                          error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
-            await interaction.response.send_message(f"Lütfen `{timeRemaining}`s sonra tekrar deneyiniz.",
-                                                    ephemeral=True)
+            await interaction.response.send_message(f"Lütfen `{timeRemaining}`s sonra tekrar deneyiniz.", ephemeral=True)
 
 
 
