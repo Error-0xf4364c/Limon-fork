@@ -1,42 +1,46 @@
 import discord
 from discord import app_commands
 from discord.ext import commands
+
 import datetime
 
+whiteCross = "<:whiteCross:996130010471600228>"
+cross = "<:cx:991397749486522499>"
+send = "<:send:997158048126730250>"
 
 class sendCoin(commands.Cog):
 
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    @app_commands.command(name = "send", description = "Arkadaşına Coin Gönder")
+    @app_commands.command(name = "send", description = "Arkadaşına Cupcoin Gönder")
     @app_commands.describe(friend='Who will you send it to?', amount="The amount of coins you will send")
     @app_commands.checks.cooldown(
-        10, 60.0, key=lambda i: (i.guild_id, i.user.id))
+        1, 50.0, key=lambda i: (i.guild_id, i.user.id))
     async def send(self, interaction: discord.Interaction, friend: discord.User, amount: app_commands.Range[int, 1, 50000]):
 
         db = self.bot.mongoConnect["cupcake"]
         collection = db["economy"]
 
         if friend == interaction.user:
-            return await interaction.response.send_message("<:cx:991397749486522499> Kendinize coin gönderemezsiniz!", ephemeral=True)
+            return await interaction.response.send_message(f"{cross} Kendinize Cupcoin gönderemezsiniz!", ephemeral=True)
 
         if await collection.find_one({"_id": interaction.user.id}) == None:
             return
         elif await collection.find_one({"_id": friend.id}) == None:
-            return await interaction.response.send_message("<:whiteCross:996130010471600228> Belirttiğiniz kişi bulunamadı ;c", ephemeral= True)
+            return await interaction.response.send_message(f"{whiteCross} Belirttiğiniz kişi bulunamadı ;c", ephemeral= True)
 
         userData = await collection.find_one({"_id": interaction.user.id})
         targetData = await collection.find_one({"_id": friend.id})
 
         if userData['coins'] < amount:
-            return await interaction.response.send_message("<:cx:991397749486522499> Cüzdanınızda yeterli coin bulunmuyor!")
+            return await interaction.response.send_message(f"{cross} Cüzdanınızda yeterli Cupcoin bulunmuyor!")
 
         userData['coins'] -= amount
         targetData['coins'] += amount
         await collection.replace_one({"_id": interaction.user.id}, userData)
         await collection.replace_one({"_id": friend.id}, targetData)
-        await interaction.response.send_message(f"<:sendcoin:996130502698336257> **{friend.name}** arkadaşınıza başarıyla **{amount}** Cupcoin gönderdiniz.")
+        await interaction.response.send_message(f"{send} **{friend.name}** arkadaşınıza başarıyla **{amount}** Cupcoin gönderdiniz.")
     @send.error
     async def sendError(self, interaction : discord.Interaction,
                          error: app_commands.AppCommandError):

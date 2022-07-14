@@ -18,6 +18,7 @@ class MyBot(commands.Bot):
     
     def __init__(self):
         super().__init__(
+
             command_prefix = prefix,
             intents = discord.Intents.all(),
             application_id = app_id)

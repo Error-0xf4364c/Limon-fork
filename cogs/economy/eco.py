@@ -1,11 +1,14 @@
 from gc import collect
 import discord
 from discord import app_commands
+from discord.ext import tasks
 from discord.ext import commands
 import datetime
-from fetchData import fetchData
 
 import random
+
+cupcoins = "<:Cupcoins:997159042633961574>"
+wallet = "<:wallet:997158473999581386>"
 
 class economy(commands.Cog):
     
@@ -13,14 +16,10 @@ class economy(commands.Cog):
         self.bot = bot
 
     # ------ DAILY ------
-    @app_commands.command(name = "daily", description = "Günlük Coin Al")
+    @app_commands.command(name = "daily", description = "Günlük Cupcoin Al")
     @app_commands.checks.cooldown(
-        10, 60.0, key=lambda i: (i.guild_id, i.user.id))
+        1, 86400, key=lambda i: (i.guild_id, i.user.id))
     async def daily(self, interaction: discord.Interaction):
-
-
-
-
 
         db = self.bot.mongoConnect["cupcake"]
         collection = db["economy"]
@@ -36,7 +35,7 @@ class economy(commands.Cog):
         userData = await collection.find_one({"_id" : interaction.user.id})
 
 
-        moneyRecieved = random.randint(0, 100)
+        moneyRecieved = random.randint(400, 1100)
 
 
         #userData, collection = await fetchData(self.bot, interaction.user.id)
@@ -45,7 +44,7 @@ class economy(commands.Cog):
         userData["coins"] += moneyRecieved
         await collection.replace_one({"_id" : interaction.user.id}, userData)
 
-        await interaction.response.send_message(f"<:coins:996130484700581949> Günlük kazanç : {moneyRecieved}")
+        await interaction.response.send_message(f"{cupcoins} Günlük kazancınız: **{moneyRecieved}**")
 
     @daily.error
     async def dailyError(self, interaction : discord.Interaction,
@@ -59,7 +58,7 @@ class economy(commands.Cog):
     # ------ WALLET ------
     @app_commands.command(name = "wallet", description="Cüzdanını Aç")
     @app_commands.checks.cooldown(
-        10, 60.0, key=lambda i: (i.guild_id, i.user.id))
+        1, 10.0, key=lambda i: (i.guild_id, i.user.id))
     async def wallet(self, interaction : discord.Interaction):
 
         db = self.bot.mongoConnect["cupcake"]
@@ -73,7 +72,7 @@ class economy(commands.Cog):
             await collection.insert_one(newData)
 
         userData = await collection.find_one({"_id" : interaction.user.id})
-        await interaction.response.send_message(f"<:coinwallet64:996130487166849024> Cüzdanınızda {userData['coins']} coin var.")
+        await interaction.response.send_message(f"{wallet} Cüzdanınızda **{userData['coins']:,}** Cupcoin var.")
 
     @wallet.error
     async def walletError(self, interaction: discord.Interaction,
