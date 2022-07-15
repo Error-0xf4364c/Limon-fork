@@ -40,7 +40,7 @@ class sendCoin(commands.Cog):
         targetData['coins'] += amount
         await collection.replace_one({"_id": interaction.user.id}, userData)
         await collection.replace_one({"_id": friend.id}, targetData)
-        await interaction.response.send_message(f"{send} **{friend.name}** arkadaşınıza başarıyla **{amount}** Cupcoin gönderdiniz.")
+        await interaction.response.send_message(f"{send} **{friend.name}** arkadaşınıza başarıyla **{amount:,}** Cupcoin gönderdiniz.")
     @send.error
     async def sendError(self, interaction : discord.Interaction,
                          error: app_commands.AppCommandError):

@@ -13,9 +13,8 @@ class test(commands.Cog):
         name = "cupcake",
         description = "Selam ver!")
 
-    async def cupcake(self, interaction: discord.Interaction,
-    name: str) -> None:
-        await interaction.response.send_message(f"Merhaba {name}")
+    async def cupcake(self, interaction: discord.Interaction) -> None:
+        await interaction.response.send_message(f"Merhaba {interaction.user.name}")
     
 
 
