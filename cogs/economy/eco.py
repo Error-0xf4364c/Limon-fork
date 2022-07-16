@@ -9,6 +9,7 @@ import random
 
 cupcoins = "<:Cupcoins:997159042633961574>"
 wallet = "<:wallet:997158473999581386>"
+clock = "<:Cupclock:996129959758282842>" or "⏳"
 
 class economy(commands.Cog):
     
@@ -51,7 +52,7 @@ class economy(commands.Cog):
                          error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds = int(error.retry_after)))
-            await interaction.response.send_message(f"Lütfen `{timeRemaining}`s sonra tekrar deneyiniz.",
+            await interaction.response.send_message(f"{clock} **|** Lütfen `{timeRemaining}`s sonra tekrar deneyiniz.",
                                                     ephemeral=True)
 
 
@@ -79,7 +80,7 @@ class economy(commands.Cog):
                          error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
-            await interaction.response.send_message(f"Lütfen `{timeRemaining}`s sonra tekrar deneyiniz.",
+            await interaction.response.send_message(f"{clock} **|** Lütfen `{timeRemaining}`s sonra tekrar deneyiniz.",
                                                     ephemeral=True)
 
 async def setup(bot:commands.Bot):

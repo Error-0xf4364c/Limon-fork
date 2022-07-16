@@ -9,6 +9,7 @@ cupcoin = "<:Cupcoin:997158251944738938>"
 cross = "<:cx:991397749486522499>"
 cupcoinBack = "<:CupcoinBack:997241145438503023>"
 cupcoins = "<:Cupcoins:997159042633961574>"
+clock = "<:Cupclock:996129959758282842>" or "⏳"
 
 import random
 
@@ -65,7 +66,7 @@ class gambles(commands.Cog, commands.Bot):
                          error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
-            await interaction.response.send_message(f"Lütfen `{timeRemaining}`s sonra tekrar deneyiniz.",ephemeral=True)
+            await interaction.response.send_message(f"{clock} **|** Lütfen `{timeRemaining}`s sonra tekrar deneyiniz.",ephemeral=True)
 
     # ----- GUESS NUMBER ----
 
@@ -110,7 +111,7 @@ class gambles(commands.Cog, commands.Bot):
                          error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
-            await interaction.response.send_message(f"Lütfen `{timeRemaining}`s sonra tekrar deneyiniz.", ephemeral=True)
+            await interaction.response.send_message(f"{clock} **|** Lütfen `{timeRemaining}`s sonra tekrar deneyiniz.", ephemeral=True)
 
 
     #----- DICE -----
@@ -177,7 +178,7 @@ class gambles(commands.Cog, commands.Bot):
                                error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
-            await interaction.response.send_message(f"Lütfen `{timeRemaining}`s sonra tekrar deneyiniz.",ephemeral=True)
+            await interaction.response.send_message(f"{clock} **|** Lütfen `{timeRemaining}`s sonra tekrar deneyiniz.",ephemeral=True)
 
     # ----- OPEN BOX -----
     @app_commands.command(
@@ -192,7 +193,7 @@ class gambles(commands.Cog, commands.Bot):
         Choice(name="Elmas Kutu", value="diamond"),
     ])
     @app_commands.checks.cooldown(
-        1, 10.0, key=lambda i: (i.guild_id, i.user.id))
+        1, 21600, key=lambda i: (i.guild_id, i.user.id))
     async def openbox(self, interaction: discord.Interaction, box: str):
 
         db = self.bot.mongoConnect["cupcake"]
@@ -272,7 +273,7 @@ class gambles(commands.Cog, commands.Bot):
                         error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
-            await interaction.response.send_message(f"Lütfen `{timeRemaining}`s sonra tekrar deneyiniz.",ephemeral=True)
+            await interaction.response.send_message(f"{clock} **|** Lütfen `{timeRemaining}`s sonra tekrar deneyiniz.",ephemeral=True)
 
 
 async def setup(bot:commands.Bot):
