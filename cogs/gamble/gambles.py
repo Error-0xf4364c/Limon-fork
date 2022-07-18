@@ -4,12 +4,17 @@ from discord.app_commands import Choice
 from discord.ext import commands
 import asyncio
 import datetime
+import yaml
+from yaml import Loader
 
-cupcoin = "<:Cupcoin:997158251944738938>"
-cross = "<:cx:991397749486522499>"
-cupcoinBack = "<:CupcoinBack:997241145438503023>"
-cupcoins = "<:Cupcoins:997159042633961574>"
-clock = "<:Cupclock:996129959758282842>" or "⏳"
+yaml_file = open("emojis.yml", "r")
+emojis = yaml.load(yaml_file, Loader = Loader) 
+
+cupcoin = emojis["cupcoin"]
+cross = emojis["cross"]
+cupcoinBack = emojis["cupcoinBack"]
+cupcoins = emojis["cupcoins"]
+clock = emojis["clock"] or "⏳"
 
 import random
 

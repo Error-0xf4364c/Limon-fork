@@ -3,13 +3,23 @@ from discord import Embed
 from discord import app_commands
 from discord.ext import commands
 import datetime
+import yaml
+from yaml import Loader
+
+yaml_file = open("emojis.yml", "r")
+emojis = yaml.load(yaml_file, Loader = Loader) 
+
+yaml_file2 = open("animals.yml", "r")
+animals = yaml.load(yaml_file2, Loader = Loader) 
+
+clock = emojis["clock"]  or "⏳"
 
 # Emojis
-clock = "<:Cupclock:996129959758282842>" or "⏳"
+
 
 # Hunts
-fishes = ["Somon", "Kılıç Balığı", None,"Fangri Mercan", "Sazan", "İstavrit", None, "Kalkan", "Levrek", "Lüfer", "Palamut", "Orkinos", None, "Sardalya"]
-hunts = ["Ceylan", "Geyik", "Yaban Keçisi", None,"Tavşan", "Keklik", "Serçe", "Bıldırcın", "Yaban Domuzu", None,"Tilki", "Tilki", "Sansar"]
+fishes = animals["fishes"]
+hunts = animals["hunts"]
 
 class Inventory(commands.Cog):
     def __init__(self, bot: commands.Bot):

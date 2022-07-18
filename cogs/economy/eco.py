@@ -3,12 +3,17 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 import datetime
-
 import random
+import yaml
+from yaml import Loader
 
-cupcoins = "<:Cupcoins:997159042633961574>"
-wallet = "<:wallet:997158473999581386>"
-clock = "<:Cupclock:996129959758282842>" or "⏳"
+yaml_file = open("emojis.yml", "r")
+emojis = yaml.load(yaml_file, Loader = Loader) 
+
+wallet = emojis["wallet"]
+cupcoins = emojis["cupcoins"]
+clock = emojis["clock"] or "⏳"
+
 
 class economy(commands.Cog):
     
