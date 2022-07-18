@@ -15,11 +15,6 @@ clock = emojis["clock"] or "⏳"
 yaml_file2 = open("chars.yml", "r")
 heroes = yaml.load(yaml_file2, Loader = Loader) 
 
-
-
-
-
-
 class eggs(commands.Cog, commands.Bot):
 
     def __init__(self, bot: commands.Bot):
