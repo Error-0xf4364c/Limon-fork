@@ -20,12 +20,12 @@ heroes = yaml.load(yaml_file2, Loader = Loader)
 
 
 
-class boxes(commands.Cog, commands.Bot):
+class eggs(commands.Cog, commands.Bot):
 
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    @app_commands.command(name="hero-box", description="Kahraman kutusu aç ve onlardan birine sahip ol!")
+    @app_commands.command(name="hero-egg", description="Kahraman yumurtası aç ve onlardan birine sahip ol!")
     @app_commands.checks.cooldown(
         1, 21600, key=lambda i: (i.guild_id, i.user.id))
     async def herobox(self, interaction: discord.Interaction):
@@ -40,7 +40,7 @@ class boxes(commands.Cog, commands.Bot):
         userCoins = await economyCollection.find_one({"_id" : interaction.user.id})
 
         if userCoins['coins'] < caseFee:
-            return await interaction.response.send_message(f"{emojis['cross']} Kahraman kutusu açabilmeniz için **{caseFee - userCoins['coins']:,}** Cupcoine ihtiyacınız var.", ephemeral=True)
+            return await interaction.response.send_message(f"{emojis['cross']} Kahraman yumurtası açabilmeniz için **{caseFee - userCoins['coins']:,}** Cupcoine ihtiyacınız var.", ephemeral=True)
 
         if await collection.find_one({"_id" : interaction.user.id}) == None:
             newData = {
@@ -65,36 +65,33 @@ class boxes(commands.Cog, commands.Bot):
         sliceHero = myheroes.split(" ")
         sliceHero.append(None)
         sliceHero.append(None)
-        print(sliceHero)
         # --------| HEROLAR
         yourHero = random.choice(sliceHero)
-        if yourHero != None:
-            print(heroes[yourHero]['name'])
-            print(type(heroes[yourHero]['name']))
-            print(heroes[yourHero]['description'])
-            print(type(heroes[yourHero]['description']))
         userCoins['coins'] -= caseFee
         await economyCollection.replace_one({"_id": interaction.user.id}, userCoins)
 
         if yourHero == None:
-            await interaction.response.send_message(f"{emojis['3dot']} **|** Kahraman kutusu açılıyor.")
+            await interaction.response.send_message(f"{emojis['3dot']} **|** Kahraman yumurtası açılıyor.")
             await asyncio.sleep(5)
-            return await interaction.edit_original_message(f"{emojis['cross']} Maalesef kutudan hiç kahraman çıkmadı ;c")
-        
-        if userData['heroes'].count(yourHero) >= 1:
-            await interaction.response.send_message(f"{emojis['3dot']} **|** Kahraman kutusu açılıyor.")
-            await asyncio.sleep(5)
-            return await interaction.edit_original_message(f"Bir {yourHero.title()} çıktı fakat bu kahraman zaten envanterinizde mevcut.")
+            await interaction.edit_original_message(content = f"{emojis['cross']} Maalesef yumurtadan hiç kahraman çıkmadı ;c")
+            return
 
-        heroEmbed = discord.Embed(title= heroes[yourHero]["name"], description= heroes[yourHero]["description"])
+        if userData['heroes'].count(yourHero) >= 1:
+            await interaction.response.send_message(f"{emojis['3dot']} **|** Kahraman yumurtası açılıyor.")
+            await asyncio.sleep(5)
+            await interaction.edit_original_message(content = f"Bir {yourHero.title()} çıktı fakat bu kahraman zaten envanterinizde mevcut.")
+            return
+
+
+        heroEmbed = discord.Embed(title= heroes[yourHero]["name"], description= heroes[yourHero]["description"], color = heroes[yourHero]['colorCode'])
         heroEmbed.set_author(name= "Tebrikler. Yeni bir kahramanınız oldu.", icon_url= interaction.user.avatar.url),
         heroEmbed.add_field(name = "Can / Hp:", value =  heroes[yourHero]['hp'], inline = True),
-        heroEmbed.add_field(name= "Güç", value =  heroes[yourHero]['power'], inline = True)
-        
-        #await interaction.response.send_message(f"{emojis['clock']} **|** kahramanın kutudan çıkması birkaç saniye alabilir.")
-        #await asyncio.sleep(7)
-        #await interaction.delete_original_message()
-        await interaction.response.send_message(embed=heroEmbed)
+        heroEmbed.add_field(name = "Nadirlik:", value =  heroes[yourHero]['rarity'], inline = True),
+        heroEmbed.add_field(name= "Güç:", value =  heroes[yourHero]['power'], inline = True)
+        await interaction.response.send_message(f"{emojis['clock']} **|** kahramanın yumurtadan çıkması birkaç saniye alabilir.")
+        await asyncio.sleep(4)
+        await interaction.edit_original_message(content = None, embed=heroEmbed)
+
         userData['heroes'].append(yourHero) 
         await collection.replace_one({"_id": interaction.user.id}, userData)
 
@@ -114,4 +111,4 @@ class boxes(commands.Cog, commands.Bot):
 
 
 async def setup(bot:commands.Bot):
-    await bot.add_cog(boxes(bot), guilds= [discord.Object(id =964617424743858176)])
+    await bot.add_cog(eggs(bot), guilds= [discord.Object(id =964617424743858176)])

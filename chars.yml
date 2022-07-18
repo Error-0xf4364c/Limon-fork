@@ -9,15 +9,4 @@ alfield:
   rarity: Ender
   hp: 113
   power: 93
-  colorCode: 654321
-
-arnel: 
-  name: Alfield
-  description: | 
-    Hamstera benzeyen bu tür koca diþleri ve pençeleri ile bilinir. Genellikle kahverengi ya da beyaz olurlar.
-    Biliyor musunuz bazýlarý hem kahverengi hem de beyaz olabiliyorlar. Uyku aðaçlarýnda yaþayan bu tür
-    karanlýkta da çok iyi görebilir. Uyku aðaçlarýyla dolu ormanlarda geceleri çok iyi avlandýklarý için
-    Khativya'da yerliler, onlara "**Uyku Kaçýranlar**" diyorlar.
-  rarity: Ender
-  hp: 113
-  power: 93
+  colorCode: 0x654321
