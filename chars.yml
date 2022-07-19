@@ -6,7 +6,35 @@ alfield:
     Biliyor musunuz bazýlarý hem kahverengi hem de beyaz olabiliyorlar. Uyku aðaçlarýnda yaþayan bu tür
     karanlýkta da çok iyi görebilir. Uyku aðaçlarýyla dolu ormanlarda geceleri çok iyi avlandýklarý için
     Khativya'da yerliler, onlara "**Uyku Kaçýranlar**" diyorlar.
-  rarity: Ender
+  rarity: Sýradan
   hp: 113
-  power: 93
+  power: 73
   colorCode: 0x654321
+karaalfa:
+  name: Kara Alfa ve Devasa Sürüsü
+  description: |
+    Kara alfa ve devasa sürüsü dolunay geceleri bir Fenrir kadar irileþir. Efsaneye göre Fenrir'in
+    soyundan kalan son tutamlardýr. Fenoryaller olarakta bilinirler.
+  rarity: Efsanevi
+  hp: 190
+  power: 157
+  colorCode: 0x0a0200
+inis:
+  name: Ýnis
+  description: |
+    Bukalemun gibi derilerinin renklerini deðiþtirerek kamuflaj saðlayan insan zekasýna sahip canlýlardýr.
+    Genelde onlarý yakalayýp suikastçi olarak eðitmeye çalýþýrlar. Baþýrýlý olanlar kesinlikler varlar.
+  rarity: Seyrek
+  hp: 150
+  power: 110
+  colorCode: 0x9df700
+groblar:
+  name: Groblar
+  description: |
+    Goblin benzeri mavi yaratýklar þekilsiz sýfatlara sahipler. Sayýlarý aþýrý fazladýr. Nasýl üredikleri bilinmiyor.
+    Kuzeyde Nirgon daðýnýn ilerisindeki karanlýk ormanda görülürler.
+  rarity: Sýradan
+  hp: 100
+  power: 65
+  colorCode: 0x356e00
+...
