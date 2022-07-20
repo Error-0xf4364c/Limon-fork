@@ -59,8 +59,8 @@ class hunting(commands.Cog, commands.Bot):
         await interaction.response.send_message("🎣 **|** Olta atıldı. Hadi rastgele")
         await asyncio.sleep(4)
 
-        if fishCaught == None:
-            return await interaction.response.send_message("Maalesef hiç balık tutamadınız ;c")
+        if fishCaught is None:
+            return await interaction.edit.original_message(content = "Maalesef hiç balık tutamadınız ;c")
 
         
         await interaction.edit_original_message(content=f"**🐟 |** Bir **{fishCaught}** tuttunuz.")
@@ -81,7 +81,6 @@ class hunting(commands.Cog, commands.Bot):
     @app_commands.checks.cooldown(
         1, 21600, key=lambda i: (i.guild_id, i.user.id))
     async def hunt(self, interaction: discord.Interaction):
-
 
         db = self.bot.mongoConnect["cupcake"]
         collection = db["inventory"]
@@ -107,8 +106,9 @@ class hunting(commands.Cog, commands.Bot):
         await interaction.response.send_message("🏹 **|** Av aranıyor...")
         await asyncio.sleep(5)
 
-        if huntCaught == None:
-            return await interaction.response.send_message("Hay aksi! Hiç av bulamadık ;c")
+        if huntCaught is None:
+            return await interaction.edit_original_message(content = "Hay aksi! Hiç av bulamadın ;c")
+            
 
         
         await interaction.edit_original_message(content=f"**🦌 |** Bir **{huntCaught}** avladınız.")

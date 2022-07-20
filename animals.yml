@@ -1,4 +1,4 @@
 ---
 
-fishes: ["Somon", "KÄ±lÄ±Ã§ BalÄ±ÄŸÄ±", None,"Fangri Mercan", "Sazan", "Ä°stavrit", None, "Kalkan", "Levrek", "LÃ¼fer", "Palamut", "Orkinos", None, "Sardalya"]
-hunts: ["Ceylan", "Geyik", "Yaban KeÃ§isi", None,"TavÅŸan", "Keklik", "SerÃ§e", "BÄ±ldÄ±rcÄ±n", "Yaban Domuzu", None,"Tilki", "Tilki", "Sansar"]
+fishes: ["Somon", "Kılıç Balığı", null,"Fangri Mercan", "Sazan", "İstavrit", null, "Kalkan", "Levrek", "Lüfer", "Palamut", "Orkinos", null, "Sardalya"]
+hunts: ["Ceylan", "Geyik", "Yaban Keçisi", null,"Tavşan", "Keklik", "Serçe", "Bıldırcın", "Yaban Domuzu", null,"Tilki", "Tilki", "Sansar"]

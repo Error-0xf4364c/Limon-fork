@@ -44,6 +44,7 @@ class general(commands.Cog, commands.Bot):
 
         db = self.bot.mongoConnect["cupcake"]
         collection = db["economy"]
+        heroesCollection = db['inventory']
 
 
         userCoins = 0
@@ -54,6 +55,13 @@ class general(commands.Cog, commands.Bot):
 
             if await collection.find_one({"_id": member.id}) == None:
                 userCoins = 0
+                
+            userHeroesData = await heroesCollection.find_one({"_id": member.id})
+
+            userHeroes = len(userHeroesData['heroes'])
+
+            if await heroesCollection.find_one({"_id": member.id}) == None:
+                userHeroes = 0 
 
 
         
@@ -61,9 +69,9 @@ class general(commands.Cog, commands.Bot):
 
         created_at = member.created_at.strftime("%a %b\n%B %Y")
         joined_at = member.joined_at.strftime("%a %b\n%B %Y")
-        money, level = f"{userCoins:,}", "0"
+        money, heroes = f"{userCoins:,}", str(userHeroes)
 
-        base = Image.open("base.png").convert("RGBA")
+        base = Image.open("baseFinal.png").convert("RGBA")
 
         newBackground = random.choice(backgroundList)
 
@@ -100,7 +108,7 @@ class general(commands.Cog, commands.Bot):
         draw.text((65, 490), Id,font = subfont)
         draw.text((405, 490), status,font = subfont)
         draw.text((65, 635), money,font = subfont)
-        draw.text((405, 635), level,font = subfont)
+        draw.text((405, 635), heroes,font = subfont)
         draw.text((65, 770), created_at,font = subfont)
         draw.text((405, 770), joined_at,font = subfont)
         base.paste(pfp, (56,158),pfp)

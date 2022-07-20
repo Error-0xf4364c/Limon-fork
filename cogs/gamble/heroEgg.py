@@ -83,7 +83,7 @@ class eggs(commands.Cog, commands.Bot):
         heroEmbed.add_field(name = "Can / Hp:", value =  heroes[yourHero]['hp'], inline = True),
         heroEmbed.add_field(name = "Nadirlik:", value =  heroes[yourHero]['rarity'], inline = True),
         heroEmbed.add_field(name= "Güç:", value =  heroes[yourHero]['power'], inline = True)
-        await interaction.response.send_message(f"{emojis['clock']} **|** kahramanın yumurtadan çıkması birkaç saniye alabilir.")
+        await interaction.response.send_message(f"{emojis['clock']} **|** Kahramanın yumurtadan çıkması birkaç saniye alabilir.")
         await asyncio.sleep(4)
         await interaction.edit_original_message(content = None, embed=heroEmbed)
 

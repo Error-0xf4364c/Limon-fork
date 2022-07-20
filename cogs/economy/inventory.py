@@ -12,6 +12,9 @@ emojis = yaml.load(yaml_file, Loader = Loader)
 yaml_file2 = open("animals.yml", "r")
 animals = yaml.load(yaml_file2, Loader = Loader) 
 
+yaml_file2 = open("chars.yml", "r")
+heroes = yaml.load(yaml_file2, Loader = Loader) 
+
 clock = emojis["clock"]  or "⏳"
 
 # Emojis
@@ -20,6 +23,8 @@ clock = emojis["clock"]  or "⏳"
 # Hunts
 fishes = animals["fishes"]
 hunts = animals["hunts"]
+myheroes = " ".join(heroes.keys())
+sliceHero = myheroes.split(" ")
 
 class Inventory(commands.Cog):
     def __init__(self, bot: commands.Bot):
@@ -42,20 +47,30 @@ class Inventory(commands.Cog):
             return await interaction.response.send_message("Upss! Envanterin yok. Biraz avlanmaya ne dersin? **|** 🦌", ephemeral = True)
         
         userData = await collection.find_one({"_id" : interaction.user.id})
-        userFishes = userData["fishes"]
-        userHunts = userData["hunts"]
 
-        
+        userFishes = ["Yok"]
+        userHunts = ["Yok"]
+        userHeroes = ["Yok"]
+
+        if "hunts" in userData:
+            userHunts = userData['hunts']
+        if "fishes" in userData:
+            userFishes = userData['fishes']
+        if "heroes" in userData:
+            userHeroes = userData['heroes']
+
+
+
+
         fishes_ = [ f"**{userFishes.count(i)}** x {i} 🐟" for i in fishes if i in userFishes]
         hunts_ = [ f"**{userHunts.count(i)}** x {i} 🦌" for i in hunts if i in userHunts]
+        heroes_ = [f"{heroes[i]['rarity']} **››** {heroes[i]['name']}" for i in sliceHero if i in userHeroes]
 
+        fishes_ = "\n".join(fishes_) if len(fishes_)>0 else "*Envanterinizde hiç balık yok*"
+        hunts_ = "\n".join(hunts_) if len(hunts_)>0 else "*Envanterinizde hiç av yok*"
+        heroes_ = "\n".join(heroes_) if len(heroes_)>0 else "*Hiç kahramanınız yok*"
 
-        fishes_ = "\n".join(fishes_) if len(fishes_)>=1 else "*Envanterinizde hiç balık yok*"
-        hunts_ = "\n".join(hunts_) if len(hunts_)>=1 else "*Envanterinizde hiç av yok*"
-
-
-
-        inventoryResponse = Embed(description = f"Hey! Envanterin boş mu? Hadi o zaman biraz avlan ve doldur bakalım.\n\n***Fishes:***\n{fishes_}\n\n***Hunts***\n{hunts_}")
+        inventoryResponse = Embed(description = f"Hey! Envanterin boş mu? Hadi o zaman biraz avlan ve doldur bakalım.\n\n***Fishes:***\n{fishes_}\n\n***Hunts***\n{hunts_}\n\n***Heroes***\n{heroes_}")
         inventoryResponse.set_author(name = f"{interaction.user.name}'s Inventory", icon_url = interaction.user.avatar.url)
 
         await interaction.response.send_message(embed = inventoryResponse)
