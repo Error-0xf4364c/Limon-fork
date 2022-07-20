@@ -32,7 +32,7 @@ class hunting(commands.Cog, commands.Bot):
 
     @app_commands.command(name="fishing", description="Balık tut.")
     @app_commands.checks.cooldown(
-        1, 21600, key=lambda i: (i.guild_id, i.user.id))
+        1, 300, key=lambda i: (i.guild_id, i.user.id))
     async def fishing(self, interaction: discord.Interaction):
 
 
@@ -79,7 +79,7 @@ class hunting(commands.Cog, commands.Bot):
 
     @app_commands.command(name="hunt", description="Ava çık")
     @app_commands.checks.cooldown(
-        1, 21600, key=lambda i: (i.guild_id, i.user.id))
+        1, 300, key=lambda i: (i.guild_id, i.user.id))
     async def hunt(self, interaction: discord.Interaction):
 
         db = self.bot.mongoConnect["cupcake"]

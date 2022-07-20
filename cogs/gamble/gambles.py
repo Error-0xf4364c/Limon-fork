@@ -16,6 +16,12 @@ cupcoinBack = emojis["cupcoinBack"]
 cupcoins = emojis["cupcoins"]
 clock = emojis["clock"] or "⏳"
 
+woodenBox = 10000 # on bin
+silverBox = 20000 # yirmi bin
+goldenBox = 50000 # elli bin
+platinBox = 70000 # yetmiş bin
+diamondBox = 100000 # yüz bin
+
 import random
 
 class gambles(commands.Cog, commands.Bot):
@@ -191,11 +197,11 @@ class gambles(commands.Cog, commands.Bot):
         description="Kutu aç ve Zengin Ol!")
     @app_commands.describe(box = "Açmak istediğiniz kutuyu seçiniz.")
     @app_commands.choices(box=[
-        Choice(name="Tahta Kutu", value="wooden"),
-        Choice(name="Gümüş Kutu", value="silver"),
-        Choice(name="Altın Kutu", value="golden"),
-        Choice(name="Platin Kutu", value="platin"),
-        Choice(name="Elmas Kutu", value="diamond"),
+        Choice(name=f"Tahta Kutu - {woodenBox:,}", value="wooden"),
+        Choice(name=f"Gümüş Kutu - {silverBox:,}" , value="silver"),
+        Choice(name=f"Altın Kutu - {goldenBox:,}", value="golden"),
+        Choice(name=f"Platin Kutu - {platinBox:,}", value="platin"),
+        Choice(name=f"Elmas Kutu - {diamondBox:,}", value="diamond"),
     ])
     @app_commands.checks.cooldown(
         1, 21600, key=lambda i: (i.guild_id, i.user.id))
@@ -209,11 +215,7 @@ class gambles(commands.Cog, commands.Bot):
 
         userData = await collection.find_one({"_id": interaction.user.id})
 
-        woodenBox = 10000 # on bin
-        silverBox = 20000 # yirmi bin
-        goldenBox = 50000 # elli bin
-        platinBox = 70000 # yetmiş bin
-        diamondBox = 100000 # yüz bin
+        
 
         woodenBoxBounty = random.randint(7000, 20000)
         silverBoxBounty = random.randint(17000, 30000)
@@ -265,7 +267,7 @@ class gambles(commands.Cog, commands.Bot):
 
         elif box == "diamond":
             if userData['coins'] < diamondBox:
-                return await interaction.response.send_message(f"{cross} Elmas kutu açmak için **{diamondBox}** Cupcoin gerekiyor!")
+                return await interaction.response.send_message(f"{cross} Elmas kutu açmak için **{diamondBox:,}** Cupcoin gerekiyor!")
             userData['coins'] -= diamondBox
             userData['coins'] += diamondBoxBounty
             await collection.replace_one({"_id": interaction.user.id}, userData)
