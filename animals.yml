@@ -1,4 +1,29 @@
 ---
-
-fishes: ["Somon", "Kýlýç Balýðý", null,"Fangri Mercan", "Sazan", "Ýstavrit", null, "Kalkan", "Levrek", "Lüfer", "Palamut", "Orkinos", null, "Sardalya"]
-hunts: ["Ceylan", "Geyik", "Yaban Keçisi", null,"Tavþan", "Keklik", "Serçe", "Býldýrcýn", "Yaban Domuzu", null,"Tilki", "Tilki", "Sansar"]
+fishes:
+  orkinos: 500
+  sardalya: 480
+  hamsi: 300
+  none: 0
+  palamut: 350 
+  istavrit: 450
+  levrek: 335
+  kalkan: 510
+  none: 0
+  somon: 550
+  kilicbaligi: 600
+  fangrimercan: 580
+  sazan: 370
+  lüfer : 295
+hunts:
+  ceylan: 720
+  geyik: 850
+  yabankecisi: 700
+  none: 0
+  tavsan: 400
+  keklik: 380
+  serce: 180
+  bildircin: 290
+  none: 0
+  yabandomuzu: 650
+  tilki: 670
+  sansar: 560
