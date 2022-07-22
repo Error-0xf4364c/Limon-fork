@@ -102,8 +102,9 @@ class sell(commands.Cog, commands.Bot):
         sellHunt.callback = sellHunt_callback
         
         view.add_item(sellFish)
-        view.add_item(closeMenu)
         view.add_item(sellHunt)
+        view.add_item(closeMenu)
+        
         await interaction.response.send_message(embed = menuEmbed, view=view)
 
 
