@@ -25,6 +25,8 @@ fishesKey = " ".join(animals["fishes"].keys())
 fishes = fishesKey.split(" ")
 fishCaught = random.choice(fishes)
 
+priceBySize = animals["priceBySize"]
+
 allHunts = animals["hunts"]
 huntsKey = " ".join(animals["hunts"].keys())
 hunts = huntsKey.split(" ")
@@ -64,19 +66,20 @@ class hunting(commands.Cog, commands.Bot):
 
 
         fishName = fishCaught.title()
-        fishPrice = allFishes[fishCaught]
         fishSize = random.randint(3, 43)
+        fishPBS = fishSize * priceBySize
+        fishPrice = allFishes[fishCaught]  + fishPBS
 
 
         await interaction.response.send_message("🎣 **|** Olta atıldı. Hadi rastgele")
         await asyncio.sleep(4)
 
         if fishCaught == "none":
-            return await interaction.edit.original_message(content = "Maalesef hiç balık tutamadınız ;c")
+            return await interaction.edit_original_message(content = "Maalesef hiç balık tutamadınız ;c")
 
         
         await interaction.edit_original_message(content=f"**🐟 |** **{fishSize}**cm uzunluğunda **{fishName}** tuttunuz. Anlık piyasa değeri: **{fishPrice}** Cupcoin.")
-        userData['fishes'] = {fishCaught : fishSize}
+        userData['fishes'].update({fishCaught : fishSize}) 
         await collection.replace_one({"_id": interaction.user.id}, userData)
         
 

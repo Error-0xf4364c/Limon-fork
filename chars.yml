@@ -2,28 +2,28 @@
 alfield: 
   name: Alfield
   description: | 
-    Hamstera benzeyen bu tï¿½r koca diï¿½leri ve penï¿½eleri ile bilinir. Genellikle kahverengi ya da beyaz olurlar.
-    Biliyor musunuz bazï¿½larï¿½ hem kahverengi hem de beyaz olabiliyorlar. Uyku aï¿½aï¿½larï¿½nda yaï¿½ayan bu tï¿½r
-    karanlï¿½kta da ï¿½ok iyi gï¿½rebilir. Uyku aï¿½aï¿½larï¿½yla dolu ormanlarda geceleri ï¿½ok iyi avlandï¿½klarï¿½ iï¿½in
-    Khativya'da yerliler, onlara "**Uyku Kaï¿½ï¿½ranlar**" diyorlar.
-  rarity: Sï¿½radan
+    Hamstera benzeyen bu tür koca diþleri ve pençeleri ile bilinir. Genellikle kahverengi ya da beyaz olurlar.
+    Biliyor musunuz bazýlarý hem kahverengi hem de beyaz olabiliyorlar. Uyku aðaçlarýnda ya?ayan bu t?r
+    karanlýkta da çok iyi görebilir. Uyku aðaçlarçyla dolu ormanlarda geceleri çok iyi avlandýklarý için
+    Khativya'da yerliler, onlara "**Uyku Kaçýranlar**" diyorlar.
+  rarity: Sýradan
   hp: 113
   power: 73
   colorCode: 0x654321
 karaalfa:
-  name: Kara Alfa ve Devasa Sï¿½rï¿½sï¿½
+  name: Kara Alfa ve Devasa Sürüsü
   description: |
-    Kara alfa ve devasa sï¿½rï¿½sï¿½ dolunay geceleri bir Fenrir kadar irileï¿½ir. Efsaneye gï¿½re Fenrir'in
-    soyundan kalan son tutamlardï¿½r. Fenoryaller olarakta bilinirler.
+    Kara alfa ve devasa sürüsü dolunay geceleri bir Fenrir kadar irileþir. Efsaneye göre Fenrir'in
+    soyundan kalan son tutamlardýr. Fenoryaller olarakta bilinirler.
   rarity: Efsanevi
   hp: 190
   power: 157
   colorCode: 0x0a0200
 inis:
-  name: ï¿½nis
+  name: Ýnis
   description: |
-    Bukalemun gibi derilerinin renklerini deï¿½iï¿½tirerek kamuflaj saï¿½layan insan zekasï¿½na sahip canlï¿½lardï¿½r.
-    Genelde onlarï¿½ yakalayï¿½p suikastï¿½i olarak eï¿½itmeye ï¿½alï¿½ï¿½ï¿½rlar. Baï¿½arï¿½lï¿½ olanlar kesinlikler varlar.
+    Bukalemun gibi derilerinin renklerini deðiitirerek kamuflaj saðlayan insan zekasýna sahip canlýlardýr.
+    Genelde onlarý yakalayýp suikastçi olarak eðitmeye çalýþýrlar. Baþarýll olanlar kesinlikler vardýr.
   rarity: Seyrek
   hp: 150
   power: 110
@@ -31,9 +31,9 @@ inis:
 groblar:
   name: Groblar
   description: |
-    Goblin benzeri mavi yaratï¿½klar ï¿½ekilsiz sï¿½fatlara sahipler. Sayï¿½larï¿½ aï¿½ï¿½rï¿½ fazladï¿½r. Nasï¿½l ï¿½redikleri bilinmiyor.
-    Kuzeyde Nirgon daï¿½ï¿½nï¿½n ilerisindeki karanlï¿½k ormanda gï¿½rï¿½lï¿½rler.
-  rarity: Sï¿½radan
+    Goblin benzeri mavi yaratýklar þekilsiz sýfatlara sahipler. Sayýlarý aþýrý fazladýr. Nasýl üredikleri bilinmiyor.
+    Kuzeyde Nirgon daðýnýn ilerisindeki karanlýk ormanda görülürler.
+  rarity: Sýradan
   hp: 100
   power: 65
   colorCode: 0x356e00

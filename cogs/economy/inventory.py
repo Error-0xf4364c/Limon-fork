@@ -24,9 +24,6 @@ clock = emojis["clock"]  or "⏳"
 allFishes = animals['fishes']
 fishesKey = " ".join(animals["fishes"].keys())
 fishes = fishesKey.split(" ")
-print(fishes)
-print(fishesKey)
-print(allFishes)
 
 allHunts = animals["hunts"]
 huntsKey = " ".join(animals["hunts"].keys())
