@@ -21,8 +21,19 @@ clock = emojis["clock"]  or "⏳"
 
 
 # Hunts
-fishes = animals["fishes"]
-hunts = animals["hunts"]
+allFishes = animals['fishes']
+fishesKey = " ".join(animals["fishes"].keys())
+fishes = fishesKey.split(" ")
+print(fishes)
+print(fishesKey)
+print(allFishes)
+
+allHunts = animals["hunts"]
+huntsKey = " ".join(animals["hunts"].keys())
+hunts = huntsKey.split(" ")
+
+
+
 myheroes = " ".join(heroes.keys())
 sliceHero = myheroes.split(" ")
 
@@ -55,17 +66,20 @@ class Inventory(commands.Cog):
         if "hunts" in userData:
             userHunts = userData['hunts']
         if "fishes" in userData:
-            userFishes = userData['fishes']
+            userFishes = list(userData['fishes'].keys())
+            
         if "heroes" in userData:
             userHeroes = userData['heroes']
 
 
 
 
-        fishes_ = [ f"**{userFishes.count(i)}** x {i} 🐟" for i in fishes if i in userFishes]
-        hunts_ = [ f"**{userHunts.count(i)}** x {i} 🦌" for i in hunts if i in userHunts]
+        fishes_ = [ f"**{userFishes.count(i)}** x {i.title()} - **{userData['fishes'][i]}**cm 🐟" for i in fishes if i in userFishes]
+        hunts_ = [ f"**{userHunts.count(i)}** x {i.title()} 🦌" for i in hunts if i in userHunts]
         heroes_ = [f"{heroes[i]['rarity']} **››** {heroes[i]['name']}" for i in sliceHero if i in userHeroes]
 
+
+        
         fishes_ = "\n".join(fishes_) if len(fishes_)>0 else "*Envanterinizde hiç balık yok*"
         hunts_ = "\n".join(hunts_) if len(hunts_)>0 else "*Envanterinizde hiç av yok*"
         heroes_ = "\n".join(heroes_) if len(heroes_)>0 else "*Hiç kahramanınız yok*"

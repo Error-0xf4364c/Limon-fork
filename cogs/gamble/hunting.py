@@ -76,7 +76,7 @@ class hunting(commands.Cog, commands.Bot):
 
         
         await interaction.edit_original_message(content=f"**🐟 |** **{fishSize}**cm uzunluğunda **{fishName}** tuttunuz. Anlık piyasa değeri: **{fishPrice}** Cupcoin.")
-        userData['fishes'] = {fishName : fishSize}
+        userData['fishes'] = {fishCaught : fishSize}
         await collection.replace_one({"_id": interaction.user.id}, userData)
         
 
@@ -126,7 +126,7 @@ class hunting(commands.Cog, commands.Bot):
         
         await interaction.edit_original_message(content=f"**🦌 |** Bir **{huntName}** avladınız. Anlık piyasa değeri: {huntPrice} Cupcoin")
         
-        userData['hunts'].append(huntName)
+        userData['hunts'].append(huntCaught)
         await collection.replace_one({"_id": interaction.user.id}, userData)
 
     @hunt.error
