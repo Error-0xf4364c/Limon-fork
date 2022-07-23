@@ -207,7 +207,7 @@ class sell(commands.Cog, commands.Bot):
         menuEmbed.set_author(name = interaction.user.name, icon_url = interaction.user.avatar.url)
         menuEmbed.add_field(name = "Fishes:", value =  embed_value_fishes)
         menuEmbed.add_field(name = "Hunts:", value =  embed_value_hunts)
-        menuEmbed.set_footer(text = "Pazarını kapatmayı unutma! Bir pazarı kapatmadan yeni bir pazar açamazsın.", icon_url= "https://cdn.discordapp.com/attachments/970118423143120896/1000496090564534533/dikkat.png")
+        menuEmbed.set_footer(text = "Pazarını kapatmayı unutma! Bir pazarı kapatmadan yeni bir pazar açamazsın.", icon_url= "https://cdn.discordapp.com/attachments/970118423143120896/1000526619691200522/dikkat.png")
 
 
         view = MyButtons()
