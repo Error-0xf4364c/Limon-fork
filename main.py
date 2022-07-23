@@ -13,6 +13,7 @@ app_id = os.getenv("application_id")
 guild_id = os.getenv("owner_guild_id")
 mongoConnection = os.getenv("mongoConnection")
 
+
 class MyBot(commands.Bot):
 
     

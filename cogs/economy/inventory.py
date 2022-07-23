@@ -86,6 +86,8 @@ class Inventory(commands.Cog):
 
         await interaction.response.send_message(embed = inventoryResponse)
 
+
+
     @inventory.error
     async def inventoryError(self, interaction : discord.Interaction,
                          error: app_commands.AppCommandError):
@@ -93,6 +95,7 @@ class Inventory(commands.Cog):
             timeRemaining = str(datetime.timedelta(seconds = int(error.retry_after)))
             await interaction.response.send_message(f"{clock} **|** Lütfen `{timeRemaining}`s sonra tekrar deneyiniz.",
                                                     ephemeral=True)
+
 
 async def setup(bot:commands.Bot):
     await bot.add_cog(Inventory(bot), guilds= [discord.Object(id =964617424743858176)])

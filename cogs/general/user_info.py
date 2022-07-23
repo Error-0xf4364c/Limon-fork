@@ -1,17 +1,20 @@
 import discord
+import interactions
 from discord import app_commands
 from discord.ext import commands
 import datetime
 import random
 import asyncio
+
 from io import BytesIO
 from PIL import Image, ImageChops, ImageDraw, ImageFont
 
-back1 = Image.open("anime1_background.png").convert("RGBA")
-back2 = Image.open("anime2_background.png").convert("RGBA")
-back3 = Image.open("anime3_background.png").convert("RGBA")
-back4 = Image.open("gaming1_background.png").convert("RGBA")
-back5 = Image.open("gaming3_background.png").convert("RGBA") 
+
+back1 = Image.open(r"pictures/anime1_background.png").convert("RGBA")
+back2 = Image.open(r"pictures/anime2_background.png").convert("RGBA")
+back3 = Image.open(r"pictures/anime3_background.png").convert("RGBA")
+back4 = Image.open(r"pictures/gaming1_background.png").convert("RGBA")
+back5 = Image.open(r"pictures/gaming3_background.png").convert("RGBA")
 
 backgroundList = [back1, back2, back3, back4, back5]
 
@@ -71,7 +74,7 @@ class general(commands.Cog, commands.Bot):
         joined_at = member.joined_at.strftime("%a %b\n%B %Y")
         money, heroes = f"{userCoins:,}", str(userHeroes)
 
-        base = Image.open("baseFinal.png").convert("RGBA")
+        base = Image.open(r"pictures/baseFinal.png").convert("RGBA")
 
         newBackground = random.choice(backgroundList)
 
@@ -99,9 +102,9 @@ class general(commands.Cog, commands.Bot):
 
         draw = ImageDraw.Draw(base)
         pfp = circle(pfp, size=(215, 215))
-        font = ImageFont.truetype("Nunito-Regular.ttf", 38)
-        akaFont = ImageFont.truetype("Nunito-Regular.ttf", 30)
-        subfont = ImageFont.truetype("Nunito-Regular.ttf", 25)
+        font = ImageFont.truetype("fonts/Nunito-Regular.ttf", 38)
+        akaFont = ImageFont.truetype("fonts/Nunito-Regular.ttf", 30)
+        subfont = ImageFont.truetype("fonts/Nunito-Regular.ttf", 25)
 
         draw.text((280,240), name,font = font)
         draw.text((270, 315), nick,font = akaFont)
