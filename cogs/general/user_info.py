@@ -51,23 +51,15 @@ class general(commands.Cog, commands.Bot):
         heroesCollection = db['inventory']
         
         
+        userData = await collection.find_one({"_id": member.id})
+        userHeroesData = await heroesCollection.find_one({"_id": member.id})
 
         userCoins = 0
         userHeroes = 0
-        
-        userData = await collection.find_one({"_id": member.id})
-
-            
-        if await collection.find_one({"_id" : member.id}) == None:
-            userCoins = 0
 
         if "coins" in userData:
             userCoins = userData['coins']
-                
-        userHeroesData = await heroesCollection.find_one({"_id": member.id})
 
-        if await heroesCollection.find_one({"_id": member.id}) == None:
-            userHeroes = 0 
         if "heroes" in userHeroesData:
             userHeroes = len(userHeroesData['heroes'])
             
