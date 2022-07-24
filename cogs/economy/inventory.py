@@ -144,6 +144,7 @@ class Inventory(commands.Cog):
         inventoryResponse.set_author(name = f"{interaction.user.name}'s Inventory", icon_url = interaction.user.avatar.url)
 
         await interaction.response.send_message(embed = inventoryResponse)
+        userBadges.clear()
 
 
 
