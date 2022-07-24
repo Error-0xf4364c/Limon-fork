@@ -147,12 +147,6 @@ class MyButtons(View):
         await interaction.message.delete()
         message_author_id.remove(interaction.user.id)
 
-    async def on_error(self, interaction, error, item):
-        print("---------------")
-        print(error)
-        print("---------------")
-        await interaction.response.send_message("Pazarda ortalık karıştı. Lütfen daha sonra tekrar deneyin! *err!*")
-        message_author_id.remove(interaction.user.id)
 
 
 class sell(commands.Cog, commands.Bot):
