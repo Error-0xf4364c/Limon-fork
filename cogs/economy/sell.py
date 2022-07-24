@@ -131,7 +131,7 @@ class MyButtons(View):
         user_data_coins['coins'] += sum_hunt
         await coincollection.replace_one({"_id": interaction.user.id}, user_data_coins)
         await collection.replace_one({"_id": interaction.user.id}, user_data)
-        await interaction.response.send_message(content=f"🦌 **|** Avladığınız hayvanları başarıyla sattınız. Toplam geliriniz **{sum_hunt}** Cupcoin", ephemeral=True)
+        await interaction.response.send_message(content=f"🦌 **|** Avladığınız hayvanları başarıyla sattınız. Toplam geliriniz **{sum_hunt}** Cupcoin")
 
 
         button.label = "Avlar Satıldı!"
