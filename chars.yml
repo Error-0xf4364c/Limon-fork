@@ -2,28 +2,28 @@
 alfield: 
   name: Alfield
   description: | 
-    Hamstera benzeyen bu tür koca dişleri ve pençeleri ile bilinir. Genellikle kahverengi ya da beyaz olurlar.
-    Biliyor musunuz bazıları hem kahverengi hem de beyaz olabiliyorlar. Uyku ağaçlarında yaşayan bu tür
-    karanlıkta da çok iyi görebilir. Uyku ağaçlarıyla dolu ormanlarda geceleri çok iyi avlandıkları için
-    Khativya'da yerliler, onlara "**Uyku Kaçıranlar**" diyorlar.
-  rarity: Sıradan
+    Hamstera benzeyen bu tÃ¼r koca diÅŸleri ve penÃ§eleri ile bilinir. Genellikle kahverengi ya da beyaz olurlar.
+    Biliyor musunuz bazÄ±larÄ± hem kahverengi hem de beyaz olabiliyorlar. Uyku aÄŸaÃ§larÄ±nda yaÅŸayan bu tÃ¼r
+    karanlÄ±kta da Ã§ok iyi gÃ¶rebilir. Uyku aÄŸaÃ§larÄ±yla dolu ormanlarda geceleri Ã§ok iyi avlandÄ±klarÄ± iÃ§in
+    Khativya'da yerliler, onlara "**Uyku KaÃ§Ä±ranlar**" diyorlar.
+  rarity: SÄ±radan
   hp: 113
   power: 73
   colorCode: 0x654321
 karaalfa:
-  name: Kara Alfa ve Devasa Sürüsü
+  name: Kara Alfa ve Devasa SÃ¼rÃ¼sÃ¼
   description: |
-    Kara alfa ve devasa sürüsü dolunay geceleri bir Fenrir kadar irileşir. Efsaneye göre Fenrir'in
-    soyundan kalan son tutamlardır. Fenoryaller olarakta bilinirler.
+    Kara alfa ve devasa sÃ¼rÃ¼sÃ¼ dolunay geceleri bir Fenrir kadar irileÅŸir. Efsaneye gÃ¶re Fenrir'in
+    soyundan kalan son tutamlardÄ±r. Fenoryaller olarakta bilinirler.
   rarity: Efsanevi
   hp: 190
   power: 157
   colorCode: 0x0a0200
 inis:
-  name: İnis
+  name: Ä°nis
   description: |
-    Bukalemun gibi derilerinin renklerini değiitirerek kamuflaj sağlayan insan zekasına sahip canlılardır.
-    Genelde onları yakalayıp suikastçi olarak eğitmeye çalışırlar. Başarılı olanlar kesinlikler vardır.
+    Bukalemun gibi derilerinin renklerini deÄŸiitirerek kamuflaj saÄŸlayan insan zekasÄ±na sahip canlÄ±lardÄ±r.
+    Genelde onlarÄ± yakalayÄ±p suikastÃ§i olarak eÄŸitmeye Ã§alÄ±ÅŸÄ±rlar. BaÅŸarÄ±lÄ± olanlar kesinlikler vardÄ±r.
   rarity: Seyrek
   hp: 150
   power: 110
@@ -31,17 +31,17 @@ inis:
 groblar:
   name: Groblar
   description: |
-    Goblin benzeri mavi yaratıklar şekilsiz sıfatlara sahipler. Sayıları aşırı fazladır. Nasıl üredikleri bilinmiyor.
-    Kuzeyde Nirgon dağının ilerisindeki karanlık ormanda görülürler.
-  rarity: Sıradan
+    Goblin benzeri mavi yaratÄ±klar ÅŸekilsiz sÄ±fatlara sahipler. SayÄ±larÄ± aÅŸÄ±rÄ± fazladÄ±r. NasÄ±l Ã¼redikleri bilinmiyor.
+    Kuzeyde Nirgon daÄŸÄ±nÄ±n ilerisindeki karanlÄ±k ormanda gÃ¶rÃ¼lÃ¼rler.
+  rarity: SÄ±radan
   hp: 100
   power: 65
   colorCode: 0x356e00
 limon:
   name: Limon
   description: |
-    Bir zamanlar 600.000 kişilik ordusuyla tüm dünyada hüküm süren mino cinsi canlıdır. Yüzyıllar boyunca hüküm sürdükten sonra
-    hastalaktan öldü. Mezarı Phatonia İmparatorluğunda bulunuyor ve Kara Alfa ve Devasa sürüsü tarafından korunuyor.
+    Bir zamanlar 600.000 kiÅŸilik ordusuyla tÃ¼m dÃ¼nyada hÃ¼kÃ¼m sÃ¼ren mino cinsi canlÄ±dÄ±r. YÃ¼zyÄ±llar boyunca hÃ¼kÃ¼m sÃ¼rdÃ¼kten sonra
+    hastalaktan Ã¶ldÃ¼. MezarÄ± Phatonia Ä°mparatorluÄŸunda bulunuyor ve Kara Alfa ve Devasa sÃ¼rÃ¼sÃ¼ tarafÄ±ndan korunuyor.
   rarity: Kadim
   hp: 869
   power: 953
