@@ -49,10 +49,11 @@ class gambles(commands.Cog, commands.Bot):
 
         userData = await collection.find_one({"_id": interaction.user.id})
         userInvData = await invcollection.find_one({"_id": interaction.user.id})
+            
 
-        if not "kumarpuani" in  userData:
-            fishData = { "$set" : {"kumarpuani" : 0}}
-            await invcollection.update_one(userInvData ,fishData)
+        if not "kumarpuani" in  userInvData:
+            gambleData = { "$set" : {"kumarpuani" : 0}}
+            await invcollection.update_one(userInvData ,gambleData)
         userInvData['kumarpuani'] += 1
         await invcollection.replace_one({"_id": interaction.user.id}, userInvData)
 
@@ -113,9 +114,9 @@ class gambles(commands.Cog, commands.Bot):
         if userData["coins"] < miktar:
             return await interaction.response.send_message(f"{cross} Cüzdanınızda yeterli Cupcoin bulunmuyor!")
 
-        if not "kumarpuani" in  userData:
-            fishData = { "$set" : {"kumarpuani" : 0}}
-            await invcollection.update_one(userInvData ,fishData)
+        if not "kumarpuani" in  userInvData:
+            gambleData = { "$set" : {"kumarpuani" : 0}}
+            await invcollection.update_one(userInvData ,gambleData)
         userInvData['kumarpuani'] += 1
         await invcollection.replace_one({"_id": interaction.user.id}, userInvData)
 
@@ -164,9 +165,9 @@ class gambles(commands.Cog, commands.Bot):
         userData['coins']
 
 
-        if not "kumarpuani" in  userData:
-            fishData = { "$set" : {"kumarpuani" : 0}}
-            await invcollection.update_one(userInvData ,fishData)
+        if not "kumarpuani" in  userInvData:
+            gambleData = { "$set" : {"kumarpuani" : 0}}
+            await invcollection.update_one(userInvData ,gambleData)
         userInvData['kumarpuani'] += 1
         await invcollection.replace_one({"_id": interaction.user.id}, userInvData)
 
