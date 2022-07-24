@@ -19,11 +19,11 @@ class economy(commands.Cog):
     
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-
+#i.guild_id, 
     # ------ DAILY ------
     @app_commands.command(name = "daily", description = "Günlük Cupcoin Al")
     @app_commands.checks.cooldown(
-        1, 86400, key=lambda i: (i.guild_id, i.user.id))
+        1, 86400, key=lambda i: (i.user.id))
     async def daily(self, interaction: discord.Interaction):
 
         db = self.bot.mongoConnect["cupcake"]
