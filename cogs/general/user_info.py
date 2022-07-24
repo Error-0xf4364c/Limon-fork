@@ -44,9 +44,6 @@ class general(commands.Cog, commands.Bot):
         member =  user
         print(member)
 
-        if member is None:
-            await interaction.response.send_message("Err! xD", ephemeral =True)
-
         if member.bot == True:
             return await interaction.response.send_message("Bir bot hakkında bilgi edinemezsiniz.", ephemeral = True)
 
@@ -56,9 +53,15 @@ class general(commands.Cog, commands.Bot):
         
         userCoins = 0
         userHeroes = 0
+        userData = []
+        userHeroesData = []
         
-        userData = await collection.find_one({"_id": member.id})
-        userHeroesData = await heroesCollection.find_one({"_id": member.id})
+        if await collection.find_one({"_id": member.id}) != None:
+            userData = await collection.find_one({"_id": member.id})
+        
+        if await heroesCollection.find_one({"_id": member.id}) != None:
+            userHeroesData = await heroesCollection.find_one({"_id": member.id})
+        
 
         
 
