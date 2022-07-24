@@ -13,11 +13,12 @@ emojis = yaml.load(yaml_file, Loader = Loader)
 yaml_file2 = open("animals.yml", "rb")
 animals = yaml.load(yaml_file2, Loader = Loader) 
 
-cupcoin = emojis["cupcoin"]
-cross = emojis["cross"]
-cupcoinBack = emojis["cupcoinBack"]
-cupcoins = emojis["cupcoins"]
-clock = emojis["clock"] or "⏳"
+
+cross = "<:cx:991397749486522499>"
+cupcoinBack = "<:CupcoinBack:997241145438503023>"
+cupcoin = "<:Cupcoin:997158251944738938>"
+cupcoins = "<:Cupcoins:997159042633961574>"
+clock = "<:Cupclock:996129959758282842>"
 """
 acemibalikci = rozet["acemibalikci"]
 amatorbalikci = rozet["amatorbalikci"]
