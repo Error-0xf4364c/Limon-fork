@@ -147,6 +147,10 @@ class MyButtons(View):
         await interaction.message.delete()
         message_author_id.remove(interaction.user.id)
 
+    async def on_error(self, interaction, error, item):
+        await interaction.response.send_message("Pazarda ortalık karıştı. Lütfen daha sonra tekrar deneyin! *err!*")
+        message_author_id.remove(interaction.user.id)
+
 
 class sell(commands.Cog, commands.Bot):
     def __init__(self, bot: commands.Bot):
@@ -154,9 +158,7 @@ class sell(commands.Cog, commands.Bot):
 
 
 
-    async def on_error(self, interaction, error, item):
-        await interaction.response.send_message("Pazarda ortalık karıştı. Lütfen daha sonra tekrar deneyin! *err!*")
-        message_author_id.remove(interaction.user.id)
+    
 
     @app_commands.command(name="sell", description="Avladığın hayvanları sat ve Cupcoin kazan")
     @app_commands.checks.cooldown(
