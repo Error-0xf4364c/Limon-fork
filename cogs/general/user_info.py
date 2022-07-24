@@ -51,14 +51,15 @@ class general(commands.Cog, commands.Bot):
 
         db = self.bot.mongoConnect["cupcake"]
         collection = db["economy"]
-        heroesCollection = db['inventory']
+        heroesCollection = db["inventory"]
         
+        userCoins = 0
+        userHeroes = 0
         
         userData = await collection.find_one({"_id": member.id})
         userHeroesData = await heroesCollection.find_one({"_id": member.id})
 
-        userCoins = 0
-        userHeroes = 0
+        
 
         if "coins" in userData:
             userCoins = userData['coins']
@@ -67,7 +68,8 @@ class general(commands.Cog, commands.Bot):
             userHeroes = len(userHeroesData['heroes'])
             
 
-            
+        print(userCoins)
+        print(userHeroes)
 
 
         
