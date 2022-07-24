@@ -3,8 +3,8 @@ alfield:
   name: Alfield
   description: | 
     Hamstera benzeyen bu tür koca diþleri ve pençeleri ile bilinir. Genellikle kahverengi ya da beyaz olurlar.
-    Biliyor musunuz bazýlarý hem kahverengi hem de beyaz olabiliyorlar. Uyku aðaçlarýnda ya?ayan bu t?r
-    karanlýkta da çok iyi görebilir. Uyku aðaçlarçyla dolu ormanlarda geceleri çok iyi avlandýklarý için
+    Biliyor musunuz bazýlarý hem kahverengi hem de beyaz olabiliyorlar. Uyku aðaçlarýnda yaþayan bu tür
+    karanlýkta da çok iyi görebilir. Uyku aðaçlarýyla dolu ormanlarda geceleri çok iyi avlandýklarý için
     Khativya'da yerliler, onlara "**Uyku Kaçýranlar**" diyorlar.
   rarity: Sýradan
   hp: 113
@@ -23,7 +23,7 @@ inis:
   name: Ýnis
   description: |
     Bukalemun gibi derilerinin renklerini deðiitirerek kamuflaj saðlayan insan zekasýna sahip canlýlardýr.
-    Genelde onlarý yakalayýp suikastçi olarak eðitmeye çalýþýrlar. Baþarýll olanlar kesinlikler vardýr.
+    Genelde onlarý yakalayýp suikastçi olarak eðitmeye çalýþýrlar. Baþarýlý olanlar kesinlikler vardýr.
   rarity: Seyrek
   hp: 150
   power: 110
@@ -37,4 +37,13 @@ groblar:
   hp: 100
   power: 65
   colorCode: 0x356e00
+limon:
+  name: Limon
+  description: |
+    Bir zamanlar 600.000 kiþilik ordusuyla tüm dünyada hüküm süren mino cinsi canlýdýr. Yüzyýllar boyunca hüküm sürdükten sonra
+    hastalaktan öldü. Mezarý Phatonia Ýmparatorluðunda bulunuyor ve Kara Alfa ve Devasa sürüsü tarafýndan korunuyor.
+  rarity: Kadim
+  hp: 869
+  power: 953
+  colorCode: 0xffdf00
 ...

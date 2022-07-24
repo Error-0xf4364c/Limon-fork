@@ -22,7 +22,7 @@ class eggs(commands.Cog, commands.Bot):
 
     @app_commands.command(name="hero-egg", description="Kahraman yumurtası aç ve onlardan birine sahip ol!")
     @app_commands.checks.cooldown(
-        1, 21600, key=lambda i: (i.guild_id, i.user.id))
+        1, 1, key=lambda i: (i.guild_id, i.user.id))
     async def herobox(self, interaction: discord.Interaction):
         #print(list(heroes.keys()))
 
@@ -66,6 +66,12 @@ class eggs(commands.Cog, commands.Bot):
         await economyCollection.replace_one({"_id": interaction.user.id}, userCoins)
 
         if yourHero == None:
+            await interaction.response.send_message(f"{emojis['3dot']} **|** Kahraman yumurtası açılıyor.")
+            await asyncio.sleep(5)
+            await interaction.edit_original_message(content = f"{emojis['cross']} Maalesef yumurtadan hiç kahraman çıkmadı ;c")
+            return
+        
+        if yourHero == "limon" and interaction.user.id != 529577110197764096:
             await interaction.response.send_message(f"{emojis['3dot']} **|** Kahraman yumurtası açılıyor.")
             await asyncio.sleep(5)
             await interaction.edit_original_message(content = f"{emojis['cross']} Maalesef yumurtadan hiç kahraman çıkmadı ;c")
