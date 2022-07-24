@@ -52,10 +52,9 @@ class general(commands.Cog, commands.Bot):
         
 
         userCoins = 0
+        userHeroes = 0
         if member.bot == False:
             userData = await collection.find_one({"_id": member.id})
-            
-            userCoins = 0
 
             
             if await collection.find_one({"_id" : member.id}) == None:
