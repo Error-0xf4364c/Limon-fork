@@ -229,6 +229,6 @@ class sell(commands.Cog, commands.Bot):
             await interaction.response.send_message(f"{clock} **|** Upss! Balık pazarı daha açılmamış. `{timeRemaining}`s sonra tekrar gel.",ephemeral=True)
 
 
-
+#, guilds= [discord.Object(id =964617424743858176)]
 async def setup(bot:commands.Bot):
-    await bot.add_cog(sell(bot), guilds= [discord.Object(id =964617424743858176)])
+    await bot.add_cog(sell(bot))

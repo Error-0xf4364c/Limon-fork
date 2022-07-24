@@ -18,6 +18,12 @@ cross = emojis["cross"]
 cupcoinBack = emojis["cupcoinBack"]
 cupcoins = emojis["cupcoins"]
 clock = emojis["clock"] or "⏳"
+acemibalikci = emojis["acemibalikci"]
+amatorbalikci = emojis["amatorbalikci"]
+ustabalikci = emojis["ustabalikci"]
+acemiavci = emojis["acemiavci"]
+amatoravci = emojis["amatoravci"]
+ustaavci = emojis["ustaavci"]
 
 
 allFishes = animals['fishes']
@@ -52,14 +58,15 @@ class hunting(commands.Cog, commands.Bot):
         if await collection.find_one({"_id" : interaction.user.id}) == None:
             newData = {
                 "_id": interaction.user.id,
-                "fishes" : {}
+                "fishes" : {},
+                "balikcipuani" : 0
             }
             await collection.insert_one(newData)
 
         userData = await collection.find_one({"_id" : interaction.user.id})
 
         if not "fishes" in  userData:
-            fishData = { "$set" : {"fishes" : {}}}
+            fishData = { "$set" : {"fishes" : {}, "balikcipuani" : 0}}
             await collection.update_one(userData ,fishData)
         
         userData = await collection.find_one({"_id" : interaction.user.id})
