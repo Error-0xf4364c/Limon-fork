@@ -42,6 +42,7 @@ class general(commands.Cog, commands.Bot):
     async def userinfo(self, interaction: discord.Interaction, user: discord.Member):
         
         member =  user
+        print(member)
 
         if member is None:
             await interaction.response.send_message("Err! xD", ephemeral =True)
