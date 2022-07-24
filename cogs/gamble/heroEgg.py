@@ -22,11 +22,11 @@ class eggs(commands.Cog, commands.Bot):
 
     @app_commands.command(name="hero-egg", description="Kahraman yumurtası aç ve onlardan birine sahip ol!")
     @app_commands.checks.cooldown(
-        1, 1, key=lambda i: (i.guild_id, i.user.id))
+        1, 21600, key=lambda i: (i.guild_id, i.user.id))
     async def herobox(self, interaction: discord.Interaction):
         #print(list(heroes.keys()))
 
-        caseFee = 10
+        caseFee = 200000
         
         db = self.bot.mongoConnect["cupcake"]
         collection = db["inventory"]
