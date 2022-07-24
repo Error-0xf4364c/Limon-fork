@@ -48,23 +48,31 @@ class general(commands.Cog, commands.Bot):
         db = self.bot.mongoConnect["cupcake"]
         collection = db["economy"]
         heroesCollection = db['inventory']
-
+        
+        
 
         userCoins = 0
         if member.bot == False:
             userData = await collection.find_one({"_id": member.id})
+            
+            userCoins = 0
 
-            userCoins = userData['coins']
-
-            if await collection.find_one({"_id": member.id}) == None:
+            
+            if await collection.find_one({"_id" : member.id}) == None:
                 userCoins = 0
+
+            if "coins" in userData:
+                userCoins = userData['coins']
                 
             userHeroesData = await heroesCollection.find_one({"_id": member.id})
 
-            userHeroes = len(userHeroesData['heroes'])
-
             if await heroesCollection.find_one({"_id": member.id}) == None:
                 userHeroes = 0 
+            if "heroes" in userHeroesData:
+                userHeroes = len(userHeroesData['heroes'])
+            
+
+            
 
 
         
