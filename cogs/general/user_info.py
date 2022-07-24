@@ -43,6 +43,9 @@ class general(commands.Cog, commands.Bot):
         
         member =  user
 
+        if member is None:
+            await interaction.response.send_message("Err! xD", ephemeral =True)
+
         if member.bot == True:
             return await interaction.response.send_message("Bir bot hakkında bilgi edinemezsiniz.", ephemeral = True)
 
