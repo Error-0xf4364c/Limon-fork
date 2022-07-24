@@ -157,4 +157,4 @@ class Inventory(commands.Cog):
 
 
 async def setup(bot:commands.Bot):
-    await bot.add_cog(Inventory(bot), guilds= [discord.Object(id =964617424743858176)])
+    await bot.add_cog(Inventory(bot))

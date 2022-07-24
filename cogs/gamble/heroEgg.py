@@ -112,4 +112,4 @@ class eggs(commands.Cog, commands.Bot):
 
 
 async def setup(bot:commands.Bot):
-    await bot.add_cog(eggs(bot), guilds= [discord.Object(id =964617424743858176)])
+    await bot.add_cog(eggs(bot))

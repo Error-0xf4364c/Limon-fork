@@ -306,6 +306,6 @@ class gambles(commands.Cog, commands.Bot):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
             await interaction.response.send_message(f"{clock} **|** Lütfen `{timeRemaining}`s sonra tekrar deneyiniz.",ephemeral=True)
 
-
+# , guilds= [discord.Object(id =964617424743858176)]
 async def setup(bot:commands.Bot):
-    await bot.add_cog(gambles(bot), guilds= [discord.Object(id =964617424743858176)])
+    await bot.add_cog(gambles(bot))

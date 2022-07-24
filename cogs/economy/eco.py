@@ -88,4 +88,4 @@ class economy(commands.Cog):
                                                     ephemeral=True)
 
 async def setup(bot:commands.Bot):
-    await bot.add_cog(economy(bot), guilds= [discord.Object(id =964617424743858176)])
+    await bot.add_cog(economy(bot))

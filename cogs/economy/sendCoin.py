@@ -50,4 +50,4 @@ class sendCoin(commands.Cog):
                                                     ephemeral=True)
 
 async def setup(bot:commands.Bot):
-    await bot.add_cog(sendCoin(bot), guilds= [discord.Object(id =964617424743858176)])
+    await bot.add_cog(sendCoin(bot))
