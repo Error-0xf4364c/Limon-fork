@@ -43,7 +43,8 @@ class general(commands.Cog, commands.Bot):
         
         member =  user
 
-
+        if member.bot == True:
+            return await interaction.response.send_message("Bir bot hakkında bilgi edinemezsiniz.", ephemeral = True)
 
         db = self.bot.mongoConnect["cupcake"]
         collection = db["economy"]
@@ -53,22 +54,22 @@ class general(commands.Cog, commands.Bot):
 
         userCoins = 0
         userHeroes = 0
-        if member.bot == False:
-            userData = await collection.find_one({"_id": member.id})
+        
+        userData = await collection.find_one({"_id": member.id})
 
             
-            if await collection.find_one({"_id" : member.id}) == None:
-                userCoins = 0
+        if await collection.find_one({"_id" : member.id}) == None:
+            userCoins = 0
 
-            if "coins" in userData:
-                userCoins = userData['coins']
+        if "coins" in userData:
+            userCoins = userData['coins']
                 
-            userHeroesData = await heroesCollection.find_one({"_id": member.id})
+        userHeroesData = await heroesCollection.find_one({"_id": member.id})
 
-            if await heroesCollection.find_one({"_id": member.id}) == None:
-                userHeroes = 0 
-            if "heroes" in userHeroesData:
-                userHeroes = len(userHeroesData['heroes'])
+        if await heroesCollection.find_one({"_id": member.id}) == None:
+            userHeroes = 0 
+        if "heroes" in userHeroesData:
+            userHeroes = len(userHeroesData['heroes'])
             
 
             
