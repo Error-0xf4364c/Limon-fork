@@ -11,7 +11,7 @@ from main import MyBot
 
 message_author_id = []
 
-yaml_file2 = open("animals.yml", "r")
+yaml_file2 = open("animals.yml", "rb")
 animals = yaml.load(yaml_file2, Loader = Loader) 
 
 priceBySize = animals["priceBySize"]
@@ -26,7 +26,7 @@ hunts = huntsKey.split(" ")
 bott = MyBot()
 
 # Emojis
-yaml_file = open("emojis.yml", "r")
+yaml_file = open("emojis.yml", "rb")
 emojis = yaml.load(yaml_file, Loader = Loader) 
 clock = emojis["clock"] or "⏳"
 dot3 = emojis["3dot"]

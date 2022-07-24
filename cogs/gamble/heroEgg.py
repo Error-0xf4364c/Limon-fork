@@ -8,11 +8,11 @@ import yaml
 from yaml import Loader
 import random
 
-yaml_file = open("emojis.yml", "r")
+yaml_file = open("emojis.yml", "rb")
 emojis = yaml.load(yaml_file, Loader = Loader) 
 clock = emojis["clock"] or "⏳"
 
-yaml_file2 = open("chars.yml", "r")
+yaml_file2 = open("chars.yml", "rb")
 heroes = yaml.load(yaml_file2, Loader = Loader) 
 
 class eggs(commands.Cog, commands.Bot):

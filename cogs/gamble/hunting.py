@@ -7,10 +7,10 @@ import random
 import yaml
 from yaml import Loader
 
-yaml_file = open("emojis.yml", "r")
+yaml_file = open("emojis.yml", "rb")
 emojis = yaml.load(yaml_file, Loader = Loader) 
 
-yaml_file2 = open("animals.yml", "r")
+yaml_file2 = open("animals.yml", "rb")
 animals = yaml.load(yaml_file2, Loader = Loader) 
 
 cupcoin = emojis["cupcoin"]
