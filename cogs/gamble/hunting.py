@@ -18,13 +18,14 @@ cross = emojis["cross"]
 cupcoinBack = emojis["cupcoinBack"]
 cupcoins = emojis["cupcoins"]
 clock = emojis["clock"] or "⏳"
-acemibalikci = emojis["acemibalikci"]
-amatorbalikci = emojis["amatorbalikci"]
-ustabalikci = emojis["ustabalikci"]
-acemiavci = emojis["acemiavci"]
-amatoravci = emojis["amatoravci"]
-ustaavci = emojis["ustaavci"]
-
+"""
+acemibalikci = rozet["acemibalikci"]
+amatorbalikci = rozet["amatorbalikci"]
+ustabalikci = rozet["ustabalikci"]
+acemiavci = rozet["acemiavci"]
+amatoravci = rozet["amatoravci"]
+ustaavci = rozet["ustaavci"]
+"""
 
 allFishes = animals['fishes']
 fishesKey = " ".join(animals["fishes"].keys())
@@ -66,8 +67,11 @@ class hunting(commands.Cog, commands.Bot):
         userData = await collection.find_one({"_id" : interaction.user.id})
 
         if not "fishes" in  userData:
-            fishData = { "$set" : {"fishes" : {}, "balikcipuani" : 0}}
+            fishData = { "$set" : {"fishes" : {}}}
             await collection.update_one(userData ,fishData)
+        if not "balikcipuani" in userData:
+            fishData1 = { "$set" : {"balikcipuani" : 0}}
+            await collection.update_one(userData ,fishData1)
         
         userData = await collection.find_one({"_id" : interaction.user.id})
 
@@ -87,6 +91,7 @@ class hunting(commands.Cog, commands.Bot):
         
         await interaction.edit_original_message(content=f"**🐟 |** **{fishSize}**cm uzunluğunda **{fishName}** tuttunuz. Anlık piyasa değeri: **{fishPrice}** Cupcoin.")
         userData['fishes'].update({fishCaught : fishSize}) 
+        userData['balikcipuani'] +=1
         await collection.replace_one({"_id": interaction.user.id}, userData)
         
 
@@ -110,7 +115,8 @@ class hunting(commands.Cog, commands.Bot):
         if await collection.find_one({"_id": interaction.user.id,}) == None:
             newData = {
                 "_id": interaction.user.id,
-                "hunts" : []
+                "hunts" : [],
+                "avpuani" : 0
             }
             await collection.insert_one(newData)
 
@@ -118,9 +124,12 @@ class hunting(commands.Cog, commands.Bot):
 
         userData = await collection.find_one({"_id" : interaction.user.id})
 
-        if not "hunts" in  userData:
-            fishData = { "$set" : {"hunts" : []}}
-            await collection.update_one(userData ,fishData)
+        if not "hunts" in userData:
+            huntData = { "$set" : {"hunts" : []}}
+            await collection.update_one(userData ,huntData)
+        if not "avpuani" in userData:
+            huntData1 = { "$set" : {"avpuani" : 0}}
+            await collection.update_one(userData ,huntData1)
         
         userData = await collection.find_one({"_id" : interaction.user.id})
 
@@ -137,6 +146,7 @@ class hunting(commands.Cog, commands.Bot):
         await interaction.edit_original_message(content=f"**🦌 |** Bir **{huntName}** avladınız. Anlık piyasa değeri: {huntPrice} Cupcoin")
         
         userData['hunts'].append(huntCaught)
+        userData['avpuani'] += 1
         await collection.replace_one({"_id": interaction.user.id}, userData)
 
     @hunt.error

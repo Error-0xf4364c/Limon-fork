@@ -12,13 +12,42 @@ emojis = yaml.load(yaml_file, Loader = Loader)
 yaml_file2 = open("animals.yml", "r")
 animals = yaml.load(yaml_file2, Loader = Loader) 
 
-yaml_file2 = open("chars.yml", "r")
-heroes = yaml.load(yaml_file2, Loader = Loader) 
+yaml_file3 = open("chars.yml", "r")
+heroes = yaml.load(yaml_file3, Loader = Loader) 
+
+yaml_file4 = open("badges.yml", "r")
+rozet = yaml.load(yaml_file4, Loader = Loader) 
 
 clock = emojis["clock"]  or "⏳"
 
 # Emojis
+heropuani = rozet['heropuani']
 
+acemibalikcipuani = rozet["acemibalikcipuani"]
+amatorbalikcipuani = rozet["amatorbalikcipuani"]
+ustabalikcipuani = rozet["ustabalikcipuani"]
+
+acemiavcipuani = rozet["acemiavcipuani"]
+amatoravcipuani = rozet["amatoravcipuani"]
+ustaavcipuani = rozet["ustaavcipuani"]
+
+acemikumarbazpuani = rozet['acemikumarbazpuani']
+tecrubelikumarbazpuani = rozet['tecrubelikumarbazpuani']
+milyonerkumarbazpuani = rozet['milyonerkumarbazpuani']
+
+acemibalikci = rozet['acemibalikci']
+amatorbalikci = rozet['amatorbalikci']
+ustabalikci = rozet['ustabalikci']
+
+acemiavci = rozet['acemiavci']
+amatoravci = rozet['amatoravci']
+ustaavci = rozet['ustaavci']
+
+acemikumarbaz = rozet['acemikumarbaz']
+tecrubelikumarbaz = rozet['tecrubelikumarbaz']
+milyonerkumarbaz = rozet['milyonerkumarbaz']
+
+kahramansahibi = rozet['kahramansahibi']
 
 # Hunts
 allFishes = animals['fishes']
@@ -29,7 +58,7 @@ allHunts = animals["hunts"]
 huntsKey = " ".join(animals["hunts"].keys())
 hunts = huntsKey.split(" ")
 
-
+userBadges = []
 
 myheroes = " ".join(heroes.keys())
 sliceHero = myheroes.split(" ")
@@ -59,6 +88,7 @@ class Inventory(commands.Cog):
         userFishes = ["Yok"]
         userHunts = ["Yok"]
         userHeroes = ["Yok"]
+        
 
         if "hunts" in userData:
             userHunts = userData['hunts']
@@ -67,21 +97,50 @@ class Inventory(commands.Cog):
             
         if "heroes" in userData:
             userHeroes = userData['heroes']
+            if len(userHeroes) >= heropuani:
+                userBadges.append(kahramansahibi)
 
-
+        if "balikcipuani" in userData:
+            totalBalikciPuani = userData['balikcipuani']
+            if totalBalikciPuani >= ustabalikcipuani:
+                userBadges.append(ustabalikci)
+            elif totalBalikciPuani >= amatorbalikcipuani:
+                userBadges.append(amatorbalikci)
+            elif totalBalikciPuani >= acemibalikcipuani:
+                userBadges.append(acemibalikci)
+        if "avpuani" in userData:
+            totalAvciPuani = userData['avpuani']
+            if totalAvciPuani >= ustaavcipuani:
+                userBadges.append(ustaavci)
+            elif totalAvciPuani >= amatoravcipuani:
+                userBadges.append(amatoravci)
+            elif totalAvciPuani >= acemiavcipuani:
+                userBadges.append(acemiavci)
+        if "kumarpuani" in userData:
+            totalKumarPuani = userData['kumarpuani']
+            if totalKumarPuani >= milyonerkumarbazpuani:
+                userBadges.append(milyonerkumarbaz)
+            elif totalKumarPuani >= tecrubelikumarbazpuani:
+                userBadges.append(tecrubelikumarbaz)
+            elif totalKumarPuani >= acemikumarbazpuani:
+                userBadges.append(acemikumarbaz)
 
 
         fishes_ = [ f"**{userFishes.count(i)}** x {i.title()} - **{userData['fishes'][i]}**cm 🐟" for i in fishes if i in userFishes]
         hunts_ = [ f"**{userHunts.count(i)}** x {i.title()} 🦌" for i in hunts if i in userHunts]
         heroes_ = [f"{heroes[i]['rarity']} **››** {heroes[i]['name']}" for i in sliceHero if i in userHeroes]
 
-
         
         fishes_ = "\n".join(fishes_) if len(fishes_)>0 else "*Envanterinizde hiç balık yok*"
         hunts_ = "\n".join(hunts_) if len(hunts_)>0 else "*Envanterinizde hiç av yok*"
         heroes_ = "\n".join(heroes_) if len(heroes_)>0 else "*Hiç kahramanınız yok*"
+        
+        if len(userBadges) == 0:
+            badges_ = "Henüz rozet kazanılmamış"
+        else:
+            badges_ = " ".join(userBadges)
 
-        inventoryResponse = Embed(description = f"Hey! Envanterin boş mu? Hadi o zaman biraz avlan ve doldur bakalım.\n\n***Fishes:***\n{fishes_}\n\n***Hunts***\n{hunts_}\n\n***Heroes***\n{heroes_}")
+        inventoryResponse = Embed(description = f"{badges_} \n\nHey! Envanterin boş mu? Hadi o zaman biraz avlan ve doldur bakalım.\n\n***Fishes:***\n{fishes_}\n\n***Hunts***\n{hunts_}\n\n***Heroes***\n{heroes_}")
         inventoryResponse.set_author(name = f"{interaction.user.name}'s Inventory", icon_url = interaction.user.avatar.url)
 
         await interaction.response.send_message(embed = inventoryResponse)
@@ -89,8 +148,8 @@ class Inventory(commands.Cog):
 
 
     @inventory.error
-    async def inventoryError(self, interaction : discord.Interaction,
-                         error: app_commands.AppCommandError):
+    async def inventoryError(self, interaction : discord.Interaction,error: app_commands.AppCommandError):
+        print(error)            
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds = int(error.retry_after)))
             await interaction.response.send_message(f"{clock} **|** Lütfen `{timeRemaining}`s sonra tekrar deneyiniz.",

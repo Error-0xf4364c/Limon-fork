@@ -38,6 +38,7 @@ class gambles(commands.Cog, commands.Bot):
 
         db = self.bot.mongoConnect["cupcake"]
         collection = db["economy"]
+        invcollection = db['inventory']
 
         if await collection.find_one({"_id" : interaction.user.id}) == None:
             newData = {
@@ -47,6 +48,13 @@ class gambles(commands.Cog, commands.Bot):
             await collection.insert_one(newData)
 
         userData = await collection.find_one({"_id": interaction.user.id})
+        userInvData = await invcollection.find_one({"_id": interaction.user.id})
+
+        if not "kumarpuani" in  userData:
+            fishData = { "$set" : {"kumarpuani" : 0}}
+            await invcollection.update_one(userInvData ,fishData)
+        userInvData['kumarpuani'] += 1
+        await invcollection.replace_one({"_id": interaction.user.id}, userInvData)
 
         if userData["coins"] < miktar:
             return await interaction.response.send_message(f"{cross} Cüzdanınızda yeterli Cupcoin bulunmuyor!")
@@ -94,16 +102,22 @@ class gambles(commands.Cog, commands.Bot):
 
         db = self.bot.mongoConnect["cupcake"]
         collection = db["economy"]
+        invcollection = db['inventory']
 
         if await collection.find_one({"_id": interaction.user.id}) == None:
             return await interaction.response.send_message("Henüz bir hesabınız yok.")
 
         userData = await collection.find_one({"_id": interaction.user.id})
+        userInvData = await invcollection.find_one({"_id": interaction.user.id})
 
         if userData["coins"] < miktar:
             return await interaction.response.send_message(f"{cross} Cüzdanınızda yeterli Cupcoin bulunmuyor!")
 
-
+        if not "kumarpuani" in  userData:
+            fishData = { "$set" : {"kumarpuani" : 0}}
+            await invcollection.update_one(userInvData ,fishData)
+        userInvData['kumarpuani'] += 1
+        await invcollection.replace_one({"_id": interaction.user.id}, userInvData)
 
         moneyRecieved = random.randint(1,10)
 
@@ -140,12 +154,21 @@ class gambles(commands.Cog, commands.Bot):
 
         db = self.bot.mongoConnect["cupcake"]
         collection = db["economy"]
+        invcollection = db['inventory']
 
         if await collection.find_one({"_id": interaction.user.id}) == None:
             return await interaction.response.send_message("Henüz bir hesabınız yok.")
 
         userData = await collection.find_one({"_id": interaction.user.id})
+        userInvData = await invcollection.find_one({"_id": interaction.user.id})
         userData['coins']
+
+
+        if not "kumarpuani" in  userData:
+            fishData = { "$set" : {"kumarpuani" : 0}}
+            await invcollection.update_one(userInvData ,fishData)
+        userInvData['kumarpuani'] += 1
+        await invcollection.replace_one({"_id": interaction.user.id}, userInvData)
 
         if userData["coins"] < miktar:
             return await interaction.response.send_message(f"{cross} Cüzdanınızda yeterli Cupcoin bulunmuyor!")
@@ -154,6 +177,7 @@ class gambles(commands.Cog, commands.Bot):
         dice2 = random.randint(1,6)
 
         total = dice1 + dice2
+
 
 
         if total %2 == 0:
