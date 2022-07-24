@@ -28,9 +28,9 @@ bott = MyBot()
 # Emojis
 yaml_file = open("emojis.yml", "rb")
 emojis = yaml.load(yaml_file, Loader = Loader) 
-clock = "<:Cupclock:996129959758282842>"
-dot3 = "<:3dot:996129951411617923>"
-check = "<:check_mark:991397744105242736>"
+clock = emojis["clock"] or "⏳"
+dot3 = emojis["3dot"]
+check = emojis["checkMark"]
 
 class MyButtons(View):
 

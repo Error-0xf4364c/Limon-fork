@@ -10,9 +10,9 @@ from yaml import Loader
 yaml_file = open("emojis.yml", "rb")
 emojis = yaml.load(yaml_file, Loader = Loader) 
 
-wallet = "<:wallet:997158473999581386>"
-cupcoins = "<:Cupcoins:997159042633961574>"
-clock = "<:Cupclock:996129959758282842>"
+wallet = emojis["wallet"]
+cupcoins = emojis["cupcoins"]
+clock = emojis["clock"] or "⏳"
 
 
 class economy(commands.Cog):

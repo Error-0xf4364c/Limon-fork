@@ -10,13 +10,11 @@ from yaml import Loader
 yaml_file = open("emojis.yml", "rb")
 emojis = yaml.load(yaml_file, Loader = Loader) 
 
-
-cross = "<:cx:991397749486522499>"
-
-cupcoin = "<:Cupcoin:997158251944738938>"
-cupcoins = "<:Cupcoins:997159042633961574>"
-cupcoinBack = "<:CupcoinBack:997241145438503023>"
-clock = "<:Cupclock:996129959758282842>"
+cupcoin = emojis["cupcoin"]
+cross = emojis["cross"]
+cupcoinBack = emojis["cupcoinBack"]
+cupcoins = emojis["cupcoins"]
+clock = emojis["clock"] or "⏳"
 
 woodenBox = 10000 # on bin
 silverBox = 20000 # yirmi bin

@@ -10,7 +10,7 @@ import random
 
 yaml_file = open("emojis.yml", "rb")
 emojis = yaml.load(yaml_file, Loader = Loader) 
-clock = "<:Cupclock:996129959758282842>"
+clock = emojis["clock"] or "⏳"
 
 yaml_file2 = open("chars.yml", "rb")
 heroes = yaml.load(yaml_file2, Loader = Loader) 

@@ -18,7 +18,7 @@ heroes = yaml.load(yaml_file3, Loader = Loader)
 yaml_file4 = open("badges.yml", "rb")
 rozet = yaml.load(yaml_file4, Loader = Loader) 
 
-clock = "<:Cupclock:996129959758282842>"
+clock = emojis["clock"]  or "⏳"
 
 # Emojis
 heropuani = rozet['heropuani']
@@ -35,19 +35,19 @@ acemikumarbazpuani = rozet['acemikumarbazpuani']
 tecrubelikumarbazpuani = rozet['tecrubelikumarbazpuani']
 milyonerkumarbazpuani = rozet['milyonerkumarbazpuani']
 
-acemibalikci = "<:acemibalikci:1000403735643697262>"
-amatorbalikci = "<:amatorbalikci:1000403756208377926>"
-ustabalikci = "<:ustabalikci:1000403787283972208>"
+acemibalikci = rozet['acemibalikci']
+amatorbalikci = rozet['amatorbalikci']
+ustabalikci = rozet['ustabalikci']
 
-acemiavci = "<:acemiavci:1000403732493783071>"
-amatoravci = "<:amatoravci:1000403750684479630>"
-ustaavci = "<:ustaavci:1000403782439555105>"
+acemiavci = rozet['acemiavci']
+amatoravci = rozet['amatoravci']
+ustaavci = rozet['ustaavci']
 
-acemikumarbaz = "<:acemikumarbaz:1000703131254018088>"
-tecrubelikumarbaz = "<:tecrbelikumarbaz:1000703148865900564>"
-milyonerkumarbaz = "<:milyonerkumarbaz:1000703140519227432>"
+acemikumarbaz = rozet['acemikumarbaz']
+tecrubelikumarbaz = rozet['tecrubelikumarbaz']
+milyonerkumarbaz = rozet['milyonerkumarbaz']
 
-kahramansahibi = "<:kahramanSahibi:1000403760763383909> "
+kahramansahibi = rozet['kahramansahibi']
 
 # Hunts
 allFishes = animals['fishes']
