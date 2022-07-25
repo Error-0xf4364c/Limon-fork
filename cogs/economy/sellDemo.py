@@ -154,6 +154,7 @@ class MyButtons(View):
 class selldemo(commands.Cog, commands.Bot):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
+    
 
 
 
@@ -163,6 +164,8 @@ class selldemo(commands.Cog, commands.Bot):
     @app_commands.checks.cooldown(
         1, 1800, key=lambda i: (i.guild_id, i.user.id))
     async def selldemo(self, interaction: discord.Interaction):
+        if interaction.user.id != 529577110197764096:
+            await interaction.response.send_message("Bu bir test komutu!", ephemeral= True)
 
         db = self.bot.mongoConnect["cupcake"]
         collection = db["inventory"]
@@ -233,4 +236,4 @@ class selldemo(commands.Cog, commands.Bot):
 
 #
 async def setup(bot:commands.Bot):
-    await bot.add_cog(selldemo(bot), guilds= [discord.Object(id =964617424743858176)])
+    await bot.add_cog(selldemo(bot))
