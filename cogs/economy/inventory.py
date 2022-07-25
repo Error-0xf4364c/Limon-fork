@@ -35,6 +35,8 @@ acemikumarbazpuani = rozet['acemikumarbazpuani']
 tecrubelikumarbazpuani = rozet['tecrubelikumarbazpuani']
 milyonerkumarbazpuani = rozet['milyonerkumarbazpuani']
 
+greatpersonpuani = rozet["greatpersonpuani"]
+
 acemibalikci = rozet['acemibalikci']
 amatorbalikci = rozet['amatorbalikci']
 ustabalikci = rozet['ustabalikci']
@@ -46,7 +48,7 @@ ustaavci = rozet['ustaavci']
 acemikumarbaz = rozet['acemikumarbaz']
 tecrubelikumarbaz = rozet['tecrubelikumarbaz']
 milyonerkumarbaz = rozet['milyonerkumarbaz']
-
+goodperson = rozet['greatperson']
 kahramansahibi = rozet['kahramansahibi']
 
 # Hunts
@@ -124,6 +126,11 @@ class Inventory(commands.Cog):
                 userBadges.append(tecrubelikumarbaz)
             elif totalKumarPuani >= acemikumarbazpuani:
                 userBadges.append(acemikumarbaz)
+        if "sendpuani" in userData:
+            totalSendPuani = userData['sendpuani']
+            if totalSendPuani >= greatpersonpuani:
+                userBadges.append(goodperson)
+
 
 
         fishes_ = [ f"**{userFishes.count(i)}** x {i.title()} - **{userData['fishes'][i]}**cm 🐟" for i in fishes if i in userFishes]
