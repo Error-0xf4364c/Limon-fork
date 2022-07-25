@@ -11,9 +11,15 @@ import random
 yaml_file = open("emojis.yml", "rb")
 emojis = yaml.load(yaml_file, Loader = Loader) 
 clock = emojis["clock"] or "⏳"
+siradan = emojis["siradan"]
+seyrek = emojis["seyrek"]
+ender = emojis["ender"]
+efsanevi = emojis["efsanevi"]
+kadim = emojis["kadim"]
 
 yaml_file2 = open("chars.yml", "rb")
 heroes = yaml.load(yaml_file2, Loader = Loader) 
+
 
 class eggs(commands.Cog, commands.Bot):
 
@@ -65,6 +71,11 @@ class eggs(commands.Cog, commands.Bot):
         userCoins['coins'] -= caseFee
         await economyCollection.replace_one({"_id": interaction.user.id}, userCoins)
 
+
+        
+
+
+
         if yourHero == None:
             await interaction.response.send_message(f"{emojis['3dot']} **|** Kahraman yumurtası açılıyor.")
             await asyncio.sleep(5)
@@ -83,11 +94,23 @@ class eggs(commands.Cog, commands.Bot):
             await interaction.edit_original_message(content = f"Bir {yourHero.title()} çıktı fakat bu kahraman zaten envanterinizde mevcut.")
             return
 
+        # RARITY LOGO
+        if heroes[yourHero]['rarity'] == "Kadim":
+            rarityLogo = kadim
+        elif heroes[yourHero]['rarity'] == "Efsanevi":
+            rarityLogo = efsanevi
+        elif heroes[yourHero]['rarity'] == "Ender":
+            rarityLogo = ender
+        elif heroes[yourHero]['rarity'] == "Seyrek":
+            rarityLogo = seyrek
+        else:
+            rarityLogo = siradan
+
 
         heroEmbed = discord.Embed(title= heroes[yourHero]["name"], description= heroes[yourHero]["description"], color = heroes[yourHero]['colorCode'])
         heroEmbed.set_author(name= "Tebrikler. Yeni bir kahramanınız oldu.", icon_url= interaction.user.avatar.url),
         heroEmbed.add_field(name = "Can / Hp:", value =  heroes[yourHero]['hp'], inline = True),
-        heroEmbed.add_field(name = "Nadirlik:", value =  heroes[yourHero]['rarity'], inline = True),
+        heroEmbed.add_field(name = "Nadirlik:", value =  f"{rarityLogo} {heroes[yourHero]['rarity']}", inline = True),
         heroEmbed.add_field(name= "Güç:", value =  heroes[yourHero]['power'], inline = True)
         await interaction.response.send_message(f"{emojis['clock']} **|** Kahramanın yumurtadan çıkması birkaç saniye alabilir.")
         await asyncio.sleep(4)
