@@ -79,20 +79,21 @@ class MyButtons(View):
             if x in userFishes:
                 sum_fish += allFishes[x]
 
-
-        del user_data['fishes']
-        user_data_coins['coins'] += sum_fish
-        await coincollection.replace_one({"_id": interaction.user.id}, user_data_coins)
-        await collection.replace_one({"_id": interaction.user.id}, user_data)
-        await interaction.response.send_message(f"🐟 **|** Balıklarınızı başarıyla sattınız. Toplam geliriniz **{sum_fish}** Cupcoin")
-
-
-
         button.label = "Balıklar Satıldı!"
         button.style = discord.ButtonStyle.secondary
         button.disabled = True
 
+        
+        del user_data['fishes']
+        user_data_coins['coins'] += sum_fish
+        await coincollection.replace_one({"_id": interaction.user.id}, user_data_coins)
+        await collection.replace_one({"_id": interaction.user.id}, user_data)
         await interaction.response.edit_message(view=self)
+        await interaction.response.send_message(f"🐟 **|** Balıklarınızı başarıyla sattınız. Toplam geliriniz **{sum_fish}** Cupcoin")
+
+
+
+        
 
     @discord.ui.button(label="Avları  Sat!", style=discord.ButtonStyle.success, custom_id="sellhunts")
     async def sellhunts_callback(self, interaction, button):
@@ -127,17 +128,20 @@ class MyButtons(View):
             if x in userHunts:
                 sum_hunt += allHunts[x]
 
+        button.label = "Avlar Satıldı!"
+        button.style = discord.ButtonStyle.secondary
+        button.disabled = True
+
         del user_data['hunts']
         user_data_coins['coins'] += sum_hunt
         await coincollection.replace_one({"_id": interaction.user.id}, user_data_coins)
         await collection.replace_one({"_id": interaction.user.id}, user_data)
+        await interaction.response.edit_message(view=self)
         await interaction.response.send_message(content=f"🦌 **|** Avladığınız hayvanları başarıyla sattınız. Toplam geliriniz **{sum_hunt}** Cupcoin")
 
 
-        button.label = "Avlar Satıldı!"
-        button.style = discord.ButtonStyle.secondary
-        button.disabled = True
-        await interaction.response.edit_message(view=self)
+        
+        
 
     @discord.ui.button(label="Pazarı Kapat", style=discord.ButtonStyle.danger, custom_id="closemenu")
     async def closemenu_callback(self, interaction, button):
