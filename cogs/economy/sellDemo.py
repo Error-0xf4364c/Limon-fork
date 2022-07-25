@@ -162,7 +162,7 @@ class selldemo(commands.Cog, commands.Bot):
     @app_commands.command(name="sell-demo", description="Avladığın hayvanları sat ve Cupcoin kazan")
     @app_commands.checks.cooldown(
         1, 1800, key=lambda i: (i.guild_id, i.user.id))
-    async def sell(self, interaction: discord.Interaction):
+    async def selldemo(self, interaction: discord.Interaction):
 
         db = self.bot.mongoConnect["cupcake"]
         collection = db["inventory"]
@@ -221,8 +221,8 @@ class selldemo(commands.Cog, commands.Bot):
 
 
 
-    @sell.error
-    async def sellError(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
+    @selldemo.error
+    async def selldemoError(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         
         message_author_id.remove(interaction.user.id)
         if isinstance(error, app_commands.CommandOnCooldown):
