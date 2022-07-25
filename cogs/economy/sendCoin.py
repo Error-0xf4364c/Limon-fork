@@ -21,6 +21,15 @@ class sendCoin(commands.Cog):
 
         db = self.bot.mongoConnect["cupcake"]
         collection = db["economy"]
+        invcollection = db["inventory"]
+
+        userInvData = await invcollection.find_one({"_id": interaction.user.id})
+
+        if not "sendpuani" in  userInvData:
+            sendCData = { "$set" : {"sendpuani" : 0}}
+            await invcollection.update_one(userInvData ,sendCData)
+        userInvData['sendpuani'] += 1
+        await invcollection.replace_one({"_id": interaction.user.id}, userInvData)
 
         if friend == interaction.user:
             return await interaction.response.send_message(f"{cross} Kendinize Cupcoin gönderemezsiniz!", ephemeral=True)
