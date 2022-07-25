@@ -27,17 +27,9 @@ amatoravci = rozet["amatoravci"]
 ustaavci = rozet["ustaavci"]
 """
 
-allFishes = animals['fishes']
-fishesKey = " ".join(animals["fishes"].keys())
-fishes = fishesKey.split(" ")
-fishCaught = random.choice(fishes)
 
-priceBySize = animals["priceBySize"]
 
-allHunts = animals["hunts"]
-huntsKey = " ".join(animals["hunts"].keys())
-hunts = huntsKey.split(" ")
-huntCaught = random.choice(hunts)
+
 
 
 
@@ -50,6 +42,12 @@ class hunting(commands.Cog, commands.Bot):
     @app_commands.checks.cooldown(
         1, 100, key=lambda i: (i.guild_id, i.user.id))
     async def fishing(self, interaction: discord.Interaction):
+        allFishes = animals['fishes']
+        fishesKey = " ".join(animals["fishes"].keys())
+        fishes = fishesKey.split(" ")
+        fishCaught = random.choice(fishes)
+
+        priceBySize = animals["priceBySize"]
 
 
         db = self.bot.mongoConnect["cupcake"]
@@ -80,6 +78,7 @@ class hunting(commands.Cog, commands.Bot):
         fishSize = random.randint(3, 43)
         fishPBS = fishSize * priceBySize
         fishPrice = allFishes[fishCaught]  + fishPBS
+        print(fishCaught)
 
 
         await interaction.response.send_message("🎣 **|** Olta atıldı. Hadi rastgele")
@@ -109,6 +108,10 @@ class hunting(commands.Cog, commands.Bot):
     @app_commands.checks.cooldown(
         1, 300, key=lambda i: (i.guild_id, i.user.id))
     async def hunt(self, interaction: discord.Interaction):
+        allHunts = animals["hunts"]
+        huntsKey = " ".join(animals["hunts"].keys())
+        hunts = huntsKey.split(" ")
+        huntCaught = random.choice(hunts)
 
         db = self.bot.mongoConnect["cupcake"]
         collection = db["inventory"]
