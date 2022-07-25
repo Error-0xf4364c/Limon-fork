@@ -60,7 +60,7 @@ class help(commands.Cog, commands.Bot):
             In a certain area (hunting, gambling, etc.) too much is given to interested users. 
             It consists of 3 levels.Beginner, amateur and master. Except for hero owners and wonderful people badges
             \n
-            ```How will I get a badge?```
+            ```How will I get a badge?```\n
             You can get a gambler's badge by gambling. 
             You can get a hunter badge by hunting animals. 
             You can get a fisherman's badge by fishing. 
@@ -75,7 +75,7 @@ class help(commands.Cog, commands.Bot):
             ```Heroesof with Cupcake```\n
             **/hero-egg** **››** Open hero eggs and have one of them.
             **/inventory** **››** You can view your heroes here for now.
-            ```Why should I get a hero?```\n
+            \n```Why should I get a hero?```\n
             Actually, you can think of it as a pre-registration. 
             When you have a hero, you read his short story. 
             You will learn the HP and Power values. You will learn about the degree of rarity. 
