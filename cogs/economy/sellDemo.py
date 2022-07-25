@@ -159,7 +159,7 @@ class selldemo(commands.Cog, commands.Bot):
 
     
 
-    @app_commands.command(name="sell-demo", description="Avladığın hayvanları sat ve Cupcoin kazan")
+    @app_commands.command(name="sell-demo", description="ve Cupcoin kazan")
     @app_commands.checks.cooldown(
         1, 1800, key=lambda i: (i.guild_id, i.user.id))
     async def selldemo(self, interaction: discord.Interaction):
