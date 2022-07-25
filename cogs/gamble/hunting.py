@@ -103,6 +103,7 @@ class hunting(commands.Cog, commands.Bot):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
             await interaction.response.send_message(f"{clock} **|** Yorgunsun. `{timeRemaining}`s dinlen.",ephemeral=True)
+        print(error)
 
     @app_commands.command(name="hunt", description="Ava çık")
     @app_commands.checks.cooldown(
