@@ -229,7 +229,7 @@ class gambles(commands.Cog, commands.Bot):
         Choice(name=f"Elmas Kutu - {diamondBox:,}", value="diamond"),
     ])
     @app_commands.checks.cooldown(
-        1, 21600, key=lambda i: (i.guild_id, i.user.id))
+        1, 10, key=lambda i: (i.guild_id, i.user.id))
     async def openbox(self, interaction: discord.Interaction, box: str):
 
         db = self.bot.mongoConnect["cupcake"]
