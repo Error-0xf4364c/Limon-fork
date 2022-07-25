@@ -230,8 +230,7 @@ class sell(commands.Cog, commands.Bot):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
             await interaction.response.send_message(f"{clock} **|** Upss! Balık pazarı daha açılmamış. `{timeRemaining}`s sonra tekrar gel.",ephemeral=True)
-        else:
-            await interaction.response.send_message("Pazarda ortalık karıştı. Lütfen daha sonra tekrar deneyin! *err!*")
+        await interaction.response.send_message("Pazarda ortalık karıştı. Lütfen daha sonra tekrar deneyin! *err!*")
 
 #, guilds= [discord.Object(id =964617424743858176)]
 async def setup(bot:commands.Bot):

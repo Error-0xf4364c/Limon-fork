@@ -3,6 +3,14 @@ from discord import Embed
 from discord.ext import commands
 from discord import app_commands
 from discord.app_commands import Choice
+import datetime
+import yaml
+from yaml import Loader
+
+
+yaml_file = open("emojis.yml", "rb")
+emojis = yaml.load(yaml_file, Loader = Loader) 
+clock = emojis["clock"] or "⏳"
 
 class help(commands.Cog, commands.Bot):
 
@@ -23,7 +31,7 @@ class help(commands.Cog, commands.Bot):
     ])
     @app_commands.checks.cooldown(
         1, 10, key=lambda i: (i.guild_id, i.user.id))
-    async def openbox(self, interaction: discord.Interaction, topic: str):
+    async def bothelp(self, interaction: discord.Interaction, topic: str):
 
         if topic == "basiccommandshelp":
             commandsEmbed = Embed(description = """
@@ -85,6 +93,13 @@ class help(commands.Cog, commands.Bot):
             """)
             heroesEmbed.set_author(name = "About the heroes", icon_url = interaction.user.avatar.url)
             await interaction.response.send_message(embed=heroesEmbed)
+
+    @bothelp.error
+    async def sellError(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
+
+        if isinstance(error, app_commands.CommandOnCooldown):
+            timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
+            await interaction.response.send_message(f"{clock} **|** Upss! Balık pazarı daha açılmamış. `{timeRemaining}`s sonra tekrar gel.",ephemeral=True)
 
 
 
