@@ -26,7 +26,7 @@ class Mining(commands.Cog, commands.Bot):
     async def mining(self, interaction: discord.Interaction):
 
         # Random Mine
-        allMines = mines['mines']
+        allMines = mines["mines"]
         minesKey = " ".join(mines["mines"].keys())
         miness = minesKey.split(" ")
         resultMine = random.choice(miness)
@@ -63,8 +63,8 @@ class Mining(commands.Cog, commands.Bot):
             return await interaction.edit_original_message(content = "Maalesef hiç değerli bir maden bulamadık ;c")
 
         await interaction.edit_original_message(content = f"💎 **|** Madenden **{kilograms}**kg ağırlığında {mineName} madeni çıktı. Anlık piyasa değeri **{minePrice}** Cupcoin")
-        userData['mines'].update({resultMine : kilograms}) 
-        userData['miningpuani'] +=1
+        userData["mines"].update({resultMine : kilograms}) 
+        userData["miningpuani"] +=1
         await collection.replace_one({"_id": interaction.user.id}, userData)
 
 
