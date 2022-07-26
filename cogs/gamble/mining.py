@@ -16,7 +16,7 @@ mines = yaml.load(yaml_file1, Loader = Loader)
 clock = emojis['clock'] or "⏳"
 
 
-class miningsystem(commands.Cog, commands.Bot):
+class MiningSystem(commands.Cog, commands.Bot):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
     
@@ -68,7 +68,6 @@ class miningsystem(commands.Cog, commands.Bot):
         await collection.replace_one({"_id": interaction.user.id}, userData)
 
 
-
     @mining.error
     async def miningError(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
@@ -78,4 +77,4 @@ class miningsystem(commands.Cog, commands.Bot):
 
 
 async def setup(bot:commands.Bot):
-    await bot.add_cog(miningsystem(bot))
+    await bot.add_cog(MiningSystem(bot))
