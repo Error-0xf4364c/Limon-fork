@@ -1,14 +1,14 @@
 ---
 priceByKg: 4
 mines:
-  altın: 9000
+  altın: 3000
   none: 0
-  rodyum: 8000
-  platin: 7000
-  iridyum: 6800
-  paladyum: 6000
-  osmiyum: 4500
+  rodyum: 2800
+  platin: 2100
+  iridyum: 1900
+  paladyum: 1800
+  osmiyum: 1100
   none: 0
-  renyum: 4000
-  rutenyum: 3000
-  gumus: 2500
+  renyum: 900
+  rutenyum: 850
+  gumus: 800
