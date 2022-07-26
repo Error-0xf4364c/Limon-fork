@@ -16,7 +16,7 @@ mines = yaml.load(yaml_file1, Loader = Loader)
 clock = emojis['clock'] or "⏳"
 
 
-class Mining(commands.Cog, commands.Bot):
+class mining(commands.Cog, commands.Bot):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
     
@@ -78,4 +78,4 @@ class Mining(commands.Cog, commands.Bot):
 
 
 async def setup(bot:commands.Bot):
-    await bot.add_cog(Mining(bot))
+    await bot.add_cog(mining(bot))
