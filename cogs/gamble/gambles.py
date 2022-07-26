@@ -7,7 +7,7 @@ import datetime
 import yaml
 from yaml import Loader
 
-yaml_file = open("emojis.yml", "rb")
+yaml_file = open("yamls/emojis.yml", "rb")
 emojis = yaml.load(yaml_file, Loader = Loader) 
 
 cupcoin = emojis["cupcoin"]

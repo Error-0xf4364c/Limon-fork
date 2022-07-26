@@ -6,16 +6,16 @@ import datetime
 import yaml
 from yaml import Loader
 
-yaml_file = open("emojis.yml", "rb")
+yaml_file = open("yamls/emojis.yml", "rb")
 emojis = yaml.load(yaml_file, Loader = Loader) 
 
-yaml_file2 = open("animals.yml", "rb")
+yaml_file2 = open("yamls/animals.yml", "rb")
 animals = yaml.load(yaml_file2, Loader = Loader) 
 
-yaml_file3 = open("chars.yml", "rb")
+yaml_file3 = open("yamls/chars.yml", "rb")
 heroes = yaml.load(yaml_file3, Loader = Loader) 
 
-yaml_file4 = open("badges.yml", "rb")
+yaml_file4 = open("yamls/badges.yml", "rb")
 rozet = yaml.load(yaml_file4, Loader = Loader) 
 
 clock = emojis["clock"]  or "⏳"

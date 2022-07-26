@@ -1,12 +1,17 @@
 import discord
 from discord import app_commands
 from discord.ext import commands
-
+import yaml
+from yaml import Loader
 import datetime
 
-whiteCross = "<:whiteCross:996130010471600228>"
-cross = "<:cx:991397749486522499>"
-send = "<:send:997158048126730250>"
+yaml_file = open("yamls/emojis.yml", "rb")
+emojis = yaml.load(yaml_file, Loader = Loader) 
+clock = emojis["clock"] or "⏳"
+
+whiteCross = emojis['whiteCross']
+cross = emojis['cross']
+send = emojis['send']
 
 class sendCoin(commands.Cog):
 

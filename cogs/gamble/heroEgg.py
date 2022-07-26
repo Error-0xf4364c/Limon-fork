@@ -8,7 +8,7 @@ import yaml
 from yaml import Loader
 import random
 
-yaml_file = open("emojis.yml", "rb")
+yaml_file = open("yamls/emojis.yml", "rb")
 emojis = yaml.load(yaml_file, Loader = Loader) 
 clock = emojis["clock"] or "⏳"
 siradan = emojis["siradan"]
@@ -17,7 +17,7 @@ ender = emojis["ender"]
 efsanevi = emojis["efsanevi"]
 kadim = emojis["kadim"]
 
-yaml_file2 = open("chars.yml", "rb")
+yaml_file2 = open("yamls/chars.yml", "rb")
 heroes = yaml.load(yaml_file2, Loader = Loader) 
 
 

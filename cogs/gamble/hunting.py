@@ -7,10 +7,10 @@ import random
 import yaml
 from yaml import Loader
 
-yaml_file = open("emojis.yml", "rb")
+yaml_file = open("yamls/emojis.yml", "rb")
 emojis = yaml.load(yaml_file, Loader = Loader) 
 
-yaml_file2 = open("animals.yml", "rb")
+yaml_file2 = open("yamls/animals.yml", "rb")
 animals = yaml.load(yaml_file2, Loader = Loader) 
 
 cupcoin = emojis["cupcoin"]
@@ -78,7 +78,6 @@ class hunting(commands.Cog, commands.Bot):
         fishSize = random.randint(3, 43)
         fishPBS = fishSize * priceBySize
         fishPrice = allFishes[fishCaught]  + fishPBS
-        print(fishCaught)
 
 
         await interaction.response.send_message("🎣 **|** Olta atıldı. Hadi rastgele")
@@ -147,7 +146,7 @@ class hunting(commands.Cog, commands.Bot):
         huntName = huntCaught.title()
         huntPrice = allHunts[huntCaught]
         
-        await interaction.edit_original_message(content=f"**🦌 |** Bir **{huntName}** avladınız. Anlık piyasa değeri: {huntPrice} Cupcoin")
+        await interaction.edit_original_message(content=f"**🦌 |** Bir **{huntName}** avladınız. Anlık piyasa değeri: **{huntPrice}** Cupcoin")
         
         userData['hunts'].append(huntCaught)
         userData['avpuani'] += 1
