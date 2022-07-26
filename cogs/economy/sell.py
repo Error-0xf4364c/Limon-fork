@@ -14,10 +14,19 @@ message_author_id = []
 yaml_file2 = open("yamls/animals.yml", "rb")
 animals = yaml.load(yaml_file2, Loader = Loader) 
 
+yaml_file1 = open("yamls/mines.yml", "rb")
+mines = yaml.load(yaml_file1, Loader = Loader) 
+
 priceBySize = animals["priceBySize"]
 allFishes = animals['fishes']
 fishesKey = " ".join(animals["fishes"].keys())
 fishes = fishesKey.split(" ")
+
+allMines = mines['mines']
+minesKey = " ".join(mines["mines"].keys())
+mines = minesKey.split(" ")
+priceByKg = mines['priceByKg']
+
 
 allHunts = animals["hunts"]
 huntsKey = " ".join(animals["hunts"].keys())
@@ -60,14 +69,14 @@ class MyButtons(View):
             button.disabled = True
             button.style = discord.ButtonStyle.secondary
             await interaction.response.edit_message(view=self)
-            await interaction.response.send_message("Envanterinizde hiç balık yok. Biraz balık tutun! **`/fishing`**", ephemeral=True)
+            await interaction.followup.send("Envanterinizde hiç balık yok. Biraz balık tutun! **`/fishing`**", ephemeral=True)
             return
         elif len(user_data['fishes']) == 0:
             button.label = "Balık Yok!"
             button.disabled = True
             button.style = discord.ButtonStyle.secondary
             await interaction.response.edit_message(view=self)
-            await interaction.response.send_message("Envanterinizde hiç balık yok. Biraz balık tutun! **`/fishing`**",ephemeral=True)
+            await interaction.followup.send("Envanterinizde hiç balık yok. Biraz balık tutun! **`/fishing`**",ephemeral=True)
             return
 
         sum_fish = 0
@@ -89,7 +98,7 @@ class MyButtons(View):
         await coincollection.replace_one({"_id": interaction.user.id}, user_data_coins)
         await collection.replace_one({"_id": interaction.user.id}, user_data)
         await interaction.response.edit_message(view=self)
-        await interaction.response.send_message(f"🐟 **|** Balıklarınızı başarıyla sattınız. Toplam geliriniz **{sum_fish}** Cupcoin")
+        await interaction.followup.send(f"🐟 **|** Balıklarınızı başarıyla sattınız. Toplam geliriniz **{sum_fish}** Cupcoin")
 
 
 
@@ -111,14 +120,14 @@ class MyButtons(View):
             button.disabled = True
             button.style = discord.ButtonStyle.secondary
             await interaction.response.edit_message(view=self)
-            await interaction.response.send_message(content="Envanterinizde hiç av yok. Biraz avlanın! **`/hunt`**",ephemeral=True)
+            await interaction.followup.send(content="Envanterinizde hiç av yok. Biraz avlanın! **`/hunt`**",ephemeral=True)
             return
         elif len(user_data['hunts']) == 0:
             button.label = "Av Yok!"
             button.disabled = True
             button.style = discord.ButtonStyle.secondary
             await interaction.response.edit_message(view=self)
-            await interaction.response.send_message(content="Envanterinizde hiç av yok. Biraz avlanın! **`/hunt`**",ephemeral=True)
+            await interaction.followup.send(content="Envanterinizde hiç av yok. Biraz avlanın! **`/hunt`**",ephemeral=True)
             return
 
         sum_hunt = 0
@@ -137,10 +146,55 @@ class MyButtons(View):
         await coincollection.replace_one({"_id": interaction.user.id}, user_data_coins)
         await collection.replace_one({"_id": interaction.user.id}, user_data)
         await interaction.response.edit_message(view=self)
-        await interaction.response.send_message(content=f"🦌 **|** Avladığınız hayvanları başarıyla sattınız. Toplam geliriniz **{sum_hunt}** Cupcoin")
+        await interaction.followup.send(content=f"🦌 **|** Avladığınız hayvanları başarıyla sattınız. Toplam geliriniz **{sum_hunt}** Cupcoin")
 
+    @discord.ui.button(label="Madenleri Sat!", style=discord.ButtonStyle.success, custom_id="sellmines")
+    async def sellmines_callback(self, interaction, button):
+
+        db = bott.mongoConnect["cupcake"]
+        collection = db["inventory"]
+        coincollection = db['economy']
+        user_data = await collection.find_one({"_id": interaction.user.id})
+        user_data_coins = await coincollection.find_one({"_id": interaction.user.id})
+
+        if await collection.find_one({"_id": interaction.user.id}) == None:
+            return await interaction.response.send_message("Önce **`/wallet`** komutunu kullanarak bir cüzdan oluşturmalısın.", ephemeral=True)
+
+        if not 'mines' in user_data:
+            button.label = "Maden Yok!"
+            button.disabled = True
+            button.style = discord.ButtonStyle.secondary
+            await interaction.response.edit_message(view=self)
+            await interaction.followup.send(content="Envanterinizde hiç maden yok. Biraz değerli maden arayın! **`/mining`**",ephemeral=True)
+            return
+        elif len(user_data['mines']) == 0:
+            button.label = "Maden Yok!"
+            button.disabled = True
+            button.style = discord.ButtonStyle.secondary
+            await interaction.response.edit_message(view=self)
+            await interaction.followup.send(content="Envanterinizde hiç maden yok. Biraz değerli maden arayın! **`/mining`**",ephemeral=True)
+            return
+
+        sum_mine = 0
+
+        userMines = list(user_data['mines'].keys())
+        for i in user_data['mines'].values():
+            sum_mine += (i * priceByKg)
+        for x in mines:
+            if x in userMines:
+                sum_mine += allMines[x]
+
+        button.label = "Madenler Satıldı!"
+        button.style = discord.ButtonStyle.secondary
+        button.disabled = True
 
         
+        del user_data['mines']
+        user_data_coins['coins'] += sum_mine
+        await coincollection.replace_one({"_id": interaction.user.id}, user_data_coins)
+        await collection.replace_one({"_id": interaction.user.id}, user_data)
+        await interaction.response.edit_message(view=self)
+        await interaction.followup.send(f"💎 **|** Madenlerinizi başarıyla sattınız. Toplam geliriniz **{sum_mine}** Cupcoin")
         
 
     @discord.ui.button(label="Pazarı Kapat", style=discord.ButtonStyle.danger, custom_id="closemenu")
@@ -182,6 +236,10 @@ class sell(commands.Cog, commands.Bot):
         numberHunt = 0
         embed_value_hunts = "Envanterinizde av bulunamadı."
 
+        sumMine = 0
+        numberMine = 0
+        embed_value_mines = "Envanterinizde maden bulunamadı."
+
         if 'fishes' in userData and len(userData['fishes']) > 0:
             userFishes = list(userData['fishes'].keys())
             for i in userData['fishes'].values():
@@ -191,6 +249,16 @@ class sell(commands.Cog, commands.Bot):
                     sumFish += allFishes[x]
             numberFish = len(userData['fishes'])
             embed_value_fishes = f"**{numberFish}** adet balığınız var. Toplam = **{sumFish}** Cupcoin ediyor."
+
+        if "mines" in userData and len(userData['mines']) > 0:
+            userMines = list(userData['mines'].keys())
+            for i in userData['mines'].values():
+                sumMine += (i*priceByKg)
+            for x in mines:
+                if x in userMines:
+                    sumMine += allMines[x]
+            numberMine = len(userData['mines'])
+            embed_value_mines = f"**{numberMine}** adet madeniniz var. Toplam = **{sumMine}** Cupcoin ediyor."
 
         if 'hunts' in userData and len(userData['hunts']) > 0:
             userHunts = userData['hunts']
@@ -210,6 +278,7 @@ class sell(commands.Cog, commands.Bot):
         menuEmbed.set_author(name = interaction.user.name, icon_url = interaction.user.avatar.url)
         menuEmbed.add_field(name = "Fishes:", value =  embed_value_fishes)
         menuEmbed.add_field(name = "Hunts:", value =  embed_value_hunts)
+        menuEmbed.add_field(name = "Mines:", value =  embed_value_mines)
         menuEmbed.set_footer(text = "Pazarını kapatmayı unutma! Bir pazarı kapatmadan yeni bir pazar açamazsın.", icon_url= "https://cdn.discordapp.com/attachments/970118423143120896/1000526619691200522/dikkat.png")
 
 
@@ -231,6 +300,7 @@ class sell(commands.Cog, commands.Bot):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
             await interaction.response.send_message(f"{clock} **|** Upss! Balık pazarı daha açılmamış. `{timeRemaining}`s sonra tekrar gel.",ephemeral=True)
         await interaction.response.send_message("Pazarda ortalık karıştı. Lütfen daha sonra tekrar deneyin! *err!*")
+        print(error)
 
 #, guilds= [discord.Object(id =964617424743858176)]
 async def setup(bot:commands.Bot):

@@ -92,7 +92,7 @@ class gambles(commands.Cog, commands.Bot):
 
     @app_commands.command(
         name="guess-number",
-        description="Sayıyı bil ve 5 katı coin kazan.")
+        description="Sayıyı bil ve 5 katı coin kazan. (1 - 10)")
     @app_commands.describe(miktar='Enter the Amount', number="Your Guess")
     @app_commands.checks.cooldown(
         1, 10.0, key=lambda i: (i.guild_id, i.user.id))
