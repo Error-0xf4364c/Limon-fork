@@ -22,7 +22,7 @@ class Mining(commands.Cog, commands.Bot):
     
     @app_commands.command(name = "Mining", description = "Madencilik yap ve değerli madenler kazan.")
     @app_commands.checks.cooldown(
-        1, 300, key=lambda i: (i.guild_id, i.user.id))
+        1, 8400, key=lambda i: (i.guild_id, i.user.id))
     async def mining(self, interaction: discord.Interaction):
 
         # Random Mine
@@ -76,6 +76,6 @@ class Mining(commands.Cog, commands.Bot):
             await interaction.response.send_message(f"{clock} **|** Yorgunsun. Eve git ve`{timeRemaining}`s dinlen.",ephemeral=True)
         print(f"Mining: {error}")
 
-        
+
 async def setup(bot:commands.Bot):
     await bot.add_cog(Mining(bot))
