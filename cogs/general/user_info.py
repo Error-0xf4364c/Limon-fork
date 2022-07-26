@@ -41,7 +41,7 @@ class general(commands.Cog, commands.Bot):
     async def userinfo(self, interaction: discord.Interaction, user: discord.Member):
         
         member =  user
-        print(member)
+        banner_url = user.banner.url
 
         if member.bot == True:
             return await interaction.response.send_message("Bir bot hakkında bilgi edinemezsiniz.", ephemeral = True)
@@ -71,8 +71,6 @@ class general(commands.Cog, commands.Bot):
             userHeroes = len(userHeroesData['heroes'])
             
 
-        print(userCoins)
-        print(userHeroes)
 
 
         
@@ -86,7 +84,7 @@ class general(commands.Cog, commands.Bot):
 
         newBackground = random.choice(backgroundList)
 
-        background = newBackground 
+        background = banner_url or newBackground
 
         pfp = member.avatar.replace(size = 256)
         data = BytesIO(await pfp.read())
