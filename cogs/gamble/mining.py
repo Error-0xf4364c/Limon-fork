@@ -20,7 +20,7 @@ class mining(commands.Cog, commands.Bot):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
     
-    @app_commands.command(name = "Mining", description = "Madencilik yap ve değerli madenler kazan.")
+    @app_commands.command(name = "mining", description = "Madencilik yap ve değerli madenler kazan.")
     @app_commands.checks.cooldown(
         1, 8400, key=lambda i: (i.guild_id, i.user.id))
     async def mining(self, interaction: discord.Interaction):
