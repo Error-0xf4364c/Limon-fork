@@ -16,20 +16,20 @@ mines = yaml.load(yaml_file1, Loader = Loader)
 clock = emojis['clock'] or "⏳"
 
 
-class MiningSystem(commands.Cog, commands.Bot):
+class Mining(commands.Cog, commands.Bot):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
     
-    @app_commands.command(name = "miningg", description = "Madencilik yap ve değerli madenler kazan.")
+    @app_commands.command(name = "mining", description = "Madencilik yap ve değerli madenler kazan.")
     @app_commands.checks.cooldown(
         1, 8400, key=lambda i: (i.guild_id, i.user.id))
-    async def miningg(self, interaction: discord.Interaction):
+    async def mining(self, interaction: discord.Interaction):
 
         # Random Mine
         allMines = mines['mines']
         minesKey = " ".join(mines["mines"].keys())
-        mines = minesKey.split(" ")
-        resultMine = random.choice(mines)
+        miness = minesKey.split(" ")
+        resultMine = random.choice(miness)
         kilograms = random.randint(2, 20)
         priceByKg = mines['priceByKg']
 
@@ -68,8 +68,8 @@ class MiningSystem(commands.Cog, commands.Bot):
         await collection.replace_one({"_id": interaction.user.id}, userData)
 
 
-    @miningg.error
-    async def mininggError(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
+    @mining.error
+    async def miningError(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
             await interaction.response.send_message(f"{clock} **|** Yorgunsun. Eve git ve`{timeRemaining}`s dinlen.",ephemeral=True)
@@ -77,4 +77,4 @@ class MiningSystem(commands.Cog, commands.Bot):
 
 
 async def setup(bot:commands.Bot):
-    await bot.add_cog(MiningSystem(bot))
+    await bot.add_cog(Mining(bot))
