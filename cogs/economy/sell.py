@@ -21,11 +21,11 @@ priceBySize = animals["priceBySize"]
 allFishes = animals['fishes']
 fishesKey = " ".join(animals["fishes"].keys())
 fishes = fishesKey.split(" ")
-
+priceByKg = mines['priceByKg']
 allMines = mines['mines']
 minesKey = " ".join(mines["mines"].keys())
 mines = minesKey.split(" ")
-priceByKg = mines['priceByKg']
+
 
 
 allHunts = animals["hunts"]
