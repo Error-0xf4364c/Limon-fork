@@ -16,6 +16,7 @@ cupcoinBack = emojis["cupcoinBack"]
 cupcoins = emojis["cupcoins"]
 clock = emojis["clock"] or "⏳"
 
+
 woodenBox = 10000 # on bin
 silverBox = 20000 # yirmi bin
 goldenBox = 50000 # elli bin
