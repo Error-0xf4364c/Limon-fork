@@ -57,7 +57,7 @@ class MyBot(commands.Bot):
         embed.set_author(name = guild.name , icon_url = guild.icon_url)
         embed.add_field( name = "ID", value = guild.id, inline = False)
         embed.add_field( name = "Üye Sayısı", value = guild.member_count, inline = False)
-        embed.add_field( name = "Oluşturulma tarihi", value = guild.created_at, inline = False)
+        #embed.add_field( name = "Oluşturulma tarihi", value = guild.created_at, inline = False)
         embed.add_field( name = "Sahip", value = f"{guild.owner} {guild.owner.id}", inline = False)
         await bot.get_channel(1001859600708022332).send(embed= embed)
     async def on_guild_remove(self, guild):
@@ -65,7 +65,7 @@ class MyBot(commands.Bot):
         embed.set_author(name = guild.name , icon_url = guild.icon_url)
         embed.add_field( name = "ID", value = guild.id, inline = False)
         embed.add_field( name = "Üye Sayısı", value = guild.member_count, inline = False)
-        embed.add_field( name = "Oluşturulma tarihi", value = guild.created_at, inline = False)
+        #embed.add_field( name = "Oluşturulma tarihi", value = guild.created_at, inline = False)
         embed.add_field( name = "Sahip", value = f"{guild.owner} {guild.owner.id}", inline = False)
         await bot.get_channel(1001859600708022332).send(embed= embed)
         
