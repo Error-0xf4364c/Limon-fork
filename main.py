@@ -54,7 +54,7 @@ class MyBot(commands.Bot):
         print("Bot aktif")
     async def on_guild_join(self, guild):
         embed = Embed(title = "Sunucuya Eklendi!", color = 0x66F00)
-        embed.set_author(name = guild.name , icon_url = guild.icon_url)
+        embed.set_author(name = guild.name , icon_url = guild.icon.url)
         embed.add_field( name = "ID", value = guild.id, inline = False)
         embed.add_field( name = "Üye Sayısı", value = guild.member_count, inline = False)
         #embed.add_field( name = "Oluşturulma tarihi", value = guild.created_at, inline = False)
@@ -62,7 +62,7 @@ class MyBot(commands.Bot):
         await bot.get_channel(1001859600708022332).send(embed= embed)
     async def on_guild_remove(self, guild):
         embed = Embed(title = "Sunucudan Ayrıldı!", color = 0xFF2400)
-        embed.set_author(name = guild.name , icon_url = guild.icon_url)
+        embed.set_author(name = guild.name , icon_url = guild.icon.url)
         embed.add_field( name = "ID", value = guild.id, inline = False)
         embed.add_field( name = "Üye Sayısı", value = guild.member_count, inline = False)
         #embed.add_field( name = "Oluşturulma tarihi", value = guild.created_at, inline = False)
