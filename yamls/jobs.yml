@@ -1,0 +1,17 @@
+---
+jobs:
+  plumber: {nickname: plumber ,name: Plumber, salary: 1500, fee: 15000}
+  office_worker: {nickname: office_worker,name: Office Worker, salary: 2000, fee: 20000}
+  hair_dresser: {nickname: hair_dresser, name: Hair Dresser, salary: 2500, fee: 25000}
+  car_mechanic: {nickname: car_mechanic ,name: Car Mechanic, salary: 3000, fee: 30000}
+  chef: {nickname: chef, name: Chef, salary: 3500, fee: 35000}
+  teacher: {nickname: teacher, name: Teacher, salary: 4000, fee: 40000}
+  doctor: {nickname: doctor, name: Doctor, salary: 5000, fee: 50000}
+  lawyer: {nickname: lawyer, name: Lawyer, salary: 5600, fee: 56000}
+  architect: {nickname: architect, name: Architect, salary: 7000, fee: 70000}
+  pilot: {nickname: pilot, name: Pilot, salary: 15000, fee: 150000}
+
+
+
+
+

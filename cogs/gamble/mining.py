@@ -45,12 +45,14 @@ class Mining(commands.Cog, commands.Bot):
             }
             await collection.insert_one(newData)
 
-        userData = await collection.find_one({"_id" : interaction.user.id})
+        userData = await collection.find_one({"_id": interaction.user.id})
         
         # Control
         if not "mines" in userData:
             mineData = { "$set" : {"mines" : {}, "miningpuani": 0}}
             await collection.update_one(userData ,mineData)
+
+        userData = await collection.find_one({"_id": interaction.user.id})
 
         mineName = resultMine.title()
         minePBS = kilograms * priceByKg
