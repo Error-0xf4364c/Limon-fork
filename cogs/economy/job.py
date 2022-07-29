@@ -6,7 +6,7 @@ import datetime
 import yaml
 from yaml import Loader
 from main import MyBot
-
+"""
 # Main Class
 client = MyBot()
 
@@ -66,7 +66,7 @@ class JobsMenu(View):
 
 
 
-
+"""
 class Profession(commands.Cog, commands.Bot):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
@@ -76,9 +76,9 @@ class Profession(commands.Cog, commands.Bot):
         1, 1800, key=lambda i: (i.guild_id, i.user.id))
     async def jobs(self, interaction: discord.Interaction):
 
-        view = JobsMenu()
+        #view = JobsMenu()
 
-        await interaction.response.send_message(content = "Jobs", view=view)
+        await interaction.response.send_message(content = "Demo")
 
     @jobs.error
     async def jobsError(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
