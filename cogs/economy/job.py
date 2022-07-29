@@ -28,15 +28,15 @@ clock = emojis["clock"] or "⏳"
 # Buttons Class
 class JobsMenu(View):
 
-    for i in job:
+    for i in list(job):
         print(i)
 
     @discord.ui.select(
         placeholder="Choose a job!",
         options = [
             discord.SelectOption(
-                label = str(i["name"]),
-                value = str(i)
+                label = i["name"],
+                value = i
             )
 
     ]
