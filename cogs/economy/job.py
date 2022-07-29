@@ -35,8 +35,8 @@ class JobsMenu(View):
         placeholder="Choose a job!",
         options = [
             discord.SelectOption(
-                label = i["name"],
-                value = i
+                label = str(i["name"]),
+                value = str(i)
             )
 
     ]
