@@ -28,8 +28,8 @@ class Mining(commands.Cog, commands.Bot):
         # Random Mine
         allMines = mines["mines"]
         minesKey = " ".join(mines["mines"].keys())
-        miness = minesKey.split(" ")
-        resultMine = random.choice(miness)
+        mines_ = minesKey.split(" ")
+        resultMine = random.choice(mines_)
         kilograms = random.randint(2, 20)
         priceByKg = mines['priceByKg']
 
