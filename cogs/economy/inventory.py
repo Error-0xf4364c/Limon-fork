@@ -151,6 +151,7 @@ class Inventory(commands.Cog):
 
         
         fishes_ = "\n".join(fishes_) if len(fishes_)>0 else "*Envanterinizde hiç balık yok*"
+        mines_ = "\n".join(mines_) if len(mines_)>0 else "*Envanterinizde hiç maden yok*"
         hunts_ = "\n".join(hunts_) if len(hunts_)>0 else "*Envanterinizde hiç av yok*"
         heroes_ = "\n".join(heroes_) if len(heroes_)>0 else "*Hiç kahramanınız yok*"
         
