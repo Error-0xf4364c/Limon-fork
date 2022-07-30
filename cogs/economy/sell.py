@@ -295,7 +295,6 @@ class sell(commands.Cog, commands.Bot):
     @sell.error
     async def sellError(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         
-        message_author_id.remove(interaction.user.id)
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
             await interaction.response.send_message(f"{clock} **|** Upss! Balık pazarı daha açılmamış. `{timeRemaining}`s sonra tekrar gel.",ephemeral=True)
