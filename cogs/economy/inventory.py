@@ -16,7 +16,10 @@ yaml_file3 = open("yamls/chars.yml", "rb")
 heroes = yaml.load(yaml_file3, Loader = Loader) 
 
 yaml_file4 = open("yamls/badges.yml", "rb")
-rozet = yaml.load(yaml_file4, Loader = Loader) 
+rozet = yaml.load(yaml_file4, Loader = Loader)
+
+yaml_file5 = open("yamls/mines.yml", "rb")
+mines = yaml.load(yaml_file5, Loader = Loader)
 
 clock = emojis["clock"]  or "⏳"
 
@@ -60,6 +63,10 @@ allHunts = animals["hunts"]
 huntsKey = " ".join(animals["hunts"].keys())
 hunts = huntsKey.split(" ")
 
+allMines = mines["mines"]
+minesKey = " ".join(mines["mines"].keys())
+miness_ = minesKey.split(" ")
+
 userBadges = []
 
 myheroes = " ".join(heroes.keys())
@@ -102,6 +109,10 @@ class Inventory(commands.Cog):
             if len(userHeroes) >= heropuani:
                 userBadges.append(kahramansahibi)
 
+        if "mines" in userData:
+            userMines = list(userData['mines'].keys())
+
+
         if "balikcipuani" in userData:
             totalBalikciPuani = userData['balikcipuani']
             if totalBalikciPuani >= ustabalikcipuani:
@@ -134,6 +145,7 @@ class Inventory(commands.Cog):
 
 
         fishes_ = [ f"**{userFishes.count(i)}** x {i.title()} - **{userData['fishes'][i]}**cm 🐟" for i in fishes if i in userFishes]
+        mines_ = [ f"**{userMines.count(i)}** x {i.title()} - **{userData['mines'][i]}**kg 💎" for i in miness_ if i in userMines]
         hunts_ = [ f"**{userHunts.count(i)}** x {i.title()} 🦌" for i in hunts if i in userHunts]
         heroes_ = [f"{heroes[i]['rarity']} **››** {heroes[i]['name']}" for i in sliceHero if i in userHeroes]
 
@@ -147,7 +159,7 @@ class Inventory(commands.Cog):
         else:
             badges_ = " ".join(userBadges)
 
-        inventoryResponse = Embed(description = f"{badges_} \n\nHey! Envanterin boş mu? Hadi o zaman biraz avlan ve doldur bakalım.\n\n***Fishes:***\n{fishes_}\n\n***Hunts***\n{hunts_}\n\n***Heroes***\n{heroes_}")
+        inventoryResponse = Embed(description = f"{badges_} \n\nHey! Envanterin boş mu? Hadi o zaman biraz avlan ve doldur bakalım.\n\n***Fishes:***\n{fishes_}\n\n***Hunts***\n{hunts_}\n\n***Mines***\n{mines_}\n\n***Heroes***\n{heroes_}")
         inventoryResponse.set_author(name = f"{interaction.user.name}'s Inventory", icon_url = interaction.user.avatar.url)
 
         await interaction.response.send_message(embed = inventoryResponse)

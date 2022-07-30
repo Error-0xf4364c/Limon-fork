@@ -64,6 +64,8 @@ class Slot(commands.Cog, commands.Bot):
             await invcollection.update_one(userInvData ,gambleData)
         userInvData['kumarpuani'] += 1
         await invcollection.replace_one({"_id": interaction.user.id}, userInvData)
+
+        userInvData = await invcollection.find_one({"_id": interaction.user.id})
         
         await interaction.response.send_message(f"`CUP SLOT`\n{slot_left}{slot_mid}{slot_right}\n`------->` <:Cupcoins:997159042633961574>{amount:,}\n`------->` ???")
         
