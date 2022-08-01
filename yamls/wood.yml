@@ -1,0 +1,39 @@
+---
+
+veryLowLevelWood:
+  priceByVlSize: 2
+  sazvekamis: {name: Saz ve Kamış, price: 200}
+  cam: {name: Çam, price: 300}
+  mese: {name: Meşe, price: 400}
+  gurgen: {name: Gürgen, price: 500}
+
+lowLevelWood:
+  priceByLSize: 2
+  kizilagac: {name: Kızıl Ağaç, price: 700}
+  ladin: {name: Ladin, price: 800}
+  sedir: {name: "Sedir", price: 900}
+
+mediumLevelWood:
+  priceByMSize: 3
+  kayin: {name: Kayın, price: 1100}
+  akcaagac: {name: Akçaağaç, price: 1200}
+  karaagac: {name: Karaağaç, price: 1300}
+  servi: {name: Servi, price: 1400}
+
+highLevelWood:
+  priceByHSize: 3
+  afrikakaraagac: {name: Afrika Karaağaç, price: 1700}
+  pembefildisi: {name: Pembe Fildişi, price: 1800}
+  hayatagaci: {name: Hayat Ağacı, price: 1900}
+  agarwood: {name: Agarwood, price: 2000}
+  hintsandal: {name: Hint Sandal Ağacı, price: 2500}
+
+veryHighLevelWood:
+  priceByVhSize: 5
+  dalbergia: {name: Dalbergia, price: 3000}
+  cocobolo: {name: Cocobolo, price: 3150}
+  morahsap: {name: Mor Ahşağ, price: 3300}
+  abanoz: {name: Abanoz, price: 4000}
+  bubinga: {name: Bubinga, price: 5700}
+
+  
