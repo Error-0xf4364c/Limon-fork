@@ -84,7 +84,7 @@ class Forester(commands.Cog, commands.Bot):
             splittedWood = lowLvWood.split(" ") # to List Woods keys
             priceByLSize = int(LW["priceByLSize"]) # Price By Low Level Wood Size
             resultWood = random.choice(splittedWood) # Random Low Level Wood
-            woodSize = random.randint(5,15) # Random wood size
+            woodSize = random.randint(8,18) # Random wood size
             priceByWoodSize = woodSize * priceByLSize # Price By Wood Size
 
             lWoodName = LW[resultWood]["name"] # Result Wood Name
@@ -108,7 +108,7 @@ class Forester(commands.Cog, commands.Bot):
             splittedWood = mediumLvWood.split(" ") # to List Woods keys
             priceByMSize = int(M["priceByMSize"]) # Price By Medium Level Wood Size
             resultWood = random.choice(splittedWood) # Random Medium Level Wood
-            woodSize = random.randint(5,15) # Random wood size
+            woodSize = random.randint(9,19) # Random wood size
             priceByWoodSize = woodSize * priceByMSize # Price By Wood Size
 
             mWoodName = M[resultWood]["name"] # Result Wood Name
@@ -132,7 +132,7 @@ class Forester(commands.Cog, commands.Bot):
             splittedWood = highLvWood.split(" ") # to List Woods keys
             priceByHSize = int(H["priceByHSize"]) # Price By High Level Wood Size
             resultWood = random.choice(splittedWood) # Random High Level Wood
-            woodSize = random.randint(5,15) # Random wood size
+            woodSize = random.randint(13,23) # Random wood size
             priceByWoodSize = woodSize * priceByHSize # Price By Wood Size
 
             mWoodName = M[resultWood]["name"] # Result Wood Name
@@ -156,7 +156,7 @@ class Forester(commands.Cog, commands.Bot):
             splittedWood = veryHighLvWood.split(" ") # to List Woods keys
             priceByVhSize = int(VH["priceByVhSize"]) # Price By Low Level Wood Size
             resultWood = random.choice(splittedWood) # Random Low Level Wood
-            woodSize = random.randint(5,15) # Random wood size
+            woodSize = random.randint(17,30) # Random wood size
             priceByWoodSize = woodSize * priceByVhSize # Price By Wood Size
 
             vHWoodName = VH[resultWood]["name"] # Result Wood Name
@@ -171,15 +171,6 @@ class Forester(commands.Cog, commands.Bot):
             userData["wood"].update({resultWood : woodSize}) 
             userData["ormancipuani"] +=1
             await collection.replace_one({"_id": interaction.user.id}, userData)
-
-
-
-
-
-
-
-
-
 
     # Error Handler
     @forestry.error
