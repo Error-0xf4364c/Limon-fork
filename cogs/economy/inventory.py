@@ -21,6 +21,9 @@ rozet = yaml.load(yaml_file4, Loader = Loader)
 yaml_file5 = open("yamls/mines.yml", "rb")
 mines = yaml.load(yaml_file5, Loader = Loader)
 
+yaml_file6 = open("yamls/wood.yml", "rb")
+wood = yaml.load(yaml_file6, Loader = Loader)
+
 clock = emojis["clock"]  or "⏳"
 
 # Emojis
@@ -55,6 +58,7 @@ goodperson = rozet['greatperson']
 kahramansahibi = rozet['kahramansahibi']
 
 # Hunts
+
 allFishes = animals['fishes']
 fishesKey = " ".join(animals["fishes"].keys())
 fishes = fishesKey.split(" ")
@@ -67,7 +71,12 @@ allMines = mines["mines"]
 minesKey = " ".join(mines["mines"].keys())
 miness_ = minesKey.split(" ")
 
-userBadges = []
+# Wood
+allWood = []
+VLW = wood["veryLowLevelWood"]
+veryLowLvWood = " ".join(VLW.keys()) # Very Low Level Woods Keys
+splittedWood = veryLowLvWood.split(" ")
+
 
 myheroes = " ".join(heroes.keys())
 sliceHero = myheroes.split(" ")
@@ -94,9 +103,13 @@ class Inventory(commands.Cog):
         
         userData = await collection.find_one({"_id" : interaction.user.id})
 
+        userBadges = []
+
         userFishes = ["Yok"]
         userHunts = ["Yok"]
         userHeroes = ["Yok"]
+        userMines = ["Yok"]
+        
         
 
         if "hunts" in userData:
@@ -148,7 +161,6 @@ class Inventory(commands.Cog):
         mines_ = [ f"**{userMines.count(i)}** x {i.title()} - **{userData['mines'][i]}**kg 💎" for i in miness_ if i in userMines]
         hunts_ = [ f"**{userHunts.count(i)}** x {i.title()} 🦌" for i in hunts if i in userHunts]
         heroes_ = [f"{heroes[i]['rarity']} **››** {heroes[i]['name']}" for i in sliceHero if i in userHeroes]
-
         
         fishes_ = "\n".join(fishes_) if len(fishes_)>0 else "*Envanterinizde hiç balık yok*"
         mines_ = "\n".join(mines_) if len(mines_)>0 else "*Envanterinizde hiç maden yok*"

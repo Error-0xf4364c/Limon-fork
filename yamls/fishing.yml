@@ -1,0 +1,35 @@
+---
+
+veryLowLevelFish:
+  none: none
+  hamsi: {name: Hamsi, price: 300}
+  palamut: {name: Palamut, price: 350}
+  sazan: {name: Sazan, price: 400}
+  none: none
+
+lowLevelFish:
+  none: none
+  orkinos: {name: Orkinos, price: 500}
+  sardalya: {name: Sardalya, price: 580}
+  levrek: {name: Levrek, price: 600}
+  istavrit: {name: İstavrit, price: 650}
+
+mediumLevelFish:
+  fangrimercan: {name: Fangri Mercan, price: 700}
+  lufer: {name: Lüfer, price: 690}
+  alabalık: {name: Alabalık, price: 720}
+  barbun: {name: Barbun, price: 710}
+
+highLevelFish:
+  somon: {name: Somon, price: 800}
+  kalkanbaligi: {name: Kalkan Balığı, price: 830}
+  kilicbaligi: {name: Kılıç Balığı, price: 840}
+  kopekbaligi: {name: Köpek Balığı, price: 860}
+  karides: {name: Karides, price: 850}
+
+veryHighLevelFish:
+  ahtapot: {name: Ahtapot, price: 880}
+  mavibalina: {name: Mavi Balina, price: 1100}
+  buyukcekicbaslikopekbaligi: {name: Büyük Çekiç Başlı Köpek Balığı, price: 900}
+  pelikanyilanbaligi: {name: Pelikan Yılan Balığı, price: 950}
+  antenliaslanbaligi: {name: Antentli Aslan Balığı, price: 930}

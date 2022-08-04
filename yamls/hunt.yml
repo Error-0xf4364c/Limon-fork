@@ -1,0 +1,38 @@
+---
+veryLowLevelHunt:
+  none: none
+  bildircin: {name: Bıldırcın, price: 290}
+  serce: {name: Serçe, price: 180}
+  keklik: {name: Keklik, price: 380}
+  yabanordegi: {name: Yaban Ördeği, price: 300}
+  yabankazi: {name: Yaban Kazı, price: 350}
+  none: none
+
+lowLevelHunt:
+  domuz: {name: Domuz, price: 450}
+  cakal: {name: Çakal, price: 480}
+  tavsan: {name: Tavşan, price: 500}
+  sansar: {name: Sansar, price: 550}
+  none: none
+
+mediumLevelHunt:
+  tilki : {name: Tilki, price: 600}
+  ayi: {name: Ayı, price: 700}
+  yabankecisi: {name: Yaban Keçisi, price: 710}
+  yabankoyunu: {name: Anadolu Yaban Koyunu, price: 770}
+
+highLevelHunt:
+  dagkecisi: {name: Çengel Boynuzlu Dağ Keçisi, price: 800}
+  karaca: {name: Karaca, price: 850}
+  ceylan: {name: Ceylan, price: 900}
+  kizilgeyik: {name: Kızıl Geyik, price: 950}
+  gelincik: {name: Gelincik, price: 870}
+
+veryHighLevelHunt:
+  alageyik: {name: Ala Geyik, price: 1100}
+  leopar: {name: Leopar, price: 1900}
+  kurt: {name: Kurt, price: 1500}
+  gergedan: {name: Gergedan, price: 1600}
+  fil: {name: Fil, price: 2000}
+  bizon: {name: Bizon, price: 1700}
+

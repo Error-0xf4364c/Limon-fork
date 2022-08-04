@@ -25,17 +25,26 @@ class Forester(commands.Cog, commands.Bot):
         # Database Connection
         db = self.bot.mongoConnect["cupcake"]
         collection = db["inventory"]
+        careerCollection = db["career"]
 
         # Database Checks
         if await collection.find_one({"_id": interaction.user.id}) == None:
             newData = {
                 "_id": interaction.user.id,
                 "wood" : {},
-                "ormancipuani" : 0
             }
             await collection.insert_one(newData)
 
+        # Career Check
+        if await careerCollection.find_one({"_id": interaction.user.id}) == None:
+            newData = {
+                "_id": interaction.user.id,
+                "foresterpoint": 0
+            }
+            await careerCollection.insert_one(newData)
+
         userData = await collection.find_one({"_id": interaction.user.id})
+        userCareer = await careerCollection.find_one({"_id": interaction.user.id})
 
         # Axe check
         if "balta" not in userData:
@@ -43,11 +52,16 @@ class Forester(commands.Cog, commands.Bot):
 
         # Wood Check
         if "wood" not in userData:
-            foresterData = { "$set" : {"wood" : {}, "ormancioauni": 0}}
+            foresterData = { "$set" : {"wood" : {}}}
             await collection.update_one(userData ,foresterData)
+
+        if "foresterpoint" not in userCareer:
+            careerData = { "$set" : {"foresterpoint" : 0}}
+            await careerCollection.update_one(userCareer ,careerData)
 
         # User Datas
         userData = await collection.find_one({"_id": interaction.user.id}) # User Data
+        userCareer = await careerCollection.find_one({"_id": interaction.user.id}) # User Career Data
         userAxe = userData["balta"] # User Axe
 
         # Forestry System
@@ -64,16 +78,17 @@ class Forester(commands.Cog, commands.Bot):
             priceByWoodSize = woodSize * priceByVlSize # Price By Wood Size
 
             vlWoodName = VLW[resultWood]["name"] # Result Wood Name
-            vlWoodPrice = VLW[resultWood] + priceByWoodSize # Result Wood Total Price
+            vlWoodPrice = VLW[resultWood]["price"] + priceByWoodSize # Result Wood Total Price
 
             # Send user a message
             await interaction.response.send_message("🌲 **|** Güzel bir ağaç arıyorsun...")
             await asyncio.sleep(4) 
-            await interaction.edit_original_message(content = f"🪓 **|** Harika iş oduncu! **{vlWoodName}** türündeki bu ağaçtan **{woodSize}** metre uzunluğunda odun elde ettiniz. Anlık piyasa değeri: {vlWoodPrice} Cupcoin.")
+            await interaction.edit_original_message(content = f"🪓 **|** Harika iş oduncu! **{vlWoodName}** türündeki bu ağaçtan **{woodSize}** metre uzunluğunda odun elde ettiniz. Anlık piyasa değeri: **{vlWoodPrice}** Cupcoin.")
 
             # Update User Data
             userData["wood"].update({resultWood : woodSize}) 
-            userData["ormancipuani"] +=1
+            userCareer["foresterpoint"] +=1
+            await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
             await collection.replace_one({"_id": interaction.user.id}, userData)
 
         # Low Level Forestry
@@ -88,16 +103,17 @@ class Forester(commands.Cog, commands.Bot):
             priceByWoodSize = woodSize * priceByLSize # Price By Wood Size
 
             lWoodName = LW[resultWood]["name"] # Result Wood Name
-            lWoodPrice = LW[resultWood] + priceByWoodSize # Result Wood Total Price
+            lWoodPrice = LW[resultWood]["price"] + priceByWoodSize # Result Wood Total Price
 
             # Send user a message
             await interaction.response.send_message("🌲 **|** Güzel bir ağaç arıyorsun...")
             await asyncio.sleep(4) 
-            await interaction.edit_original_message(content = f"🪓 **|** Harika iş oduncu! **{lWoodName}** türündeki bu ağaçtan **{woodSize}** metre uzunluğunda odun elde ettiniz. Anlık piyasa değeri: {lWoodPrice} Cupcoin.")
+            await interaction.edit_original_message(content = f"🪓 **|** Harika iş oduncu! **{lWoodName}** türündeki bu ağaçtan **{woodSize}** metre uzunluğunda odun elde ettiniz. Anlık piyasa değeri: **{lWoodPrice}** Cupcoin.")
 
             # Update User Data
             userData["wood"].update({resultWood : woodSize}) 
-            userData["ormancipuani"] +=1
+            userCareer["foresterpoint"] +=1
+            await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
             await collection.replace_one({"_id": interaction.user.id}, userData)
 
         # Medium Level Forestry
@@ -112,16 +128,17 @@ class Forester(commands.Cog, commands.Bot):
             priceByWoodSize = woodSize * priceByMSize # Price By Wood Size
 
             mWoodName = M[resultWood]["name"] # Result Wood Name
-            mWoodPrice = M[resultWood] + priceByWoodSize # Result Wood Total Price
+            mWoodPrice = M[resultWood]["price"] + priceByWoodSize # Result Wood Total Price
 
             # Send user a message
             await interaction.response.send_message("🌲 **|** Güzel bir ağaç arıyorsun...")
             await asyncio.sleep(4) 
-            await interaction.edit_original_message(content = f"🪓 **|** Harika iş oduncu! **{mWoodName}** türündeki bu ağaçtan **{woodSize}** metre uzunluğunda odun elde ettiniz. Anlık piyasa değeri: {mWoodPrice} Cupcoin.")
+            await interaction.edit_original_message(content = f"🪓 **|** Harika iş oduncu! **{mWoodName}** türündeki bu ağaçtan **{woodSize}** metre uzunluğunda odun elde ettiniz. Anlık piyasa değeri: **{mWoodPrice}** Cupcoin.")
 
             # Update User Data
             userData["wood"].update({resultWood : woodSize}) 
-            userData["ormancipuani"] +=1
+            userCareer["foresterpoint"] +=1
+            await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
             await collection.replace_one({"_id": interaction.user.id}, userData)
             
         # High Level Forestry
@@ -136,16 +153,17 @@ class Forester(commands.Cog, commands.Bot):
             priceByWoodSize = woodSize * priceByHSize # Price By Wood Size
 
             mWoodName = M[resultWood]["name"] # Result Wood Name
-            mWoodPrice = M[resultWood] + priceByWoodSize # Result Wood Total Price
+            mWoodPrice = M[resultWood]["price"] + priceByWoodSize # Result Wood Total Price
 
             # Send user a message
             await interaction.response.send_message("🌲 **|** Güzel bir ağaç arıyorsun...")
             await asyncio.sleep(4) 
-            await interaction.edit_original_message(content = f"🪓 **|** Harika iş oduncu! **{mWoodName}** türündeki bu ağaçtan **{woodSize}** metre uzunluğunda odun elde ettiniz. Anlık piyasa değeri: {mWoodPrice} Cupcoin.")
+            await interaction.edit_original_message(content = f"🪓 **|** Harika iş oduncu! **{mWoodName}** türündeki bu ağaçtan **{woodSize}** metre uzunluğunda odun elde ettiniz. Anlık piyasa değeri: **{mWoodPrice}** Cupcoin.")
 
             # Update User Data
             userData["wood"].update({resultWood : woodSize}) 
-            userData["ormancipuani"] +=1
+            userCareer["foresterpoint"] +=1
+            await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
             await collection.replace_one({"_id": interaction.user.id}, userData)
         
         # Very High Level Forestry
@@ -160,16 +178,17 @@ class Forester(commands.Cog, commands.Bot):
             priceByWoodSize = woodSize * priceByVhSize # Price By Wood Size
 
             vHWoodName = VH[resultWood]["name"] # Result Wood Name
-            vHWoodPrice = VH[resultWood] + priceByWoodSize # Result Wood Total Price
+            vHWoodPrice = VH[resultWood]["price"] + priceByWoodSize # Result Wood Total Price
 
             # Send user a message
             await interaction.response.send_message("🌲 **|** Güzel bir ağaç arıyorsun...")
             await asyncio.sleep(4) 
-            await interaction.edit_original_message(content = f"🪓 **|** Harika iş oduncu! **{vHWoodName}** türündeki bu ağaçtan **{woodSize}** metre uzunluğunda odun elde ettiniz. Anlık piyasa değeri: {vHWoodPrice} Cupcoin.")
+            await interaction.edit_original_message(content = f"🪓 **|** Harika iş oduncu! **{vHWoodName}** türündeki bu ağaçtan **{woodSize}** metre uzunluğunda odun elde ettiniz. Anlık piyasa değeri: **{vHWoodPrice}** Cupcoin.")
 
             # Update User Data
             userData["wood"].update({resultWood : woodSize}) 
-            userData["ormancipuani"] +=1
+            userCareer["foresterpoint"] +=1
+            await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
             await collection.replace_one({"_id": interaction.user.id}, userData)
 
     # Error Handler
