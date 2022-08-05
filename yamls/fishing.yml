@@ -3,38 +3,39 @@
 veryLowLevelFish:
   priceByFishSizeVL: 3
   none: none
-  hamsi: {name: Hamsi, price: 300}
-  palamut: {name: Palamut, price: 350}
-  sazan: {name: Sazan, price: 400}
+  anchovy: {name: Anchovy, price: 300}
+  bonito: {name: Bonito, price: 350}
+  carp: {name: Carp, price: 400}
   none: none
 
 lowLevelFish:
   priceByFishSizeL: 3
   none: none
-  orkinos: {name: Orkinos, price: 500}
-  sardalya: {name: Sardalya, price: 580}
-  levrek: {name: Levrek, price: 600}
-  istavrit: {name: İstavrit, price: 650}
+  tuna: {name: Tuna, price: 500}
+  sardine: {name: Sardine, price: 580}
+  perch: {name: Perch, price: 600}
+  mackerel: {name: Mackerel, price: 650}
 
 mediumLevelFish:
   priceByFishSizeM: 4
-  fangrimercan: {name: Fangri Mercan, price: 700}
-  lufer: {name: Lüfer, price: 690}
-  alabalık: {name: Alabalık, price: 720}
+  fangricoral: {name: Fangri Coral, price: 700}
+  bluefish: {name: Bluefish, price: 690}
+  trout: {name: Trout, price: 720}
   barbun: {name: Barbun, price: 710}
 
 highLevelFish:
   priceByFishSizeH: 4
-  somon: {name: Somon, price: 800}
-  kalkanbaligi: {name: Kalkan Balığı, price: 830}
-  kilicbaligi: {name: Kılıç Balığı, price: 840}
-  kopekbaligi: {name: Köpek Balığı, price: 860}
-  karides: {name: Karides, price: 850}
+  salmon: {name: Salmon, price: 800}
+  turbotfish: {name: Turbotfish, price: 830}
+  swordfish: {name: Swordfish, price: 840}
+  pelicaneel: {name: Pelican Eel, price: 950}
+  
+  shrimp: {name: Shrimp, price: 850}
 
 veryHighLevelFish:
   priceByFishSizeVH: 5
-  ahtapot: {name: Ahtapot, price: 880}
-  mavibalina: {name: Mavi Balina, price: 1100}
-  buyukcekicbaslikopekbaligi: {name: Büyük Çekiç Başlı Köpek Balığı, price: 900}
-  pelikanyilanbaligi: {name: Pelikan Yılan Balığı, price: 950}
-  antenliaslanbaligi: {name: Antentli Aslan Balığı, price: 930}
+  octopus: {name: Octopus, price: 880}
+  orca: {name: Orca, price: 1100}
+  largehammerheadshark: {name: Large Hammerhead Shark, price: 900}
+  shark: {name: Shark, price: 860}
+  lionfishwithantennae: {name: Lionfish with Antennae, price: 930}

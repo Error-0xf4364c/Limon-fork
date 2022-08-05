@@ -1,3 +1,4 @@
+from unittest import loader
 import discord
 from discord import app_commands
 from discord.ext import commands
@@ -10,73 +11,133 @@ from yaml import Loader
 yaml_file = open("yamls/emojis.yml", "rb")
 emojis = yaml.load(yaml_file, Loader = Loader) 
 
-yaml_file1 = open("yamls/mines.yml", "rb")
-mines = yaml.load(yaml_file1, Loader = Loader) 
-
-clock = emojis['clock'] or "⏳"
+yaml_file2 = open("yaml/fishing.yml", "rb")
+fish = yaml.load(yaml_file2, Loader = Loader)
 
 
-class Mining(commands.Cog, commands.Bot):
+cupcoin = emojis["cupcoin"]
+cross = emojis["cross"]
+cupcoinBack = emojis["cupcoinBack"]
+cupcoins = emojis["cupcoins"]
+clock = emojis["clock"] or "⏳"
+
+class Fishing(commands.Cog, commands.Bot):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-    
-    @app_commands.command(name = "mining", description = "Madencilik yap ve değerli madenler kazan.")
+
+    @app_commands.command(name="mining", description="Let's start digging and earn valuable mines")
     @app_commands.checks.cooldown(
-        1, 8400, key=lambda i: (i.guild_id, i.user.id))
+        1, 1200, key=lambda i: (i.guild_id, i.user.id))
     async def mining(self, interaction: discord.Interaction):
-
-        # Random Mine
-        allMines = mines["mines"]
-        minesKey = " ".join(mines["mines"].keys())
-        mines_ = minesKey.split(" ")
-        resultMine = random.choice(mines_)
-        kilograms = random.randint(2, 20)
-        priceByKg = mines['priceByKg']
-
-        # Connect Mongo
+        
+        # Database Connection
         db = self.bot.mongoConnect["cupcake"]
         collection = db["inventory"]
+        careerCollection = db["career"]
 
-        if await collection.find_one({"_id" : interaction.user.id}) == None:
+        # Database Checks
+        if await collection.find_one({"_id": interaction.user.id}) == None:
             newData = {
                 "_id": interaction.user.id,
                 "mines" : {},
-                "miningpuani" : 0
             }
             await collection.insert_one(newData)
 
+        # Career Check
+        if await careerCollection.find_one({"_id": interaction.user.id}) == None:
+            newData = {
+                "_id": interaction.user.id,
+                "minerpoint": 0
+            }
+            await careerCollection.insert_one(newData)
+
         userData = await collection.find_one({"_id": interaction.user.id})
+        userCareer = await careerCollection.find_one({"_id": interaction.user.id})
+
+        # Axe check
+        if "pickaxe" not in userData:
+            return await interaction.response.send_message("You need to buy a pickaxe for mining. `/store` :)", ephemeral = True)
+
+        # Wood Check
+        if "mines" not in userData:
+            foresterData = { "$set" : {"mines" : {}}}
+            await collection.update_one(userData ,foresterData)
+
+        if "minerpoint" not in userCareer:
+            careerData = { "$set" : {"minerpoint" : 0}}
+            await careerCollection.update_one(userCareer ,careerData)
+
+        # User Datas
+        userData = await collection.find_one({"_id": interaction.user.id}) # User Data
+        userCareer = await careerCollection.find_one({"_id": interaction.user.id}) # User Career Data
+        userPickaxe = userData["pickaxe"] # User Pickaxe
+
+        # Fishing System
+
+        # Very Low Level Fisher
+        if "stoneaxe" == userPickaxe:
+
+            VLF = fish["veryLowLevelFish"] # Very Low Level Fishes
+            veryLowLvFish = " ".join(VLF.keys()) # Very Low Level Fishes Keys
+            splittedFish = veryLowLvFish.split(" ") # to List Fishes keys
+            priceByVlSize = int(VLF["priceByFishSizeVL"]) # Price By Very Low Level Fish Size
+            resultFish = random.choice(splittedFish) # Random Very Low Level Fish
+            fishSize = random.randint(5,15) # Random fish size
+            priceByFishSize = fishSize * priceByVlSize # Price By Fish Size
+
+            if resultFish == "none":
+                return await interaction.response.send_message("Unfortunately, You couldn't fish")
+
+            vlFishName = VLF[resultFish]["name"] # Result Fish Name
+            vlFishPrice = VLF[resultFish]["price"] + priceByFishSize # Result Fish Total Price
+
+            # Send user a message
+            await interaction.response.send_message("🎣 **|** The fishing line was thrown. Godspeed.")
+            await asyncio.sleep(6) 
+            await interaction.edit_original_message(content = f"🐟 **|** Great work fisher! You have caught a **{fishSize}**-inch long **{vlFishName}** . Instantaneous market value: **{vlFishPrice}** Cupcoin.")
+
+            # Update User Data
+            userData["fish"].update({resultFish : fishSize}) 
+            userCareer["fisherpoint"] +=1
+            await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
+            await collection.replace_one({"_id": interaction.user.id}, userData)
         
-        # Control
-        if not "mines" in userData:
-            mineData = { "$set" : {"mines" : {}, "miningpuani": 0}}
-            await collection.update_one(userData ,mineData)
+        # Low Level Fisher
+        if "solidrod" == userRod:
 
-        userData = await collection.find_one({"_id": interaction.user.id})
+            LF = fish["lowLevelFish"] # Low Level Fishes
+            lowLvFish = " ".join(LF.keys()) # Low Level Fishes Keys
+            splittedFish = lowLvFish.split(" ") # to List Fishes keys
+            priceByLSize = int(LF["priceByFishSizeL"]) # Price By Low Level Fish Size
+            resultFish = random.choice(splittedFish) # Random Low Level Fish
+            fishSize = random.randint(3,10) # Random fish size
+            priceByFishSize = fishSize * priceByLSize # Price By Fish Size
 
-        mineName = resultMine.title()
-        minePBS = kilograms * priceByKg
-        minePrice = allMines[resultMine]  + minePBS
+            if resultFish == "none":
+                return await interaction.response.send_message("Unfortunately, You couldn't fish")
 
-        await interaction.response.send_message("⛏️ **|** Kazmaya başladın. Tahmini olarak 30 saniye sürecek.")
-        await asyncio.sleep(30)
+            lFishName = LF[resultFish]["name"] # Result Fish Name
+            lFishPrice = LF[resultFish]["price"] + priceByFishSize # Result Fish Total Price
 
-        if resultMine == "none":
-            return await interaction.edit_original_message(content = "Maalesef hiç değerli bir maden bulamadık ;c")
+            # Send user a message
+            # Send user a message
+            await interaction.response.send_message("🎣 **|** The fishing line was thrown. Godspeed.")
+            await asyncio.sleep(5) 
+            await interaction.edit_original_message(content = f"🐟 **|** Great work fisher! You have caught a **{fishSize}**-inch long **{lFishName}** . Instantaneous market value: **{lFishPrice}** Cupcoin.")
 
-        await interaction.edit_original_message(content = f"💎 **|** Madenden **{kilograms}**kg ağırlığında {mineName} madeni çıktı. Anlık piyasa değeri **{minePrice}** Cupcoin")
-        userData["mines"].update({resultMine : kilograms}) 
-        userData["miningpuani"] +=1
-        await collection.replace_one({"_id": interaction.user.id}, userData)
+            # Update User Data
+            userData["fish"].update({resultFish : fishSize}) 
+            userCareer["fisherpoint"] +=1
+            await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
+            await collection.replace_one({"_id": interaction.user.id}, userData)
+
 
 
     @mining.error
     async def miningError(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
-            await interaction.response.send_message(f"{clock} **|** Yorgunsun. Eve git ve`{timeRemaining}`s dinlen.",ephemeral=True)
-        print(f"Mining: {error}")
-
-
-async def setup(bot:commands.Bot):
-    await bot.add_cog(Mining(bot))
+            await interaction.response.send_message(f"{clock} **|** You're tired. Go home and rest for `{timeRemaining}`s.",ephemeral=True)
+        else:
+            await interaction.response.send_message("An unexpected error occurred. Please inform the developer of this situation and try again later.")
+            print(f"[MINING]: {error} ")

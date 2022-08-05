@@ -25,7 +25,7 @@ class Fishing(commands.Cog, commands.Bot):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    @app_commands.command(name="fishing", description="Balık tut.")
+    @app_commands.command(name="fishing", description="Start fishing right now.")
     @app_commands.checks.cooldown(
         1, 100, key=lambda i: (i.guild_id, i.user.id))
     async def fishing(self, interaction: discord.Interaction):
@@ -110,7 +110,7 @@ class Fishing(commands.Cog, commands.Bot):
             splittedFish = lowLvFish.split(" ") # to List Fishes keys
             priceByLSize = int(LF["priceByFishSizeL"]) # Price By Low Level Fish Size
             resultFish = random.choice(splittedFish) # Random Low Level Fish
-            fishSize = random.randint(5,15) # Random fish size
+            fishSize = random.randint(3,10) # Random fish size
             priceByFishSize = fishSize * priceByLSize # Price By Fish Size
 
             if resultFish == "none":
@@ -164,7 +164,7 @@ class Fishing(commands.Cog, commands.Bot):
             splittedFish = highLvFish.split(" ") # to List Fishes keys
             priceByHSize = int(HF["priceByFishSizeH"]) # Price By High Level Fish Size
             resultFish = random.choice(splittedFish) # Random High Level Fish
-            fishSize = random.randint(5,15) # Random fish size
+            fishSize = random.randint(8,18) # Random fish size
             priceByFishSize = fishSize * priceByHSize # Price By Fish Size
 
             hFishName = HF[resultFish]["name"] # Result Fish Name
@@ -189,7 +189,7 @@ class Fishing(commands.Cog, commands.Bot):
             splittedFish = veryHighLvFish.split(" ") # to List Fishes keys
             priceByvHSize = int(VHF["priceByFishSizeVH"]) # Price By Very High Level Fish Size
             resultFish = random.choice(splittedFish) # Random Very High Level Fish
-            fishSize = random.randint(5,15) # Random fish size
+            fishSize = random.randint(20,55) # Random fish size
             priceByFishSize = fishSize * priceByvHSize # Price By Fish Size
 
             vhFishName = VHF[resultFish]["name"] # Result Fish Name
@@ -205,3 +205,12 @@ class Fishing(commands.Cog, commands.Bot):
             userCareer["fisherpoint"] +=1
             await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
             await collection.replace_one({"_id": interaction.user.id}, userData)
+
+    @fishing.error
+    async def fishingError(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
+        if isinstance(error, app_commands.CommandOnCooldown):
+            timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
+            await interaction.response.send_message(f"{clock} **|** You're tired. Go home and rest for `{timeRemaining}`s.",ephemeral=True)
+        else:
+            await interaction.response.send_message("An unexpected error occurred. Please inform the developer of this situation and try again later.")
+            print(f"[FISHING]: {error} ")

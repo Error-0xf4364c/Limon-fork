@@ -28,7 +28,7 @@ class Hunting(commands.Cog, commands.Bot):
         self.bot = bot
 
 
-    @app_commands.command(name="hunting", description="Ava çık")
+    @app_commands.command(name="hunting", description="Let's go hunting")
     @app_commands.checks.cooldown(
         1, 300, key=lambda i: (i.guild_id, i.user.id))
     async def hunting(self, interaction: discord.Interaction):

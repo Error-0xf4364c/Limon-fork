@@ -1,16 +1,27 @@
 ---
-priceByKg: 4
-mines:
-  altın: 3000
-  none: 0
-  rodyum: 2800
-  platin: 2100
-  iridyum: 1900
-  none: 0
-  paladyum: 1800
-  osmiyum: 1100
-  none: 0
-  renyum: 900
-  rutenyum: 850
-  gumus: 800
-  none: 0
+veryLowLevelMine:
+  priceByVLMine: 2
+  lead: {name: Lead, price: 1000}
+  zinc: {name: Zinc, price: 1100}
+  manganese: {name: Manganese, price: 1050}
+
+
+
+
+lowLevelMine:
+
+mediumLevelMine:
+
+highLevelMine:
+
+veryHighLevelMine:
+
+
+
+
+
+
+
+
+rodyum, paladyum, altın, iridyum, renyum, platin, osmiyum, rutenyum, gümüş…
+
