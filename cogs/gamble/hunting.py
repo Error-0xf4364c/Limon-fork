@@ -43,7 +43,6 @@ class Hunting(commands.Cog, commands.Bot):
             newData = {
                 "_id": interaction.user.id,
                 "hunts" : [],
-                "hunterpoint" : 0
             }
             await collection.insert_one(newData)
 
@@ -58,28 +57,28 @@ class Hunting(commands.Cog, commands.Bot):
         userCareer = await careerCollection.find_one({"_id": interaction.user.id})
 
         # Bow check
-        if "yay" not in userData:
-            return await interaction.response.send_message("Avlanmak için bir yay satın almalısınız. `/store` :)", ephemeral = True)
+        if "bow" not in userData:
+            return await interaction.response.send_message("You need to buy a bow for hunting. `/store` :)", ephemeral = True)
 
         # Hunt Check
         if "hunts" not in userData:
-            foresterData = { "$set" : {"hunts" : [], "avpuani": 0}}
+            foresterData = { "$set" : {"hunts" : []}}
             await collection.update_one(userData ,foresterData)
-        if "foresterpoint" not in userCareer:
-            careerData = { "$set" : {"foresterpoint" : 0}}
+        if "hunterpoint" not in userCareer:
+            careerData = { "$set" : {"hunterpoint" : 0}}
             await careerCollection.update_one(userCareer ,careerData)
 
         userCareer = await careerCollection.find_one({"_id": interaction.user.id})
 
         # User Datas
         userData = await collection.find_one({"_id": interaction.user.id}) # User Data
-        userBow = userData["yay"] # User Bow
+        userBow = userData["bow"] # User Bow
 
 
         # Hunting System
 
         # Very Low Level Hunting
-        if "tahtayay" == userBow:
+        if "woodenbow" == userBow:
 
             VLH = hunt["veryLowLevelHunt"] # Very Low Level Hunts
             veryLowLvHunt = " ".join(VLH.keys()) # Very Low Level Hunts Keys
@@ -87,15 +86,15 @@ class Hunting(commands.Cog, commands.Bot):
             resultHunt = random.choice(splittedHunt) # Random Very Low Level Hunt
 
             if resultHunt == "none":
-                return await interaction.response.send_message(";c **|** Maalesef hiç av bulamadınız ;c")
+                return await interaction.response.send_message("Unfortunately, we didn't find any prey ;c")
 
             vlHuntName = VLH[resultHunt]["name"] # Result Hunt Name
             vlHuntPrice = VLH[resultHunt]["price"] # Result HuntTotal Price
 
             # Send user a message
-            await interaction.response.send_message("🏹 **|** Av arıyorsun...")
+            await interaction.response.send_message("🏹 **|** Searching for prey...")
             await asyncio.sleep(4) 
-            await interaction.edit_original_message(content = f"🦌 **|** Harika bir av! **{vlHuntName}** avladın. Anlık piyasa değeri: **{vlHuntPrice}** Cupcoin")
+            await interaction.edit_original_message(content = f"🦌 **|** Great Hunt! You hunted a **{vlHuntName}**. Instantaneous market value: **{vlHuntPrice}** Cupcoin ")
 
             # Update User Data
             userData["hunts"].append(resultHunt)
@@ -105,7 +104,7 @@ class Hunting(commands.Cog, commands.Bot):
             
         
         # Low Level Hunting
-        elif "bakiryay" == userBow:
+        elif "copperbow" == userBow:
 
             LH = hunt["lowLevelHunt"] # Low Level Hunts
             lowLvHunt = " ".join(LH.keys()) #  Low Level Hunts Keys
@@ -113,15 +112,15 @@ class Hunting(commands.Cog, commands.Bot):
             resultHunt = random.choice(splittedHunt) # Random  Low Level Hunt
 
             if resultHunt == "none":
-                return await interaction.response.send_message(";c **|** Maalesef hiç av bulamadınız ;c")
+                return await interaction.response.send_message("Unfortunately, we didn't find any prey ;c")
 
             lHuntName = LH[resultHunt]["name"] # Result Hunt Name
             lHuntPrice = LH[resultHunt]["price"] # Result HuntTotal Price
 
             # Send user a message
-            await interaction.response.send_message("🏹 **|** Av arıyorsun...")
+            await interaction.response.send_message("🏹 **|** Searching for prey...")
             await asyncio.sleep(4) 
-            await interaction.edit_original_message(content = f"🦌 **|** Harika bir av! **{lHuntName}** avladın. Anlık piyasa değeri: **{lHuntPrice}** Cupcoin")
+            await interaction.edit_original_message(content = f"🦌 **|** Great Hunt! You hunted a **{lHuntName}**. Instantaneous market value: **{lHuntPrice}** Cupcoin ")
 
             # Update User Data
             userData["hunts"].append(resultHunt)
@@ -130,7 +129,7 @@ class Hunting(commands.Cog, commands.Bot):
             await collection.replace_one({"_id": interaction.user.id}, userData)
 
         # Medium Level Hunts
-        elif "gumusyay" == userBow:
+        elif "silverbow" == userBow:
             M = hunt["mediumLevelHunt"] # Medium Level Hunts
             mLvHunt = " ".join(M.keys()) #  Medium Level Hunts Keys
             splittedHunt = mLvHunt.split(" ") # to List Hunts keys
@@ -141,9 +140,9 @@ class Hunting(commands.Cog, commands.Bot):
             mHuntPrice = M[resultHunt]["price"] # Result HuntTotal Price
 
             # Send user a message
-            await interaction.response.send_message("🏹 **|** Av arıyorsun...")
+            await interaction.response.send_message("🏹 **|** Searching for prey...")
             await asyncio.sleep(4) 
-            await interaction.edit_original_message(content = f"🦌 **|** Harika bir av! **{mHuntName}** avladın. Anlık piyasa değeri: **{mHuntPrice}** Cupcoin")
+            await interaction.edit_original_message(content = f"🦌 **|** Great Hunt! You hunted a **{mHuntName}**. Instantaneous market value: **{mHuntPrice}** Cupcoin ")
 
             # Update User Data
             userData["hunts"].append(resultHunt)
@@ -152,7 +151,7 @@ class Hunting(commands.Cog, commands.Bot):
             await collection.replace_one({"_id": interaction.user.id}, userData)
 
         # High Level Hunts
-        elif "isabetliyay" == userBow:
+        elif "accuratebow" == userBow:
             H = hunt["highLevelHunt"] # High Level Hunts
             hLvHunt = " ".join(H.keys()) #  High Level Hunts Keys
             splittedHunt = hLvHunt.split(" ") # to List Hunts keys
@@ -162,9 +161,9 @@ class Hunting(commands.Cog, commands.Bot):
             hHuntPrice = H[resultHunt]["price"] # Result HuntTotal Price
 
             # Send user a message
-            await interaction.response.send_message("🏹 **|** Av arıyorsun...")
+            await interaction.response.send_message("🏹 **|** Searching for prey...")
             await asyncio.sleep(4) 
-            await interaction.edit_original_message(content = f"🦌 **|** Harika bir av! **{hHuntName}** avladın. Anlık piyasa değeri: **{hHuntPrice}** Cupcoin")
+            await interaction.edit_original_message(content = f"🦌 **|** Great Hunt! You hunted a **{hHuntName}**. Instantaneous market value: **{hHuntPrice}** Cupcoin ")
 
             # Update User Data
             userData["hunts"].append(resultHunt)
@@ -173,7 +172,7 @@ class Hunting(commands.Cog, commands.Bot):
             await collection.replace_one({"_id": interaction.user.id}, userData)
 
         # Very High Level Hunts
-        elif "arbalet" == userBow:
+        elif "crossbow" == userBow:
             VH = hunt["veryHighLevelHunt"] # Very High Level Hunts
             vhLvHunt = " ".join(VH.keys()) # Very High Level Hunts Keys
             splittedHunt = vhLvHunt.split(" ") # to List Hunts keys
@@ -183,13 +182,13 @@ class Hunting(commands.Cog, commands.Bot):
             vhHuntPrice = VH[resultHunt]["price"] # Result HuntTotal Price
 
             # Send user a message
-            await interaction.response.send_message("🏹 **|** Av arıyorsun...")
+            await interaction.response.send_message("🏹 **|** Searching for prey...")
             await asyncio.sleep(4) 
-            await interaction.edit_original_message(content = f"🦌 **|** Harika bir av! **{vhHuntName}** avladın. Anlık piyasa değeri: **{vhHuntPrice}** Cupcoin")
+            await interaction.edit_original_message(content = f"🦌 **|** Great Hunt! You hunted a **{vhHuntName}**. Instantaneous market value: **{vhHuntPrice}** Cupcoin ")
 
             # Update User Data
             userData["hunts"].append(resultHunt)
-            userCareer["hunterpoint"] +=1
+            userCareer["hunterpoint"] +=2
             await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
             await collection.replace_one({"_id": interaction.user.id}, userData)
 
@@ -198,7 +197,7 @@ class Hunting(commands.Cog, commands.Bot):
     async def huntingError(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
-            await interaction.response.send_message(f"{clock} **|** Yorgunsun. Eve git ve`{timeRemaining}`s dinlen.",ephemeral=True)
+            await interaction.response.send_message(f"{clock} **|** You're tired. Go home and rest for `{timeRemaining}`s.",ephemeral=True)
         else:
-            await interaction.response.send_message("Beklenmedik bir hata oluştu. Lütfen bu durumu geliştiriciye bildiriniz ve daha sonra tekrar deneyiniz.")
+            await interaction.response.send_message("An unexpected error occurred. Please inform the developer of this situation and try again later.")
             print(f"[HUNTING]: {error} ")

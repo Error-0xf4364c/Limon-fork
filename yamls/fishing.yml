@@ -1,6 +1,7 @@
 ---
 
 veryLowLevelFish:
+  priceByFishSizeVL: 3
   none: none
   hamsi: {name: Hamsi, price: 300}
   palamut: {name: Palamut, price: 350}
@@ -8,6 +9,7 @@ veryLowLevelFish:
   none: none
 
 lowLevelFish:
+  priceByFishSizeL: 3
   none: none
   orkinos: {name: Orkinos, price: 500}
   sardalya: {name: Sardalya, price: 580}
@@ -15,12 +17,14 @@ lowLevelFish:
   istavrit: {name: İstavrit, price: 650}
 
 mediumLevelFish:
+  priceByFishSizeM: 4
   fangrimercan: {name: Fangri Mercan, price: 700}
   lufer: {name: Lüfer, price: 690}
   alabalık: {name: Alabalık, price: 720}
   barbun: {name: Barbun, price: 710}
 
 highLevelFish:
+  priceByFishSizeH: 4
   somon: {name: Somon, price: 800}
   kalkanbaligi: {name: Kalkan Balığı, price: 830}
   kilicbaligi: {name: Kılıç Balığı, price: 840}
@@ -28,6 +32,7 @@ highLevelFish:
   karides: {name: Karides, price: 850}
 
 veryHighLevelFish:
+  priceByFishSizeVH: 5
   ahtapot: {name: Ahtapot, price: 880}
   mavibalina: {name: Mavi Balina, price: 1100}
   buyukcekicbaslikopekbaligi: {name: Büyük Çekiç Başlı Köpek Balığı, price: 900}

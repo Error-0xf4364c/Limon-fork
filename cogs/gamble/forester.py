@@ -47,8 +47,8 @@ class Forester(commands.Cog, commands.Bot):
         userCareer = await careerCollection.find_one({"_id": interaction.user.id})
 
         # Axe check
-        if "balta" not in userData:
-            return await interaction.response.send_message("Ormancılık yapmak için bir balta satın almalısınız. `/store` :)", ephemeral = True)
+        if "axe" not in userData:
+            return await interaction.response.send_message("To do forestry, you need to buy an axe. `/store` :)", ephemeral = True)
 
         # Wood Check
         if "wood" not in userData:
@@ -62,12 +62,12 @@ class Forester(commands.Cog, commands.Bot):
         # User Datas
         userData = await collection.find_one({"_id": interaction.user.id}) # User Data
         userCareer = await careerCollection.find_one({"_id": interaction.user.id}) # User Career Data
-        userAxe = userData["balta"] # User Axe
+        userAxe = userData["axe"] # User Axe
 
         # Forestry System
 
         # Very Low Level Forestry
-        if "tahtabalta" == userAxe:
+        if "stoneaxe" == userAxe:
 
             VLW = wood["veryLowLevelWood"] # Very Low Level Woods
             veryLowLvWood = " ".join(VLW.keys()) # Very Low Level Woods Keys
@@ -81,9 +81,9 @@ class Forester(commands.Cog, commands.Bot):
             vlWoodPrice = VLW[resultWood]["price"] + priceByWoodSize # Result Wood Total Price
 
             # Send user a message
-            await interaction.response.send_message("🌲 **|** Güzel bir ağaç arıyorsun...")
-            await asyncio.sleep(4) 
-            await interaction.edit_original_message(content = f"🪓 **|** Harika iş oduncu! **{vlWoodName}** türündeki bu ağaçtan **{woodSize}** metre uzunluğunda odun elde ettiniz. Anlık piyasa değeri: **{vlWoodPrice}** Cupcoin.")
+            await interaction.response.send_message("🌲 **|** Searching for a beautiful tree...")
+            await asyncio.sleep(6) 
+            await interaction.edit_original_message(content = f"🪓 **|** Great work lumberjack!  You got **{woodSize}** meters of wood from **{vlWoodName}**. Instantaneous market value: **{vlWoodPrice}** Cupcoin.")
 
             # Update User Data
             userData["wood"].update({resultWood : woodSize}) 
@@ -92,7 +92,7 @@ class Forester(commands.Cog, commands.Bot):
             await collection.replace_one({"_id": interaction.user.id}, userData)
 
         # Low Level Forestry
-        elif "tasbalta" == userAxe:
+        elif "steelaxe" == userAxe:
 
             LW = wood["lowLevelWood"] # Low Level Woods
             lowLvWood = " ".join(LW.keys()) # Low Level Woods Keys
@@ -106,9 +106,9 @@ class Forester(commands.Cog, commands.Bot):
             lWoodPrice = LW[resultWood]["price"] + priceByWoodSize # Result Wood Total Price
 
             # Send user a message
-            await interaction.response.send_message("🌲 **|** Güzel bir ağaç arıyorsun...")
-            await asyncio.sleep(4) 
-            await interaction.edit_original_message(content = f"🪓 **|** Harika iş oduncu! **{lWoodName}** türündeki bu ağaçtan **{woodSize}** metre uzunluğunda odun elde ettiniz. Anlık piyasa değeri: **{lWoodPrice}** Cupcoin.")
+            await interaction.response.send_message("🌲 **|** Searching for a beautiful tree...")
+            await asyncio.sleep(5) 
+            await interaction.edit_original_message(content = f"🪓 **|** Great work lumberjack!  You got **{woodSize}** meters of wood from **{lWoodName}**. Instantaneous market value: **{lWoodPrice}** Cupcoin.")
 
             # Update User Data
             userData["wood"].update({resultWood : woodSize}) 
@@ -117,7 +117,7 @@ class Forester(commands.Cog, commands.Bot):
             await collection.replace_one({"_id": interaction.user.id}, userData)
 
         # Medium Level Forestry
-        elif "altinbalta" == userAxe:
+        elif "goldenaxe" == userAxe:
 
             M = wood["mediumLevelWood"] # Medium Level Woods
             mediumLvWood = " ".join(M.keys()) # Medium Level Woods Keys
@@ -131,9 +131,9 @@ class Forester(commands.Cog, commands.Bot):
             mWoodPrice = M[resultWood]["price"] + priceByWoodSize # Result Wood Total Price
 
             # Send user a message
-            await interaction.response.send_message("🌲 **|** Güzel bir ağaç arıyorsun...")
+            await interaction.response.send_message("🌲 **|** Searching for a beautiful tree...")
             await asyncio.sleep(4) 
-            await interaction.edit_original_message(content = f"🪓 **|** Harika iş oduncu! **{mWoodName}** türündeki bu ağaçtan **{woodSize}** metre uzunluğunda odun elde ettiniz. Anlık piyasa değeri: **{mWoodPrice}** Cupcoin.")
+            await interaction.edit_original_message(content = f"🪓 **|** Great work lumberjack!  You got **{woodSize}** meters of wood from **{mWoodName}**. Instantaneous market value: **{mWoodPrice}** Cupcoin.")
 
             # Update User Data
             userData["wood"].update({resultWood : woodSize}) 
@@ -142,7 +142,7 @@ class Forester(commands.Cog, commands.Bot):
             await collection.replace_one({"_id": interaction.user.id}, userData)
             
         # High Level Forestry
-        elif "guclendirilmisbalta" == userAxe:
+        elif "reinforcedaxe" == userAxe:
 
             H = wood["highLevelWood"] # High Level Woods
             highLvWood = " ".join(H.keys()) # High Level Woods Keys
@@ -152,13 +152,13 @@ class Forester(commands.Cog, commands.Bot):
             woodSize = random.randint(13,23) # Random wood size
             priceByWoodSize = woodSize * priceByHSize # Price By Wood Size
 
-            mWoodName = M[resultWood]["name"] # Result Wood Name
-            mWoodPrice = M[resultWood]["price"] + priceByWoodSize # Result Wood Total Price
+            hWoodName = H[resultWood]["name"] # Result Wood Name
+            hWoodPrice = H[resultWood]["price"] + priceByWoodSize # Result Wood Total Price
 
             # Send user a message
-            await interaction.response.send_message("🌲 **|** Güzel bir ağaç arıyorsun...")
+            await interaction.response.send_message("🌲 **|** Searching for a beautiful tree...")
             await asyncio.sleep(4) 
-            await interaction.edit_original_message(content = f"🪓 **|** Harika iş oduncu! **{mWoodName}** türündeki bu ağaçtan **{woodSize}** metre uzunluğunda odun elde ettiniz. Anlık piyasa değeri: **{mWoodPrice}** Cupcoin.")
+            await interaction.edit_original_message(content = f"🪓 **|** Great work lumberjack!  You got **{woodSize}** meters of wood from **{hWoodName}**. Instantaneous market value: **{hWoodPrice}** Cupcoin.")
 
             # Update User Data
             userData["wood"].update({resultWood : woodSize}) 
@@ -167,7 +167,7 @@ class Forester(commands.Cog, commands.Bot):
             await collection.replace_one({"_id": interaction.user.id}, userData)
         
         # Very High Level Forestry
-        elif "buyulubalta" == userAxe:
+        elif "enchantedaxe" == userAxe:
 
             VH = wood["veryHighLevelWood"] # Low Level Woods
             veryHighLvWood = " ".join(VH.keys()) # Low Level Woods Keys
@@ -181,9 +181,9 @@ class Forester(commands.Cog, commands.Bot):
             vHWoodPrice = VH[resultWood]["price"] + priceByWoodSize # Result Wood Total Price
 
             # Send user a message
-            await interaction.response.send_message("🌲 **|** Güzel bir ağaç arıyorsun...")
+            await interaction.response.send_message("🌲 **|** Searching for a beautiful tree...")
             await asyncio.sleep(4) 
-            await interaction.edit_original_message(content = f"🪓 **|** Harika iş oduncu! **{vHWoodName}** türündeki bu ağaçtan **{woodSize}** metre uzunluğunda odun elde ettiniz. Anlık piyasa değeri: **{vHWoodPrice}** Cupcoin.")
+            await interaction.edit_original_message(content = f"🪓 **|** Great work lumberjack!  You got **{woodSize}** meters of wood from **{vHWoodName}**. Instantaneous market value: **{vHWoodPrice}** Cupcoin.")
 
             # Update User Data
             userData["wood"].update({resultWood : woodSize}) 
@@ -196,7 +196,7 @@ class Forester(commands.Cog, commands.Bot):
     async def forestryError(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
-            await interaction.response.send_message(f"Yorgunsun. Eve git ve`{timeRemaining}`s dinlen.",ephemeral=True)
+            await interaction.response.send_message(f"You're tired. Go home and rest for `{timeRemaining}`s",ephemeral=True)
         else:
-            await interaction.response.send_message("Beklenmedik bir hata oluştu. Lütfen bu durumu geliştiriciye bildiriniz ve daha sonra tekrar deneyiniz.")
+            await interaction.response.send_message("An unexpected error occurred. Please inform the developer of this situation and try again later.")
             print(f"Forestry: {error}")
