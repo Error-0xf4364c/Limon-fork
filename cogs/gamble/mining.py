@@ -72,64 +72,139 @@ class Fishing(commands.Cog, commands.Bot):
         userCareer = await careerCollection.find_one({"_id": interaction.user.id}) # User Career Data
         userPickaxe = userData["pickaxe"] # User Pickaxe
 
-        # Fishing System
+        # Mining System
 
-        # Very Low Level Fisher
-        if "stoneaxe" == userPickaxe:
+        # Very Low Level Miner
+        if "stonepickaxe" == userPickaxe:
 
-            VLF = fish["veryLowLevelFish"] # Very Low Level Fishes
-            veryLowLvFish = " ".join(VLF.keys()) # Very Low Level Fishes Keys
-            splittedFish = veryLowLvFish.split(" ") # to List Fishes keys
-            priceByVlSize = int(VLF["priceByFishSizeVL"]) # Price By Very Low Level Fish Size
-            resultFish = random.choice(splittedFish) # Random Very Low Level Fish
-            fishSize = random.randint(5,15) # Random fish size
-            priceByFishSize = fishSize * priceByVlSize # Price By Fish Size
+            VLM = fish["veryLowLevelMine"] # Very Low Level Mines
+            veryLowLvMine = " ".join(VLM.keys()) # Very Low Level Mines Keys
+            splittedMine = veryLowLvMine.split(" ") # to List Mines keys
+            priceByVlSize = int(VLM["priceByVLMine"]) # Price By Very Low Level Mine Size
+            resultMine = random.choice(splittedMine) # Random Very Low Level Mine
+            mineSize = random.randint(5,10) # Random mine size
+            priceByMineSize = mineSize * priceByVlSize # Price By Mine Size
 
-            if resultFish == "none":
-                return await interaction.response.send_message("Unfortunately, You couldn't fish")
+            if resultMine == "none":
+                return await interaction.response.send_message("Unfortunately, You came back empty-handed from the mine")
 
-            vlFishName = VLF[resultFish]["name"] # Result Fish Name
-            vlFishPrice = VLF[resultFish]["price"] + priceByFishSize # Result Fish Total Price
+            vlMineName = VLM[resultMine]["name"] # Result Mine Name
+            vlMinePrice = VLM[resultMine]["price"] + priceByMineSize # Result Mine Total Price
 
             # Send user a message
-            await interaction.response.send_message("🎣 **|** The fishing line was thrown. Godspeed.")
-            await asyncio.sleep(6) 
-            await interaction.edit_original_message(content = f"🐟 **|** Great work fisher! You have caught a **{fishSize}**-inch long **{vlFishName}** . Instantaneous market value: **{vlFishPrice}** Cupcoin.")
+            await interaction.response.send_message("⛏️ **|** You started digging. This process will take about 30 seconds")
+            await asyncio.sleep(30) 
+            await interaction.edit_original_message(content = f"💎 **|** Great Job Miner! You extracted {mineSize} kilograms of {vlMineName} from the mine. Instantaneous market value: {vlMinePrice}")
 
             # Update User Data
-            userData["fish"].update({resultFish : fishSize}) 
-            userCareer["fisherpoint"] +=1
+            userData["mines"].update({resultMine : mineSize}) 
+            userCareer["minerpoint"] +=1
+            await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
+            await collection.replace_one({"_id": interaction.user.id}, userData)
+
+        # Low Level Miner
+        elif "steelpickaxe" == userPickaxe:
+
+            LM = fish["lowLevelMine"] # Low Level Mines
+            lowLvMine = " ".join(LM.keys()) # Low Level Mines Keys
+            splittedMine = lowLvMine.split(" ") # to List Mines keys
+            priceByLSize = int(LM["priceByLMine"]) # Price By Low Level Mine Size
+            resultMine = random.choice(splittedMine) # Random Low Level Mine
+            mineSize = random.randint(5,15) # Random mine size
+            priceByMineSize = mineSize * priceByLSize # Price By Mine Size
+
+            if resultMine == "none":
+                return await interaction.response.send_message("Unfortunately, You came back empty-handed from the mine")
+
+            lMineName = LM[resultMine]["name"] # Result Mine Name
+            lMinePrice = LM[resultMine]["price"] + priceByMineSize # Result Mine Total Price
+
+            # Send user a message
+            await interaction.response.send_message("⛏️ **|** You started digging. This process will take about 30 seconds")
+            await asyncio.sleep(30) 
+            await interaction.edit_original_message(content = f"💎 **|** Great Job Miner! You extracted {mineSize} kilograms of {lMineName} from the mine. Instantaneous market value: {lMinePrice}")
+
+            # Update User Data
+            userData["mines"].update({resultMine : mineSize}) 
+            userCareer["minerpoint"] +=1
+            await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
+            await collection.replace_one({"_id": interaction.user.id}, userData)
+
+        #Medium Level Miner
+        elif "goldenpickaxe" == userPickaxe:
+
+            MM = fish["mediumLevelMine"] #Medium Level Mines
+            mediumLvMine = " ".join(MM.keys()) #Medium Level Mines Keys
+            splittedMine = mediumLvMine.split(" ") # to List Mines keys
+            priceByMSize = int(MM["priceByMMine"]) # Price By Medium Level Mine Size
+            resultMine = random.choice(splittedMine) # Random Medium Level Mine
+            mineSize = random.randint(10,20) # Random mine size
+            priceByMineSize = mineSize * priceByMSize # Price By Mine Size
+
+            mMineName = MM[resultMine]["name"] # Result Mine Name
+            mMinePrice = MM[resultMine]["price"] + priceByMineSize # Result Mine Total Price
+
+            # Send user a message
+            await interaction.response.send_message("⛏️ **|** You started digging. This process will take about 25 seconds")
+            await asyncio.sleep(25) 
+            await interaction.edit_original_message(content = f"💎 **|** Great Job Miner! You extracted {mineSize} kilograms of {mMineName} from the mine. Instantaneous market value: {mMinePrice}")
+
+            # Update User Data
+            userData["mines"].update({resultMine : mineSize}) 
+            userCareer["minerpoint"] +=1
+            await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
+            await collection.replace_one({"_id": interaction.user.id}, userData)
+
+        # High Level Miner
+        elif "reinforcedpickaxe" == userPickaxe:
+
+            HM = fish["highLevelMine"] #High Level Mines
+            highLvMine = " ".join(HM.keys()) #High Level Mines Keys
+            splittedMine = highLvMine.split(" ") # to List Mines keys
+            priceByHSize = int(HM["priceByHMine"]) # Price By High Level Mine Size
+            resultMine = random.choice(splittedMine) # Random High Level Mine
+            mineSize = random.randint(15,25) # Random mine size
+            priceByMineSize = mineSize * priceByHSize # Price By Mine Size
+
+            hMineName = HM[resultMine]["name"] # Result Mine Name
+            hMinePrice = HM[resultMine]["price"] + priceByMineSize # Result Mine Total Price
+
+            # Send user a message
+            await interaction.response.send_message("⛏️ **|** You started digging. This process will take about 20 seconds")
+            await asyncio.sleep(20) 
+            await interaction.edit_original_message(content = f"💎 **|** Great Job Miner! You extracted {mineSize} kilograms of {hMineName} from the mine. Instantaneous market value: {hMinePrice}")
+
+            # Update User Data
+            userData["mines"].update({resultMine : mineSize}) 
+            userCareer["minerpoint"] +=1
             await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
             await collection.replace_one({"_id": interaction.user.id}, userData)
         
-        # Low Level Fisher
-        if "solidrod" == userRod:
+        # Very High Level Miner
+        elif "miningvehicle" == userPickaxe:
 
-            LF = fish["lowLevelFish"] # Low Level Fishes
-            lowLvFish = " ".join(LF.keys()) # Low Level Fishes Keys
-            splittedFish = lowLvFish.split(" ") # to List Fishes keys
-            priceByLSize = int(LF["priceByFishSizeL"]) # Price By Low Level Fish Size
-            resultFish = random.choice(splittedFish) # Random Low Level Fish
-            fishSize = random.randint(3,10) # Random fish size
-            priceByFishSize = fishSize * priceByLSize # Price By Fish Size
+            VHM = fish["veryHighLevelMine"] # Very High Level Mines
+            veryHighLvMine = " ".join(VHM.keys()) # Very High Level Mines Keys
+            splittedMine = veryHighLvMine.split(" ") # to List Mines keys
+            priceByVHSize = int(VHM["priceByVHMine"]) # Price By Very High Level Mine Size
+            resultMine = random.choice(splittedMine) # Random Very High Level Mine
+            mineSize = random.randint(15,25) # Random mine size
+            priceByMineSize = mineSize * priceByVHSize # Price By Mine Size
 
-            if resultFish == "none":
-                return await interaction.response.send_message("Unfortunately, You couldn't fish")
-
-            lFishName = LF[resultFish]["name"] # Result Fish Name
-            lFishPrice = LF[resultFish]["price"] + priceByFishSize # Result Fish Total Price
+            vhMineName = VHM[resultMine]["name"] # Result Mine Name
+            vhMinePrice = VHM[resultMine]["price"] + priceByMineSize # Result Mine Total Price
 
             # Send user a message
-            # Send user a message
-            await interaction.response.send_message("🎣 **|** The fishing line was thrown. Godspeed.")
-            await asyncio.sleep(5) 
-            await interaction.edit_original_message(content = f"🐟 **|** Great work fisher! You have caught a **{fishSize}**-inch long **{lFishName}** . Instantaneous market value: **{lFishPrice}** Cupcoin.")
+            await interaction.response.send_message("⛏️ **|** You started digging. This process will take about 10 seconds")
+            await asyncio.sleep(10) 
+            await interaction.edit_original_message(content = f"💎 **|** Great Job Miner! You extracted {mineSize} kilograms of {vhMineName} from the mine. Instantaneous market value: {vhMinePrice}")
 
             # Update User Data
-            userData["fish"].update({resultFish : fishSize}) 
-            userCareer["fisherpoint"] +=1
+            userData["mines"].update({resultMine : mineSize}) 
+            userCareer["minerpoint"] +=1
             await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
             await collection.replace_one({"_id": interaction.user.id}, userData)
+
 
 
 
