@@ -64,9 +64,14 @@ class Hunting(commands.Cog, commands.Bot):
         if "hunts" not in userData:
             foresterData = { "$set" : {"hunts" : []}}
             await collection.update_one(userData ,foresterData)
-        if "hunterpoint" not in userCareer:
-            careerData = { "$set" : {"hunterpoint" : 0}}
+
+        if "points" not in userCareer:
+            careerData = { "$set" : {"points" : {}}}
             await careerCollection.update_one(userCareer ,careerData)
+
+        if "hunter_point" not in userCareer["points"]:
+            careerData = { "$set" : {"hunter_point" : 0}}
+            await careerCollection.update_one( userCareer["points"] ,careerData)
 
         userCareer = await careerCollection.find_one({"_id": interaction.user.id})
 
@@ -98,7 +103,7 @@ class Hunting(commands.Cog, commands.Bot):
 
             # Update User Data
             userData["hunts"].append(resultHunt)
-            userCareer["hunterpoint"] +=1
+            userCareer["points"]["hunter_point"] +=1
             await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
             await collection.replace_one({"_id": interaction.user.id}, userData)
             
@@ -124,7 +129,7 @@ class Hunting(commands.Cog, commands.Bot):
 
             # Update User Data
             userData["hunts"].append(resultHunt)
-            userCareer["hunterpoint"] +=1
+            userCareer["points"]["hunter_point"] +=1
             await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
             await collection.replace_one({"_id": interaction.user.id}, userData)
 
@@ -146,7 +151,7 @@ class Hunting(commands.Cog, commands.Bot):
 
             # Update User Data
             userData["hunts"].append(resultHunt)
-            userCareer["hunterpoint"] +=1
+            userCareer["points"]["hunter_point"] +=1
             await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
             await collection.replace_one({"_id": interaction.user.id}, userData)
 
@@ -167,7 +172,7 @@ class Hunting(commands.Cog, commands.Bot):
 
             # Update User Data
             userData["hunts"].append(resultHunt)
-            userCareer["hunterpoint"] +=1
+            userCareer["points"]["hunter_point"] +=1
             await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
             await collection.replace_one({"_id": interaction.user.id}, userData)
 
@@ -188,7 +193,7 @@ class Hunting(commands.Cog, commands.Bot):
 
             # Update User Data
             userData["hunts"].append(resultHunt)
-            userCareer["hunterpoint"] +=2
+            userCareer["points"]["hunter_point"] +=2
             await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
             await collection.replace_one({"_id": interaction.user.id}, userData)
 
@@ -201,3 +206,6 @@ class Hunting(commands.Cog, commands.Bot):
         else:
             await interaction.response.send_message("An unexpected error occurred. Please inform the developer of this situation and try again later.")
             print(f"[HUNTING]: {error} ")
+
+async def setup(bot:commands.Bot):
+    await bot.add_cog(Hunting(bot))

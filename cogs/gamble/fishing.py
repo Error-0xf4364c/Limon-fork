@@ -47,7 +47,7 @@ class Fishing(commands.Cog, commands.Bot):
         if await careerCollection.find_one({"_id": interaction.user.id}) == None:
             newData = {
                 "_id": interaction.user.id,
-                "fisherpoint": 0
+                "fisher_point": 0
             }
             await careerCollection.insert_one(newData)
 
@@ -63,9 +63,13 @@ class Fishing(commands.Cog, commands.Bot):
             foresterData = { "$set" : {"fishes" : {}}}
             await collection.update_one(userData ,foresterData)
 
-        if "fisherpoint" not in userCareer:
-            careerData = { "$set" : {"fisherpoint" : 0}}
+        if "points" not in userCareer:
+            careerData = { "$set" : {"points" : {}}}
             await careerCollection.update_one(userCareer ,careerData)
+
+        if "fisher_point" not in userCareer["points"]:
+            careerData = { "$set" : {"fisher_point" : 0}}
+            await careerCollection.update_one(userCareer["points"] ,careerData)
 
         # User Datas
         userData = await collection.find_one({"_id": interaction.user.id}) # User Data
@@ -98,7 +102,7 @@ class Fishing(commands.Cog, commands.Bot):
 
             # Update User Data
             userData["fish"].update({resultFish : fishSize}) 
-            userCareer["fisherpoint"] +=1
+            userCareer["points"]["fisher_point"] +=1
             await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
             await collection.replace_one({"_id": interaction.user.id}, userData)
         
@@ -127,7 +131,7 @@ class Fishing(commands.Cog, commands.Bot):
 
             # Update User Data
             userData["fish"].update({resultFish : fishSize}) 
-            userCareer["fisherpoint"] +=1
+            userCareer["points"]["fisher_point"] +=1
             await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
             await collection.replace_one({"_id": interaction.user.id}, userData)
 
@@ -152,7 +156,7 @@ class Fishing(commands.Cog, commands.Bot):
 
             # Update User Data
             userData["fish"].update({resultFish : fishSize}) 
-            userCareer["fisherpoint"] +=1
+            userCareer["points"]["fisher_point"] +=1
             await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
             await collection.replace_one({"_id": interaction.user.id}, userData)
 
@@ -177,7 +181,7 @@ class Fishing(commands.Cog, commands.Bot):
 
             # Update User Data
             userData["fish"].update({resultFish : fishSize}) 
-            userCareer["fisherpoint"] +=1
+            userCareer["points"]["fisher_point"] +=1
             await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
             await collection.replace_one({"_id": interaction.user.id}, userData)
 
@@ -202,7 +206,7 @@ class Fishing(commands.Cog, commands.Bot):
 
             # Update User Data
             userData["fish"].update({resultFish : fishSize}) 
-            userCareer["fisherpoint"] +=1
+            userCareer["points"]["fisher_point"] +=1
             await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
             await collection.replace_one({"_id": interaction.user.id}, userData)
 
@@ -214,3 +218,6 @@ class Fishing(commands.Cog, commands.Bot):
         else:
             await interaction.response.send_message("An unexpected error occurred. Please inform the developer of this situation and try again later.")
             print(f"[FISHING]: {error} ")
+
+async def setup(bot:commands.Bot):
+    await bot.add_cog(Fishing(bot))

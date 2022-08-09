@@ -55,9 +55,13 @@ class Forester(commands.Cog, commands.Bot):
             foresterData = { "$set" : {"wood" : {}}}
             await collection.update_one(userData ,foresterData)
 
-        if "foresterpoint" not in userCareer:
-            careerData = { "$set" : {"foresterpoint" : 0}}
+        if "points" not in userCareer:
+            careerData = { "$set" : {"points" : {}}}
             await careerCollection.update_one(userCareer ,careerData)
+
+        if "forester_point" not in userCareer["points"]:
+            careerData = { "$set" : {"forester_point" : 0}}
+            await careerCollection.update_one(userCareer["points"] ,careerData)
 
         # User Datas
         userData = await collection.find_one({"_id": interaction.user.id}) # User Data
@@ -87,7 +91,7 @@ class Forester(commands.Cog, commands.Bot):
 
             # Update User Data
             userData["wood"].update({resultWood : woodSize}) 
-            userCareer["foresterpoint"] +=1
+            userCareer["points"]["forester_point"] +=1
             await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
             await collection.replace_one({"_id": interaction.user.id}, userData)
 
@@ -112,7 +116,7 @@ class Forester(commands.Cog, commands.Bot):
 
             # Update User Data
             userData["wood"].update({resultWood : woodSize}) 
-            userCareer["foresterpoint"] +=1
+            userCareer["points"]["forester_point"] +=1
             await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
             await collection.replace_one({"_id": interaction.user.id}, userData)
 
@@ -137,7 +141,7 @@ class Forester(commands.Cog, commands.Bot):
 
             # Update User Data
             userData["wood"].update({resultWood : woodSize}) 
-            userCareer["foresterpoint"] +=1
+            userCareer["points"]["forester_point"] +=1
             await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
             await collection.replace_one({"_id": interaction.user.id}, userData)
             
@@ -162,7 +166,7 @@ class Forester(commands.Cog, commands.Bot):
 
             # Update User Data
             userData["wood"].update({resultWood : woodSize}) 
-            userCareer["foresterpoint"] +=1
+            userCareer["points"]["forester_point"] +=1
             await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
             await collection.replace_one({"_id": interaction.user.id}, userData)
         
@@ -187,7 +191,7 @@ class Forester(commands.Cog, commands.Bot):
 
             # Update User Data
             userData["wood"].update({resultWood : woodSize}) 
-            userCareer["foresterpoint"] +=1
+            userCareer["points"]["forester_point"] +=1
             await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
             await collection.replace_one({"_id": interaction.user.id}, userData)
 
@@ -200,3 +204,6 @@ class Forester(commands.Cog, commands.Bot):
         else:
             await interaction.response.send_message("An unexpected error occurred. Please inform the developer of this situation and try again later.")
             print(f"Forestry: {error}")
+
+async def setup(bot:commands.Bot):
+    await bot.add_cog(Forester(bot))
