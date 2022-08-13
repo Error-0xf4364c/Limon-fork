@@ -12,6 +12,8 @@ class CareerView(commands.Cog, commands.Bot):
         name = "career",
         description= "View your career"
     )
+    @app_commands.checks.cooldown(
+        1, 600, key=lambda i: (i.guild_id, i.user.id))
     async def career(self, interaction: discord.Interaction):
         db = self.bot.mongoConnect["cupcake"]
         collection = db["career"]
@@ -37,7 +39,7 @@ class CareerView(commands.Cog, commands.Bot):
     async def careerError(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
-            await interaction.response.send_message(f"You're tired. Go home and rest for `{timeRemaining}`s.",ephemeral=True)
+            await interaction.response.send_message(f"Please wait `{timeRemaining}`s and Try Again",ephemeral=True)
         else:
             await interaction.response.send_message("An unexpected error occurred. Please inform the developer of this situation and try again later.")
             print(f"[CAREER]: {error} ")

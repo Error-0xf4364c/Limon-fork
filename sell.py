@@ -1,4 +1,4 @@
-import discord
+"""import discord
 from discord import Embed
 from discord.ui import View
 from discord import app_commands
@@ -305,3 +305,4 @@ class sell(commands.Cog, commands.Bot):
 #, guilds= [discord.Object(id =964617424743858176)]
 async def setup(bot:commands.Bot):
     await bot.add_cog(sell(bot))
+"""

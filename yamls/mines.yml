@@ -50,4 +50,4 @@ veryHighLevelMine:
   osmium: {name: Osmium, price: 6000}
   rutenium: {name: Rutenium, price: 5800}
   emerald: {name: Emerald, price: 6100}
-  rubies: {name: Rubies: price: 6200}
+  rubies: {name: Rubies, price: 6200}

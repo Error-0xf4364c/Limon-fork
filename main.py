@@ -42,8 +42,8 @@ class MyBot(commands.Bot):
         for ext in self.initial_extensions:
             await self.load_extension(ext)
 
-        # guild = discord.Object(id = guild_id)
-        await bot.tree.sync()
+        # 
+        await bot.tree.sync(guild = discord.Object(id = guild_id))
 
     """async def close(self):
         await super().close()

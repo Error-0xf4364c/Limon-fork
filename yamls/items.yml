@@ -1,0 +1,8 @@
+---
+
+pickaxe:
+  stonepickaxe: {custom_id: "stonepickaxe", name: Stone Pickaxe, price: 7000}
+  steelpickaxe: {custom_id: "steelpickaxe",name: Steel Pickaxe, price: 9000}
+  goldenpickaxe: {custom_id: "goldenpickaxe",name: Golden Pickaxe, price: 15000}
+  reinforcedpickaxe: {custom_id: "reinforcedpickaxe",name: Reinforced Pickaxe, price: 23000}
+  miningvehicle: {custom_id: "mininigvehicle",name: Mininig Vehicle, price: 50000}

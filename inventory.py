@@ -1,4 +1,4 @@
-import discord
+"""import discord
 from discord import Embed
 from discord import app_commands
 from discord.ext import commands
@@ -190,4 +190,4 @@ class Inventory(commands.Cog):
 
 
 async def setup(bot:commands.Bot):
-    await bot.add_cog(Inventory(bot))
+    await bot.add_cog(Inventory(bot))"""

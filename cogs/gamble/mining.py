@@ -11,7 +11,7 @@ from yaml import Loader
 yaml_file = open("yamls/emojis.yml", "rb")
 emojis = yaml.load(yaml_file, Loader = Loader) 
 
-yaml_file2 = open("yaml/fishing.yml", "rb")
+yaml_file2 = open("yamls/mines.yml", "rb")
 fish = yaml.load(yaml_file2, Loader = Loader)
 
 

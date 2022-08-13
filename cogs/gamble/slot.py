@@ -30,7 +30,7 @@ class Slot(commands.Cog, commands.Bot):
     @app_commands.command(name="slot", description="Slot oyna ve paranı katla.")
     @app_commands.describe(amount='Enter the Amount')
     @app_commands.checks.cooldown(
-        1, 1.0, key=lambda i: (i.guild_id, i.user.id))
+        1, 10, key=lambda i: (i.guild_id, i.user.id))
     async def slot(self, interaction: discord.Interaction, amount: app_commands.Range[int, 1, 50000]):
         db = self.bot.mongoConnect["cupcake"]
         collection = db["economy"]
