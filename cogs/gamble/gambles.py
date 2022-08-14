@@ -68,7 +68,7 @@ class gambles(commands.Cog, commands.Bot):
 
         if moneyRecieved == 1:
             r = miktar * 2
-            userData['coins'] += r
+            userData['coins'] += miktar
             await collection.replace_one({"_id" : interaction.user.id}, userData)
             await interaction.response.send_message("Coinflipping...")
             await asyncio.sleep(4)
@@ -230,7 +230,7 @@ class gambles(commands.Cog, commands.Bot):
         Choice(name=f"Elmas Kutu - {diamondBox:,}", value="diamond"),
     ])
     @app_commands.checks.cooldown(
-        1, 7200, key=lambda i: (i.guild_id, i.user.id))
+        1, 14400, key=lambda i: (i.guild_id, i.user.id))
     async def openbox(self, interaction: discord.Interaction, box: str):
 
         db = self.bot.mongoConnect["cupcake"]

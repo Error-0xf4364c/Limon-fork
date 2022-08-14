@@ -583,26 +583,26 @@ class ItemsView(View):
         
         view = PickaxeView()
 
-        await interaction.response.send_message(content= "Pickaxes", view = view)
+        await interaction.response.send_message(content= "Are you going to buy a new pickaxe? This is great! Prices are indicated below the pickaxes", view = view)
     
     # THIS BUTTON PURPOSE IS SHOW ALL RODS
     @discord.ui.button(label="Fishing Rods", style=discord.ButtonStyle.primary, custom_id="showrods")
     async def rods_callback(self, interaction, button):
         view = RodView()
-        await interaction.response.send_message(content= "Fishing Rods", view = view)
+        await interaction.response.send_message(content= "Are you going to buy a new fishing rod? This is great! Prices are indicated below the fishing rods", view = view)
 
     # THIS BUTTON PURPOSE IS SHOW ALL BOWS
     @discord.ui.button(label="Bows", style=discord.ButtonStyle.primary, custom_id="showbows")
     async def bows_callback(self, interaction, button):
         view = BowView()
-        await interaction.response.send_message(content= "Bows", view = view)
+        await interaction.response.send_message(content= "Are you going to buy a new bow? This is great! Prices are indicated below the bows", view = view)
     
 
     # THIS BUTTON PURPOSE IS SHOW ALL AXES
     @discord.ui.button(label="Axes", style=discord.ButtonStyle.primary, custom_id="showaxes")
     async def axes_callback(self, interaction, button):
         view = AxeView()
-        await interaction.response.send_message(content= "Axes", view = view)
+        await interaction.response.send_message(content= "Are you going to buy a new axe? This is great! Prices are indicated below the axes", view = view)
 
     # THIS BUTTON PURPOSE IS CLOSE THE MENU
     @discord.ui.button(label="Close", style=discord.ButtonStyle.danger, custom_id="closemenu")

@@ -10,6 +10,7 @@ alfield:
   hp: 113
   power: 73
   colorCode: 0x654321
+
 karaalfa:
   name: Kara Alfa ve Devasa Sürüsü
   description: |
@@ -19,6 +20,7 @@ karaalfa:
   hp: 190
   power: 157
   colorCode: 0x0a0200
+
 inis:
   name: İnis
   description: |
@@ -28,6 +30,7 @@ inis:
   hp: 150
   power: 110
   colorCode: 0x9df700
+
 groblar:
   name: Groblar
   description: |
@@ -37,6 +40,7 @@ groblar:
   hp: 100
   power: 65
   colorCode: 0x356e00
+
 limon:
   name: Limon
   description: |
@@ -46,4 +50,13 @@ limon:
   hp: 869
   power: 953
   colorCode: 0xffdf00
+
+piola:
+  name: Piola
+  description: |
+    These little monsters who like to listen to music usually walk around in groups of 5. Although they look furry and cute, they are very dangerous. They are the most annoying enemies of Inis
+  rarity: Ender
+  hp: 112
+  power: 97
+  colorCode: 0xfed3ff
 ...
