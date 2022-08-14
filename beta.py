@@ -26,16 +26,13 @@ userCareer["points"]["forester_point"] += 1
 print(userCareer)
 """
 
-import yaml
-from yaml import Loader
+mydict = {
+    "items": {
+        "rod": "altınolta",
+        "axe": "taşbalta"
+    }
+}
 
+del mydict["items"]["rod"]
 
-# ALL ITEMS FILE
-items_file = open("yamls/items.yml", "rb")
-items = yaml.load(items_file, Loader = Loader) 
-
-
-# MINING ITEMS 
-pickaxes = items["pickaxe"]
-
-print(pickaxes["stonepickaxe"])
+print(mydict)

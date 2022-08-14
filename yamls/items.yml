@@ -6,3 +6,24 @@ pickaxe:
   goldenpickaxe: {custom_id: "goldenpickaxe",name: Golden Pickaxe, price: 15000}
   reinforcedpickaxe: {custom_id: "reinforcedpickaxe",name: Reinforced Pickaxe, price: 23000}
   miningvehicle: {custom_id: "mininigvehicle",name: Mininig Vehicle, price: 50000}
+
+fishingrod:
+  simplerod: {custom_id: "simplerod", name: Simple Rod, price: 6000}
+  solidrod: {custom_id: "solidrod", name: Solid Rod, price: 8000}
+  silverrod: {custom_id: "silverrod", name: Silver Rod, price: 14000}
+  luckyrod: {custom_id: "luckyrod", name: Lucky Rod, price: 21000}
+  harpoon: {custom_id: "harpoon", name: Harpoon, price: 40000}
+
+bow:
+  woodenbow: {custom_id: "woodenbow", name: Wooden Bow, price: 5000}
+  copperbow: {custom_id: "copperbow", name: Copper Bow, price: 8000}
+  silverbow: {custom_id: "silverbow", name: Silver Bow, price: 10000}
+  accuratebow: {custom_id: "accuratebow", name: Accurate Bow, price: 14000}
+  crossbow: {custom_id: "crossbow", name: Wooden Bow, price: 20000}
+
+axe:
+  stoneaxe: {custom_id: "stoneaxe", name: Stone Axe, price: 5500}
+  steelaxe: {custom_id: "steelaxe", name: Steel Axe, price: 8000}
+  goldenaxe: {custom_id: "goldenaxe", name: Golden Axe, price: 10000}
+  reinforcedaxe: {custom_id: "reinforcedaxe", name: Reinforced Axe, price: 16000}
+  enchantedaxe: {custom_id: "enchantedaxe", name: Enchanted Axe, price: 55000}
