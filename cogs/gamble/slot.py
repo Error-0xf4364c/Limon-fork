@@ -86,7 +86,7 @@ class Slot(commands.Cog, commands.Bot):
         result3 = random.choice(slots)
         await asyncio.sleep(3)
 
-        
+        reward = 2
         if (result1 == result2) and (result1 == result3):
             if result1 == slot7:
                 reward = sevenReward
