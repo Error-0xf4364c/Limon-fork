@@ -26,7 +26,7 @@ class eggs(commands.Cog, commands.Bot):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    @app_commands.command(name="hero-egg - 200,000", description="Kahraman yumurtası aç ve onlardan birine sahip ol!")
+    @app_commands.command(name="hero-egg-200,000", description="Kahraman yumurtası aç ve onlardan birine sahip ol!")
     @app_commands.checks.cooldown(
         1, 21600, key=lambda i: (i.guild_id, i.user.id))
     async def herobox(self, interaction: discord.Interaction):
