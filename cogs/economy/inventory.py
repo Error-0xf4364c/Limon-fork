@@ -22,35 +22,42 @@ mine = yaml.load(mine_file, Loader = Loader)
 wood_file = open("yamls/wood.yml", "rb")
 wood = yaml.load(wood_file, Loader = Loader)
 
-VLF = fish["veryLowLevelFish"]
-LF = fish["lowLevelFish"]
-MLF = fish["mediumLevelFish"]
-HF = fish["highLevelFish"]
-VHF = fish["veryHighLevelFish"]
-all_fish = VLF | LF | MLF | HF | VHF
+items_file = open("yamls/items.yml", "rb")
+item = yaml.load(items_file, Loader = Loader)
 
-VLH = hunt["veryLowLevelHunt"]
-LH = hunt["lowLevelHunt"]
-MLH = hunt["mediumLevelHunt"]
-HH = hunt["highLevelHunt"]
-VHH = hunt["veryHighLevelHunt"]
-all_hunt = VLH | LH | MLH | HH | VHH
+vlf = fish["veryLowLevelFish"]
+lf = fish["lowLevelFish"]
+mlf = fish["mediumLevelFish"]
+hf = fish["highLevelFish"]
+vhf = fish["veryHighLevelFish"]
+all_fish = vlf | lf | mlf | hf | vhf
 
-VLM = mine["veryLowLevelMine"]
-LM = mine["lowLevelMine"]
-MLM = mine["mediumLevelMine"]
-HM = mine["highLevelMine"]
-VHM = mine["veryHighLevelMine"]
-all_mine = VLM | LM | MLM | HM | VHM
+vlh = hunt["veryLowLevelHunt"]
+lh = hunt["lowLevelHunt"]
+mlh = hunt["mediumLevelHunt"]
+hh = hunt["highLevelHunt"]
+vhh = hunt["veryHighLevelHunt"]
+all_hunt = vlh | lh | mlh | hh | vhh
 
-VLW = wood["veryLowLevelWood"]
-LW = wood["lowLevelWood"]
-MLW = wood["mediumLevelWood"]
-HW = wood["highLevelWood"]
-VHW = wood["veryHighLevelWood"]
-all_wood = VLW | LW | MLW | HW | VHW
+vlm = mine["veryLowLevelMine"]
+lm = mine["lowLevelMine"]
+mlm = mine["mediumLevelMine"]
+hm = mine["highLevelMine"]
+vhm = mine["veryHighLevelMine"]
+all_mine = vlm | lm | mlm | hm | vhm
 
+vlw = wood["veryLowLevelWood"]
+lw = wood["lowLevelWood"]
+mlw = wood["mediumLevelWood"]
+hw = wood["highLevelWood"]
+vhw = wood["veryHighLevelWood"]
+all_wood = vlw | lw | mlw | hw | vhw
 
+items_pickaxes = item["pickaxe"]
+items_fishingrods = item["fishingrod"]
+items_bow = item["bow"]
+items_axe = item["axe"]
+all_items = items_pickaxes | items_fishingrods | items_bow | items_axe
 
 
 
@@ -65,7 +72,7 @@ class Buttons(View):
         collection = db["inventory"]
 
         if await collection.find_one({"_id": interaction.user.id}) == None:
-            return await interaction.response.send_message("You don't have an inventory! Please use this commands: `mining, forestry, hunting, fishing`", ephemeral = True)
+            return await interaction.response.send_message("Upss! You don't have an inventory! Please use this commands: `mining, forestry, hunting, fishing`", ephemeral = True)
 
         userData = await collection.find_one({"_id": interaction.user.id})
 
@@ -83,23 +90,44 @@ class Buttons(View):
         if "wood" in userData:
             userWood = list(userData["wood"].keys())
         
-        fishes_ = [ f"**{userFishes.count(i)}** x {i.title()} - **{userData['fishes'][i]}**cm 🐟" for i in all_fish if i in userFishes]
-        hunts_ = [ f"**{userHunts.count(i)}** x {i.title()} 🦌" for i in all_hunt if i in userHunts]
-        mines_ = [ f"**{userMines.count(i)}** x {i.title()} - **{userData['mines'][i]}**kg 💎" for i in all_mine if i in userMines]
-        wood_ = [ f"**{userWood.count(i)}** x {i.title()} - **{userData['wood'][i]}**m 🌲" for i in all_wood if i in userWood]
+        fishes_ = [ f"**{userFishes.count(i)}** x {i['name']} - **{userData['fishes'][i]}**cm 🐟" for i in all_fish if i in userFishes]
+        hunts_ = [ f"**{userHunts.count(i)}** x {i['name']} 🦌" for i in all_hunt if i in userHunts]
+        mines_ = [ f"**{userMines.count(i)}** x {i['name']} - **{userData['mines'][i]}**kg 💎" for i in all_mine if i in userMines]
+        wood_ = [ f"**{userWood.count(i)}** x {i['name']} - **{userData['wood'][i]}**m 🌲" for i in all_wood if i in userWood]
         
         fishes_ = "\n".join(fishes_) if len(fishes_)>0 else "*No fish in your inventory*"
         hunts_ = "\n".join(hunts_) if len(hunts_)>0 else "*No hunt in your inventory*"
         mines_ = "\n".join(mines_) if len(mines_)>0 else "*No mine in your inventory*"
         wood_ = "\n".join(wood_) if len(wood_)>0 else "*No wood in your inventory*"
+
         
-        print(fishes_)
-        
-        backpack_embed = Embed( description =  f"Your Hunts \n\n════════════════════════════════\n***FISHES:*** {fishes_}")
-        backpack_embed.set_author(name= interaction.user.name, icon_url = interaction.user.avatar.url)
+        backpack_embed = Embed( description =  f"This is the section in your inventory that shows what you have achieved as a result of the work you have done. \n════════════════════════════════\n***FISHES:*** {fishes_}\n════════════════════════════════\n***HUNTS:*** {hunts_}\n════════════════════════════════\n***MINES:*** {mines_}\n════════════════════════════════\n***WOOD:*** {wood_}", color = 0x2E3136)
+        backpack_embed.set_author(name= f"{interaction.user.name}'s Backpack", icon_url = interaction.user.avatar.url)
 
         await interaction.response.edit_message(embed = backpack_embed, view=self)
+    
+    @button(label = "Items", stlye = discord.ButtonStyle.blurple)
+    async def items_callback(self, interaction, button):
+        db = client.mongoConnect["cupcake"]
+        collection = db["inventory"]
 
+        if await collection.find_one({"_id": interaction.user.id}) == None:
+            return await interaction.response.send_message("Upss! You don't have items! Please buy an item. You can use this command: `store`", ephemeral = True)
+
+        userData = await collection.find_one({"_id": interaction.user.id})
+
+        userItems = ["None"]
+        if "items" in userData:
+            userItems = userData["items"]
+
+        items_ = [ f"**▸ {userItems.count(i)}** - {i['name']}" for i in all_items if i in userItems]
+        
+        items_ = "\n".join(items_) if len(items_)>0 else "*No item in your inventory*"
+
+        items_embed = Embed(description = f"This is the section with the items in your inventory. To buy more items, use `store` \n════════════════════════════════\n***ITEMS:***{items_}", color = 0x2E3136)
+        items_embed.set_author(name= f"{interaction.user.name}'s Items", icon_url = interaction.user.avatar.url)
+
+        await interaction.response.edit_message(embed = items_embed, view=self)
 
 
 
@@ -113,9 +141,12 @@ class Inventory(commands.Cog):
     async def inventory(self, interaction: discord.Interaction):
         view = Buttons()
 
-        await interaction.response.send_message("Click a button", view=view)
+        menu_embed = Embed(description = '**What do you want to look at in your inventory?**\n To see what you have achieved as a result of your work, click on "Backpack"\n To look at the items you have purchased, click on: "Items"', color = 0x2E3136)
+        menu_embed.set_author(name= f"{interaction.user.name}'s Inventory", icon_url = interaction.user.avatar.url)
+        
+        await interaction.response.send_message(embed = menu_embed, view=view)
 
         
 
 async def setup(bot:commands.Bot):
-    await bot.add_cog(Inventory(bot), guilds= [discord.Object(id =964617424743858176)])
+    await bot.add_cog(Inventory(bot))

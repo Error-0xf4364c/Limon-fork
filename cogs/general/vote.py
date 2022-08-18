@@ -26,7 +26,7 @@ class VoteMe(commands.Cog, commands.Bot):
 
         view.add_item(VoteButton)
     
-        voteEmbed = Embed()
+        voteEmbed = Embed(color = 0x2E3136)
         voteEmbed.set_author(name = "You can vote by pressing the button.", icon_url= interaction.user.avatar.url)
         await interaction.response.send_message(embed= voteEmbed, view=view)
 
