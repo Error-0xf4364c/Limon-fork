@@ -1,6 +1,11 @@
 ---
+priceByVLMine: 2
+priceByLMine: 2
+priceByMMine: 3
+priceByHMine: 3
+priceByVHMine: 4
+
 veryLowLevelMine:
-  priceByVLMine: 2
   none: none
   lead: {name: Lead, price: 1000}
   zinc: {name: Zinc, price: 1100}
@@ -11,7 +16,6 @@ veryLowLevelMine:
   none: none
 
 lowLevelMine:
-  priceByLMine: 2
   chrome: {name: Chrome, price: 1400}
   iron: {name: Iron, price: 1300}
   aluminium: {name: Aluminium, price: 1350}
@@ -20,7 +24,6 @@ lowLevelMine:
   none: none
 
 mediumLevelMine:
-  priceByMMine: 3
   magnesite: {name: Magnesite, price: 1900}
   lignite: {name: Lignite, price: 2000}
   phosphate: {name: Phosphate, price: 2100}
@@ -31,7 +34,6 @@ mediumLevelMine:
   bauxite: {name: Bauxite, price: 2250}
 
 highLevelMine:
-  priceByHMine: 3
   silver: {name: Silver, price: 3000}
   gold: {name: Gold, price: 4800}
   platinum: {name: Platinum, price: 5050}
@@ -40,7 +42,6 @@ highLevelMine:
   citrine: {name: Citrine, price: 5150}
 
 veryHighLevelMine:
-  priceByVHMine: 4
   rodium: {name: Rodium, price: 5000}
   paladium: {name: Paladium, price: 5500}
   diamond: {name: Diamond, price: 8000}

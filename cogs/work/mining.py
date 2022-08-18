@@ -12,7 +12,7 @@ yaml_file = open("yamls/emojis.yml", "rb")
 emojis = yaml.load(yaml_file, Loader = Loader) 
 
 yaml_file2 = open("yamls/mines.yml", "rb")
-fish = yaml.load(yaml_file2, Loader = Loader)
+mine = yaml.load(yaml_file2, Loader = Loader)
 
 
 cupcoin = emojis["cupcoin"]
@@ -81,10 +81,10 @@ class Mining(commands.Cog, commands.Bot):
         # Very Low Level Miner
         if "stonepickaxe" == userPickaxe:
 
-            VLM = fish["veryLowLevelMine"] # Very Low Level Mines
+            VLM = mine["veryLowLevelMine"] # Very Low Level Mines
             veryLowLvMine = " ".join(VLM.keys()) # Very Low Level Mines Keys
             splittedMine = veryLowLvMine.split(" ") # to List Mines keys
-            priceByVlSize = int(VLM["priceByVLMine"]) # Price By Very Low Level Mine Size
+            priceByVlSize = int(mine["priceByVLMine"]) # Price By Very Low Level Mine Size
             resultMine = random.choice(splittedMine) # Random Very Low Level Mine
             mineSize = random.randint(5,10) # Random mine size
             priceByMineSize = mineSize * priceByVlSize # Price By Mine Size
@@ -109,10 +109,10 @@ class Mining(commands.Cog, commands.Bot):
         # Low Level Miner
         elif "steelpickaxe" == userPickaxe:
 
-            LM = fish["lowLevelMine"] # Low Level Mines
+            LM = mine["lowLevelMine"] # Low Level Mines
             lowLvMine = " ".join(LM.keys()) # Low Level Mines Keys
             splittedMine = lowLvMine.split(" ") # to List Mines keys
-            priceByLSize = int(LM["priceByLMine"]) # Price By Low Level Mine Size
+            priceByLSize = int(mine["priceByLMine"]) # Price By Low Level Mine Size
             resultMine = random.choice(splittedMine) # Random Low Level Mine
             mineSize = random.randint(5,15) # Random mine size
             priceByMineSize = mineSize * priceByLSize # Price By Mine Size
@@ -137,10 +137,10 @@ class Mining(commands.Cog, commands.Bot):
         #Medium Level Miner
         elif "goldenpickaxe" == userPickaxe:
 
-            MM = fish["mediumLevelMine"] #Medium Level Mines
+            MM = mine["mediumLevelMine"] #Medium Level Mines
             mediumLvMine = " ".join(MM.keys()) #Medium Level Mines Keys
             splittedMine = mediumLvMine.split(" ") # to List Mines keys
-            priceByMSize = int(MM["priceByMMine"]) # Price By Medium Level Mine Size
+            priceByMSize = int(mine["priceByMMine"]) # Price By Medium Level Mine Size
             resultMine = random.choice(splittedMine) # Random Medium Level Mine
             mineSize = random.randint(10,20) # Random mine size
             priceByMineSize = mineSize * priceByMSize # Price By Mine Size
@@ -162,10 +162,10 @@ class Mining(commands.Cog, commands.Bot):
         # High Level Miner
         elif "reinforcedpickaxe" == userPickaxe:
 
-            HM = fish["highLevelMine"] #High Level Mines
+            HM = mine["highLevelMine"] #High Level Mines
             highLvMine = " ".join(HM.keys()) #High Level Mines Keys
             splittedMine = highLvMine.split(" ") # to List Mines keys
-            priceByHSize = int(HM["priceByHMine"]) # Price By High Level Mine Size
+            priceByHSize = int(mine["priceByHMine"]) # Price By High Level Mine Size
             resultMine = random.choice(splittedMine) # Random High Level Mine
             mineSize = random.randint(15,25) # Random mine size
             priceByMineSize = mineSize * priceByHSize # Price By Mine Size
@@ -187,10 +187,10 @@ class Mining(commands.Cog, commands.Bot):
         # Very High Level Miner
         elif "miningvehicle" == userPickaxe:
 
-            VHM = fish["veryHighLevelMine"] # Very High Level Mines
+            VHM = mine["veryHighLevelMine"] # Very High Level Mines
             veryHighLvMine = " ".join(VHM.keys()) # Very High Level Mines Keys
             splittedMine = veryHighLvMine.split(" ") # to List Mines keys
-            priceByVHSize = int(VHM["priceByVHMine"]) # Price By Very High Level Mine Size
+            priceByVHSize = int(mine["priceByVHMine"]) # Price By Very High Level Mine Size
             resultMine = random.choice(splittedMine) # Random Very High Level Mine
             mineSize = random.randint(15,25) # Random mine size
             priceByMineSize = mineSize * priceByVHSize # Price By Mine Size

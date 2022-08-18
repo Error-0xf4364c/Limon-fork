@@ -36,3 +36,17 @@ mydict = {
 del mydict["items"]["rod"]
 
 print(mydict)
+
+
+
+
+"""
+print(birlesik)
+
+print("-----")
+for i in birlesik:
+    if i == "none":
+        continue
+    print(birlesik[i]["name"])
+
+"""

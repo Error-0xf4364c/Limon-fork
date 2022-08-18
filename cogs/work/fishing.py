@@ -84,7 +84,7 @@ class Fishing(commands.Cog, commands.Bot):
             VLF = fish["veryLowLevelFish"] # Very Low Level Fishes
             veryLowLvFish = " ".join(VLF.keys()) # Very Low Level Fishes Keys
             splittedFish = veryLowLvFish.split(" ") # to List Fishes keys
-            priceByVlSize = int(VLF["priceByFishSizeVL"]) # Price By Very Low Level Fish Size
+            priceByVlSize = int(fish["priceByFishSizeVL"]) # Price By Very Low Level Fish Size
             resultFish = random.choice(splittedFish) # Random Very Low Level Fish
             fishSize = random.randint(5,15) # Random fish size
             priceByFishSize = fishSize * priceByVlSize # Price By Fish Size
@@ -101,7 +101,7 @@ class Fishing(commands.Cog, commands.Bot):
             await interaction.edit_original_message(content = f"🐟 **|** Great work fisher! You have caught a **{fishSize}**-inch long **{vlFishName}** . Instantaneous market value: **{vlFishPrice}** Cupcoin.")
 
             # Update User Data
-            userData["fish"].update({resultFish : fishSize}) 
+            userData["fishes"].update({resultFish : fishSize}) 
             userCareer["points"]["fisher_point"] +=1
             await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
             await collection.replace_one({"_id": interaction.user.id}, userData)
@@ -112,7 +112,7 @@ class Fishing(commands.Cog, commands.Bot):
             LF = fish["lowLevelFish"] # Low Level Fishes
             lowLvFish = " ".join(LF.keys()) # Low Level Fishes Keys
             splittedFish = lowLvFish.split(" ") # to List Fishes keys
-            priceByLSize = int(LF["priceByFishSizeL"]) # Price By Low Level Fish Size
+            priceByLSize = int(fish["priceByFishSizeL"]) # Price By Low Level Fish Size
             resultFish = random.choice(splittedFish) # Random Low Level Fish
             fishSize = random.randint(3,10) # Random fish size
             priceByFishSize = fishSize * priceByLSize # Price By Fish Size
@@ -130,7 +130,7 @@ class Fishing(commands.Cog, commands.Bot):
             await interaction.edit_original_message(content = f"🐟 **|** Great work fisher! You have caught a **{fishSize}**-inch long **{lFishName}** . Instantaneous market value: **{lFishPrice}** Cupcoin.")
 
             # Update User Data
-            userData["fish"].update({resultFish : fishSize}) 
+            userData["fishes"].update({resultFish : fishSize}) 
             userCareer["points"]["fisher_point"] +=1
             await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
             await collection.replace_one({"_id": interaction.user.id}, userData)
@@ -141,7 +141,7 @@ class Fishing(commands.Cog, commands.Bot):
             MF = fish["mediumLevelFish"] # Medium Level Fishes
             mediumLvFish = " ".join(MF.keys()) # Medium Level Fishes Keys
             splittedFish = mediumLvFish.split(" ") # to List Fishes keys
-            priceByMSize = int(MF["priceByFishSizeM"]) # Price By Medium Level Fish Size
+            priceByMSize = int(fish["priceByFishSizeM"]) # Price By Medium Level Fish Size
             resultFish = random.choice(splittedFish) # Random Medium Level Fish
             fishSize = random.randint(5,15) # Random fish size
             priceByFishSize = fishSize * priceByMSize # Price By Fish Size
@@ -155,7 +155,7 @@ class Fishing(commands.Cog, commands.Bot):
             await interaction.edit_original_message(content = f"🐟 **|** Great work fisher! You have caught a **{fishSize}**-inch long **{mFishName}** . Instantaneous market value: **{mFishPrice}** Cupcoin.")
 
             # Update User Data
-            userData["fish"].update({resultFish : fishSize}) 
+            userData["fishes"].update({resultFish : fishSize}) 
             userCareer["points"]["fisher_point"] +=1
             await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
             await collection.replace_one({"_id": interaction.user.id}, userData)
@@ -166,7 +166,7 @@ class Fishing(commands.Cog, commands.Bot):
             HF = fish["highLevelFish"] # High Level Fishes
             highLvFish = " ".join(HF.keys()) # High Level Fishes Keys
             splittedFish = highLvFish.split(" ") # to List Fishes keys
-            priceByHSize = int(HF["priceByFishSizeH"]) # Price By High Level Fish Size
+            priceByHSize = int(fish["priceByFishSizeH"]) # Price By High Level Fish Size
             resultFish = random.choice(splittedFish) # Random High Level Fish
             fishSize = random.randint(8,18) # Random fish size
             priceByFishSize = fishSize * priceByHSize # Price By Fish Size
@@ -180,7 +180,7 @@ class Fishing(commands.Cog, commands.Bot):
             await interaction.edit_original_message(content = f"🐟 **|** Great work fisher! You have caught a **{fishSize}**-inch long **{hFishName}** . Instantaneous market value: **{hFishPrice}** Cupcoin.")
 
             # Update User Data
-            userData["fish"].update({resultFish : fishSize}) 
+            userData["fishes"].update({resultFish : fishSize}) 
             userCareer["points"]["fisher_point"] +=1
             await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
             await collection.replace_one({"_id": interaction.user.id}, userData)
@@ -191,7 +191,7 @@ class Fishing(commands.Cog, commands.Bot):
             VHF = fish["veryHighLevelFish"] # Very High Level Fishes
             veryHighLvFish = " ".join(VHF.keys()) # Very High Level Fishes Keys
             splittedFish = veryHighLvFish.split(" ") # to List Fishes keys
-            priceByvHSize = int(VHF["priceByFishSizeVH"]) # Price By Very High Level Fish Size
+            priceByvHSize = int(fish["priceByFishSizeVH"]) # Price By Very High Level Fish Size
             resultFish = random.choice(splittedFish) # Random Very High Level Fish
             fishSize = random.randint(20,55) # Random fish size
             priceByFishSize = fishSize * priceByvHSize # Price By Fish Size
@@ -205,7 +205,7 @@ class Fishing(commands.Cog, commands.Bot):
             await interaction.edit_original_message(content = f"🐟 **|** Great work fisher! You have caught a **{fishSize}**-inch long **{vhFishName}** . Instantaneous market value: **{vhFishPrice}** Cupcoin.")
 
             # Update User Data
-            userData["fish"].update({resultFish : fishSize}) 
+            userData["fishes"].update({resultFish : fishSize}) 
             userCareer["points"]["fisher_point"] +=1
             await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
             await collection.replace_one({"_id": interaction.user.id}, userData)

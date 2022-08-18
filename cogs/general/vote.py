@@ -25,10 +25,9 @@ class VoteMe(commands.Cog, commands.Bot):
         VoteButton = Button(label="Vote", style=discord.ButtonStyle.link, url="https://top.gg/bot/994143430504620072/vote", emoji = topggLogo)
 
         view.add_item(VoteButton)
-
+    
         voteEmbed = Embed()
-        voteEmbed.set_author(name = "Thank you for voting for me!", icon_url= interaction.user.avatar.url)
-
+        voteEmbed.set_author(name = "You can vote by pressing the button.", icon_url= interaction.user.avatar.url)
         await interaction.response.send_message(embed= voteEmbed, view=view)
 
     @vote.error
