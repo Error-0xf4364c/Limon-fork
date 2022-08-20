@@ -106,7 +106,7 @@ class Buttons(View):
 
         await interaction.response.edit_message(embed = backpack_embed, view=self)
     
-    @button(label = "Items", stlye = discord.ButtonStyle.blurple)
+    @button(label = "Items", style = discord.ButtonStyle.blurple)
     async def items_callback(self, interaction, button):
         db = client.mongoConnect["cupcake"]
         collection = db["inventory"]

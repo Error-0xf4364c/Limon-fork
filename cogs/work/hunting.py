@@ -49,7 +49,7 @@ class Hunting(commands.Cog, commands.Bot):
         if await careerCollection.find_one({"_id": interaction.user.id}) == None:
             newData = {
                 "_id": interaction.user.id,
-                "hunterpoint": 0
+                "hunter_point": 0
             }
             await careerCollection.insert_one(newData)
 
