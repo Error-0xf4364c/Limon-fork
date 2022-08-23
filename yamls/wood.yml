@@ -1,9 +1,5 @@
 ---
-priceByVlSize: 2
-priceByLSize: 2
-priceByMSize: 3
-priceByHSize: 3
-priceByVhSize: 5
+priceByWoodSize: 3
 
 veryLowLevelWood:
   sedgeandreed: {name: Sedge and Reed, price: 200}

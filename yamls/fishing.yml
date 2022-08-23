@@ -1,10 +1,6 @@
 ---
 
-priceByFishSizeVL: 3
-priceByFishSizeL: 3
-priceByFishSizeM: 4
-priceByFishSizeH: 4
-priceByFishSizeVH: 5
+priceByFishSize: 3
 
 veryLowLevelFish:
   none: none

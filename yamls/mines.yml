@@ -1,9 +1,6 @@
 ---
-priceByVLMine: 2
-priceByLMine: 2
-priceByMMine: 3
-priceByHMine: 3
-priceByVHMine: 4
+priceByMineKg: 2
+
 
 veryLowLevelMine:
   none: none

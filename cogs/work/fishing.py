@@ -84,7 +84,7 @@ class Fishing(commands.Cog, commands.Bot):
             VLF = fish["veryLowLevelFish"] # Very Low Level Fishes
             veryLowLvFish = " ".join(VLF.keys()) # Very Low Level Fishes Keys
             splittedFish = veryLowLvFish.split(" ") # to List Fishes keys
-            priceByVlSize = int(fish["priceByFishSizeVL"]) # Price By Very Low Level Fish Size
+            priceByVlSize = int(fish["priceByFishSize"]) # Price By Very Low Level Fish Size
             resultFish = random.choice(splittedFish) # Random Very Low Level Fish
             fishSize = random.randint(5,15) # Random fish size
             priceByFishSize = fishSize * priceByVlSize # Price By Fish Size
@@ -112,7 +112,7 @@ class Fishing(commands.Cog, commands.Bot):
             LF = fish["lowLevelFish"] # Low Level Fishes
             lowLvFish = " ".join(LF.keys()) # Low Level Fishes Keys
             splittedFish = lowLvFish.split(" ") # to List Fishes keys
-            priceByLSize = int(fish["priceByFishSizeL"]) # Price By Low Level Fish Size
+            priceByLSize = int(fish["priceByFishSize"]) # Price By Low Level Fish Size
             resultFish = random.choice(splittedFish) # Random Low Level Fish
             fishSize = random.randint(3,10) # Random fish size
             priceByFishSize = fishSize * priceByLSize # Price By Fish Size
@@ -141,7 +141,7 @@ class Fishing(commands.Cog, commands.Bot):
             MF = fish["mediumLevelFish"] # Medium Level Fishes
             mediumLvFish = " ".join(MF.keys()) # Medium Level Fishes Keys
             splittedFish = mediumLvFish.split(" ") # to List Fishes keys
-            priceByMSize = int(fish["priceByFishSizeM"]) # Price By Medium Level Fish Size
+            priceByMSize = int(fish["priceByFishSize"]) # Price By Medium Level Fish Size
             resultFish = random.choice(splittedFish) # Random Medium Level Fish
             fishSize = random.randint(5,15) # Random fish size
             priceByFishSize = fishSize * priceByMSize # Price By Fish Size
@@ -166,7 +166,7 @@ class Fishing(commands.Cog, commands.Bot):
             HF = fish["highLevelFish"] # High Level Fishes
             highLvFish = " ".join(HF.keys()) # High Level Fishes Keys
             splittedFish = highLvFish.split(" ") # to List Fishes keys
-            priceByHSize = int(fish["priceByFishSizeH"]) # Price By High Level Fish Size
+            priceByHSize = int(fish["priceByFishSize"]) # Price By High Level Fish Size
             resultFish = random.choice(splittedFish) # Random High Level Fish
             fishSize = random.randint(8,18) # Random fish size
             priceByFishSize = fishSize * priceByHSize # Price By Fish Size
@@ -191,7 +191,7 @@ class Fishing(commands.Cog, commands.Bot):
             VHF = fish["veryHighLevelFish"] # Very High Level Fishes
             veryHighLvFish = " ".join(VHF.keys()) # Very High Level Fishes Keys
             splittedFish = veryHighLvFish.split(" ") # to List Fishes keys
-            priceByvHSize = int(fish["priceByFishSizeVH"]) # Price By Very High Level Fish Size
+            priceByvHSize = int(fish["priceByFishSize"]) # Price By Very High Level Fish Size
             resultFish = random.choice(splittedFish) # Random Very High Level Fish
             fishSize = random.randint(20,55) # Random fish size
             priceByFishSize = fishSize * priceByvHSize # Price By Fish Size

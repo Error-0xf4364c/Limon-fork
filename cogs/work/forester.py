@@ -76,7 +76,7 @@ class Forester(commands.Cog, commands.Bot):
             VLW = wood["veryLowLevelWood"] # Very Low Level Woods
             veryLowLvWood = " ".join(VLW.keys()) # Very Low Level Woods Keys
             splittedWood = veryLowLvWood.split(" ") # to List Woods keys
-            priceByVlSize = int(wood["priceByVlSize"]) # Price By Very Low Level Wood Size
+            priceByVlSize = int(wood["priceByWoodSize"]) # Price By Very Low Level Wood Size
             resultWood = random.choice(splittedWood) # Random Very Low Level Wood
             woodSize = random.randint(5,15) # Random wood size
             priceByWoodSize = woodSize * priceByVlSize # Price By Wood Size
@@ -101,7 +101,7 @@ class Forester(commands.Cog, commands.Bot):
             LW = wood["lowLevelWood"] # Low Level Woods
             lowLvWood = " ".join(LW.keys()) # Low Level Woods Keys
             splittedWood = lowLvWood.split(" ") # to List Woods keys
-            priceByLSize = int(wood["priceByLSize"]) # Price By Low Level Wood Size
+            priceByLSize = int(wood["priceByWoodSize"]) # Price By Low Level Wood Size
             resultWood = random.choice(splittedWood) # Random Low Level Wood
             woodSize = random.randint(8,18) # Random wood size
             priceByWoodSize = woodSize * priceByLSize # Price By Wood Size
@@ -126,7 +126,7 @@ class Forester(commands.Cog, commands.Bot):
             M = wood["mediumLevelWood"] # Medium Level Woods
             mediumLvWood = " ".join(M.keys()) # Medium Level Woods Keys
             splittedWood = mediumLvWood.split(" ") # to List Woods keys
-            priceByMSize = int(wood["priceByMSize"]) # Price By Medium Level Wood Size
+            priceByMSize = int(wood["priceByWoodSize"]) # Price By Medium Level Wood Size
             resultWood = random.choice(splittedWood) # Random Medium Level Wood
             woodSize = random.randint(9,19) # Random wood size
             priceByWoodSize = woodSize * priceByMSize # Price By Wood Size
@@ -151,7 +151,7 @@ class Forester(commands.Cog, commands.Bot):
             H = wood["highLevelWood"] # High Level Woods
             highLvWood = " ".join(H.keys()) # High Level Woods Keys
             splittedWood = highLvWood.split(" ") # to List Woods keys
-            priceByHSize = int(wood["priceByHSize"]) # Price By High Level Wood Size
+            priceByHSize = int(wood["priceByWoodSize"]) # Price By High Level Wood Size
             resultWood = random.choice(splittedWood) # Random High Level Wood
             woodSize = random.randint(13,23) # Random wood size
             priceByWoodSize = woodSize * priceByHSize # Price By Wood Size
@@ -176,7 +176,7 @@ class Forester(commands.Cog, commands.Bot):
             VH = wood["veryHighLevelWood"] # Low Level Woods
             veryHighLvWood = " ".join(VH.keys()) # Low Level Woods Keys
             splittedWood = veryHighLvWood.split(" ") # to List Woods keys
-            priceByVhSize = int(wood["priceByVhSize"]) # Price By Low Level Wood Size
+            priceByVhSize = int(wood["priceByWoodSize"]) # Price By Low Level Wood Size
             resultWood = random.choice(splittedWood) # Random Low Level Wood
             woodSize = random.randint(17,30) # Random wood size
             priceByWoodSize = woodSize * priceByVhSize # Price By Wood Size
