@@ -85,7 +85,7 @@ class Buttons(View):
     async def interaction_check(self, interaction: discord.Interaction) -> bool:
         print(message_author_id)
         if not interaction.user.id in message_author_id:
-            await interaction.response.send_message("This shop doesn't belong to you. You can't trade in someone else's store. Please use the /sell command.", ephemeral=True)
+            await interaction.response.send_message("This inventory doesn't belong to you. You can't trade in someone else's inventory. Please use the /inventory command.", ephemeral=True)
             return False
         return True
 
@@ -180,6 +180,10 @@ class Inventory(commands.Cog):
         menu_embed = Embed(description = '**What do you want to look at in your inventory?**\n To see what you have achieved as a result of your work, click on "Backpack"\n To look at the items you have purchased, click on: "Items"', color = 0x2E3136)
         menu_embed.set_author(name= f"{interaction.user.name}'s Inventory", icon_url = interaction.user.avatar.url)
 
+        if interaction.user.id in message_author_id:
+            message_author_id.remove(interaction.user.id)
+            #return await interaction.response.send_message("You already have a shop opened. Turn it off first", ephemeral=True)
+        message_author_id.append(interaction.user.id)
         
         await interaction.response.send_message(embed = menu_embed, view=view)
 
