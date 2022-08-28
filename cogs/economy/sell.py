@@ -287,7 +287,7 @@ class SellButtons(View):
     async def closemenu_callback(self, interaction, button):
         await interaction.response.send_message(content=f"Closing...", ephemeral=True)
         await asyncio.sleep(3)
-        await interaction.edit_original_message(content=f"Shop is succesfully closed.")
+        await interaction.edit_original_response(content=f"Shop is succesfully closed.")
         await interaction.message.delete()
         message_author_id.remove(interaction.user.id)
 
