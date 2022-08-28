@@ -39,7 +39,7 @@ class Forester(commands.Cog, commands.Bot):
         if await careerCollection.find_one({"_id": interaction.user.id}) == None:
             newData = {
                 "_id": interaction.user.id,
-                "foresterpoint": 0
+                "points":  {"forester_point": 0}
             }
             await careerCollection.insert_one(newData)
 
@@ -47,7 +47,7 @@ class Forester(commands.Cog, commands.Bot):
         userCareer = await careerCollection.find_one({"_id": interaction.user.id})
 
         # Axe check
-        if "axe" not in userData:
+        if "axe" not in userData["items"]:
             return await interaction.response.send_message("To do forestry, you need to buy an axe. `/store` :)", ephemeral = True)
 
         # Wood Check
@@ -60,13 +60,13 @@ class Forester(commands.Cog, commands.Bot):
             await careerCollection.update_one(userCareer ,careerData)
 
         if "forester_point" not in userCareer["points"]:
-            careerData = { "$set" : {"forester_point" : 0}}
-            await careerCollection.update_one(userCareer["points"] ,careerData)
+            careerData = { "$set" : {"points.forester_point" : 0}}
+            await careerCollection.update_one(userCareer ,careerData)
 
         # User Datas
         userData = await collection.find_one({"_id": interaction.user.id}) # User Data
         userCareer = await careerCollection.find_one({"_id": interaction.user.id}) # User Career Data
-        userAxe = userData["axe"] # User Axe
+        userAxe = userData["items"]["axe"] # User Axe
 
         # Forestry System
 
@@ -81,19 +81,9 @@ class Forester(commands.Cog, commands.Bot):
             woodSize = random.randint(5,15) # Random wood size
             priceByWoodSize = woodSize * priceByVlSize # Price By Wood Size
 
-            vlWoodName = VLW[resultWood]["name"] # Result Wood Name
-            vlWoodPrice = VLW[resultWood]["price"] + priceByWoodSize # Result Wood Total Price
+            woodName = VLW[resultWood]["name"] # Result Wood Name
+            woodPrice = VLW[resultWood]["price"] + priceByWoodSize # Result Wood Total Price
 
-            # Send user a message
-            await interaction.response.send_message("🌲 **|** Searching for a beautiful tree...")
-            await asyncio.sleep(6) 
-            await interaction.edit_original_message(content = f"🪓 **|** Great work lumberjack!  You got **{woodSize}** meters of wood from **{vlWoodName}**. Instantaneous market value: **{vlWoodPrice}** Cupcoin.")
-
-            # Update User Data
-            userData["wood"].update({resultWood : woodSize}) 
-            userCareer["points"]["forester_point"] +=1
-            await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
-            await collection.replace_one({"_id": interaction.user.id}, userData)
 
         # Low Level Forestry
         elif "steelaxe" == userAxe:
@@ -106,19 +96,9 @@ class Forester(commands.Cog, commands.Bot):
             woodSize = random.randint(8,18) # Random wood size
             priceByWoodSize = woodSize * priceByLSize # Price By Wood Size
 
-            lWoodName = LW[resultWood]["name"] # Result Wood Name
-            lWoodPrice = LW[resultWood]["price"] + priceByWoodSize # Result Wood Total Price
+            woodName = LW[resultWood]["name"] # Result Wood Name
+            woodPrice = LW[resultWood]["price"] + priceByWoodSize # Result Wood Total Price
 
-            # Send user a message
-            await interaction.response.send_message("🌲 **|** Searching for a beautiful tree...")
-            await asyncio.sleep(5) 
-            await interaction.edit_original_message(content = f"🪓 **|** Great work lumberjack!  You got **{woodSize}** meters of wood from **{lWoodName}**. Instantaneous market value: **{lWoodPrice}** Cupcoin.")
-
-            # Update User Data
-            userData["wood"].update({resultWood : woodSize}) 
-            userCareer["points"]["forester_point"] +=1
-            await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
-            await collection.replace_one({"_id": interaction.user.id}, userData)
 
         # Medium Level Forestry
         elif "goldenaxe" == userAxe:
@@ -131,19 +111,9 @@ class Forester(commands.Cog, commands.Bot):
             woodSize = random.randint(9,19) # Random wood size
             priceByWoodSize = woodSize * priceByMSize # Price By Wood Size
 
-            mWoodName = M[resultWood]["name"] # Result Wood Name
-            mWoodPrice = M[resultWood]["price"] + priceByWoodSize # Result Wood Total Price
+            woodName = M[resultWood]["name"] # Result Wood Name
+            woodPrice = M[resultWood]["price"] + priceByWoodSize # Result Wood Total Price
 
-            # Send user a message
-            await interaction.response.send_message("🌲 **|** Searching for a beautiful tree...")
-            await asyncio.sleep(4) 
-            await interaction.edit_original_message(content = f"🪓 **|** Great work lumberjack!  You got **{woodSize}** meters of wood from **{mWoodName}**. Instantaneous market value: **{mWoodPrice}** Cupcoin.")
-
-            # Update User Data
-            userData["wood"].update({resultWood : woodSize}) 
-            userCareer["points"]["forester_point"] +=1
-            await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
-            await collection.replace_one({"_id": interaction.user.id}, userData)
             
         # High Level Forestry
         elif "reinforcedaxe" == userAxe:
@@ -156,19 +126,9 @@ class Forester(commands.Cog, commands.Bot):
             woodSize = random.randint(13,23) # Random wood size
             priceByWoodSize = woodSize * priceByHSize # Price By Wood Size
 
-            hWoodName = H[resultWood]["name"] # Result Wood Name
-            hWoodPrice = H[resultWood]["price"] + priceByWoodSize # Result Wood Total Price
+            woodName = H[resultWood]["name"] # Result Wood Name
+            woodPrice = H[resultWood]["price"] + priceByWoodSize # Result Wood Total Price
 
-            # Send user a message
-            await interaction.response.send_message("🌲 **|** Searching for a beautiful tree...")
-            await asyncio.sleep(4) 
-            await interaction.edit_original_message(content = f"🪓 **|** Great work lumberjack!  You got **{woodSize}** meters of wood from **{hWoodName}**. Instantaneous market value: **{hWoodPrice}** Cupcoin.")
-
-            # Update User Data
-            userData["wood"].update({resultWood : woodSize}) 
-            userCareer["points"]["forester_point"] +=1
-            await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
-            await collection.replace_one({"_id": interaction.user.id}, userData)
         
         # Very High Level Forestry
         elif "enchantedaxe" == userAxe:
@@ -181,19 +141,19 @@ class Forester(commands.Cog, commands.Bot):
             woodSize = random.randint(17,30) # Random wood size
             priceByWoodSize = woodSize * priceByVhSize # Price By Wood Size
 
-            vHWoodName = VH[resultWood]["name"] # Result Wood Name
-            vHWoodPrice = VH[resultWood]["price"] + priceByWoodSize # Result Wood Total Price
+            woodName = VH[resultWood]["name"] # Result Wood Name
+            woodPrice = VH[resultWood]["price"] + priceByWoodSize # Result Wood Total Price
 
-            # Send user a message
-            await interaction.response.send_message("🌲 **|** Searching for a beautiful tree...")
-            await asyncio.sleep(4) 
-            await interaction.edit_original_message(content = f"🪓 **|** Great work lumberjack!  You got **{woodSize}** meters of wood from **{vHWoodName}**. Instantaneous market value: **{vHWoodPrice}** Cupcoin.")
+        # Send user a message
+        await interaction.response.send_message("🌲 **|** Searching for a beautiful tree...")
+        await asyncio.sleep(4) 
+        await interaction.edit_original_response(content = f"🪓 **|** Great work lumberjack!  You got **{woodSize}** meters of wood from **{woodName}**. Instantaneous market value: **{woodPrice}** Cupcoin.")
 
-            # Update User Data
-            userData["wood"].update({resultWood : woodSize}) 
-            userCareer["points"]["forester_point"] +=1
-            await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
-            await collection.replace_one({"_id": interaction.user.id}, userData)
+        # Update User Data
+        userData["wood"].update({resultWood : woodSize}) 
+        userCareer["points"]["forester_point"] +=1
+        await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
+        await collection.replace_one({"_id": interaction.user.id}, userData)
 
     # Error Handler
     @forestry.error
@@ -202,8 +162,7 @@ class Forester(commands.Cog, commands.Bot):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
             await interaction.response.send_message(f"You're tired. Go home and rest for `{timeRemaining}`s",ephemeral=True)
         else:
-            await interaction.response.send_message("An unexpected error occurred. Please inform the developer of this situation and try again later.")
-            print(f"Forestry: {error}")
+            print(f"[Forestry]: {error}")
 
 async def setup(bot:commands.Bot):
     await bot.add_cog(Forester(bot))

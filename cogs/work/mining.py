@@ -47,7 +47,7 @@ class Mining(commands.Cog, commands.Bot):
         if await careerCollection.find_one({"_id": interaction.user.id}) == None:
             newData = {
                 "_id": interaction.user.id,
-                "minerpoint": 0
+                "points": {"miner_point": 0}
             }
             await careerCollection.insert_one(newData)
 
@@ -55,7 +55,7 @@ class Mining(commands.Cog, commands.Bot):
         userCareer = await careerCollection.find_one({"_id": interaction.user.id})
 
         # Axe check
-        if "pickaxe" not in userData:
+        if "pickaxe" not in userData["items"]:
             return await interaction.response.send_message("You need to buy a pickaxe for mining. `/store` :)", ephemeral = True)
 
         # Wood Check
@@ -68,13 +68,13 @@ class Mining(commands.Cog, commands.Bot):
             await careerCollection.update_one(userCareer ,careerData)
 
         if "miner_point" not in userCareer["points"]:
-            careerData = { "$set" : {"miner_point" : 0}}
-            await careerCollection.update_one(userCareer["points"] ,careerData)
+            careerData = { "$set" : {"points.miner_point" : 0}}
+            await careerCollection.update_one(userCareer ,careerData)
 
         # User Datas
         userData = await collection.find_one({"_id": interaction.user.id}) # User Data
         userCareer = await careerCollection.find_one({"_id": interaction.user.id}) # User Career Data
-        userPickaxe = userData["pickaxe"] # User Pickaxe
+        userPickaxe = userData["items"]["pickaxe"] # User Pickaxe
 
         # Mining System
 
@@ -89,22 +89,10 @@ class Mining(commands.Cog, commands.Bot):
             mineSize = random.randint(5,10) # Random mine size
             priceByMineSize = mineSize * priceByVlSize # Price By Mine Size
 
-            if resultMine == "none":
-                return await interaction.response.send_message("Unfortunately, You came back empty-handed from the mine")
 
-            vlMineName = VLM[resultMine]["name"] # Result Mine Name
-            vlMinePrice = VLM[resultMine]["price"] + priceByMineSize # Result Mine Total Price
-
-            # Send user a message
-            await interaction.response.send_message("⛏️ **|** You started digging. This process will take about 30 seconds")
-            await asyncio.sleep(30) 
-            await interaction.edit_original_message(content = f"💎 **|** Great Job Miner! You extracted {mineSize} kilograms of {vlMineName} from the mine. Instantaneous market value: {vlMinePrice}")
-
-            # Update User Data
-            userData["mines"].update({resultMine : mineSize}) 
-            userCareer["points"]["miner_point"] +=1
-            await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
-            await collection.replace_one({"_id": interaction.user.id}, userData)
+            sleepTime = 30
+            mineName = VLM[resultMine]["name"] # Result Mine Name
+            minePrice = VLM[resultMine]["price"] + priceByMineSize # Result Mine Total Price
 
         # Low Level Miner
         elif "steelpickaxe" == userPickaxe:
@@ -117,22 +105,10 @@ class Mining(commands.Cog, commands.Bot):
             mineSize = random.randint(5,15) # Random mine size
             priceByMineSize = mineSize * priceByLSize # Price By Mine Size
 
-            if resultMine == "none":
-                return await interaction.response.send_message("Unfortunately, You came back empty-handed from the mine")
-
-            lMineName = LM[resultMine]["name"] # Result Mine Name
-            lMinePrice = LM[resultMine]["price"] + priceByMineSize # Result Mine Total Price
-
-            # Send user a message
-            await interaction.response.send_message("⛏️ **|** You started digging. This process will take about 30 seconds")
-            await asyncio.sleep(30) 
-            await interaction.edit_original_message(content = f"💎 **|** Great Job Miner! You extracted {mineSize} kilograms of {lMineName} from the mine. Instantaneous market value: {lMinePrice}")
-
-            # Update User Data
-            userData["mines"].update({resultMine : mineSize}) 
-            userCareer["points"]["miner_point"] +=1
-            await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
-            await collection.replace_one({"_id": interaction.user.id}, userData)
+            
+            sleepTime = 30
+            mineName = LM[resultMine]["name"] # Result Mine Name
+            minePrice = LM[resultMine]["price"] + priceByMineSize # Result Mine Total Price
 
         #Medium Level Miner
         elif "goldenpickaxe" == userPickaxe:
@@ -145,19 +121,9 @@ class Mining(commands.Cog, commands.Bot):
             mineSize = random.randint(10,20) # Random mine size
             priceByMineSize = mineSize * priceByMSize # Price By Mine Size
 
-            mMineName = MM[resultMine]["name"] # Result Mine Name
-            mMinePrice = MM[resultMine]["price"] + priceByMineSize # Result Mine Total Price
-
-            # Send user a message
-            await interaction.response.send_message("⛏️ **|** You started digging. This process will take about 25 seconds")
-            await asyncio.sleep(25) 
-            await interaction.edit_original_message(content = f"💎 **|** Great Job Miner! You extracted {mineSize} kilograms of {mMineName} from the mine. Instantaneous market value: {mMinePrice}")
-
-            # Update User Data
-            userData["mines"].update({resultMine : mineSize}) 
-            userCareer["points"]["miner_point"] +=1
-            await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
-            await collection.replace_one({"_id": interaction.user.id}, userData)
+            sleepTime = 25
+            mineName = MM[resultMine]["name"] # Result Mine Name
+            minePrice = MM[resultMine]["price"] + priceByMineSize # Result Mine Total Price
 
         # High Level Miner
         elif "reinforcedpickaxe" == userPickaxe:
@@ -170,20 +136,10 @@ class Mining(commands.Cog, commands.Bot):
             mineSize = random.randint(15,25) # Random mine size
             priceByMineSize = mineSize * priceByHSize # Price By Mine Size
 
-            hMineName = HM[resultMine]["name"] # Result Mine Name
-            hMinePrice = HM[resultMine]["price"] + priceByMineSize # Result Mine Total Price
+            sleepTime = 20
+            mineName = HM[resultMine]["name"] # Result Mine Name
+            minePrice = HM[resultMine]["price"] + priceByMineSize # Result Mine Total Price
 
-            # Send user a message
-            await interaction.response.send_message("⛏️ **|** You started digging. This process will take about 20 seconds")
-            await asyncio.sleep(20) 
-            await interaction.edit_original_message(content = f"💎 **|** Great Job Miner! You extracted {mineSize} kilograms of {hMineName} from the mine. Instantaneous market value: {hMinePrice}")
-
-            # Update User Data
-            userData["mines"].update({resultMine : mineSize}) 
-            userCareer["points"]["miner_point"] +=1
-            await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
-            await collection.replace_one({"_id": interaction.user.id}, userData)
-        
         # Very High Level Miner
         elif "miningvehicle" == userPickaxe:
 
@@ -195,19 +151,23 @@ class Mining(commands.Cog, commands.Bot):
             mineSize = random.randint(15,25) # Random mine size
             priceByMineSize = mineSize * priceByVHSize # Price By Mine Size
 
-            vhMineName = VHM[resultMine]["name"] # Result Mine Name
-            vhMinePrice = VHM[resultMine]["price"] + priceByMineSize # Result Mine Total Price
+            sleepTime = 10
+            mineName = VHM[resultMine]["name"] # Result Mine Name
+            minePrice = VHM[resultMine]["price"] + priceByMineSize # Result Mine Total Price
 
-            # Send user a message
-            await interaction.response.send_message("⛏️ **|** You started digging. This process will take about 10 seconds")
-            await asyncio.sleep(10) 
-            await interaction.edit_original_message(content = f"💎 **|** Great Job Miner! You extracted {mineSize} kilograms of {vhMineName} from the mine. Instantaneous market value: {vhMinePrice}")
+        # Send user a message
+        await interaction.response.send_message("⛏️ **|** You started digging. This process will take about 10 seconds")
+        await asyncio.sleep(sleepTime) 
 
-            # Update User Data
-            userData["mines"].update({resultMine : mineSize}) 
-            userCareer["points"]["miner_point"] +=1
-            await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
-            await collection.replace_one({"_id": interaction.user.id}, userData)
+        if resultMine == "none":
+            return await interaction.edit_original_response("Unfortunately, You came back empty-handed from the mine ;c")
+        await interaction.edit_original_response(content = f"💎 **|** Great Job Miner! You extracted {mineSize} kilograms of {mineName} from the mine. Instantaneous market value: {minePrice}")
+
+        # Update User Data
+        userData["mines"].update({resultMine : mineSize}) 
+        userCareer["points"]["miner_point"] +=1
+        await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
+        await collection.replace_one({"_id": interaction.user.id}, userData)
 
 
 
@@ -218,7 +178,6 @@ class Mining(commands.Cog, commands.Bot):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
             await interaction.response.send_message(f"{clock} **|** You're tired. Go home and rest for `{timeRemaining}`s.",ephemeral=True)
         else:
-            await interaction.response.send_message("An unexpected error occurred. Please inform the developer of this situation and try again later.")
             print(f"[MINING]: {error} ")
 
 async def setup(bot:commands.Bot):

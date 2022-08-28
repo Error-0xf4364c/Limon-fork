@@ -3,6 +3,7 @@ from discord import app_commands, Embed
 from discord.ui import View, button
 from discord.ext import commands
 import datetime
+import asyncio
 import yaml
 from yaml import Loader
 from main import MyBot
@@ -74,7 +75,7 @@ class SellButtons(View):
     # Interaction User Check
     
     async def interaction_check(self, interaction: discord.Interaction) -> bool:
-        print(message_author_id)
+
         if not interaction.user.id in message_author_id:
             await interaction.response.send_message("This shop doesn't belong to you. You can't trade in someone else's store. Please use the /sell command.", ephemeral=True)
             return False
@@ -114,11 +115,12 @@ class SellButtons(View):
 
         userFishes = list(userInvData['fishes'].keys())
         for i in userInvData['fishes'].values(): # Wander in fish size
+            print(i)
             """We multiply the length of each fish by the price quoted and overwrite the current value."""
             sum_fish += (i * priceByFishSize) 
         for x in listFishes: # We are navigating the values ​​in the all_fishes dictionary collected in the list.
             if x in userFishes: # We are navigating the user fishes
-                sum_fish += all_fish[x]["price"] # Adds the values ​​(prices) of all fish in the database to the default value
+                sum_fish += int(all_fish[x]["price"]) # Adds the values ​​(prices) of all fish in the database to the default value
 
         button.label = "Sold Fishes!" # New Button Label
         button.style = discord.ButtonStyle.secondary # New Button Stlye
@@ -164,7 +166,7 @@ class SellButtons(View):
         userHunts = userInvData['hunts']
         for x in listHunts:
             if x in userHunts:
-                sum_hunt += allHunts[x]["price"]
+                sum_hunt += int(all_hunt[x]["price"])
         
 
         button.label = "Sold Hunts!" # New Button Label
@@ -214,7 +216,7 @@ class SellButtons(View):
             sum_mine += (i * priceByMineKg) 
         for x in listMines: # We are navigating the values ​​in the all_mine dictionary collected in the list.
             if x in userMines: # We are navigating the user mines
-                sum_mine += all_mine[x]["price"] # Adds the values ​​(prices) of all mines in the database to the default value
+                sum_mine += int(all_mine[x]["price"]) # Adds the values ​​(prices) of all mines in the database to the default value
         
         
 
@@ -265,7 +267,7 @@ class SellButtons(View):
             sum_wood += (i * priceByWoodSize) 
         for x in listWood: # We are navigating the values ​​in the all wood dictionary collected in the list.
             if x in userWood: # We are navigating the user wood
-                sum_wood += all_wood[x]["price"] # Adds the values ​​(prices) of all wood in the database to the default value
+                sum_wood += int(all_wood[x]["price"]) # Adds the values ​​(prices) of all wood in the database to the default value
         
         
 
@@ -296,7 +298,7 @@ class Sell(commands.Cog, commands.Bot):
 
     # Sell Comands
     @app_commands.command(name="sell", description="Sell Hunts")
-    @app_commands.checks.cooldown(1, 1800, key=lambda i: (i.guild_id, i.user.id))
+    @app_commands.checks.cooldown(1, 300, key=lambda i: (i.guild_id, i.user.id))
     async def sell(self, interaction: discord.Interaction):
 
         # Database Connection:
@@ -333,10 +335,12 @@ class Sell(commands.Cog, commands.Bot):
         if 'fishes' in userData and len(userData['fishes']) > 0:
             userFishes = list(userData['fishes'].keys())
             for i in userData['fishes'].values():
+
                 sum_fish += (i*priceByFishSize)
             for x in listFishes:
                 if x in userFishes:
-                    sum_fish += all_fish[x]["price"]
+
+                    sum_fish += int(all_fish[x]["price"])
             number_fish = len(userData['fishes'])
             embed_value_fishes = f"You have **{number_fish}** fish. Total = **{sum_fish}** Cupcoin."
 
@@ -354,7 +358,7 @@ class Sell(commands.Cog, commands.Bot):
             userHunts = userData['hunts']
             for x in listHunts:
                 if x in userHunts:
-                    sum_hunt += all_hunt[x]
+                    sum_hunt += all_hunt[x]["price"]
             number_hunt = len(userData['hunts'])
             embed_value_hunts = f"You have **{number_hunt}** hunt. Total = **{sum_hunt}** Cupcoin."
 
@@ -365,12 +369,13 @@ class Sell(commands.Cog, commands.Bot):
             for x in listWood:
                 if x in userWood:
                     sum_wood += all_wood[x]["price"]
-            number_woood = len(userData['wood'])
+            number_wood = len(userData['wood'])
             embed_value_wood = f"You have **{number_wood}** wood. Total = **{sum_wood}** Cupcoin."
 
-        message_author_id.clear()
+        
         if interaction.user.id in message_author_id:
-            return await interaction.response.send_message("You already have a shop opened. Turn it off first", ephemeral=True)
+            message_author_id.remove(interaction.user.id)
+            #return await interaction.response.send_message("You already have a shop opened. Turn it off first", ephemeral=True)
         message_author_id.append(interaction.user.id)
 
         menuEmbed = Embed(description = f"Hello, welcome to the store. Here you can sell mines, hunts, fishes and wood. Here is your inventory:")
@@ -391,12 +396,11 @@ class Sell(commands.Cog, commands.Bot):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
             await interaction.response.send_message(f"Upss! The shop hasn't opened yet. Please try again after {timeRemaining}s.",ephemeral=True)
         else:
-            await interaction.response.send_message("A problem has occurred. Please try again later! *err!*")
             if len(message_author_id) >0:
                 message_author_id.clear()
-        print(f"[SELL]: {error}")
+            print(f"[SELL]: {error}")
 
 
 # Register Command
 async def setup(bot: commands.Bot):
-    await bot.add_cog(Sell(bot), guilds= [discord.Object(id =964617424743858176)])
+    await bot.add_cog(Sell(bot))

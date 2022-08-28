@@ -47,7 +47,7 @@ class Fishing(commands.Cog, commands.Bot):
         if await careerCollection.find_one({"_id": interaction.user.id}) == None:
             newData = {
                 "_id": interaction.user.id,
-                "fisher_point": 0
+                "points": {"fisher_point": 0}
             }
             await careerCollection.insert_one(newData)
 
@@ -55,26 +55,26 @@ class Fishing(commands.Cog, commands.Bot):
         userCareer = await careerCollection.find_one({"_id": interaction.user.id})
 
         # Axe check
-        if "rod" not in userData:
+        if "rod" not in userData["items"]:
             return await interaction.response.send_message("You need to buy a rod for fishing. `/store` :)", ephemeral = True)
 
         # Wood Check
         if "fishes" not in userData:
-            foresterData = { "$set" : {"fishes" : {}}}
-            await collection.update_one(userData ,foresterData)
+            fisherData = { "$set" : {"fishes" : {}}}
+            await collection.update_one(userData ,fisherData)
 
         if "points" not in userCareer:
             careerData = { "$set" : {"points" : {}}}
             await careerCollection.update_one(userCareer ,careerData)
 
         if "fisher_point" not in userCareer["points"]:
-            careerData = { "$set" : {"fisher_point" : 0}}
-            await careerCollection.update_one(userCareer["points"] ,careerData)
+            fisherPointData = { "$set" : {"points.fisher_point" : 0}}
+            await careerCollection.update_one(userCareer ,fisherPointData)
 
         # User Datas
         userData = await collection.find_one({"_id": interaction.user.id}) # User Data
         userCareer = await careerCollection.find_one({"_id": interaction.user.id}) # User Career Data
-        userRod = userData["rod"] # User Rod
+        userRod = userData["items"]["rod"] # User Rod
 
         # Fishing System
 
@@ -82,133 +82,90 @@ class Fishing(commands.Cog, commands.Bot):
         if "simplerod" == userRod:
 
             VLF = fish["veryLowLevelFish"] # Very Low Level Fishes
-            veryLowLvFish = " ".join(VLF.keys()) # Very Low Level Fishes Keys
-            splittedFish = veryLowLvFish.split(" ") # to List Fishes keys
+            allfish = " ".join(VLF.keys()) # Very Low Level Fishes Keys
+            splittedFish = allfish.split(" ") # to List Fishes keys
             priceByVlSize = int(fish["priceByFishSize"]) # Price By Very Low Level Fish Size
             resultFish = random.choice(splittedFish) # Random Very Low Level Fish
             fishSize = random.randint(5,15) # Random fish size
             priceByFishSize = fishSize * priceByVlSize # Price By Fish Size
 
-            if resultFish == "none":
-                return await interaction.response.send_message("Unfortunately, You couldn't fish")
 
-            vlFishName = VLF[resultFish]["name"] # Result Fish Name
-            vlFishPrice = VLF[resultFish]["price"] + priceByFishSize # Result Fish Total Price
+            fishName = VLF[resultFish]["name"] # Result Fish Name
+            fishPrice = VLF[resultFish]["price"] + priceByFishSize # Result Fish Total Price
 
-            # Send user a message
-            await interaction.response.send_message("🎣 **|** The fishing line was thrown. Godspeed.")
-            await asyncio.sleep(6) 
-            await interaction.edit_original_message(content = f"🐟 **|** Great work fisher! You have caught a **{fishSize}**-inch long **{vlFishName}** . Instantaneous market value: **{vlFishPrice}** Cupcoin.")
-
-            # Update User Data
-            userData["fishes"].update({resultFish : fishSize}) 
-            userCareer["points"]["fisher_point"] +=1
-            await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
-            await collection.replace_one({"_id": interaction.user.id}, userData)
         
         # Low Level Fisher
         if "solidrod" == userRod:
 
             LF = fish["lowLevelFish"] # Low Level Fishes
-            lowLvFish = " ".join(LF.keys()) # Low Level Fishes Keys
-            splittedFish = lowLvFish.split(" ") # to List Fishes keys
+            allfish = " ".join(LF.keys()) # Low Level Fishes Keys
+            splittedFish = allfish.split(" ") # to List Fishes keys
             priceByLSize = int(fish["priceByFishSize"]) # Price By Low Level Fish Size
             resultFish = random.choice(splittedFish) # Random Low Level Fish
             fishSize = random.randint(3,10) # Random fish size
             priceByFishSize = fishSize * priceByLSize # Price By Fish Size
 
-            if resultFish == "none":
-                return await interaction.response.send_message("Unfortunately, You couldn't fish")
-
-            lFishName = LF[resultFish]["name"] # Result Fish Name
-            lFishPrice = LF[resultFish]["price"] + priceByFishSize # Result Fish Total Price
-
-            # Send user a message
-            # Send user a message
-            await interaction.response.send_message("🎣 **|** The fishing line was thrown. Godspeed.")
-            await asyncio.sleep(5) 
-            await interaction.edit_original_message(content = f"🐟 **|** Great work fisher! You have caught a **{fishSize}**-inch long **{lFishName}** . Instantaneous market value: **{lFishPrice}** Cupcoin.")
-
-            # Update User Data
-            userData["fishes"].update({resultFish : fishSize}) 
-            userCareer["points"]["fisher_point"] +=1
-            await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
-            await collection.replace_one({"_id": interaction.user.id}, userData)
+            fishName = LF[resultFish]["name"] # Result Fish Name
+            fishPrice = LF[resultFish]["price"] + priceByFishSize # Result Fish Total Price
 
         # Medium Level Fisher
         if "silverrod" == userRod:
 
             MF = fish["mediumLevelFish"] # Medium Level Fishes
-            mediumLvFish = " ".join(MF.keys()) # Medium Level Fishes Keys
-            splittedFish = mediumLvFish.split(" ") # to List Fishes keys
+            allfish = " ".join(MF.keys()) # Medium Level Fishes Keys
+            splittedFish = allfish.split(" ") # to List Fishes keys
             priceByMSize = int(fish["priceByFishSize"]) # Price By Medium Level Fish Size
             resultFish = random.choice(splittedFish) # Random Medium Level Fish
             fishSize = random.randint(5,15) # Random fish size
             priceByFishSize = fishSize * priceByMSize # Price By Fish Size
 
-            mFishName = MF[resultFish]["name"] # Result Fish Name
-            mFishPrice = MF[resultFish]["price"] + priceByFishSize # Result Fish Total Price
+            fishName = MF[resultFish]["name"] # Result Fish Name
+            fishPrice = MF[resultFish]["price"] + priceByFishSize # Result Fish Total Price
 
-            # Send user a message
-            await interaction.response.send_message("🎣 **|** The fishing line was thrown. Godspeed.")
-            await asyncio.sleep(4) 
-            await interaction.edit_original_message(content = f"🐟 **|** Great work fisher! You have caught a **{fishSize}**-inch long **{mFishName}** . Instantaneous market value: **{mFishPrice}** Cupcoin.")
-
-            # Update User Data
-            userData["fishes"].update({resultFish : fishSize}) 
-            userCareer["points"]["fisher_point"] +=1
-            await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
-            await collection.replace_one({"_id": interaction.user.id}, userData)
 
         # High Level Fisher
         if "luckyrod" == userRod:
 
             HF = fish["highLevelFish"] # High Level Fishes
-            highLvFish = " ".join(HF.keys()) # High Level Fishes Keys
-            splittedFish = highLvFish.split(" ") # to List Fishes keys
+            allfish = " ".join(HF.keys()) # High Level Fishes Keys
+            splittedFish = allfish.split(" ") # to List Fishes keys
             priceByHSize = int(fish["priceByFishSize"]) # Price By High Level Fish Size
             resultFish = random.choice(splittedFish) # Random High Level Fish
             fishSize = random.randint(8,18) # Random fish size
             priceByFishSize = fishSize * priceByHSize # Price By Fish Size
 
-            hFishName = HF[resultFish]["name"] # Result Fish Name
-            hFishPrice = HF[resultFish]["price"] + priceByFishSize # Result Fish Total Price
+            fishName = HF[resultFish]["name"] # Result Fish Name
+            fishPrice = HF[resultFish]["price"] + priceByFishSize # Result Fish Total Price
 
-            # Send user a message
-            await interaction.response.send_message("🎣 **|** The fishing line was thrown. Godspeed.")
-            await asyncio.sleep(3)
-            await interaction.edit_original_message(content = f"🐟 **|** Great work fisher! You have caught a **{fishSize}**-inch long **{hFishName}** . Instantaneous market value: **{hFishPrice}** Cupcoin.")
-
-            # Update User Data
-            userData["fishes"].update({resultFish : fishSize}) 
-            userCareer["points"]["fisher_point"] +=1
-            await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
-            await collection.replace_one({"_id": interaction.user.id}, userData)
 
         # Very High Level Fisher
         if "harpoon" == userRod:
 
             VHF = fish["veryHighLevelFish"] # Very High Level Fishes
-            veryHighLvFish = " ".join(VHF.keys()) # Very High Level Fishes Keys
-            splittedFish = veryHighLvFish.split(" ") # to List Fishes keys
+            allfish = " ".join(VHF.keys()) # Very High Level Fishes Keys
+            splittedFish = allfish.split(" ") # to List Fishes keys
             priceByvHSize = int(fish["priceByFishSize"]) # Price By Very High Level Fish Size
             resultFish = random.choice(splittedFish) # Random Very High Level Fish
             fishSize = random.randint(20,55) # Random fish size
             priceByFishSize = fishSize * priceByvHSize # Price By Fish Size
 
-            vhFishName = VHF[resultFish]["name"] # Result Fish Name
-            vhFishPrice = VHF[resultFish]["price"] + priceByFishSize # Result Fish Total Price
+            fishName = VHF[resultFish]["name"] # Result Fish Name
+            fishPrice = VHF[resultFish]["price"] + priceByFishSize # Result Fish Total Price
 
-            # Send user a message
-            await interaction.response.send_message("🎣 **|** The fishing line was thrown. Godspeed.")
-            await asyncio.sleep(5) 
-            await interaction.edit_original_message(content = f"🐟 **|** Great work fisher! You have caught a **{fishSize}**-inch long **{vhFishName}** . Instantaneous market value: **{vhFishPrice}** Cupcoin.")
+        # Send user a message
+        await interaction.response.send_message("🎣 **|** The fishing line was thrown. Godspeed.")
+        await asyncio.sleep(5) 
 
-            # Update User Data
-            userData["fishes"].update({resultFish : fishSize}) 
-            userCareer["points"]["fisher_point"] +=1
-            await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
-            await collection.replace_one({"_id": interaction.user.id}, userData)
+        if resultFish == "none":
+            return await interaction.edit_original_response("🐟 **|** Unfortunately, You couldn't fish ;c")
+
+        await interaction.edit_original_response(content = f"🐟 **|** Great work fisher! You have caught a **{fishSize}**-inch long **{fishName}** . Instantaneous market value: **{fishPrice}** Cupcoin.")
+
+        # Update User Data
+        userData["fishes"].update({resultFish : fishSize}) 
+        userCareer["points"]["fisher_point"] +=1
+        await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
+        await collection.replace_one({"_id": interaction.user.id}, userData)
 
     @fishing.error
     async def fishingError(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
@@ -216,7 +173,6 @@ class Fishing(commands.Cog, commands.Bot):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
             await interaction.response.send_message(f"{clock} **|** You're tired. Go home and rest for `{timeRemaining}`s.",ephemeral=True)
         else:
-            await interaction.response.send_message("An unexpected error occurred. Please inform the developer of this situation and try again later.")
             print(f"[FISHING]: {error} ")
 
 async def setup(bot:commands.Bot):

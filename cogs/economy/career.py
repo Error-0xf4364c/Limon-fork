@@ -54,10 +54,10 @@ class CareerView(commands.Cog, commands.Bot):
         db = self.bot.mongoConnect["cupcake"]
         collection = db["career"]
 
-        if await interaction.collection.find_one({"_id": interaction.user.id}) == None:
+        if await collection.find_one({"_id": interaction.user.id}) == None:
             return await interaction.response.send_message(f"You have not a career. You can use `mining`, `forestry`, `hunting`, `fishing` etc. commands.", ephemeral=True)
 
-        userCareer = await interaction.collection.find_one({"_id": interaction.user.id})
+        userCareer = await collection.find_one({"_id": interaction.user.id})
         userBadges = []
 
         userPoints = [ f"{' '.join(i.split('_')).title()} = {userCareer['points'][i]}" for i in userCareer["points"] ]

@@ -43,15 +43,15 @@ class MyBot(commands.Bot):
         for ext in self.initial_extensions:
             await self.load_extension(ext)
 
-        # 
-        await bot.tree.sync(guild = discord.Object(id = guild_id))
+        # guild = discord.Object(id = guild_id)
+        await bot.tree.sync()
 
     """async def close(self):
         await super().close()
         await self.session.close()"""
 
     async def on_ready(self):
-        await bot.change_presence(activity=discord.Streaming(name="Public Beta", url="https://www.twitch.tv/iamabduley"))
+        await bot.change_presence(activity=discord.Streaming(name="Testing", url="https://www.twitch.tv/iamabduley"))
         print("Bot aktif")
 
     # ADD GUILD

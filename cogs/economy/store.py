@@ -180,11 +180,13 @@ class Pickaxes(discord.ui.Select):
         db = client.mongoConnect["cupcake"]
         inventoryCollection = db["inventory"]
         coinCollection = db["economy"]
+        userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
 
         if self.values[0] == "sellpickaxe":
             if "pickaxe" in userInventory["items"]:
-                userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
-                del userInventory["items"]["pickaxe"]
+                
+                userInventory["items"].pop("pickaxe")
+                await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
             else:
                 return await interaction.response.send_message("You don't have a pickaxe")
 
@@ -250,7 +252,7 @@ class Rods(discord.ui.Select):
     async def callback(self, interaction: discord.Interaction):
         
         rodName = ""
-        rodPrice = "0"
+        rodPrice = 0
         rodId = ""
         
         if self.values[0] == "simplerod":
@@ -283,11 +285,13 @@ class Rods(discord.ui.Select):
         db = client.mongoConnect["cupcake"]
         inventoryCollection = db["inventory"]
         coinCollection = db["economy"]
+        userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
 
         if self.values[0] == "sellrod":
             if "rod" in userInventory["items"]:
-                userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
-                del userInventory["items"]["rod"]
+                
+                userInventory["items"].pop("rod")
+                await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
             else:
                 return await interaction.response.send_message("You don't have a rod")
         # Wallet Check
@@ -386,12 +390,15 @@ class Bows(discord.ui.Select):
         db = client.mongoConnect["cupcake"]
         inventoryCollection = db["inventory"]
         coinCollection = db["economy"]
+        userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
 
         if self.values[0] == "sellbow":
             
             if "bow" in userInventory["items"]:
-                userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
-                del userInventory["items"]["bow"]
+                
+                userInventory["items"].pop("bow")
+                await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
+                await interaction.response.send_message("You have successfully sold the bow")
             else:
                 await interaction.response.send_message("You don't have a bow")
 
@@ -435,7 +442,7 @@ class Bows(discord.ui.Select):
         userWallet["coins"] -= bowPrice
         await coinCollection.replace_one({"_id" : interaction.user.id}, userWallet)
         
-        # Add Item
+
         userInventory["items"].update({"bow" : bowId})
         await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
 
@@ -491,11 +498,13 @@ class Axes(discord.ui.Select):
         db = client.mongoConnect["cupcake"]
         inventoryCollection = db["inventory"]
         coinCollection = db["economy"]
+        userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
 
         if self.values[0] == "sellaxe":
             if "axe" in userInventory["items"]:
-                userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
-                del userInventory["items"]["axe"]
+                
+                userInventory["items"].pop("axe")
+                await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
             else:
                 return await interaction.response.send_message("You don't have a axe")
 
@@ -618,7 +627,7 @@ class Store(commands.Cog, commands.Bot):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    @app_commands.command(name = "storedemo", description = "Open store and buy items") # Commands
+    @app_commands.command(name = "store", description = "Open store and buy items") # Commands
     @app_commands.checks.cooldown( 1, 20, key=lambda i: (i.guild_id, i.user.id)) # Cooldown
     async def store(self, interaction: discord.Interaction):
         
@@ -640,9 +649,8 @@ class Store(commands.Cog, commands.Bot):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
             await interaction.response.send_message(f"Please wait `{timeRemaining}`s and Try Again!",ephemeral=True)
         else:
-            await interaction.response.send_message("An unexpected error occurred. Please inform the developer of this situation and try again later.")
             print(f"[STORE]: {error} ")
 
 
 async def setup(bot: commands.Bot):
-    await bot.add_cog(Store(bot), guilds= [discord.Object(id =964617424743858176)])
+    await bot.add_cog(Store(bot))

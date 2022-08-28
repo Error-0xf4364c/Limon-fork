@@ -10,7 +10,7 @@ class BasicCommands(commands.Cog, commands.Bot):
     @app_commands.command(name="guild_count", description="Shows the number of servers where the Cupcake is located")
     @app_commands.checks.cooldown(1, 10, key=lambda i: (i.guild_id, i.user.id))
     async def guild_count(self, interaction: discord.Interaction):
-        await interaction.response.send_message(f"I am currently on **{len(self.bot.guilds)}** servers!", ephemeral = True)
+        await interaction.response.send_message(f"I am currently in **{len(self.bot.guilds)}** servers!", ephemeral = True)
     @guild_count.error
     async def guild_countError(self, interaction: discord.Interaction,
                          error: app_commands.AppCommandError):
@@ -33,4 +33,4 @@ class BasicCommands(commands.Cog, commands.Bot):
 
 
 async def setup(bot: commands.Bot):
-    await bot.add_cog(BasicCommands(bot), guilds= [discord.Object(id =964617424743858176)])
+    await bot.add_cog(BasicCommands(bot))
