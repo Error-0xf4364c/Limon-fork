@@ -171,8 +171,6 @@ class Inventory(commands.Cog):
     async def inventory(self, interaction: discord.Interaction):
         view = Buttons()
 
-        userData = await collection.find_one({"_id" : interaction.user.id})
-
         userFishes = ["Yok"]
         userHunts = ["Yok"]
         userHeroes = ["Yok"]
