@@ -170,7 +170,8 @@ class Inventory(commands.Cog):
     @app_commands.checks.cooldown( 1, 60, key=lambda i: (i.guild_id, i.user.id))
     async def inventory(self, interaction: discord.Interaction):
         view = Buttons()
-
+        
+        # Embed Message
         menu_embed = Embed(description = '**What do you want to look at in your inventory?**\n To see what you have achieved as a result of your work, click on "Backpack"\n To look at the items you have purchased, click on: "Items"', color = 0x2E3136)
         menu_embed.set_author(name= f"{interaction.user.name}'s Inventory", icon_url = interaction.user.avatar.url)
         
