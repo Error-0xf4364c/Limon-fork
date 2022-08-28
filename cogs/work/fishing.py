@@ -157,7 +157,7 @@ class Fishing(commands.Cog, commands.Bot):
         await asyncio.sleep(5) 
 
         if resultFish == "none":
-            return await interaction.edit_original_response("🐟 **|** Unfortunately, You couldn't fish ;c")
+            return await interaction.response.send_message("🐟 **|** Unfortunately, You couldn't fish ;c")
 
         await interaction.edit_original_response(content = f"🐟 **|** Great work fisher! You have caught a **{fishSize}**-inch long **{fishName}** . Instantaneous market value: **{fishPrice}** Cupcoin.")
 
