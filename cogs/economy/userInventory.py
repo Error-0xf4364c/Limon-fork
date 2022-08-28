@@ -83,7 +83,7 @@ class Buttons(View):
     # Interaction User Check
     
     async def interaction_check(self, interaction: discord.Interaction) -> bool:
-        print(message_author_id)
+
         if not interaction.user.id in message_author_id:
             await interaction.response.send_message("This inventory doesn't belong to you. You can't trade in someone else's inventory. Please use the /inventory command.", ephemeral=True)
             return False

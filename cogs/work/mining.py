@@ -161,7 +161,7 @@ class Mining(commands.Cog, commands.Bot):
 
         if resultMine == "none":
             return await interaction.edit_original_response("Unfortunately, You came back empty-handed from the mine ;c")
-        await interaction.edit_original_response(content = f"💎 **|** Great Job Miner! You extracted {mineSize} kilograms of {mineName} from the mine. Instantaneous market value: {minePrice}")
+        await interaction.edit_original_response(content = f"💎 **|** Great Job Miner! You extracted **{mineSize}** kilograms of **{mineName}** from the mine. Instantaneous market value: {minePrice}")
 
         # Update User Data
         userData["mines"].update({resultMine : mineSize}) 

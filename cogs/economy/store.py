@@ -187,6 +187,7 @@ class Pickaxes(discord.ui.Select):
                 
                 userInventory["items"].pop("pickaxe")
                 await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
+                await interaction.response.send_message("You have successfully sold the pickaxe")
             else:
                 return await interaction.response.send_message("You don't have a pickaxe")
 
@@ -233,7 +234,7 @@ class Pickaxes(discord.ui.Select):
         userInventory["items"].update({"pickaxe" : pickaxeId})
         await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
 
-        await interaction.response.send_message(f"✨⛏️ **|** You bought a new {pickaxeName} by paying {pickaxePrice}. Now you will be able to extract more valuable mines with this pickaxe")
+        await interaction.response.send_message(f"✨⛏️ **|** You bought a new {pickaxeName} by paying {pickaxePrice:,}. Now you will be able to extract more valuable mines with this pickaxe")
 
 class Rods(discord.ui.Select):
     def __init__(self):
@@ -289,9 +290,10 @@ class Rods(discord.ui.Select):
 
         if self.values[0] == "sellrod":
             if "rod" in userInventory["items"]:
-                
                 userInventory["items"].pop("rod")
                 await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
+                await interaction.response.send_message("You have successfully sold the rod")
+                return
             else:
                 return await interaction.response.send_message("You don't have a rod")
         # Wallet Check
@@ -338,7 +340,7 @@ class Rods(discord.ui.Select):
         userInventory["items"].update({"rod" : rodId})
         await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
 
-        await interaction.response.send_message(f"✨🎣 **|** You bought a new {rodName} by paying {rodPrice}. Now you will be able to catch more valuable fish with this fishing rod")
+        await interaction.response.send_message(f"✨🎣 **|** You bought a new {rodName} by paying {rodPrice:,}. Now you will be able to catch more valuable fish with this fishing rod")
 
 class Bows(discord.ui.Select):
     def __init__(self):
@@ -399,8 +401,9 @@ class Bows(discord.ui.Select):
                 userInventory["items"].pop("bow")
                 await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
                 await interaction.response.send_message("You have successfully sold the bow")
+                return
             else:
-                await interaction.response.send_message("You don't have a bow")
+                return await interaction.response.send_message("You don't have a bow")
 
         # Wallet Check
         if await coinCollection.find_one({"_id" : interaction.user.id}) == None:
@@ -446,7 +449,7 @@ class Bows(discord.ui.Select):
         userInventory["items"].update({"bow" : bowId})
         await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
 
-        await interaction.response.send_message(f"✨🏹 **|** You bought a new {bowName} by paying {bowPrice}. Now you will be able to hunt more valuable prey with this bow")
+        await interaction.response.send_message(f"✨🏹 **|** You bought a new {bowName} by paying {bowPrice:,}. Now you will be able to hunt more valuable prey with this bow")
 
 class Axes(discord.ui.Select):
     def __init__(self):
@@ -505,6 +508,8 @@ class Axes(discord.ui.Select):
                 
                 userInventory["items"].pop("axe")
                 await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
+                await interaction.response.send_message("You have successfully sold the axe")
+                return
             else:
                 return await interaction.response.send_message("You don't have a axe")
 
@@ -552,7 +557,7 @@ class Axes(discord.ui.Select):
         userInventory["items"].update({"axe" : axeId})
         await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
 
-        await interaction.response.send_message(f"✨🪓 **|** You bought a new {axeName} by paying {axePrice}. Now you will be able to cut down larger trees with this axe")
+        await interaction.response.send_message(f"✨🪓 **|** You bought a new {axeName} by paying {axePrice:,}. Now you will be able to cut down larger trees with this axe")
 
 class PickaxeView(discord.ui.View):
     def __init__(self):
