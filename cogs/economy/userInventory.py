@@ -97,6 +97,7 @@ class Inventory(commands.Cog):
         userFishes = ["Yok"]
         userHunts = ["Yok"]
         userHeroes = ["Yok"]
+        userMines = ["Yok"]
         
 
         if "hunts" in userData:
