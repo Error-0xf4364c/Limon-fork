@@ -1,16 +1,51 @@
 ---
-priceByKg: 4
-mines:
-  altın: 3000
-  none: 0
-  rodyum: 2800
-  platin: 2100
-  iridyum: 1900
-  none: 0
-  paladyum: 1800
-  osmiyum: 1100
-  none: 0
-  renyum: 900
-  rutenyum: 850
-  gumus: 800
-  none: 0
+priceByMineKg: 2
+
+
+veryLowLevelMine:
+  none: none
+  lead: {name: Lead, price: 1000}
+  zinc: {name: Zinc, price: 1100}
+  coal: {name: Coal, price: 900}
+  boron: {name: Boron, price: 950}
+  copper: {name: Copper, price : 1200}
+  manganese: {name: Manganese, price: 1050}
+  none: none
+
+lowLevelMine:
+  chrome: {name: Chrome, price: 1400}
+  iron: {name: Iron, price: 1300}
+  aluminium: {name: Aluminium, price: 1350}
+  trona: {name: Trona, price: 1500}
+  gypsum: {name: Gypsum, price: 1250}
+  none: none
+
+mediumLevelMine:
+  magnesite: {name: Magnesite, price: 1900}
+  lignite: {name: Lignite, price: 2000}
+  phosphate: {name: Phosphate, price: 2100}
+  wolfram: {name: Wolfram, price: 2050}
+  barite: {name: Barite, price: 1980}
+  sulphur: {name: Sulphur, price: 2150}
+  antimony: {name: Antimony, price: 2200}
+  bauxite: {name: Bauxite, price: 2250}
+
+highLevelMine:
+  silver: {name: Silver, price: 3000}
+  gold: {name: Gold, price: 4800}
+  platinum: {name: Platinum, price: 5050}
+  opal: {name: Opal, price: 5200}
+  amethyst: {name: Amethyst, price: 5100}
+  citrine: {name: Citrine, price: 5150}
+
+veryHighLevelMine:
+  rodium: {name: Rodium, price: 5000}
+  paladium: {name: Paladium, price: 5500}
+  diamond: {name: Diamond, price: 8000}
+  iridium: {name: Iridium, price: 4900}
+  renium: {name: Renium, price: 5100}
+  uranium: {name: Uranium, price: 6300}
+  osmium: {name: Osmium, price: 6000}
+  rutenium: {name: Rutenium, price: 5800}
+  emerald: {name: Emerald, price: 6100}
+  rubies: {name: Rubies, price: 6200}

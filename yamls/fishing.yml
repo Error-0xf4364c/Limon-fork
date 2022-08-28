@@ -1,0 +1,37 @@
+---
+
+priceByFishSize: 3
+
+veryLowLevelFish:
+  none: none
+  anchovy: {name: Anchovy, price: 300}
+  bonito: {name: Bonito, price: 350}
+  carp: {name: Carp, price: 400}
+  none: none
+
+lowLevelFish:
+  none: none
+  tuna: {name: Tuna, price: 500}
+  sardine: {name: Sardine, price: 580}
+  perch: {name: Perch, price: 600}
+  mackerel: {name: Mackerel, price: 650}
+
+mediumLevelFish:
+  fangricoral: {name: Fangri Coral, price: 700}
+  bluefish: {name: Bluefish, price: 690}
+  trout: {name: Trout, price: 720}
+  barbun: {name: Barbun, price: 710}
+
+highLevelFish:
+  salmon: {name: Salmon, price: 800}
+  turbotfish: {name: Turbotfish, price: 830}
+  swordfish: {name: Swordfish, price: 840}
+  pelicaneel: {name: Pelican Eel, price: 950}
+  shrimp: {name: Shrimp, price: 850}
+
+veryHighLevelFish:
+  octopus: {name: Octopus, price: 880}
+  orca: {name: Orca, price: 1100}
+  largehammerheadshark: {name: Large Hammerhead Shark, price: 900}
+  shark: {name: Shark, price: 860}
+  lionfishwithantennae: {name: Lionfish with Antennae, price: 930}

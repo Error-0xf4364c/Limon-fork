@@ -34,7 +34,7 @@ class Slot(commands.Cog, commands.Bot):
     async def slot(self, interaction: discord.Interaction, amount: app_commands.Range[int, 1, 50000]):
         db = self.bot.mongoConnect["cupcake"]
         collection = db["economy"]
-        invcollection = db['inventory']
+        careerCollection = db["career"]
 
         
 
@@ -45,27 +45,30 @@ class Slot(commands.Cog, commands.Bot):
             }
             await collection.insert_one(newData)
 
-        if await invcollection.find_one({"_id" : interaction.user.id}) == None:
+        if await careerCollection.find_one({"_id" : interaction.user.id}) == None:
             newData1 = {
                 "_id": interaction.user.id,
-                "kumarpuani" :0
+                "gamble_point" :0
             }
-            await invcollection.insert_one(newData1)
+            await careerCollection.insert_one(newData1)
 
         userData = await collection.find_one({"_id": interaction.user.id})
 
         if userData["coins"] < amount:
             return await interaction.response.send_message(f"{cross} Cüzdanınızda yeterli Cupcoin bulunmuyor!")
 
-        userInvData = await invcollection.find_one({"_id": interaction.user.id})
+        userCareerData = await careerCollection.find_one({"_id": interaction.user.id})
 
-        if not "kumarpuani" in  userInvData:
-            gambleData = { "$set" : {"kumarpuani" : 0}}
-            await invcollection.update_one(userInvData ,gambleData)
-        userInvData['kumarpuani'] += 1
-        await invcollection.replace_one({"_id": interaction.user.id}, userInvData)
+        if "points" not in userCareerData:
+            careerData = { "$set" : {"points" : {}}}
+            await careerCollection.update_one(userCareerData ,careerData)
 
-        userInvData = await invcollection.find_one({"_id": interaction.user.id})
+        if not "gamble_point" in  userCareerData["points"]:
+            gambleData = { "$set" : {"gamble_point" : 0}}
+            await careerCollection.update_one(userCareerData["points"] ,gambleData)
+        userCareerData['gamble_point'] += 1
+        await careerCollection.replace_one({"_id": interaction.user.id}, userCareerData)
+
         
         await interaction.response.send_message(f"`CUP SLOT`\n{slot_left}{slot_mid}{slot_right}\n`------->` <:Cupcoins:997159042633961574>{amount:,}\n`------->` ???")
         

@@ -1,5 +1,6 @@
 import discord
 from discord import Embed
+from discord.ui import View, Button
 from discord.ext import commands
 from discord import app_commands
 from discord.app_commands import Choice
@@ -11,15 +12,19 @@ from yaml import Loader
 yaml_file = open("yamls/emojis.yml", "rb")
 emojis = yaml.load(yaml_file, Loader = Loader) 
 clock = emojis["clock"] or "⏳"
+settings = emojis["settings"] or "🔧"
 
-class help(commands.Cog, commands.Bot):
+        
+
+class Help(commands.Cog, commands.Bot):
+    
 
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
     @app_commands.command(
         name="bot-help",
-        description="Bot hakkında bilgi edin!")
+        description="Don't you know what's what?")
     @app_commands.describe(topic = "Choose a topic")
     @app_commands.choices(topic=[
         Choice(name=f"Basic Commands", value="basiccommandshelp"),
@@ -32,6 +37,9 @@ class help(commands.Cog, commands.Bot):
     @app_commands.checks.cooldown(
         1, 10, key=lambda i: (i.guild_id, i.user.id))
     async def bothelp(self, interaction: discord.Interaction, topic: str):
+        SupportServerButton = Button(label="Support Server", style=discord.ButtonStyle.link, url="https://discord.gg/M9S4Gv9Gwe", emoji=settings)
+        view = View()
+        view.add_item(SupportServerButton)
 
         if topic == "basiccommandshelp":
             commandsEmbed = Embed(description = """
@@ -42,7 +50,7 @@ class help(commands.Cog, commands.Bot):
             **/send** **››** You can send cupcoin to your friends.
             **/user-info** **››** You view any user's information.""" )
             commandsEmbed.set_author(name = "About the commands", icon_url = interaction.user.avatar.url)
-            await interaction.response.send_message(embed=commandsEmbed)
+            await interaction.response.send_message(embed=commandsEmbed, view=view)
 
         elif topic == "gamblecommands":
             gamblesEmbed = Embed(description = """
@@ -52,7 +60,7 @@ class help(commands.Cog, commands.Bot):
             **/guess-number** **››** Guess the number and win exactly 5 times Cupcoin.
             **/open-box** **››** Open one of the 5 different safes and get rich.""" )
             gamblesEmbed.set_author(name = "About the gambles", icon_url = interaction.user.avatar.url)
-            await interaction.response.send_message(embed=gamblesEmbed)
+            await interaction.response.send_message(embed=gamblesEmbed, view=view)
         elif topic == "huntingcommands":
             huntingEmbed = Embed(description = """
             ```Hunting with Cupcake```\n
@@ -61,7 +69,7 @@ class help(commands.Cog, commands.Bot):
             **/inventory** **››** View your fishes and hunts.
             **/sell** **››** You can sell your fishes and hunts""")
             huntingEmbed.set_author(name = "About the hunting", icon_url = interaction.user.avatar.url)
-            await interaction.response.send_message(embed=huntingEmbed)
+            await interaction.response.send_message(embed=huntingEmbed, view=view)
         elif topic == "badgescommands":
             badgesEmbed = Embed(description = """
             ```What are badges?```\n
@@ -77,7 +85,7 @@ class help(commands.Cog, commands.Bot):
             """)
             badgesEmbed.set_author(name = "About the badges", icon_url = interaction.user.avatar.url)
             badgesEmbed.set_image(url="https://cdn.discordapp.com/attachments/899751701077164043/1001246682215878666/unknown.png")
-            await interaction.response.send_message(embed=badgesEmbed)
+            await interaction.response.send_message(embed=badgesEmbed, view=view)
         elif topic == "heroescommands":
             heroesEmbed = Embed(description = """
             ```Heroesof with Cupcake```\n
@@ -92,17 +100,17 @@ class help(commands.Cog, commands.Bot):
              You can't have the same hero 2 times. You can buy eggs, but inside some eggs may be empty
             """)
             heroesEmbed.set_author(name = "About the heroes", icon_url = interaction.user.avatar.url)
-            await interaction.response.send_message(embed=heroesEmbed)
+            await interaction.response.send_message(embed=heroesEmbed, view=view)
 
     @bothelp.error
     async def sellError(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
 
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
-            await interaction.response.send_message(f"{clock} **|** Upss! Balık pazarı daha açılmamış. `{timeRemaining}`s sonra tekrar gel.",ephemeral=True)
+            await interaction.response.send_message(f"{clock} **|** Please wait`{timeRemaining}`s try again!",ephemeral=True)
 
 
 
 async def setup(bot:commands.Bot):
-    await bot.add_cog(help(bot))
+    await bot.add_cog(Help(bot))
 

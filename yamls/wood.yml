@@ -1,0 +1,36 @@
+---
+priceByWoodSize: 3
+
+veryLowLevelWood:
+  sedgeandreed: {name: Sedge and Reed, price: 200}
+  pine: {name: Pine, price: 300}
+  oak: {name: Oak, price: 400}
+  hornbeam: {name: Hornbeam, price: 500}
+
+lowLevelWood:
+  redtree: {name: Red Tree, price: 700}
+  laden: {name: Laden, price: 800}
+  cedar: {name: "Cedar", price: 900}
+
+mediumLevelWood:
+  beech: {name: Beech, price: 1100}
+  maple: {name: Maple, price: 1200}
+  elm: {name: Elm, price: 1300}
+  cypress: {name: Cypress, price: 1400}
+  poplar: {name: Poplar, price: 1350}
+
+highLevelWood:
+  afrikakaraagac: {name: African Elm, price: 1700}
+  pinkivory: {name: Pink Ivory, price: 1800}
+  lifetree: {name: Life Tree, price: 1900}
+  agarwood: {name: Agarwood, price: 2000}
+  indiansandalwood: {name: Indian Sandalwood, price: 2500}
+
+veryHighLevelWood:
+  dalbergia: {name: Dalbergia, price: 3000}
+  cocobolo: {name: Cocobolo, price: 3150}
+  purplewood: {name: Purple Wood, price: 3300}
+  ebony: {name: Ebony, price: 4000}
+  bubinga: {name: Bubinga, price: 5700}
+
+  

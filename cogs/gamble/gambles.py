@@ -39,7 +39,7 @@ class gambles(commands.Cog, commands.Bot):
 
         db = self.bot.mongoConnect["cupcake"]
         collection = db["economy"]
-        invcollection = db['inventory']
+        careerCollection = db['career']
 
         if await collection.find_one({"_id" : interaction.user.id}) == None:
             newData = {
@@ -49,14 +49,23 @@ class gambles(commands.Cog, commands.Bot):
             await collection.insert_one(newData)
 
         userData = await collection.find_one({"_id": interaction.user.id})
-        userInvData = await invcollection.find_one({"_id": interaction.user.id})
+        if await careerCollection.find_one({"_id" : interaction.user.id}) == None:
+            newData1 = {
+                "_id": interaction.user.id,
+                "gamble_point" :0
+            }
+            await careerCollection.insert_one(newData1)
+        userCareerData = await careerCollection.find_one({"_id": interaction.user.id})
             
+        if "points" not in userCareerData:
+            careerData = { "$set" : {"points" : {}}}
+            await careerCollection.update_one(userCareerData ,careerData)
 
-        if not "kumarpuani" in  userInvData:
-            gambleData = { "$set" : {"kumarpuani" : 0}}
-            await invcollection.update_one(userInvData ,gambleData)
-        userInvData['kumarpuani'] += 1
-        await invcollection.replace_one({"_id": interaction.user.id}, userInvData)
+        if not "gamble_point" in  userCareerData["points"]:
+            gambleData = { "$set" : {"gamble_point" : 0}}
+            await careerCollection.update_one(userCareerData["points"] ,gambleData)
+        userCareerData['gamble_point'] += 1
+        await careerCollection.replace_one({"_id": interaction.user.id}, userCareerData)
 
         if userData["coins"] < miktar:
             return await interaction.response.send_message(f"{cross} Cüzdanınızda yeterli Cupcoin bulunmuyor!")
@@ -68,7 +77,7 @@ class gambles(commands.Cog, commands.Bot):
 
         if moneyRecieved == 1:
             r = miktar * 2
-            userData['coins'] += r
+            userData['coins'] += miktar
             await collection.replace_one({"_id" : interaction.user.id}, userData)
             await interaction.response.send_message("Coinflipping...")
             await asyncio.sleep(4)
@@ -104,22 +113,35 @@ class gambles(commands.Cog, commands.Bot):
 
         db = self.bot.mongoConnect["cupcake"]
         collection = db["economy"]
-        invcollection = db['inventory']
+        careerCollection = db["career"]
+
+        
 
         if await collection.find_one({"_id": interaction.user.id}) == None:
             return await interaction.response.send_message("Henüz bir hesabınız yok.")
 
         userData = await collection.find_one({"_id": interaction.user.id})
-        userInvData = await invcollection.find_one({"_id": interaction.user.id})
+
+        if await careerCollection.find_one({"_id" : interaction.user.id}) == None:
+            newData1 = {
+                "_id": interaction.user.id,
+                "gamble_point" :0
+            }
+            await careerCollection.insert_one(newData1)
+        userCareerData = await careerCollection.find_one({"_id": interaction.user.id})
 
         if userData["coins"] < miktar:
             return await interaction.response.send_message(f"{cross} Cüzdanınızda yeterli Cupcoin bulunmuyor!")
 
-        if not "kumarpuani" in  userInvData:
-            gambleData = { "$set" : {"kumarpuani" : 0}}
-            await invcollection.update_one(userInvData ,gambleData)
-        userInvData['kumarpuani'] += 1
-        await invcollection.replace_one({"_id": interaction.user.id}, userInvData)
+        if "points" not in userCareerData:
+            careerData = { "$set" : {"points" : {}}}
+            await careerCollection.update_one(userCareerData ,careerData)
+
+        if not "gamble_point" in  userCareerData["points"]:
+            gambleData = { "$set" : {"gamble_point" : 0}}
+            await careerCollection.update_one(userCareerData["points"] ,gambleData)
+        userCareerData['gamble_point'] += 1
+        await careerCollection.replace_one({"_id": interaction.user.id}, userCareerData)
 
         moneyRecieved = random.randint(1,10)
 
@@ -156,21 +178,32 @@ class gambles(commands.Cog, commands.Bot):
 
         db = self.bot.mongoConnect["cupcake"]
         collection = db["economy"]
-        invcollection = db['inventory']
+        careerCollection = db["career"]
 
         if await collection.find_one({"_id": interaction.user.id}) == None:
             return await interaction.response.send_message("Henüz bir hesabınız yok.")
 
         userData = await collection.find_one({"_id": interaction.user.id})
-        userInvData = await invcollection.find_one({"_id": interaction.user.id})
+
         userData['coins']
 
+        if await careerCollection.find_one({"_id" : interaction.user.id}) == None:
+            newData1 = {
+                "_id": interaction.user.id,
+                "gamble_point" :0
+            }
+            await careerCollection.insert_one(newData1)
+        userCareerData = await careerCollection.find_one({"_id": interaction.user.id})
+            
+        if "points" not in userCareerData:
+            careerData = { "$set" : {"points" : {}}}
+            await careerCollection.update_one(userCareerData ,careerData)
 
-        if not "kumarpuani" in  userInvData:
-            gambleData = { "$set" : {"kumarpuani" : 0}}
-            await invcollection.update_one(userInvData ,gambleData)
-        userInvData['kumarpuani'] += 1
-        await invcollection.replace_one({"_id": interaction.user.id}, userInvData)
+        if not "gamble_point" in  userCareerData["points"]:
+            gambleData = { "$set" : {"gamble_point" : 0}}
+            await careerCollection.update_one(userCareerData["points"] ,gambleData)
+        userCareerData['gamble_point'] += 1
+        await careerCollection.replace_one({"_id": interaction.user.id}, userCareerData)
 
         if userData["coins"] < miktar:
             return await interaction.response.send_message(f"{cross} Cüzdanınızda yeterli Cupcoin bulunmuyor!")
@@ -230,7 +263,7 @@ class gambles(commands.Cog, commands.Bot):
         Choice(name=f"Elmas Kutu - {diamondBox:,}", value="diamond"),
     ])
     @app_commands.checks.cooldown(
-        1, 7200, key=lambda i: (i.guild_id, i.user.id))
+        1, 14400, key=lambda i: (i.guild_id, i.user.id))
     async def openbox(self, interaction: discord.Interaction, box: str):
 
         db = self.bot.mongoConnect["cupcake"]
