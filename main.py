@@ -51,7 +51,7 @@ class MyBot(commands.Bot):
         await self.session.close()"""
 
     async def on_ready(self):
-        await bot.change_presence(activity=discord.Streaming(name="Public Beta", url="https://www.twitch.tv/iamabduley"))
+        await bot.change_presence(activity=discord.Streaming(name="Economy and Fun | Slash Commands", url="https://www.twitch.tv/iamabduley"))
         print("Bot aktif")
 
     # ADD GUILD
