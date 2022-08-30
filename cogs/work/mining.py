@@ -54,8 +54,9 @@ class Mining(commands.Cog, commands.Bot):
         userData = await collection.find_one({"_id": interaction.user.id})
         userCareer = await careerCollection.find_one({"_id": interaction.user.id})
 
+
         # Axe check
-        if "pickaxe" not in userData["items"]:
+        if "items" not in userData or "pickaxe" not in userData["items"]:
             return await interaction.response.send_message("You need to buy a pickaxe for mining. `/store` :)", ephemeral = True)
 
         # Wood Check

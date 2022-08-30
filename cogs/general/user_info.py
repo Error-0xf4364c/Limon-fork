@@ -136,7 +136,8 @@ class general(commands.Cog, commands.Bot):
             timeRemaining = str(datetime.timedelta(seconds = int(error.retry_after)))
             await interaction.response.send_message(f"Lütfen `{timeRemaining}`s sonra tekrar deneyiniz.",
                                                     ephemeral=True)
-        print(error)
+        else:
+            print(error)
 
 
 async def setup(bot:commands.Bot):

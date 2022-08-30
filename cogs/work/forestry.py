@@ -47,7 +47,7 @@ class Forester(commands.Cog, commands.Bot):
         userCareer = await careerCollection.find_one({"_id": interaction.user.id})
 
         # Axe check
-        if "axe" not in userData["items"]:
+        if "items" not in userData or "axe" not in userData["items"]:
             return await interaction.response.send_message("To do forestry, you need to buy an axe. `/store` :)", ephemeral = True)
 
         # Wood Check

@@ -57,7 +57,7 @@ class Hunting(commands.Cog, commands.Bot):
         userCareer = await careerCollection.find_one({"_id": interaction.user.id})
 
         # Bow check
-        if "bow" not in userData["items"]:
+        if "items" not in userData or "bow" not in userData["items"]:
             return await interaction.response.send_message("You need to buy a bow for hunting. `/store` :)", ephemeral = True)
         # Hunt Check
         if "hunts" not in userData:
