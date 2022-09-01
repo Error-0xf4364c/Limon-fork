@@ -99,13 +99,13 @@ class Slot(commands.Cog, commands.Bot):
                 reward == cupcakeReward
             elif result1 == "<:slotHeart:1001820997151903785>":
                 reward = heartReward
-            await interaction.edit_original_message(content = f"`CUP SLOT`\n{result1}{result2}{result3}\n`------->` <:Cupcoins:997159042633961574>{amount:,}\n`------->` <:Cupcoins:997159042633961574>{amount *reward:,}")
+            await interaction.edit_original_response(content = f"`CUP SLOT`\n{result1}{result2}{result3}\n`------->` <:Cupcoins:997159042633961574>{amount:,}\n`------->` <:Cupcoins:997159042633961574>{amount *reward:,}")
             userData['coins'] += reward
             await collection.replace_one({"_id" : interaction.user.id}, userData)
         
         userData['coins'] -= amount
         await collection.replace_one({"_id" : interaction.user.id}, userData)
-        await interaction.edit_original_message(content = f"`CUP SLOT`\n{result1}{result2}{result3}\n`------->` <:Cupcoins:997159042633961574>{amount:,}\n`------->` Lost ;c")
+        await interaction.edit_original_response(content = f"`CUP SLOT`\n{result1}{result2}{result3}\n`------->` <:Cupcoins:997159042633961574>{amount:,}\n`------->` Lost ;c")
 
     @slot.error
     async def slotError(self, interaction: discord.Interaction,
@@ -113,7 +113,8 @@ class Slot(commands.Cog, commands.Bot):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
             await interaction.response.send_message(f"{clock} **|** Lütfen `{timeRemaining}`s sonra tekrar deneyiniz.",ephemeral=True)
-        print(f"SlotErr: {error}")
+        else:
+            print(f"SlotErr: {error}")
 
     
 

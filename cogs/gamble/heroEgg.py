@@ -79,19 +79,19 @@ class eggs(commands.Cog, commands.Bot):
         if yourHero == None:
             await interaction.response.send_message(f"{emojis['3dot']} **|** Kahraman yumurtası açılıyor.")
             await asyncio.sleep(5)
-            await interaction.edit_original_message(content = f"{emojis['cross']} Maalesef yumurtadan hiç kahraman çıkmadı ;c")
+            await interaction.edit_original_response(content = f"{emojis['cross']} Maalesef yumurtadan hiç kahraman çıkmadı ;c")
             return
         
         if yourHero == "limon" and interaction.user.id != 529577110197764096:
             await interaction.response.send_message(f"{emojis['3dot']} **|** Kahraman yumurtası açılıyor.")
             await asyncio.sleep(5)
-            await interaction.edit_original_message(content = f"{emojis['cross']} Maalesef yumurtadan hiç kahraman çıkmadı ;c")
+            await interaction.edit_original_response(content = f"{emojis['cross']} Maalesef yumurtadan hiç kahraman çıkmadı ;c")
             return
 
         if userData['heroes'].count(yourHero) >= 1:
             await interaction.response.send_message(f"{emojis['3dot']} **|** Kahraman yumurtası açılıyor.")
             await asyncio.sleep(5)
-            await interaction.edit_original_message(content = f"Bir {yourHero.title()} çıktı fakat bu kahraman zaten envanterinizde mevcut.")
+            await interaction.edit_original_response(content = f"Bir {yourHero.title()} çıktı fakat bu kahraman zaten envanterinizde mevcut.")
             return
 
         # RARITY LOGO
@@ -114,7 +114,7 @@ class eggs(commands.Cog, commands.Bot):
         heroEmbed.add_field(name= "Güç:", value =  heroes[yourHero]['power'], inline = True)
         await interaction.response.send_message(f"{emojis['clock']} **|** Kahramanın yumurtadan çıkması birkaç saniye alabilir.")
         await asyncio.sleep(4)
-        await interaction.edit_original_message(content = None, embed=heroEmbed)
+        await interaction.edit_original_response(content = None, embed=heroEmbed)
 
         userData['heroes'].append(yourHero) 
         await collection.replace_one({"_id": interaction.user.id}, userData)

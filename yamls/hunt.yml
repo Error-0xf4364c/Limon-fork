@@ -9,7 +9,7 @@ veryLowLevelHunt:
   none: none
 
 lowLevelHunt:
-  pig: {name: pig, price: 450}
+  pig: {name: Pig, price: 450}
   jackal: {name: Jackal, price: 480}
   rabbit: {name: Rabbit, price: 500}
   weasel: {name: Weasel, price: 550}

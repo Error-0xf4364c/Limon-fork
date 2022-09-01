@@ -78,7 +78,7 @@ class Mining(commands.Cog, commands.Bot):
         userPickaxe = userData["items"]["pickaxe"] # User Pickaxe
 
         # Mining System
-
+        sleepTime = 30
         # Very Low Level Miner
         if "stonepickaxe" == userPickaxe:
 
@@ -87,13 +87,13 @@ class Mining(commands.Cog, commands.Bot):
             splittedMine = veryLowLvMine.split(" ") # to List Mines keys
             priceByVlSize = int(mine["priceByMineKg"]) # Price By Very Low Level Mine Size
             resultMine = random.choice(splittedMine) # Random Very Low Level Mine
-            mineSize = random.randint(5,10) # Random mine size
-            priceByMineSize = mineSize * priceByVlSize # Price By Mine Size
-
-
             sleepTime = 30
-            mineName = VLM[resultMine]["name"] # Result Mine Name
-            minePrice = VLM[resultMine]["price"] + priceByMineSize # Result Mine Total Price
+
+            if resultMine != "none":
+                mineSize = random.randint(5,10) # Random mine size
+                priceByMineSize = mineSize * priceByVlSize # Price By Mine Size
+                mineName = VLM[resultMine]["name"] # Result Mine Name
+                minePrice = VLM[resultMine]["price"] + priceByMineSize # Result Mine Total Price
 
         # Low Level Miner
         elif "steelpickaxe" == userPickaxe:
@@ -103,13 +103,13 @@ class Mining(commands.Cog, commands.Bot):
             splittedMine = lowLvMine.split(" ") # to List Mines keys
             priceByLSize = int(mine["priceByMineKg"]) # Price By Low Level Mine Size
             resultMine = random.choice(splittedMine) # Random Low Level Mine
-            mineSize = random.randint(5,15) # Random mine size
-            priceByMineSize = mineSize * priceByLSize # Price By Mine Size
-
-            
             sleepTime = 30
-            mineName = LM[resultMine]["name"] # Result Mine Name
-            minePrice = LM[resultMine]["price"] + priceByMineSize # Result Mine Total Price
+
+            if resultMine != "none":
+                mineSize = random.randint(5,15) # Random mine size
+                priceByMineSize = mineSize * priceByLSize # Price By Mine Size
+                mineName = LM[resultMine]["name"] # Result Mine Name
+                minePrice = LM[resultMine]["price"] + priceByMineSize # Result Mine Total Price
 
         #Medium Level Miner
         elif "goldenpickaxe" == userPickaxe:

@@ -75,7 +75,7 @@ class economy(commands.Cog):
                 "coins" : 10000
             }
             await collection.insert_one(newData)
-            return await interaction.response.send_message(f"{wallet} | Oh bu harika! Geliştirici tarafından size 10,000 Cupcoin hediye edildi.")
+            return await interaction.response.send_message(f"{wallet} | Oh bu harika! Geliştirici tarafından size **10,000** Cupcoin hediye edildi.")
 
         userData = await collection.find_one({"_id" : interaction.user.id})
         await interaction.response.send_message(f"{wallet} Cüzdanınızda **{userData['coins']:,}** Cupcoin var.")

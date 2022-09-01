@@ -86,12 +86,12 @@ class Fishing(commands.Cog, commands.Bot):
             splittedFish = allfish.split(" ") # to List Fishes keys
             priceByVlSize = int(fish["priceByFishSize"]) # Price By Very Low Level Fish Size
             resultFish = random.choice(splittedFish) # Random Very Low Level Fish
-            fishSize = random.randint(5,15) # Random fish size
-            priceByFishSize = fishSize * priceByVlSize # Price By Fish Size
 
-
-            fishName = VLF[resultFish]["name"] # Result Fish Name
-            fishPrice = VLF[resultFish]["price"] + priceByFishSize # Result Fish Total Price
+            if resultFish != "none":
+                fishSize = random.randint(5,15) # Random fish size
+                priceByFishSize = fishSize * priceByVlSize # Price By Fish Size
+                fishName = VLF[resultFish]["name"] # Result Fish Name
+                fishPrice = VLF[resultFish]["price"] + priceByFishSize # Result Fish Total Price
 
         
         # Low Level Fisher
@@ -102,11 +102,11 @@ class Fishing(commands.Cog, commands.Bot):
             splittedFish = allfish.split(" ") # to List Fishes keys
             priceByLSize = int(fish["priceByFishSize"]) # Price By Low Level Fish Size
             resultFish = random.choice(splittedFish) # Random Low Level Fish
-            fishSize = random.randint(3,10) # Random fish size
-            priceByFishSize = fishSize * priceByLSize # Price By Fish Size
-
-            fishName = LF[resultFish]["name"] # Result Fish Name
-            fishPrice = LF[resultFish]["price"] + priceByFishSize # Result Fish Total Price
+            if resultFish != "none":
+                fishSize = random.randint(3,10) # Random fish size
+                priceByFishSize = fishSize * priceByLSize # Price By Fish Size
+                fishName = LF[resultFish]["name"] # Result Fish Name
+                fishPrice = LF[resultFish]["price"] + priceByFishSize # Result Fish Total Price
 
         # Medium Level Fisher
         if "silverrod" == userRod:

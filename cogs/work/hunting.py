@@ -88,8 +88,9 @@ class Hunting(commands.Cog, commands.Bot):
             allhunt = " ".join(VLH.keys()) # Very Low Level Hunts Keys
             splittedHunt = allhunt.split(" ") # to List Hunts keys
             resultHunt = random.choice(splittedHunt) # Random Very Low Level Hunt
-            huntName = VLH[resultHunt]["name"] # Result Hunt Name
-            huntPrice = VLH[resultHunt]["price"] # Result HuntTotal Price   
+            if resultHunt != "none":
+                huntName = VLH[resultHunt]["name"] # Result Hunt Name
+                huntPrice = VLH[resultHunt]["price"] # Result HuntTotal Price   
         
         # Low Level Hunting
         elif "copperbow" == userBow:
@@ -98,9 +99,9 @@ class Hunting(commands.Cog, commands.Bot):
             allhunt = " ".join(LH.keys()) #  Low Level Hunts Keys
             splittedHunt = allhunt.split(" ") # to List Hunts keys
             resultHunt = random.choice(splittedHunt) # Random  Low Level Hunt
-
-            huntName = LH[resultHunt]["name"] # Result Hunt Name
-            huntPrice = LH[resultHunt]["price"] # Result HuntTotal Price
+            if resultHunt != "none":
+                huntName = LH[resultHunt]["name"] # Result Hunt Name
+                huntPrice = LH[resultHunt]["price"] # Result HuntTotal Price
 
         # Medium Level Hunts
         elif "silverbow" == userBow:
