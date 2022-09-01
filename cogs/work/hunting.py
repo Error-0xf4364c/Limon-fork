@@ -32,7 +32,10 @@ class Hunting(commands.Cog, commands.Bot):
     @app_commands.checks.cooldown(
         1, 300, key=lambda i: (i.guild_id, i.user.id))
     async def hunting(self, interaction: discord.Interaction):
-        
+
+        await interaction.response.send_message("Because of the hunting ban, you cannot hunt for now! (*There is an error*)", ephemeral = True)
+
+        """
         # Connecting Database
         db = self.bot.mongoConnect["cupcake"]
         collection = db["inventory"]
@@ -88,9 +91,9 @@ class Hunting(commands.Cog, commands.Bot):
             allhunt = " ".join(VLH.keys()) # Very Low Level Hunts Keys
             splittedHunt = allhunt.split(" ") # to List Hunts keys
             resultHunt = random.choice(splittedHunt) # Random Very Low Level Hunt
-            if resultHunt != "none":
-                huntName = VLH[resultHunt]["name"] # Result Hunt Name
-                huntPrice = VLH[resultHunt]["price"] # Result HuntTotal Price   
+             #if resultHunt != "none":
+            huntName = VLH[resultHunt]["name"] # Result Hunt Name
+            huntPrice = VLH[resultHunt]["price"] # Result HuntTotal Price   
         
         # Low Level Hunting
         elif "copperbow" == userBow:
@@ -99,9 +102,9 @@ class Hunting(commands.Cog, commands.Bot):
             allhunt = " ".join(LH.keys()) #  Low Level Hunts Keys
             splittedHunt = allhunt.split(" ") # to List Hunts keys
             resultHunt = random.choice(splittedHunt) # Random  Low Level Hunt
-            if resultHunt != "none":
-                huntName = LH[resultHunt]["name"] # Result Hunt Name
-                huntPrice = LH[resultHunt]["price"] # Result HuntTotal Price
+            #if resultHunt != "none":
+            huntName = LH[resultHunt]["name"] # Result Hunt Name
+            huntPrice = LH[resultHunt]["price"] # Result HuntTotal Price
 
         # Medium Level Hunts
         elif "silverbow" == userBow:
@@ -137,7 +140,7 @@ class Hunting(commands.Cog, commands.Bot):
         # Send user a message
         await interaction.response.send_message("🏹 **|** Searching for prey...")
         await asyncio.sleep(4) 
-
+        print(resultHunt)
         if resultHunt == "none":
             return await interaction.edit_original_response("Unfortunately, we didn't find any prey ;c")
         await interaction.edit_original_response(f"🦌 **|** Great Hunt! You hunted a **{huntName}**. Instantaneous market value: **{huntPrice}** Cupcoin ")
@@ -147,7 +150,7 @@ class Hunting(commands.Cog, commands.Bot):
         userCareer["points"]["hunter_point"] +=1
         await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
         await collection.replace_one({"_id": interaction.user.id}, userData)
-
+    """
 
     @hunting.error
     async def huntingError(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
