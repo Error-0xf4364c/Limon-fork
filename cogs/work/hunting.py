@@ -140,7 +140,7 @@ class Hunting(commands.Cog, commands.Bot):
 
         if resultHunt == "none":
             return await interaction.edit_original_response("Unfortunately, we didn't find any prey ;c")
-        await interaction.edit_original_response(content = f"🦌 **|** Great Hunt! You hunted a **{huntName}**. Instantaneous market value: **{huntPrice}** Cupcoin ")
+        await interaction.edit_original_response(f"🦌 **|** Great Hunt! You hunted a **{huntName}**. Instantaneous market value: **{huntPrice}** Cupcoin ")
 
         # Update User Data
         userData["hunts"].append(resultHunt)
