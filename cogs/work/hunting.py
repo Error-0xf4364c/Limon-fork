@@ -33,9 +33,6 @@ class Hunting(commands.Cog, commands.Bot):
         1, 300, key=lambda i: (i.guild_id, i.user.id))
     async def hunting(self, interaction: discord.Interaction):
 
-        await interaction.response.send_message("Because of the hunting ban, you cannot hunt for now! (*There is an error*)", ephemeral = True)
-
-        
         # Connecting Database
         db = self.bot.mongoConnect["cupcake"]
         collection = db["inventory"]
