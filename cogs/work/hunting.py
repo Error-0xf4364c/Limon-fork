@@ -139,7 +139,7 @@ class Hunting(commands.Cog, commands.Bot):
         await asyncio.sleep(4) 
         print(resultHunt)
         if resultHunt == "none":
-            return await interaction.edit_original_response("Unfortunately, we didn't find any prey ;c")
+            return await interaction.edit_original_response(content = "Unfortunately, we didn't find any prey ;c")
 
         await interaction.edit_original_response(content = f"🦌 **|** Great Hunt! You hunted a **{huntName}**. Instantaneous market value: **{huntPrice}** Cupcoin ")
 
