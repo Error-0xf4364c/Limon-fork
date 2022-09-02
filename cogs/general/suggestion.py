@@ -35,9 +35,9 @@ class SuggestionModal(ui.Modal, title= "Suggestion"):
         
         try:
             await suggestionsChannel.send(embed = suggestionMessage)
-            await interaction.response.send_message("✅ **|** You have successfully submitted your suggestion. Thank you :)")
+            await interaction.response.send_message("✅ **|** You have successfully submitted your suggestion. Thank you :)", ephemeral = True)
         except:
-            await interaction.response.send_message(embed = failMessage)
+            await interaction.response.send_message(embed = failMessage, ephemeral = True)
 
 
 class Suggestion(commands.Cog, commands.Bot):

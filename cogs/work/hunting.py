@@ -32,9 +32,6 @@ class Hunting(commands.Cog, commands.Bot):
     @app_commands.checks.cooldown(
         1, 300, key=lambda i: (i.guild_id, i.user.id))
     async def hunting(self, interaction: discord.Interaction):
-
-        await interaction.response.send_message("Because of the hunting ban, you cannot hunt for now! (*There is an error*)", ephemeral = True)
-
         
         # Connecting Database
         db = self.bot.mongoConnect["cupcake"]
@@ -142,7 +139,7 @@ class Hunting(commands.Cog, commands.Bot):
         await asyncio.sleep(4) 
         print(resultHunt)
         if resultHunt == "none":
-            return await interaction.edit_original_response("Unfortunately, we didn't find any prey ;c")
+            return await interaction.edit_original_response(content = "Unfortunately, we didn't find any prey ;c")
 
         await interaction.edit_original_response(content = f"🦌 **|** Great Hunt! You hunted a **{huntName}**. Instantaneous market value: **{huntPrice}** Cupcoin ")
 

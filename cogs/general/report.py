@@ -35,9 +35,9 @@ class ReportModal(ui.Modal, title= "Report"):
         
         try:
             await reportsChannel.send(embed = reportMessage)
-            await interaction.response.send_message("✅ **|** You have successfully reported. Thank you :)")
+            await interaction.response.send_message("✅ **|** You have successfully reported. Thank you :)", ephemeral = True)
         except:
-            await interaction.response.send_message(embed = failMessage)
+            await interaction.response.send_message(embed = failMessage, ephemeral = True)
 
 
 class Report(commands.Cog, commands.Bot):
