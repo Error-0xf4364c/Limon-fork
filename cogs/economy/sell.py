@@ -131,7 +131,7 @@ class SellButtons(View):
         await walletCollection.replace_one({"_id": interaction.user.id}, userWallet)
         await inventoryCollection.replace_one({"_id": interaction.user.id}, userInvData)
         await interaction.response.edit_message(view=self)
-        await interaction.followup.send(content=f"🐟 **|** You have successfully sold the fish you caught. Your total winnings are **{sum_fish}** Cupcoin.")
+        await interaction.followup.send(content=f"🐟 **| {interaction.user.name} **You have successfully sold the fish you caught. Your total winnings are **{sum_fish}** Cupcoin.")
         
     # Sell Hunt Button
     @button(label="Sell Hunts", style=discord.ButtonStyle.success, emoji = "🦌")
@@ -178,7 +178,7 @@ class SellButtons(View):
         await walletCollection.replace_one({"_id": interaction.user.id}, userWallet)
         await inventoryCollection.replace_one({"_id": interaction.user.id}, userInvData)
         await interaction.response.edit_message(view=self)
-        await interaction.followup.send(content=f"🦌 **|** You have successfully sold the prey you have hunted. Your total winnings are **{sum_hunt}** Cupcoin.")
+        await interaction.followup.send(content=f"🦌 **| {interaction.user.name}** You have successfully sold the prey you have hunted. Your total winnings are **{sum_hunt}** Cupcoin.")
     
     # Sell Mine Button
     @button(label="Sell Mines", style=discord.ButtonStyle.success, emoji = "💎")
@@ -229,7 +229,7 @@ class SellButtons(View):
         await walletCollection.replace_one({"_id": interaction.user.id}, userWallet)
         await inventoryCollection.replace_one({"_id": interaction.user.id}, userInvData)
         await interaction.response.edit_message(view=self)
-        await interaction.followup.send(content=f"💎 **|** You have successfully sold your mines. Your total winnings are **{sum_mine}** Cupcoin.")
+        await interaction.followup.send(content=f"💎 **| {interaction.user.name}** You have successfully sold your mines. Your total winnings are **{sum_mine}** Cupcoin.")
 
     # Sell Wood Button
     @button(label="Sell Wood", style=discord.ButtonStyle.success, emoji = "🌲")
@@ -280,14 +280,14 @@ class SellButtons(View):
         await walletCollection.replace_one({"_id": interaction.user.id}, userWallet)
         await inventoryCollection.replace_one({"_id": interaction.user.id}, userInvData)
         await interaction.response.edit_message(view=self)
-        await interaction.followup.send(content=f"🌲 **|** You have successfully sold your wood. Your total winnings are **{sum_wood}** Cupcoin.")
+        await interaction.followup.send(content=f"🌲 **| {interaction.user.name}** You have successfully sold your wood. Your total winnings are **{sum_wood}** Cupcoin.")
 
     # Close Button
     @discord.ui.button(label="Close", style=discord.ButtonStyle.danger)
     async def closemenu_callback(self, interaction, button):
         await interaction.response.send_message(content=f"Closing...", ephemeral=True)
         await asyncio.sleep(3)
-        await interaction.edit_original_response(content=f"Shop is succesfully closed.")
+        await interaction.edit_original_response(content=f"✅ **|** Shop is succesfully closed.")
         await interaction.message.delete()
         message_author_id.remove(interaction.user.id)
 
