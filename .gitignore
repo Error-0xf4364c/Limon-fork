@@ -133,3 +133,5 @@ dmypy.json
 .idea/modules.xml
 .idea/inspectionProfiles/profiles_settings.xml
 .idea/misc.xml
+.env
+.env
