@@ -32,7 +32,7 @@ class Hunting(commands.Cog, commands.Bot):
     @app_commands.checks.cooldown(
         1, 300, key=lambda i: (i.guild_id, i.user.id))
     async def hunting(self, interaction: discord.Interaction):
-        
+
         # Connecting Database
         db = self.bot.mongoConnect["cupcake"]
         collection = db["inventory"]
