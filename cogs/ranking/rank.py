@@ -36,7 +36,7 @@ class MyRank(commands.Cog, commands.Bot):
         xpNeed = nextLevelUp
         xpHave = userData["xp"]
 
-        percentage = int(((xpHave * 500)/xpNeed))
+        percentage = int(((xpHave * 100)/xpNeed))
 
         background = Editor("pictures/levelCardBackgroundFinal.png")
         profile = await load_image_async(user.avatar.url)
