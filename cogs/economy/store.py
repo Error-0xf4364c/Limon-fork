@@ -633,6 +633,7 @@ class Store(commands.Cog, commands.Bot):
         self.bot = bot
 
     @app_commands.command(name = "store", description = "Open store and buy items") # Commands
+    @app_commands.guild_only
     @app_commands.checks.cooldown( 1, 20, key=lambda i: (i.guild_id, i.user.id)) # Cooldown
     async def store(self, interaction: discord.Interaction):
         

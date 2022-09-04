@@ -38,6 +38,7 @@ class general(commands.Cog, commands.Bot):
 
     @app_commands.command(name = "user-info", description = "You view user information")
     @app_commands.describe(user='Select a User')
+    @app_commands.guild_only
     @app_commands.checks.cooldown(
         1, 1.0, key=lambda i: (i.guild_id, i.user.id))
     async def userinfo(self, interaction: discord.Interaction, user: discord.Member):

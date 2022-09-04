@@ -298,6 +298,7 @@ class Sell(commands.Cog, commands.Bot):
 
     # Sell Comands
     @app_commands.command(name="sell", description="Sell Hunts")
+    @app_commands.guild_only
     @app_commands.checks.cooldown(1, 300, key=lambda i: (i.guild_id, i.user.id))
     async def sell(self, interaction: discord.Interaction):
 
