@@ -8,6 +8,8 @@ import asyncio
 from io import BytesIO
 from PIL import Image, ImageChops, ImageDraw, ImageFont
 
+from cogs.ranking.level import Levelling
+
 
 back1 = Image.open(r"pictures/anime1_background.png").convert("RGBA")
 back2 = Image.open(r"pictures/anime2_background.png").convert("RGBA")
@@ -36,6 +38,7 @@ class general(commands.Cog, commands.Bot):
 
     @app_commands.command(name = "user-info", description = "You view user information")
     @app_commands.describe(user='Select a User')
+    @app_commands.guild_only
     @app_commands.checks.cooldown(
         1, 1.0, key=lambda i: (i.guild_id, i.user.id))
     async def userinfo(self, interaction: discord.Interaction, user: discord.Member):
@@ -48,27 +51,28 @@ class general(commands.Cog, commands.Bot):
         db = self.bot.mongoConnect["cupcake"]
         collection = db["economy"]
         heroesCollection = db["inventory"]
+        levellingCollection = db["levelling"]
         
         userCoins = 0
         userHeroes = 0
         userData = []
-        userHeroesData = []
+        userLevel = 1
+
         
         if await collection.find_one({"_id": member.id}) != None:
             userData = await collection.find_one({"_id": member.id})
         
-        if await heroesCollection.find_one({"_id": member.id}) != None:
-            userHeroesData = await heroesCollection.find_one({"_id": member.id})
+        if await levellingCollection.find_one ({"_id": member.id}) != None:
+            userLevelData = await levellingCollection.find_one ({"_id": member.id})
+            userLevel = userLevelData["level"]
         
 
         
-
+        
         if "coins" in userData:
             userCoins = userData['coins']
 
-        if "heroes" in userHeroesData:
-            userHeroes = len(userHeroesData['heroes'])
-            
+        
 
 
 
@@ -77,9 +81,9 @@ class general(commands.Cog, commands.Bot):
 
         created_at = member.created_at.strftime("%a %b\n%B %Y")
         joined_at = member.joined_at.strftime("%a %b\n%B %Y")
-        money, heroes = f"{userCoins:,}", str(userHeroes)
+        money, level = f"{userCoins:,}", str(userLevel)
 
-        base = Image.open(r"pictures/baseFinal.png").convert("RGBA")
+        base = Image.open(r"pictures/baseEdited.png").convert("RGBA")
 
         newBackground = random.choice(backgroundList)
 
@@ -116,7 +120,7 @@ class general(commands.Cog, commands.Bot):
         draw.text((65, 490), Id,font = subfont)
         draw.text((405, 490), status,font = subfont)
         draw.text((65, 635), money,font = subfont)
-        draw.text((405, 635), heroes,font = subfont)
+        draw.text((405, 635), level,font = subfont)
         draw.text((65, 770), created_at,font = subfont)
         draw.text((405, 770), joined_at,font = subfont)
         base.paste(pfp, (56,158),pfp)
@@ -141,4 +145,4 @@ class general(commands.Cog, commands.Bot):
 
 
 async def setup(bot:commands.Bot):
-    await bot.add_cog(general(bot))
+    await bot.add_cog(general(bot), guilds= [discord.Object(id =964617424743858176)])
