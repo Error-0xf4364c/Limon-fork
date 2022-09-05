@@ -27,6 +27,13 @@ class sendCoin(commands.Cog):
         db = self.bot.mongoConnect["cupcake"]
         collection = db["economy"]
         careerCollection = db["career"]
+        
+        if await careerCollection.find_one({"_id": interaction.user.id}) == None:
+            newData = {
+                "_id": interaction.user.id,
+                "points": {"send_point": 0}
+            }
+            await careerCollection.insert_one(newData)
 
         userCareerData = await careerCollection.find_one({"_id": interaction.user.id})
 
