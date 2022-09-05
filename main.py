@@ -62,8 +62,8 @@ class MyBot(commands.Bot):
         await log_channel.send(embed = join_embed)
 
     # REMOVE GUILD
-    async def on_guild_remove(self, guild):
-        log_channel = self.bot.get_channel(1001859600708022332)
+    async def on_guild_remove(self, guild, interaction: discord.Interaction):
+        log_channel = interaction.client.get_channel(1001859600708022332)
         await log_channel.send(content = "Test")
         #join_embed = Embed(color = 0xff3030)
         #join_embed.set_author(name = f"I left the {guild.name} server. It has {guild.member_count} members", icon_url = guild.icon or "https://cdn.discordapp.com/attachments/1009437091295395840/1009437593773015120/discordlogo.png")
