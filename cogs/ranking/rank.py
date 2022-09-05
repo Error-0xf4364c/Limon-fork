@@ -87,4 +87,4 @@ class MyRank(commands.Cog, commands.Bot):
 
 
 async def setup(bot: commands.Bot):
-    await bot.add_cog(MyRank(bot), guilds= [discord.Object(id =964617424743858176)])
+    await bot.add_cog(MyRank(bot))
