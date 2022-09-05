@@ -27,7 +27,7 @@ class Slot(commands.Cog, commands.Bot):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    @app_commands.command(name="slot", description="Slot oyna ve paranı katla.")
+    @app_commands.command(name="slot", description="Play slots and win money.")
     @app_commands.describe(amount='Enter the Amount')
     @app_commands.checks.cooldown(
         1, 10, key=lambda i: (i.guild_id, i.user.id))
@@ -55,7 +55,7 @@ class Slot(commands.Cog, commands.Bot):
         userData = await collection.find_one({"_id": interaction.user.id})
 
         if userData["coins"] < amount:
-            return await interaction.response.send_message(f"{cross} Cüzdanınızda yeterli Cupcoin bulunmuyor!")
+            return await interaction.response.send_message(f"{cross} **|** There is not enough Cupcoin in your wallet!")
 
         userCareerData = await careerCollection.find_one({"_id": interaction.user.id})
 
@@ -112,7 +112,7 @@ class Slot(commands.Cog, commands.Bot):
                          error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
-            await interaction.response.send_message(f"{clock} **|** Lütfen `{timeRemaining}`s sonra tekrar deneyiniz.",ephemeral=True)
+            await interaction.response.send_message(f"{clock} **|** Please wait `{timeRemaining}`s and Try Again!",ephemeral=True)
         else:
             print(f"SlotErr: {error}")
 

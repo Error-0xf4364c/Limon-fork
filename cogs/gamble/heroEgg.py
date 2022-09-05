@@ -26,7 +26,7 @@ class eggs(commands.Cog, commands.Bot):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    @app_commands.command(name="hero-egg", description="200,000 Cupcoin'e Kahraman yumurtası aç ve onlardan birine sahip ol!")
+    @app_commands.command(name="hero-egg", description="Open a hero egg by paying 200,000 Cupcoin and have one of them!")
     @app_commands.guild_only
     @app_commands.checks.cooldown(
         1, 21600, key=lambda i: (i.guild_id, i.user.id))
@@ -42,7 +42,7 @@ class eggs(commands.Cog, commands.Bot):
         userCoins = await economyCollection.find_one({"_id" : interaction.user.id})
 
         if userCoins['coins'] < caseFee:
-            return await interaction.response.send_message(f"{emojis['cross']} Kahraman yumurtası açabilmeniz için **{caseFee - userCoins['coins']:,}** Cupcoine ihtiyacınız var.", ephemeral=True)
+            return await interaction.response.send_message(f"{emojis['cross']} You need **{caseFee - userCoins['coins']:,}** Cupcoin to open a hero egg.", ephemeral=True)
 
         if await collection.find_one({"_id" : interaction.user.id}) == None:
             newData = {
@@ -78,42 +78,42 @@ class eggs(commands.Cog, commands.Bot):
 
 
         if yourHero == None:
-            await interaction.response.send_message(f"{emojis['3dot']} **|** Kahraman yumurtası açılıyor.")
+            await interaction.response.send_message(f"{emojis['3dot']} **|** The hero egg opens...")
             await asyncio.sleep(5)
-            await interaction.edit_original_response(content = f"{emojis['cross']} Maalesef yumurtadan hiç kahraman çıkmadı ;c")
+            await interaction.edit_original_response(content = f"{emojis['cross']} Unfortunately, no heroes came out of the egg ;c")
             return
         
         if yourHero == "limon" and interaction.user.id != 529577110197764096:
-            await interaction.response.send_message(f"{emojis['3dot']} **|** Kahraman yumurtası açılıyor.")
+            await interaction.response.send_message(f"{emojis['3dot']} **|** The hero egg opens...")
             await asyncio.sleep(5)
-            await interaction.edit_original_response(content = f"{emojis['cross']} Maalesef yumurtadan hiç kahraman çıkmadı ;c")
+            await interaction.edit_original_response(content = f"{emojis['cross']} Unfortunately, no heroes came out of the egg ;c")
             return
 
         if userData['heroes'].count(yourHero) >= 1:
-            await interaction.response.send_message(f"{emojis['3dot']} **|** Kahraman yumurtası açılıyor.")
+            await interaction.response.send_message(f"{emojis['3dot']} **|** The hero egg opens...")
             await asyncio.sleep(5)
-            await interaction.edit_original_response(content = f"Bir {yourHero.title()} çıktı fakat bu kahraman zaten envanterinizde mevcut.")
+            await interaction.edit_original_response(content = f"A **{yourHero.title()}** has appeared, but you already have this hero.")
             return
 
         # RARITY LOGO
-        if heroes[yourHero]['rarity'] == "Kadim":
+        if heroes[yourHero]['rarity'] == "Ancient":
             rarityLogo = kadim
-        elif heroes[yourHero]['rarity'] == "Efsanevi":
+        elif heroes[yourHero]['rarity'] == "Legendary":
             rarityLogo = efsanevi
-        elif heroes[yourHero]['rarity'] == "Ender":
+        elif heroes[yourHero]['rarity'] == "Rare":
             rarityLogo = ender
-        elif heroes[yourHero]['rarity'] == "Seyrek":
+        elif heroes[yourHero]['rarity'] == "Sparse":
             rarityLogo = seyrek
         else:
             rarityLogo = siradan
 
 
         heroEmbed = discord.Embed(title= heroes[yourHero]["name"], description= heroes[yourHero]["description"], color = heroes[yourHero]['colorCode'])
-        heroEmbed.set_author(name= "Tebrikler. Yeni bir kahramanınız oldu.", icon_url= interaction.user.avatar.url),
-        heroEmbed.add_field(name = "Can / Hp:", value =  heroes[yourHero]['hp'], inline = True),
-        heroEmbed.add_field(name = "Nadirlik:", value =  f"{rarityLogo} {heroes[yourHero]['rarity']}", inline = True),
-        heroEmbed.add_field(name= "Güç:", value =  heroes[yourHero]['power'], inline = True)
-        await interaction.response.send_message(f"{emojis['clock']} **|** Kahramanın yumurtadan çıkması birkaç saniye alabilir.")
+        heroEmbed.set_author(name= "Congratulations. You have a new hero!", icon_url= interaction.user.avatar.url),
+        heroEmbed.add_field(name = "Healt:", value =  heroes[yourHero]['hp'], inline = True),
+        heroEmbed.add_field(name = "Rarity:", value =  f"{rarityLogo} {heroes[yourHero]['rarity']}", inline = True),
+        heroEmbed.add_field(name= "Power:", value =  heroes[yourHero]['power'], inline = True)
+        await interaction.response.send_message(f"{emojis['clock']} **|** It may take a few seconds for the hero to hatch from the egg.")
         await asyncio.sleep(4)
         await interaction.edit_original_response(content = None, embed=heroEmbed)
 
@@ -129,7 +129,7 @@ class eggs(commands.Cog, commands.Bot):
     async def heroboxError(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
-            await interaction.response.send_message(f"{clock} **|** Heey! Diğerleri daha yumurtalarından bile çıkmadılar. `{timeRemaining}`s sonra tekrar dene.",ephemeral=True)
+            await interaction.response.send_message(f"{clock} **|** Heey! The other eggs are not ready! Please wait`{timeRemaining}`s and Try Again!",ephemeral=True)
 
 
 

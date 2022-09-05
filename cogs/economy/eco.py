@@ -21,7 +21,7 @@ class economy(commands.Cog):
         self.bot = bot
 #i.guild_id, 
     # ------ DAILY ------
-    @app_commands.command(name = "daily", description = "Günlük Cupcoin Al")
+    @app_commands.command(name = "daily", description = "Get a daily Cupcoin")
     @app_commands.checks.cooldown(
         1, 86400, key=lambda i: (i.user.id))
     async def daily(self, interaction: discord.Interaction):
@@ -49,19 +49,19 @@ class economy(commands.Cog):
         userData["coins"] += moneyRecieved
         await collection.replace_one({"_id" : interaction.user.id}, userData)
 
-        await interaction.response.send_message(f"{cupcoins} Günlük kazancınız: **{moneyRecieved}**")
+        await interaction.response.send_message(f"{cupcoins} Your daily earnings: **{moneyRecieved}** Cupcoin")
 
     @daily.error
     async def dailyError(self, interaction : discord.Interaction,
                          error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds = int(error.retry_after)))
-            await interaction.response.send_message(f"{clock} **|** Lütfen `{timeRemaining}`s sonra tekrar deneyiniz.",
+            await interaction.response.send_message(f"{clock} **|** Please wait `{timeRemaining}`s and Try Again!",
                                                     ephemeral=True)
 
 
     # ------ WALLET ------
-    @app_commands.command(name = "wallet", description="Cüzdanını Aç")
+    @app_commands.command(name = "wallet", description="Open your wallet")
     @app_commands.checks.cooldown(
         1, 10.0, key=lambda i: (i.guild_id, i.user.id))
     async def wallet(self, interaction : discord.Interaction):
@@ -75,17 +75,17 @@ class economy(commands.Cog):
                 "coins" : 10000
             }
             await collection.insert_one(newData)
-            return await interaction.response.send_message(f"{wallet} | Oh bu harika! Geliştirici tarafından size **10,000** Cupcoin hediye edildi.")
+            return await interaction.response.send_message(f"{wallet} | That is so awesome! The developer gave you a gift of **10,000** Cupcoin")
 
         userData = await collection.find_one({"_id" : interaction.user.id})
-        await interaction.response.send_message(f"{wallet} Cüzdanınızda **{userData['coins']:,}** Cupcoin var.")
+        await interaction.response.send_message(f"{wallet} You have **{userData['coins']:,}** Cupcoin in your wallet.")
 
     @wallet.error
     async def walletError(self, interaction: discord.Interaction,
                          error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
-            await interaction.response.send_message(f"{clock} **|** Lütfen `{timeRemaining}`s sonra tekrar deneyiniz.",
+            await interaction.response.send_message(f"{clock} **|** Please wait `{timeRemaining}`s and Try Again!",
                                                     ephemeral=True)
 
 async def setup(bot:commands.Bot):
