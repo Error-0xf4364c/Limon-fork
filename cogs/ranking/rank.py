@@ -36,7 +36,7 @@ class MyRank(commands.Cog, commands.Bot):
         xpNeed = nextLevelUp
         xpHave = userData["xp"]
 
-        percentage = int(((xpHave * 500)/xpNeed))
+        percentage = int(((xpHave * 100)/xpNeed))
 
         background = Editor("pictures/levelCardBackgroundFinal.png")
         profile = await load_image_async(user.avatar.url)
@@ -87,4 +87,4 @@ class MyRank(commands.Cog, commands.Bot):
 
 
 async def setup(bot: commands.Bot):
-    await bot.add_cog(MyRank(bot))
+    await bot.add_cog(MyRank(bot), guilds= [discord.Object(id =964617424743858176)])

@@ -27,6 +27,13 @@ class sendCoin(commands.Cog):
         db = self.bot.mongoConnect["cupcake"]
         collection = db["economy"]
         careerCollection = db["career"]
+        
+        if await careerCollection.find_one({"_id": interaction.user.id}) == None:
+            newData = {
+                "_id": interaction.user.id,
+                "points": {"send_point": 0}
+            }
+            await careerCollection.insert_one(newData)
 
         userCareerData = await careerCollection.find_one({"_id": interaction.user.id})
 
@@ -35,9 +42,9 @@ class sendCoin(commands.Cog):
             await careerCollection.update_one(userCareerData ,careerData)
 
         if not "send_point" in  userCareerData["points"]:
-            sendCData = { "$set" : {"send_point" : 0}}
-            await careerCollection.update_one(userCareerData["points"] ,sendCData)
-        userCareerData['send_point'] += 1
+            sendCData = { "$set" : {"points.send_point" : 0}}
+            await careerCollection.update_one(userCareerData ,sendCData)
+        userCareerData["points"]['send_point'] += 1
         await careerCollection.replace_one({"_id": interaction.user.id}, userCareerData)
 
         if friend == interaction.user:
@@ -66,6 +73,8 @@ class sendCoin(commands.Cog):
             timeRemaining = str(datetime.timedelta(seconds = int(error.retry_after)))
             await interaction.response.send_message(f"Lütfen `{timeRemaining}`s sonra tekrar deneyiniz.",
                                                     ephemeral=True)
+        else:
+            print(error)
 
 async def setup(bot:commands.Bot):
     await bot.add_cog(sendCoin(bot))

@@ -49,12 +49,14 @@ class gambles(commands.Cog, commands.Bot):
             await collection.insert_one(newData)
 
         userData = await collection.find_one({"_id": interaction.user.id})
-        if await careerCollection.find_one({"_id" : interaction.user.id}) == None:
-            newData1 = {
+        
+        if await careerCollection.find_one({"_id": interaction.user.id}) == None:
+            newData = {
                 "_id": interaction.user.id,
-                "gamble_point" :0
+                "points": {"gamble_point": 0}
             }
-            await careerCollection.insert_one(newData1)
+            await careerCollection.insert_one(newData)
+
         userCareerData = await careerCollection.find_one({"_id": interaction.user.id})
             
         if "points" not in userCareerData:
@@ -62,9 +64,9 @@ class gambles(commands.Cog, commands.Bot):
             await careerCollection.update_one(userCareerData ,careerData)
 
         if not "gamble_point" in  userCareerData["points"]:
-            gambleData = { "$set" : {"gamble_point" : 0}}
-            await careerCollection.update_one(userCareerData["points"] ,gambleData)
-        userCareerData['gamble_point'] += 1
+            gambleData = { "$set" : {"points.gamble_point" : 0}}
+            await careerCollection.update_one(userCareerData ,gambleData)
+        userCareerData["points"]['gamble_point'] += 1
         await careerCollection.replace_one({"_id": interaction.user.id}, userCareerData)
 
         if userData["coins"] < miktar:
@@ -122,12 +124,12 @@ class gambles(commands.Cog, commands.Bot):
 
         userData = await collection.find_one({"_id": interaction.user.id})
 
-        if await careerCollection.find_one({"_id" : interaction.user.id}) == None:
-            newData1 = {
+        if await careerCollection.find_one({"_id": interaction.user.id}) == None:
+            newData = {
                 "_id": interaction.user.id,
-                "gamble_point" :0
+                "points": {"gamble_point": 0}
             }
-            await careerCollection.insert_one(newData1)
+            await careerCollection.insert_one(newData)
         userCareerData = await careerCollection.find_one({"_id": interaction.user.id})
 
         if userData["coins"] < miktar:
@@ -138,9 +140,9 @@ class gambles(commands.Cog, commands.Bot):
             await careerCollection.update_one(userCareerData ,careerData)
 
         if not "gamble_point" in  userCareerData["points"]:
-            gambleData = { "$set" : {"gamble_point" : 0}}
-            await careerCollection.update_one(userCareerData["points"] ,gambleData)
-        userCareerData['gamble_point'] += 1
+            gambleData = { "$set" : {"points.gamble_point" : 0}}
+            await careerCollection.update_one(userCareerData ,gambleData)
+        userCareerData["points"]['gamble_point'] += 1
         await careerCollection.replace_one({"_id": interaction.user.id}, userCareerData)
 
         moneyRecieved = random.randint(1,10)
@@ -187,12 +189,12 @@ class gambles(commands.Cog, commands.Bot):
 
         userData['coins']
 
-        if await careerCollection.find_one({"_id" : interaction.user.id}) == None:
-            newData1 = {
+        if await careerCollection.find_one({"_id": interaction.user.id}) == None:
+            newData = {
                 "_id": interaction.user.id,
-                "gamble_point" :0
+                "points": {"gamble_point": 0}
             }
-            await careerCollection.insert_one(newData1)
+            await careerCollection.insert_one(newData)
         userCareerData = await careerCollection.find_one({"_id": interaction.user.id})
             
         if "points" not in userCareerData:
@@ -200,9 +202,9 @@ class gambles(commands.Cog, commands.Bot):
             await careerCollection.update_one(userCareerData ,careerData)
 
         if not "gamble_point" in  userCareerData["points"]:
-            gambleData = { "$set" : {"gamble_point" : 0}}
-            await careerCollection.update_one(userCareerData["points"] ,gambleData)
-        userCareerData['gamble_point'] += 1
+            gambleData = { "$set" : {"points.gamble_point" : 0}}
+            await careerCollection.update_one(userCareerData ,gambleData)
+        userCareerData["points"]['gamble_point'] += 1
         await careerCollection.replace_one({"_id": interaction.user.id}, userCareerData)
 
         if userData["coins"] < miktar:
