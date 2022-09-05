@@ -30,7 +30,7 @@ class gambles(commands.Cog, commands.Bot):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    @app_commands.command(name="coinflip", description="Yazı-Tura atarak Cupcoin kazan.")
+    @app_commands.command(name="coinflip", description="Flip a coin and win money.")
     @app_commands.describe(miktar='Enter the Amount')
     @app_commands.checks.cooldown(
         1, 10.0, key=lambda i: (i.guild_id, i.user.id))
@@ -70,7 +70,7 @@ class gambles(commands.Cog, commands.Bot):
         await careerCollection.replace_one({"_id": interaction.user.id}, userCareerData)
 
         if userData["coins"] < miktar:
-            return await interaction.response.send_message(f"{cross} Cüzdanınızda yeterli Cupcoin bulunmuyor!")
+            return await interaction.response.send_message(f"{cross} There is not enough Cupcoin in your wallet!")
 
 
         cf = [1, 0]
@@ -83,14 +83,14 @@ class gambles(commands.Cog, commands.Bot):
             await collection.replace_one({"_id" : interaction.user.id}, userData)
             await interaction.response.send_message("Coinflipping...")
             await asyncio.sleep(4)
-            await interaction.edit_original_response(content = f"{cupcoin} Tebrikler, **{r:,}** Cupcoin kazandınız!")
+            await interaction.edit_original_response(content = f"{cupcoin} Congratulations, you have won **{r:,}** Cupcoin!")
 
         else:
             userData['coins'] -= miktar
             await collection.replace_one({"_id" : interaction.user.id}, userData)
             await interaction.response.send_message("Coinflipping...")
             await asyncio.sleep(4)
-            await interaction.edit_original_response(content = f"{cupcoinBack} Maalesef bir dahaki sefere ;c")
+            await interaction.edit_original_response(content = f"{cupcoinBack} Unfortunately, next time ;c")
 
 
     @coinflip.error
@@ -98,13 +98,13 @@ class gambles(commands.Cog, commands.Bot):
                          error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
-            await interaction.response.send_message(f"{clock} **|** Lütfen `{timeRemaining}`s sonra tekrar deneyiniz.",ephemeral=True)
+            await interaction.response.send_message(f"{clock} **|** Please wait `{timeRemaining}`s and Try Again!",ephemeral=True)
 
     # ----- GUESS NUMBER ----
 
     @app_commands.command(
         name="guess-number",
-        description="Sayıyı bil ve 5 katı coin kazan. (1 - 10)")
+        description="Know the number and win 5 times the Cupcoin. (1 - 10)")
     @app_commands.describe(miktar='Enter the Amount', number="Your Guess")
     @app_commands.checks.cooldown(
         1, 10.0, key=lambda i: (i.guild_id, i.user.id))
@@ -120,7 +120,7 @@ class gambles(commands.Cog, commands.Bot):
         
 
         if await collection.find_one({"_id": interaction.user.id}) == None:
-            return await interaction.response.send_message("Henüz bir hesabınız yok.")
+            return await interaction.response.send_message("You don't have an account. Please use this command: **`/wallet`**")
 
         userData = await collection.find_one({"_id": interaction.user.id})
 
@@ -133,7 +133,7 @@ class gambles(commands.Cog, commands.Bot):
         userCareerData = await careerCollection.find_one({"_id": interaction.user.id})
 
         if userData["coins"] < miktar:
-            return await interaction.response.send_message(f"{cross} Cüzdanınızda yeterli Cupcoin bulunmuyor!")
+            return await interaction.response.send_message(f"{cross} There is not enough money in your wallet!")
 
         if "points" not in userCareerData:
             careerData = { "$set" : {"points" : {}}}
@@ -151,30 +151,30 @@ class gambles(commands.Cog, commands.Bot):
             r = miktar * 5
             userData['coins'] += r
             await collection.replace_one({"_id": interaction.user.id}, userData)
-            await interaction.response.send_message(f"{cupcoin} Tebrikler, sayıyı doğru bildiniz ve tam **{r:,}** Cupcoin kazandınız!")
+            await interaction.response.send_message(f"{cupcoin} Congratulations. You got the number right and won **{r:,}** Cupcoin!")
         else:
             userData['coins'] -= miktar
             await collection.replace_one({"_id": interaction.user.id}, userData)
-            await interaction.response.send_message(f"Maalesef sayıyı doğru tahmin edemediniz. Bir dahaki sefere ;c")
+            await interaction.response.send_message(f"Unfortunately, you didn't guess the number correctly. Next time ;c")
 
     @guessnumber.error
     async def guessnumberError(self, interaction: discord.Interaction,
                          error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
-            await interaction.response.send_message(f"{clock} **|** Lütfen `{timeRemaining}`s sonra tekrar deneyiniz.", ephemeral=True)
+            await interaction.response.send_message(f"{clock} **|** Please wait `{timeRemaining}`s and Try Again!", ephemeral=True)
 
 
     #----- DICE -----
     @app_commands.command(
         name="roll",
-        description="Zar at ve Cupcoin kazan")
-    @app_commands.describe(seç="Tek mi, Çift mi?" ,miktar='Enther the Amount')
+        description="Roll the dice and win a cupcoin")
+    @app_commands.describe(seç="Single or double?" ,miktar='Enther the Amount')
     @app_commands.checks.cooldown(
         1, 10.0, key=lambda i: (i.guild_id, i.user.id))
     @app_commands.choices(seç = [
-        Choice(name="Çift", value="cift"),
-        Choice(name="Tek", value="tek")
+        Choice(name="Double", value="cift"),
+        Choice(name="Single", value="tek")
     ])
     async def roll(self, interaction: discord.Interaction, seç: str, miktar: app_commands.Range[int, 1, 50000]):
 
@@ -183,7 +183,7 @@ class gambles(commands.Cog, commands.Bot):
         careerCollection = db["career"]
 
         if await collection.find_one({"_id": interaction.user.id}) == None:
-            return await interaction.response.send_message("Henüz bir hesabınız yok.")
+            return await interaction.response.send_message("You don't have an account. Please use this command: **`/wallet`**")
 
         userData = await collection.find_one({"_id": interaction.user.id})
 
@@ -208,7 +208,7 @@ class gambles(commands.Cog, commands.Bot):
         await careerCollection.replace_one({"_id": interaction.user.id}, userCareerData)
 
         if userData["coins"] < miktar:
-            return await interaction.response.send_message(f"{cross} Cüzdanınızda yeterli Cupcoin bulunmuyor!")
+            return await interaction.response.send_message(f"{cross} There are not enough Cupcoins in your wallet!")
 
         dice1 = random.randint(1,6)
         dice2 = random.randint(1,6)
@@ -222,47 +222,47 @@ class gambles(commands.Cog, commands.Bot):
                 r = miktar * 2
                 userData['coins'] += r
                 await collection.replace_one({"_id": interaction.user.id}, userData)
-                await interaction.response.send_message("🎲 Zarlar atılıyor...")
+                await interaction.response.send_message("🎲 Rolling the dice...")
                 await asyncio.sleep(4)
-                await interaction.edit_original_response(content = f"{cupcoin} Tebrikler, iki zar sonucu {total} geldi ve tam **{r:,}** Cupcoin kazandınız!")
+                await interaction.edit_original_response(content = f"{cupcoin} Congratulations. the result of 2 dice came to {total} and you won**{r:,}** Cupcoin!")
             else:
                 userData['coins'] -= miktar
                 await collection.replace_one({"_id": interaction.user.id}, userData)
-                await interaction.response.send_message("🎲 Zarlar atılıyor...")
+                await interaction.response.send_message("🎲 Rolling the dice...")
                 await asyncio.sleep(4)
-                await interaction.edit_original_response(content= "Maalesef kaybettiniz. Bir dahaki sefere ;c")
+                await interaction.edit_original_response(content= "Sorry you lost next time ;c")
         else:
             if seç == "tek":
                 r = miktar * 2
                 userData['coins'] += r
                 await collection.replace_one({"_id": interaction.user.id}, userData)
-                await interaction.response.send_message("🎲 Zarlar atılıyor...")
+                await interaction.response.send_message("🎲 Rolling the dice...")
                 await asyncio.sleep(4)
-                await interaction.edit_original_response(content=f"{cupcoin} Tebrikler, iki zar sonucu {total} geldi ve tam **{r:,}** Cupcoin kazandınız!")
+                await interaction.edit_original_response(content=f"{cupcoin} Congratulations. the result of 2 dice came to {total} and you won**{r:,}** Cupcoin!")
             else:
                 userData['coins'] -= miktar
                 await collection.replace_one({"_id": interaction.user.id}, userData)
-                await interaction.response.send_message("🎲 Zarlar atılıyor...")
+                await interaction.response.send_message("🎲 Rolling the dice...")
                 await asyncio.sleep(4)
-                await interaction.edit_original_response(content= "Maalesef kaybettiniz. Bir dahaki sefere ;c")
+                await interaction.edit_original_response(content= "Sorry you lost next time ;c")
     @roll.error
     async def rollError(self, interaction: discord.Interaction,
                                error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
-            await interaction.response.send_message(f"{clock} **|** Lütfen `{timeRemaining}`s sonra tekrar deneyiniz.",ephemeral=True)
+            await interaction.response.send_message(f"{clock} **|** Please wait `{timeRemaining}`s and Try Again!",ephemeral=True)
 
     # ----- OPEN BOX -----
     @app_commands.command(
         name="open-box",
-        description="Kutu aç ve Zengin Ol!")
-    @app_commands.describe(box = "Açmak istediğiniz kutuyu seçiniz.")
+        description="Open a box and get rich!")
+    @app_commands.describe(box = "Select the box you want to open.")
     @app_commands.choices(box=[
-        Choice(name=f"Tahta Kutu - {woodenBox:,}", value="wooden"),
-        Choice(name=f"Gümüş Kutu - {silverBox:,}" , value="silver"),
-        Choice(name=f"Altın Kutu - {goldenBox:,}", value="golden"),
-        Choice(name=f"Platin Kutu - {platinBox:,}", value="platin"),
-        Choice(name=f"Elmas Kutu - {diamondBox:,}", value="diamond"),
+        Choice(name=f"Wooden Box - {woodenBox:,}", value="wooden"),
+        Choice(name=f"Silver Box - {silverBox:,}" , value="silver"),
+        Choice(name=f"Golden Box - {goldenBox:,}", value="golden"),
+        Choice(name=f"Platinum Box - {platinBox:,}", value="platin"),
+        Choice(name=f"Diamond Box - {diamondBox:,}", value="diamond"),
     ])
     @app_commands.checks.cooldown(
         1, 14400, key=lambda i: (i.guild_id, i.user.id))
@@ -272,7 +272,7 @@ class gambles(commands.Cog, commands.Bot):
         collection = db["economy"]
 
         if await collection.find_one({"_id": interaction.user.id}) == None:
-            return await interaction.response.send_message("Henüz bir hesabınız yok.")
+            return await interaction.response.send_message("You don't have an account. Please use this command: **`/wallet`**")
 
         userData = await collection.find_one({"_id": interaction.user.id})
 
@@ -286,62 +286,62 @@ class gambles(commands.Cog, commands.Bot):
 
         if box == "wooden":
             if userData['coins'] < woodenBox:
-                return await interaction.response.send_message(f"{cross} Tahta kutu açmak için **{woodenBox:,}** Cupcoin gerekiyor! ")
+                return await interaction.response.send_message(f"{cross} It takes **{woodenBox:,}** Cupcoin to open a wooden box! ")
             userData['coins'] -= woodenBox
             userData['coins'] += woodenBoxBounty
             await collection.replace_one({"_id": interaction.user.id}, userData)
-            await interaction.response.send_message("Kutu açılıyor...")
+            await interaction.response.send_message("The box opens...")
             await asyncio.sleep(4)
-            await interaction.edit_original_response(content= f" {cupcoins} Tahta kutudan tam **{woodenBoxBounty:,}** Cupcoin çıktı! Yeni bakiyeniz: **{userData['coins']:,}** Cupcoin")
+            await interaction.edit_original_response(content= f" {cupcoins} **{woodenBoxBounty:,}** Cupcoin came out of the wooden box! Your new balance is **{userData['coins']:,}** ")
 
         elif box == "silver":
             if userData['coins'] < silverBox:
-                return await interaction.response.send_message(f"{cross} Gümüş kutu açmak için **{silverBox:,}** Cupcoin gerekiyor!")
+                return await interaction.response.send_message(f"{cross} It takes **{silverBox:,}** Cupcoin to open a silver box!")
             userData['coins'] -= silverBox
             userData['coins'] += silverBoxBounty
             await collection.replace_one({"_id": interaction.user.id}, userData)
-            await interaction.response.send_message("Kutu açılıyor...")
+            await interaction.response.send_message("The box opens...")
             await asyncio.sleep(4)
-            await interaction.edit_original_response(content=f" {cupcoins} Gümüş kutudan tam **{silverBoxBounty:,}** Cupcoin çıktı! Yeni bakiyeniz: **{userData['coins']:,}** Cupcoin")
+            await interaction.edit_original_response(content=f" {cupcoins} **{silverBoxBounty:,}**  Cupcoin came out of the silver box! Your new balance is **{userData['coins']:,}** ")
 
 
         elif box == "golden":
             if userData['coins'] < goldenBox:
-                return await interaction.response.send_message(f"{cross} Altın kutu açmak için **{goldenBox:,}** Cupcoin gerekiyor!")
+                return await interaction.response.send_message(f"{cross} It takes **{goldenBox:,}** Cupcoin to open a golden box!")
             userData['coins'] -= goldenBox
             userData['coins'] += goldenBoxBounty
             await collection.replace_one({"_id": interaction.user.id}, userData)
-            await interaction.response.send_message("Kutu açılıyor...")
+            await interaction.response.send_message("The box opens...")
             await asyncio.sleep(4)
             await interaction.edit_original_response(
-                content=f" {cupcoins} Altın kutudan tam **{goldenBoxBounty:,}** Cupcoin çıktı! Yeni bakiyeniz: **{userData['coins']:,}** Cupcoin")
+                content=f" {cupcoins} **{goldenBoxBounty:,}** Cupcoin came out of the golden box! Your new balance is **{userData['coins']:,}** ")
 
         elif box == "platin":
             if userData['coins'] < platinBox:
-                return await interaction.response.send_message(f"{cross} Platin kutu açmak için **{platinBox:,}** Cupcoin gerekiyor!")
+                return await interaction.response.send_message(f"{cross} It takes **{platinBox:,}** Cupcoin to open a platinum box!")
             userData['coins'] -= platinBox
             userData['coins'] += platinBoxBounty
             await collection.replace_one({"_id": interaction.user.id}, userData)
-            await interaction.response.send_message("Kutu açılıyor...")
+            await interaction.response.send_message("The box opens...")
             await asyncio.sleep(4)
-            await interaction.edit_original_response(content=f" {cupcoins} Platin kutudan tam **{platinBoxBounty:,}** Cupcoin çıktı! Yeni bakiyeniz: **{userData['coins']:,}** Cupcoin")
+            await interaction.edit_original_response(content=f" {cupcoins}**{platinBoxBounty:,}** Cupcoin came out of the platinum box! Your new balance is **{userData['coins']:,}** ")
 
         elif box == "diamond":
             if userData['coins'] < diamondBox:
-                return await interaction.response.send_message(f"{cross} Elmas kutu açmak için **{diamondBox:,}** Cupcoin gerekiyor!")
+                return await interaction.response.send_message(f"{cross} It takes **{diamondBox:,}** Cupcoin to open a diamond box!")
             userData['coins'] -= diamondBox
             userData['coins'] += diamondBoxBounty
             await collection.replace_one({"_id": interaction.user.id}, userData)
-            await interaction.response.send_message("Kutu açılıyor...")
+            await interaction.response.send_message("The box opens...")
             await asyncio.sleep(4)
-            await interaction.edit_original_response(content=f" {cupcoins} Elmas kutudan tam **{diamondBoxBounty:,}** Cupcoin çıktı! Yeni bakiyeniz: **{userData['coins']:,}** Cupcoin")
+            await interaction.edit_original_response(content=f" {cupcoins} **{diamondBoxBounty:,}** Cupcoin came out of the diamond box! Your new balance is **{userData['coins']:,}** ")
 
     @openbox.error
     async def openboxError(self, interaction: discord.Interaction,
                         error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
-            await interaction.response.send_message(f"{clock} **|** Lütfen `{timeRemaining}`s sonra tekrar deneyiniz.",ephemeral=True)
+            await interaction.response.send_message(f"{clock} **|** Please wait `{timeRemaining}`s and Try Again!",ephemeral=True)
 
 # , guilds= [discord.Object(id =964617424743858176)]
 async def setup(bot:commands.Bot):
