@@ -46,7 +46,7 @@ class sendCoin(commands.Cog):
             await careerCollection.update_one(userCareerData ,sendCData)
 
         userCareerData = await careerCollection.find_one({"_id": interaction.user.id})
-        
+
         userCareerData["points"]['send_point'] += 1
         await careerCollection.replace_one({"_id": interaction.user.id}, userCareerData)
 
