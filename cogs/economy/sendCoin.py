@@ -44,6 +44,9 @@ class sendCoin(commands.Cog):
         if not "send_point" in  userCareerData["points"]:
             sendCData = { "$set" : {"points.send_point" : 0}}
             await careerCollection.update_one(userCareerData ,sendCData)
+
+        userCareerData = await careerCollection.find_one({"_id": interaction.user.id})
+        
         userCareerData["points"]['send_point'] += 1
         await careerCollection.replace_one({"_id": interaction.user.id}, userCareerData)
 
@@ -65,7 +68,7 @@ class sendCoin(commands.Cog):
         targetData['coins'] += amount
         await collection.replace_one({"_id": interaction.user.id}, userData)
         await collection.replace_one({"_id": friend.id}, targetData)
-        await interaction.response.send_message(f"{send} You successfully sent **{amount:,}** Cupcoin to your friend  **{friend.name}**.")
+        await interaction.response.send_message(f"{send} You successfully sent **{amount:,}** Cupcoin to your friend **{friend.name}**.")
     @send.error
     async def sendError(self, interaction : discord.Interaction,
                          error: app_commands.AppCommandError):
