@@ -44,6 +44,8 @@ class sendCoin(commands.Cog):
         if not "send_point" in  userCareerData["points"]:
             sendCData = { "$set" : {"points.send_point" : 0}}
             await careerCollection.update_one(userCareerData ,sendCData)
+            
+        userCareerData = await careerCollection.find_one({"_id": interaction.user.id})
         userCareerData["points"]['send_point'] += 1
         await careerCollection.replace_one({"_id": interaction.user.id}, userCareerData)
 
