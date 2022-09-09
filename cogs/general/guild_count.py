@@ -22,7 +22,7 @@ class BasicCommands(commands.Cog, commands.Bot):
     @app_commands.command(name="ping", description="Shows Cupcake's latency")
     @app_commands.checks.cooldown(1, 10, key=lambda i: (i.guild_id, i.user.id))
     async def ping(self, interaction: discord.Interaction):
-        await interaction.response.send_message(f"🏓 Pong! {round(self.bot.latency * 1000)}ms", ephemeral = True)
+        await interaction.response.send_message(f"🏓 Pong! {round(self.bot.latency * 1000)}ms")
     @ping.error
     async def pingError(self, interaction: discord.Interaction,
                          error: app_commands.AppCommandError):
