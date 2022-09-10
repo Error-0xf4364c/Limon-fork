@@ -22,6 +22,9 @@ mine = yaml.load(mine_file, Loader = Loader)
 wood_file = open("yamls/wood.yml", "rb")
 wood = yaml.load(wood_file, Loader = Loader)
 
+char_file = open("yamls/chars.yml", "rb")
+chars = yaml.load(char_file, Loader = Loader)
+
 items_file = open("yamls/items.yml", "rb")
 item = yaml.load(items_file, Loader = Loader)
 
@@ -105,6 +108,8 @@ class Buttons(View):
         userMines = ["None"]
         userHunts = ["None"]
         userWood = ["None"]
+        userChars = ["None"]
+
 
         if "fishes" in userData:
             userFishes = list(userData["fishes"].keys())
@@ -114,10 +119,14 @@ class Buttons(View):
             userHunts = userData["hunts"]
         if "wood" in userData:
             userWood = list(userData["wood"].keys())
+        if "heroes" in userData:
+            userChars = userData["heroes"]
+        
 
         
         fishes_ = [ f"**{userFishes.count(i)}** x {all_fish[i]['name']} - **{userData['fishes'][i]}**cm 🐟" for i in all_fish_keys if i in userFishes]
         hunts_ = [ f"**{userHunts.count(i)}** x {all_hunt[i]['name']} 🦌" for i in all_hunt if i in userHunts]
+        chars_ = [ f"{chars[i]['name']} **››** {chars[i]['rarity']} 🦸" for i in chars if i in userChars] 
         mines_ = [ f"**{userMines.count(i)}** x {all_mine[i]['name']} - **{userData['mines'][i]}**kg 💎" for i in all_mine_keys if i in userMines]
         wood_ = [ f"**{userWood.count(i)}** x {all_wood[i]['name']} - **{userData['wood'][i]}**m 🌲" for i in all_wood_keys if i in userWood]
         
@@ -127,11 +136,12 @@ class Buttons(View):
 
         fishes_ = "\n".join(fishes_) if len(fishes_)>0 else "*No fish in your inventory*"
         hunts_ = "\n".join(hunts_) if len(hunts_)>0 else "*No hunt in your inventory*"
+        chars_ = "\n".join(chars_) if len(chars_)>0 else "*No hero in your inventory*"
         mines_ = "\n".join(mines_) if len(mines_)>0 else "*No mine in your inventory*"
         wood_ = "\n".join(wood_) if len(wood_)>0 else "*No wood in your inventory*"
 
         
-        backpack_embed = Embed( description =  f"This is the section in your inventory that shows what you have achieved as a result of the work you have done. \n════════════════════════════════\n***FISHES:***\n{fishes_}\n════════════════════════════════\n***HUNTS:***\n{hunts_}\n════════════════════════════════\n***MINES:***\n{mines_}\n════════════════════════════════\n***WOOD:***\n{wood_}", color = 0x2E3136)
+        backpack_embed = Embed( description =  f"This is the section in your inventory that shows what you have achieved as a result of the work you have done. \n════════════════════════════════\n***FISHES:***\n{fishes_}\n════════════════════════════════\n***HUNTS:***\n{hunts_}\n════════════════════════════════\n***MINES:***\n{mines_}\n════════════════════════════════\n***WOOD:***\n{wood_}\n════════════════════════════════\n***HEROES:***\n{chars_}\n════════════════════════════════", color = 0x2E3136)
         backpack_embed.set_author(name= f"{interaction.user.name}'s Backpack", icon_url = interaction.user.avatar.url)
 
         await interaction.response.edit_message(embed = backpack_embed, view=self)

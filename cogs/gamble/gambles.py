@@ -77,6 +77,8 @@ class gambles(commands.Cog, commands.Bot):
 
         moneyRecieved = random.choice(cf)
 
+
+
         if moneyRecieved == 1:
             r = miktar * 2
             userData['coins'] += miktar
@@ -105,11 +107,11 @@ class gambles(commands.Cog, commands.Bot):
     @app_commands.command(
         name="guess-number",
         description="Know the number and win 5 times the Cupcoin. (1 - 10)")
-    @app_commands.describe(miktar='Enter the Amount', number="Your Guess")
+    @app_commands.describe(amount='Enter the Amount', number="Your Guess")
     @app_commands.checks.cooldown(
         1, 10.0, key=lambda i: (i.guild_id, i.user.id))
 
-    async def guessnumber(self, interaction: discord.Interaction, miktar: app_commands.Range[int, 1, 50000], number: app_commands.Range[int, 1, 10]):
+    async def guessnumber(self, interaction: discord.Interaction, amount: app_commands.Range[int, 1, 50000], number: app_commands.Range[int, 1, 10]):
 
 
 
@@ -132,7 +134,7 @@ class gambles(commands.Cog, commands.Bot):
             await careerCollection.insert_one(newData)
         userCareerData = await careerCollection.find_one({"_id": interaction.user.id})
 
-        if userData["coins"] < miktar:
+        if userData["coins"] < amount:
             return await interaction.response.send_message(f"{cross} There is not enough money in your wallet!")
 
         if "points" not in userCareerData:
@@ -148,12 +150,12 @@ class gambles(commands.Cog, commands.Bot):
         moneyRecieved = random.randint(1,10)
 
         if moneyRecieved == number:
-            r = miktar * 5
+            r = amount * 5
             userData['coins'] += r
             await collection.replace_one({"_id": interaction.user.id}, userData)
             await interaction.response.send_message(f"{cupcoin} Congratulations. You got the number right and won **{r:,}** Cupcoin!")
         else:
-            userData['coins'] -= miktar
+            userData['coins'] -= amount
             await collection.replace_one({"_id": interaction.user.id}, userData)
             await interaction.response.send_message(f"Unfortunately, you didn't guess the number correctly. Next time ;c")
 
@@ -169,14 +171,14 @@ class gambles(commands.Cog, commands.Bot):
     @app_commands.command(
         name="roll",
         description="Roll the dice and win a cupcoin")
-    @app_commands.describe(seç="Single or double?" ,miktar='Enther the Amount')
+    @app_commands.describe(choose="Single or double?" ,amount='Enther the Amount')
     @app_commands.checks.cooldown(
         1, 10.0, key=lambda i: (i.guild_id, i.user.id))
-    @app_commands.choices(seç = [
+    @app_commands.choices(choose = [
         Choice(name="Double", value="cift"),
         Choice(name="Single", value="tek")
     ])
-    async def roll(self, interaction: discord.Interaction, seç: str, miktar: app_commands.Range[int, 1, 50000]):
+    async def roll(self, interaction: discord.Interaction, choose: str, amount: app_commands.Range[int, 1, 50000]):
 
         db = self.bot.mongoConnect["cupcake"]
         collection = db["economy"]
@@ -207,7 +209,7 @@ class gambles(commands.Cog, commands.Bot):
         userCareerData["points"]['gamble_point'] += 1
         await careerCollection.replace_one({"_id": interaction.user.id}, userCareerData)
 
-        if userData["coins"] < miktar:
+        if userData["coins"] < amount:
             return await interaction.response.send_message(f"{cross} There are not enough Cupcoins in your wallet!")
 
         dice1 = random.randint(1,6)
@@ -218,29 +220,29 @@ class gambles(commands.Cog, commands.Bot):
 
 
         if total %2 == 0:
-            if seç == "cift":
-                r = miktar * 2
+            if choose == "cift":
+                r = amount * 2
                 userData['coins'] += r
                 await collection.replace_one({"_id": interaction.user.id}, userData)
                 await interaction.response.send_message("🎲 Rolling the dice...")
                 await asyncio.sleep(4)
                 await interaction.edit_original_response(content = f"{cupcoin} Congratulations. the result of 2 dice came to {total} and you won**{r:,}** Cupcoin!")
             else:
-                userData['coins'] -= miktar
+                userData['coins'] -= amount
                 await collection.replace_one({"_id": interaction.user.id}, userData)
                 await interaction.response.send_message("🎲 Rolling the dice...")
                 await asyncio.sleep(4)
                 await interaction.edit_original_response(content= "Sorry you lost next time ;c")
         else:
-            if seç == "tek":
-                r = miktar * 2
+            if choose== "tek":
+                r = amount * 2
                 userData['coins'] += r
                 await collection.replace_one({"_id": interaction.user.id}, userData)
                 await interaction.response.send_message("🎲 Rolling the dice...")
                 await asyncio.sleep(4)
                 await interaction.edit_original_response(content=f"{cupcoin} Congratulations. the result of 2 dice came to {total} and you won**{r:,}** Cupcoin!")
             else:
-                userData['coins'] -= miktar
+                userData['coins'] -= amount
                 await collection.replace_one({"_id": interaction.user.id}, userData)
                 await interaction.response.send_message("🎲 Rolling the dice...")
                 await asyncio.sleep(4)

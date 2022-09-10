@@ -17,19 +17,19 @@ class BasicCommands(commands.Cog, commands.Bot):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
             await interaction.response.send_message(f"Please wait `{timeRemaining}`s and Try Again.",ephemeral=True)
-        print(f"GUILD_COUNT: {error}")
+        print(f"[GUILD_COUNT]: {error}")
 
     @app_commands.command(name="ping", description="Shows Cupcake's latency")
     @app_commands.checks.cooldown(1, 10, key=lambda i: (i.guild_id, i.user.id))
     async def ping(self, interaction: discord.Interaction):
-        await interaction.response.send_message(f"🏓 Pong! {round(self.bot.latency * 1000)}ms", ephemeral = True)
+        await interaction.response.send_message(f"🏓 Pong! {round(self.bot.latency * 1000)}ms")
     @ping.error
     async def pingError(self, interaction: discord.Interaction,
                          error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
             await interaction.response.send_message(f"Please wait `{timeRemaining}`s and Try Again.",ephemeral=True)
-        print(f"PING: {error}")
+        print(f"[PING]: {error}")
 
 
 async def setup(bot: commands.Bot):
