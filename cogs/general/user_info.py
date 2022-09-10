@@ -146,3 +146,4 @@ class general(commands.Cog, commands.Bot):
 
 async def setup(bot:commands.Bot):
     await bot.add_cog(general(bot))
+

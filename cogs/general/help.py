@@ -27,11 +27,12 @@ class Help(commands.Cog, commands.Bot):
         description="Don't you know what's what?")
     @app_commands.describe(topic = "Choose a topic")
     @app_commands.choices(topic=[
-        Choice(name=f"Basic Commands", value="basiccommandshelp"),
-        Choice(name=f"Gamble", value="gamblecommands"),
-        Choice(name=f"Hunting", value="huntingcommands"),
-        Choice(name=f"Badges", value="badgescommands"),
-        Choice(name=f"Heroes", value="heroescommands")
+        Choice(name="Basic Commands", value="basiccommandshelp"),
+        Choice(name="Gamble", value="gamblecommands"),
+        Choice(name="Hunting", value="huntingcommands"),
+        Choice(name="Badges", value="badgescommands"),
+        Choice(name="Heroes", value="heroescommands"),
+        Choice(name="Ranking", value="rankingsystem")
 
     ])
     @app_commands.checks.cooldown(
@@ -48,7 +49,11 @@ class Help(commands.Cog, commands.Bot):
             **/daily** **››** You can earn your daily cupcoin.
             **/inventory** **››** You view your inventory.
             **/send** **››** You can send cupcoin to your friends.
-            **/user-info** **››** You view any user's information.""" )
+            **/user-info** **››** You view any user's information.
+            **/suggestion **››** Make a suggestion for Cupcake.
+            **/report** **››** Report Bugs/Errors
+            **/vote** **››** Vote Cupcake on Top.gg
+            """ )
             commandsEmbed.set_author(name = "About the commands", icon_url = interaction.user.avatar.url)
             await interaction.response.send_message(embed=commandsEmbed, view=view)
 
@@ -66,6 +71,9 @@ class Help(commands.Cog, commands.Bot):
             ```Hunting with Cupcake```\n
             **/hunt** **››** Hunt animals.
             **/fishing** **››** Fishing.
+            **/forestry** **››** Cut down the tree
+            **/mining** **››** Digging and earn valuable mines
+            **/store** **››** Buy items and start working!
             **/inventory** **››** View your fishes and hunts.
             **/sell** **››** You can sell your fishes and hunts""")
             huntingEmbed.set_author(name = "About the hunting", icon_url = interaction.user.avatar.url)
@@ -102,6 +110,16 @@ class Help(commands.Cog, commands.Bot):
             heroesEmbed.set_author(name = "About the heroes", icon_url = interaction.user.avatar.url)
             await interaction.response.send_message(embed=heroesEmbed, view=view)
 
+        elif topic == "rankingsystem":
+            rankingEmbed = Embed(description = """
+            ```How to raise my level```
+            You can talk with your friends on chat channels to raise your level.
+            ```How can i learn my level```
+            **/rank** **››** Shows your level card
+            **/leaderboard** **››** Shows the top 5 in the ranking
+            """)
+            rankingEmbed.set_author(name = "About the ranking system", icon_url = interaction.user.avatar.url)
+            await interaction.response.send_message(embed=rankingEmbed, view=view)
     @bothelp.error
     async def sellError(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
 

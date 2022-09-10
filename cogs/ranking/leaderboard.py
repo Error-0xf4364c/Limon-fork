@@ -1,3 +1,5 @@
+import asyncio
+from xml.dom.minidom import NamedNodeMap
 import discord
 from discord import Embed, app_commands
 from discord.ext import commands
@@ -10,7 +12,8 @@ class ShowLeaderboard(commands.Cog, commands.Bot):
 
 
 
-    @app_commands.command(name = "leaderboard", description = "The level shows the leader board") #
+    @app_commands.command(name = "leaderboardd", description = "The level shows the leader board") #
+    @app_commands.checks.cooldown(1, 10, key=lambda i: (i.user.id))
     @app_commands.guild_only
     async def leaderboard(self, interaction: discord.Interaction):
         
@@ -26,32 +29,37 @@ class ShowLeaderboard(commands.Cog, commands.Bot):
         l = {}
         totalXp = []
 
+
         async for userData in levellingCollection.find():
-            xp = int(userData["xp"]) + int(userData["level"] * 500)
+            xp = int(userData["level"] * 100) + int(userData["xp"])
+            level = int(userData["level"] * 500)
             l[xp] = f"{userData['_id']}:{userData['xp']}:{userData['level']}"
             totalXp.append(xp)
+
 
         totalXp = sorted(totalXp, reverse = True)
         index = 1
 
-        leaderboard_message = Embed(
-            title = "═════Leaderboard═════" #════════════Leaderboard════════════
-        )
+        leaderboard_message = Embed()
+        leaderboard_message.set_author(name = "═════Leaderboard═════", icon_url= interaction.guild.icon ) #════════════Leaderboard════════════
 
         for amt in totalXp:
-            id_ = l[amt].split(":")[0]
-            xp = l[amt].split(":")[1]
-            level = l[amt].split(":")[2]
+
+            id_ = int(l[amt].split(":")[0])
+            level = int(l[amt].split(":")[1])
+            xp = int(l[amt].split(":")[2])
+
 
             member = await self.bot.fetch_user(id_)
 
             if member is not None:
-                name = member.name
+                userr = member
                 leaderboard_message.add_field(
-                    name = f"{index}. {name}",
-                    value = f"**Level: {level} | XP: {xp}**",
+                    name = f"{index}. {userr}",
+                    value = f"`Level: {level}` **|** `XP: {round(xp / 1000, 2)}K`", 
                     inline = False
                 )
+
                 if index == rangeNum:
                     break
                 else:
@@ -63,7 +71,8 @@ class ShowLeaderboard(commands.Cog, commands.Bot):
     async def leaderboardError(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
-            await interaction.response.send_message(f"Please wait `{timeRemaining}` and Try Again!")
+            await interaction.response.send_message(f"Please wait `{int(timeRemaining) / 100}` and Try Again!",ephemeral=True)
+
         else:
             print(f"[LEADERBOARD] {error}")
 # , guilds= [discord.Object(id =964617424743858176)]

@@ -66,7 +66,7 @@ class MyRank(commands.Cog, commands.Bot):
         background.text(
             (200,130),
             f"Level: {level} "
-            + f"XP : {xp} / {(level+1)*500}",
+            + f"XP: {round(xp / 1000, 2)}K / {round((level + 1)* 500) / 1000}K",
             font = poppinsSmall,
             color = "#ffffff"
         )
