@@ -32,7 +32,6 @@ class ShowLeaderboard(commands.Cog, commands.Bot):
 
         async for userData in levellingCollection.find():
             xp = int(userData["level"] * 100) + int(userData["xp"])
-            level = int(userData["level"] * 100)
             l[xp] = f"{userData['_id']}:{userData['xp']}:{userData['level']}"
             totalXp.append(xp)
 
