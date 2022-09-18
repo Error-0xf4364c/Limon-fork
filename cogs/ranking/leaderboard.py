@@ -12,7 +12,7 @@ class ShowLeaderboard(commands.Cog, commands.Bot):
 
 
 
-    @app_commands.command(name = "leaderboardd", description = "The level shows the leader board") #
+    @app_commands.command(name = "leaderboard", description = "The level shows the leader board") #
     @app_commands.checks.cooldown(1, 10, key=lambda i: (i.user.id))
     @app_commands.guild_only
     async def leaderboard(self, interaction: discord.Interaction):
@@ -32,7 +32,7 @@ class ShowLeaderboard(commands.Cog, commands.Bot):
 
         async for userData in levellingCollection.find():
             xp = int(userData["level"] * 100) + int(userData["xp"])
-            level = int(userData["level"] * 500)
+            level = int(userData["level"] * 100)
             l[xp] = f"{userData['_id']}:{userData['xp']}:{userData['level']}"
             totalXp.append(xp)
 
