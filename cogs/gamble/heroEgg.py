@@ -65,8 +65,8 @@ class eggs(commands.Cog, commands.Bot):
         # --------| HEROLAR
         myheroes = " ".join(heroes.keys())
         sliceHero = myheroes.split(" ")
-        sliceHero.append(None)
-        sliceHero.append(None)
+        #sliceHero.append(None)
+        #sliceHero.append(None)
         # --------| HEROLAR
         yourHero = random.choice(sliceHero)
         userCoins['coins'] -= caseFee
