@@ -70,7 +70,7 @@ class general(commands.Cog, commands.Bot):
         if "coins" in userData:
             userCoins = userData['coins']
 
-         if "heroes" in userHeroesData:
+        if "heroes" in userHeroesData:
             userHeroes = len(userHeroesData['heroes'])
 
         
