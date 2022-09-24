@@ -8,7 +8,6 @@ import asyncio
 from io import BytesIO
 from PIL import Image, ImageChops, ImageDraw, ImageFont
 
-from cogs.ranking.level import Levelling
 
 
 back1 = Image.open(r"pictures/anime1_background.png").convert("RGBA")
@@ -51,7 +50,7 @@ class general(commands.Cog, commands.Bot):
         db = self.bot.mongoConnect["cupcake"]
         collection = db["economy"]
         heroesCollection = db["inventory"]
-        levellingCollection = db["levelling"]
+
         
         userCoins = 0
         userHeroes = 0
