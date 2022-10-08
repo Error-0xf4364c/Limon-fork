@@ -281,12 +281,12 @@ class Swords(discord.ui.Select):
     def __init__(self):
 
         options = [
-            discord.SelectOption(label='Gladius Sword', value= "gladius", description=f'Price: *~~{gladiusPrice:,}~~* {gladiusDcPrice:,}', emoji='⚔️'),
-            discord.SelectOption(label='Chukuto Sword', value= "chokuto", description=f'Price: *~~{chukutoPrice:,}~~* {chukutoDcPrice:,}', emoji='⚔️'),
-            discord.SelectOption(label='Katana Sword', value= "katana", description=f'Price: *~~{katanaPrice:,}~~* {katanaDcPrice:,}', emoji='⚔️'),
-            discord.SelectOption(label='Rapier Sword', value= "rapier", description=f'Price: *~~{rapierPrice:,}~~* {rapierDcPrice:,}', emoji='⚔️'),
-            discord.SelectOption(label='Odachi Sword', value= "odachi", description=f'Price: *~~{odachiPrice:,}~~* {odachiDcPrice:,}', emoji='⚔️'),
-            discord.SelectOption(label='Claymore Sword', value= "claymore", description=f'Price: *~~{claymorePrice}~~* {claymoreDcPrice:,}', emoji='⚔️'),
+            discord.SelectOption(label='Gladius Sword', value= "gladius", description=f'Price: not {gladiusPrice:,}, but {gladiusDcPrice:,}', emoji='⚔️'),
+            discord.SelectOption(label='Chukuto Sword', value= "chokuto", description=f'Price: not{chukutoPrice:,}, but {chukutoDcPrice:,}', emoji='⚔️'),
+            discord.SelectOption(label='Katana Sword', value= "katana", description=f'Price: not{katanaPrice:,}, but {katanaDcPrice:,}', emoji='⚔️'),
+            discord.SelectOption(label='Rapier Sword', value= "rapier", description=f'Price: not{rapierPrice:,}, but {rapierDcPrice:,}', emoji='⚔️'),
+            discord.SelectOption(label='Odachi Sword', value= "odachi", description=f'Price: not{odachiPrice:,}, but {odachiDcPrice:,}', emoji='⚔️'),
+            discord.SelectOption(label='Claymore Sword', value= "claymore", description=f'Price: not{claymorePrice:,}, but {claymoreDcPrice:,}', emoji='⚔️'),
 
             discord.SelectOption(label='Sell Sword', value= "sellsword", description=f'Sell to buy new sword', emoji='🗑️')
 
@@ -773,7 +773,7 @@ class ItemsView(View):
         await interaction.response.send_message(content= "Are you going to buy a new axe? This is great! Prices are indicated below the axes", view = view)
 
      # THIS BUTTON PURPOSE IS SHOW ALL SWORDS
-    @discord.ui.button(label="Swords", style=discord.ButtonStyle.primary, custom_id="showswords")
+    @discord.ui.button(label="Swords", style=discord.ButtonStyle.success, custom_id="showswords")
     async def sword_callback(self, interaction, button):
         view = SwordView()
         await interaction.response.send_message(content= "Are you going to buy a new sword? This is great! Prices are indicated below the swords", view = view)
