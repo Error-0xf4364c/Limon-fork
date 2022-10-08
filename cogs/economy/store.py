@@ -141,7 +141,7 @@ gladiusPrice = gladius["price"]
 gladiusDcPrice = gladius["discounted_price"]
 
 # 
-chukuto = swords["chukuto"]
+chukuto = swords["chokuto"]
 chukutoName = chukuto["name"]
 chukutoPrice = chukuto["price"] 
 chukutoDcPrice = chukuto["discounted_price"]
@@ -282,7 +282,7 @@ class Swords(discord.ui.Select):
 
         options = [
             discord.SelectOption(label='Gladius Sword', value= "gladius", description=f'Price: *~~{gladiusPrice:,}~~* {gladiusDcPrice}', emoji='⚔️'),
-            discord.SelectOption(label='Chukuto Sword', value= "chukuto", description=f'Price: *~~{chukutoPrice:,}~~* {chukutoDcPrice}', emoji='⚔️'),
+            discord.SelectOption(label='Chukuto Sword', value= "chokuto", description=f'Price: *~~{chukutoPrice:,}~~* {chukutoDcPrice}', emoji='⚔️'),
             discord.SelectOption(label='Katana Sword', value= "katana", description=f'Price: *~~{katanaPrice:,}~~* {katanaDcPrice}', emoji='⚔️'),
             discord.SelectOption(label='Rapier Sword', value= "rapier", description=f'Price: *~~{rapierPrice:,}~~* {rapierDcPrice}', emoji='⚔️'),
             discord.SelectOption(label='Odachi Sword', value= "odachi", description=f'Price: *~~{odachiPrice:,}~~* {odachiDcPrice}', emoji='⚔️'),
@@ -303,10 +303,10 @@ class Swords(discord.ui.Select):
             swordName = "Gladius Sword"
             swordPrice = gladiusDcPrice
             swordId = "gladius"
-        elif self.values[0] == "chukuto":
+        elif self.values[0] == "chokuto":
             swordName = "Chukuto Sword"
             swordPrice = chukutoDcPrice
-            swordId = "chukuto"
+            swordId = "chokuto"
         elif self.values[0] == "katana":
             swordName = "Katana Sword"
             swordPrice = katanaDcPrice
