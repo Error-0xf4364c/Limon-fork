@@ -282,11 +282,11 @@ class Swords(discord.ui.Select):
 
         options = [
             discord.SelectOption(label='Gladius Sword', value= "gladius", description=f'Price: not {gladiusPrice:,}, but {gladiusDcPrice:,}', emoji='⚔️'),
-            discord.SelectOption(label='Chukuto Sword', value= "chokuto", description=f'Price: not{chukutoPrice:,}, but {chukutoDcPrice:,}', emoji='⚔️'),
-            discord.SelectOption(label='Katana Sword', value= "katana", description=f'Price: not{katanaPrice:,}, but {katanaDcPrice:,}', emoji='⚔️'),
-            discord.SelectOption(label='Rapier Sword', value= "rapier", description=f'Price: not{rapierPrice:,}, but {rapierDcPrice:,}', emoji='⚔️'),
-            discord.SelectOption(label='Odachi Sword', value= "odachi", description=f'Price: not{odachiPrice:,}, but {odachiDcPrice:,}', emoji='⚔️'),
-            discord.SelectOption(label='Claymore Sword', value= "claymore", description=f'Price: not{claymorePrice:,}, but {claymoreDcPrice:,}', emoji='⚔️'),
+            discord.SelectOption(label='Chukuto Sword', value= "chokuto", description=f'Price: not {chukutoPrice:,}, but {chukutoDcPrice:,}', emoji='⚔️'),
+            discord.SelectOption(label='Katana Sword', value= "katana", description=f'Price: not {katanaPrice:,}, but {katanaDcPrice:,}', emoji='⚔️'),
+            discord.SelectOption(label='Rapier Sword', value= "rapier", description=f'Price: not {rapierPrice:,}, but {rapierDcPrice:,}', emoji='⚔️'),
+            discord.SelectOption(label='Odachi Sword', value= "odachi", description=f'Price: not {odachiPrice:,}, but {odachiDcPrice:,}', emoji='⚔️'),
+            discord.SelectOption(label='Claymore Sword', value= "claymore", description=f'Price: not {claymorePrice:,}, but {claymoreDcPrice:,}', emoji='⚔️'),
 
             discord.SelectOption(label='Sell Sword', value= "sellsword", description=f'Sell to buy new sword', emoji='🗑️')
 
