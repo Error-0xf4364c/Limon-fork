@@ -27,3 +27,12 @@ axe:
   goldenaxe: {custom_id: "goldenaxe", name: Golden Axe, price: 10000}
   reinforcedaxe: {custom_id: "reinforcedaxe", name: Reinforced Axe, price: 16000}
   enchantedaxe: {custom_id: "enchantedaxe", name: Enchanted Axe, price: 55000}
+
+sword:
+  gladius: {custom_id: "gladius", name: "Gladius Sword", price: 51500, discounted_price: 20000}
+  chokuto: {custom_id: "chukuto", name: "Chukuto Sword", price: 63999, discounted_price: 32000}
+  katana: {custom_id: "katana", name: "Katana Sword", price: 68399, discounted_price: 38000}
+  rapier: {custom_id: "rapier", name: "Rapier Sword", price: 73400, discounted_price: 40000}
+  odachi: {custom_id: "odachi", name: "Odachi Sword", price: 79999, discounted_price: 50000}
+  claymore: {custom_id: "claymore", name: "Claymore Sword", price: 93100, discounted_price: 60000}
+

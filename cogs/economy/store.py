@@ -131,6 +131,47 @@ enchantedAxe = axes["enchantedaxe"]
 enchantedAxeName = enchantedAxe["name"] # Enchanted Axe Name
 enchantedAxePrice = enchantedAxe["price"] # Enchanted Axe Price
 
+# SWORDS
+swords = items["sword"]
+
+# 
+gladius = swords["gladius"]
+gladiusName = gladius["name"]
+gladiusPrice = gladius["price"] 
+gladiusDcPrice = gladius["discounted_price"]
+
+# 
+chukuto = swords["chukuto"]
+chukutoName = chukuto["name"]
+chukutoPrice = chukuto["price"] 
+chukutoDcPrice = chukuto["discounted_price"]
+
+# 
+katana = swords["katana"]
+katanaName = katana["name"]
+katanaPrice = katana["price"] 
+katanaDcPrice = katana["discounted_price"]
+
+# 
+rapier = swords["rapier"]
+rapierName = rapier["name"]
+rapierPrice = rapier["price"] 
+rapierDcPrice = rapier["discounted_price"]
+
+# 
+odachi = swords["odachi"]
+odachiName = odachi["name"]
+odachiPrice = odachi["price"] 
+odachiDcPrice = odachi["discounted_price"]
+
+# 
+claymore = swords["claymore"]
+claymoreName = claymore["name"]
+claymorePrice = claymore["price"] 
+claymoreDcPrice = claymore["discounted_price"]
+
+
+
 # FOR DB CONNECTION
 client = MyBot()
 
@@ -235,6 +276,113 @@ class Pickaxes(discord.ui.Select):
         await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
 
         await interaction.response.send_message(f"✨⛏️ **|** You bought a new {pickaxeName} by paying {pickaxePrice:,}. Now you will be able to extract more valuable mines with this pickaxe")
+
+class Swords(discord.ui.Select):
+    def __init__(self):
+
+        options = [
+            discord.SelectOption(label='Gladius Sword', value= "gladius", description=f'Price: *~~{gladiusPrice:,}~~* {gladiusDcPrice}', emoji='⚔️'),
+            discord.SelectOption(label='Chukuto Sword', value= "chukuto", description=f'Price: *~~{chukutoPrice:,}~~* {chukutoDcPrice}', emoji='⚔️'),
+            discord.SelectOption(label='Katana Sword', value= "katana", description=f'Price: *~~{katanaPrice:,}~~* {katanaDcPrice}', emoji='⚔️'),
+            discord.SelectOption(label='Rapier Sword', value= "rapier", description=f'Price: *~~{rapierPrice:,}~~* {rapierDcPrice}', emoji='⚔️'),
+            discord.SelectOption(label='Odachi Sword', value= "odachi", description=f'Price: *~~{odachiPrice:,}~~* {odachiDcPrice}', emoji='⚔️'),
+            discord.SelectOption(label='Claymore Sword', value= "claymore", description=f'Price: *~~{claymorePrice:,}~~* {claymoreDcPrice}', emoji='⚔️'),
+
+            discord.SelectOption(label='Sell Sword', value= "sellsword", description=f'Sell to buy new sword', emoji='🗑️')
+
+        ]
+        super().__init__(placeholder='Choose a Sword', options=options)
+
+    async def callback(self, interaction: discord.Interaction):
+        
+        swordName = ""
+        swordPrice = "0"
+        swordId = ""
+        
+        if self.values[0] == "gladius":
+            swordName = "Gladius Sword"
+            swordPrice = gladiusDcPrice
+            swordId = "gladius"
+        elif self.values[0] == "chukuto":
+            swordName = "Chukuto Sword"
+            swordPrice = chukutoDcPrice
+            swordId = "chukuto"
+        elif self.values[0] == "katana":
+            swordName = "Katana Sword"
+            swordPrice = katanaDcPrice
+            swordId = "katana"
+        elif self.values[0] == "rapier":
+            swordName = "Rapier Sword"
+            swordPrice = rapierDcPrice
+            swordId = "rapier"
+        elif self.values[0] == "odachi":
+            swordName = "Odachi Sword"
+            swordPrice = odachiDcPrice
+            swordId = "odachi"
+        elif self.values[0] == "claymore":
+            swordName = "Claymore Sword"
+            swordPrice = claymoreDcPrice
+            swordId = "claymore"
+
+        # Database Connection
+        db = client.mongoConnect["cupcake"]
+        inventoryCollection = db["inventory"]
+        coinCollection = db["economy"]
+        userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
+
+        if self.values[0] == "sellsword":
+            if "sword" in userInventory["items"]:
+                
+                userInventory["items"].pop("sword")
+                await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
+                await interaction.response.send_message("You have successfully sold the sword")
+            else:
+                return await interaction.response.send_message("You don't have a sword")
+
+        # Wallet Check
+        if await coinCollection.find_one({"_id" : interaction.user.id}) == None:
+            return await interaction.response.send_message("You don't have a wallet! Get a wallet with using the `/wallet` command", ephemeral = True)
+
+        # User Wallet
+        userWallet = await coinCollection.find_one({"_id" : interaction.user.id})
+
+        # Cupcoin (money) Check
+        if userWallet["coins"] < swordPrice:
+            needMoney = userWallet["coins"] - swordPrice
+            return await interaction.response.send_message(f"You don't have enough cupcoin in your wallet! You need {needMoney:,}", ephemeral = True)
+
+        # Inventory Check
+        elif await inventoryCollection.find_one({"_id" : interaction.user.id}) == None:
+            newData = {
+                "_id": interaction.user.id,
+                "items" : {}
+            }
+            await inventoryCollection.insert_one(newData)
+
+        # User Inventory (old)
+        userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
+        
+        # Items Check
+        if "items" not in userInventory:
+            itemsData = { "$set" : {"items" : {}}}
+            await userInventory.update_one(userInventory, itemsData)
+
+        # User Inventory (new)
+        userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
+
+        # Pickaxe Check
+        if "sword" in userInventory["items"]:
+            return await interaction.response.send_message("You already have a sword", ephemeral = True)
+
+        # Fee received
+        userWallet["coins"] -= swordPrice
+        await coinCollection.replace_one({"_id" : interaction.user.id}, userWallet)
+        
+        # Add Item
+        userInventory["items"].update({"sword" : swordId})
+        await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
+
+        await interaction.response.send_message(f"✨⚔️ **|** You bought a new {swordName} by paying {swordPrice:,}. It's very smart to buy a sword already! It will do a lot of work in the future.")
 
 class Rods(discord.ui.Select):
     def __init__(self):
@@ -566,6 +714,12 @@ class PickaxeView(discord.ui.View):
         # Adds the dropdown to our view object.
         self.add_item(Pickaxes())
         
+class SwordView(discord.ui.View):
+    def __init__(self):
+        super().__init__()
+        
+        self.add_item(Swords())
+
 class RodView(discord.ui.View):
     def __init__(self):
         super().__init__()
@@ -584,7 +738,7 @@ class AxeView(discord.ui.View):
 
         self.add_item(Axes())
         
-    
+
     
 
 
@@ -617,6 +771,13 @@ class ItemsView(View):
     async def axes_callback(self, interaction, button):
         view = AxeView()
         await interaction.response.send_message(content= "Are you going to buy a new axe? This is great! Prices are indicated below the axes", view = view)
+
+     # THIS BUTTON PURPOSE IS SHOW ALL SWORDS
+    @discord.ui.button(label="Swords", style=discord.ButtonStyle.primary, custom_id="showswords")
+    async def sword_callback(self, interaction, button):
+        view = SwordView()
+        await interaction.response.send_message(content= "Are you going to buy a new sword? This is great! Prices are indicated below the swords", view = view)
+
 
     # THIS BUTTON PURPOSE IS CLOSE THE MENU
     @discord.ui.button(label="Close", style=discord.ButtonStyle.danger, custom_id="closemenu")
