@@ -31,7 +31,7 @@ class SuggestionModal(ui.Modal, title= "Suggestion"):
             color = 0xff3333
         )
 
-        suggestionsChannel = interaction.client.get_channel(1015377996959449218)
+        suggestionsChannel = interaction.client.get_channel(1036720085622083705)
         
         try:
             await suggestionsChannel.send(embed = suggestionMessage)

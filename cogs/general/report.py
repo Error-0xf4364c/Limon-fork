@@ -31,7 +31,7 @@ class ReportModal(ui.Modal, title= "Report"):
             color = 0xff3333
         )
 
-        reportsChannel = interaction.client.get_channel(1015377937261940736)
+        reportsChannel = interaction.client.get_channel(1036720065212588122)
         
         try:
             await reportsChannel.send(embed = reportMessage)
