@@ -157,7 +157,7 @@ class Mining(commands.Cog, commands.Bot):
             minePrice = VHM[resultMine]["price"] + priceByMineSize # Result Mine Total Price
 
         # Send user a message
-        await interaction.response.send_message("⛏️ **|** You started digging. This process will take about 10 seconds")
+        await interaction.response.send_message(f"⛏️ **|** You started digging. This process will take about {sleepTime} seconds")
         await asyncio.sleep(sleepTime) 
 
         if resultMine == "none":
