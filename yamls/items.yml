@@ -29,10 +29,10 @@ axe:
   enchantedaxe: {custom_id: "enchantedaxe", name: Enchanted Axe, price: 55000}
 
 sword:
-  gladius: {custom_id: "gladius", name: "Gladius Sword", price: 51500, discounted_price: 20000}
-  chokuto: {custom_id: "chokuto", name: "Chukuto Sword", price: 63999, discounted_price: 32000}
-  katana: {custom_id: "katana", name: "Katana Sword", price: 68399, discounted_price: 38000}
-  rapier: {custom_id: "rapier", name: "Rapier Sword", price: 73400, discounted_price: 40000}
-  odachi: {custom_id: "odachi", name: "Odachi Sword", price: 79999, discounted_price: 50000}
-  claymore: {custom_id: "claymore", name: "Claymore Sword", price: 93100, discounted_price: 60000}
+  gladius: {custom_id: "gladius", name: "Gladius Sword", price: 51500, discounted_price: 20000, min_damage: 140, max_damage: 190}
+  chokuto: {custom_id: "chokuto", name: "Chukuto Sword", price: 63999, discounted_price: 32000, min_damage: 160, max_damage: 210}
+  katana: {custom_id: "katana", name: "Katana Sword", price: 68399, discounted_price: 38000, min_damage: 180, max_damage: 230}
+  rapier: {custom_id: "rapier", name: "Rapier Sword", price: 73400, discounted_price: 40000, min_damage: 200, max_damage: 260}
+  odachi: {custom_id: "odachi", name: "Odachi Sword", price: 79999, discounted_price: 50000, min_damage: 225, max_damage: 265}
+  claymore: {custom_id: "claymore", name: "Claymore Sword", price: 93100, discounted_price: 60000, min_damage: 240, max_damage: 299}
 

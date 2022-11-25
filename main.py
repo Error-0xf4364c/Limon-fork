@@ -43,7 +43,7 @@ class MyBot(commands.Bot):
             await self.load_extension(ext)
 
         # guild = discord.Object(id = guild_id)
-        await bot.tree.sync()
+        await bot.tree.sync(guild = discord.Object(id = guild_id))
     
     async def on_ready(self):
         

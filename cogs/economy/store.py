@@ -245,7 +245,7 @@ class Pickaxes(discord.ui.Select):
             return await interaction.response.send_message(f"You don't have enough cupcoin in your wallet! You need {needMoney:,}", ephemeral = True)
 
         # Inventory Check
-        elif await inventoryCollection.find_one({"_id" : interaction.user.id}) == None:
+        if await inventoryCollection.find_one({"_id" : interaction.user.id}) == None:
             newData = {
                 "_id": interaction.user.id,
                 "items" : {}
@@ -352,7 +352,7 @@ class Swords(discord.ui.Select):
             return await interaction.response.send_message(f"You don't have enough cupcoin in your wallet! You need {needMoney:,}", ephemeral = True)
 
         # Inventory Check
-        elif await inventoryCollection.find_one({"_id" : interaction.user.id}) == None:
+        if await inventoryCollection.find_one({"_id" : interaction.user.id}) == None:
             newData = {
                 "_id": interaction.user.id,
                 "items" : {}
@@ -457,7 +457,7 @@ class Rods(discord.ui.Select):
             return await interaction.response.send_message(f"You don't have enough cupcoin in your wallet! You need {needMoney:,}", ephemeral = True)
 
         # Inventory Check
-        elif await inventoryCollection.find_one({"_id" : interaction.user.id}) == None:
+        if await inventoryCollection.find_one({"_id" : interaction.user.id}) == None:
             newData = {
                 "_id": interaction.user.id,
                 "items" : {}
@@ -566,7 +566,7 @@ class Bows(discord.ui.Select):
             return await interaction.response.send_message(f"You don't have enough cupcoin in your wallet! You need {needMoney:,}", ephemeral = True)
 
         # Inventory Check
-        elif await inventoryCollection.find_one({"_id" : interaction.user.id}) == None:
+        if await inventoryCollection.find_one({"_id" : interaction.user.id}) == None:
             newData = {
                 "_id": interaction.user.id,
                 "items" : {}
