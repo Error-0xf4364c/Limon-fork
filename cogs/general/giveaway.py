@@ -162,7 +162,7 @@ class GiveawayModal(ui.Modal, title= "Giveaway"):
             winner = random.choice(participants)
             
             if winner in winners:
-                continue
+                pass
             
             winners.append(winner)
             winner_count += 1
