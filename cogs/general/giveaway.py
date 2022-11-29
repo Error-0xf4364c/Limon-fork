@@ -208,7 +208,6 @@ class Giveaway(commands.Cog, commands.Bot):
         modal = GiveawayModal()
     
         await interaction.response.send_modal(modal)
-        await interaction.response.send_message(content = "👍 You have successfully created a lottery", ephemeral = True)
         
     @giveaway.error
     async def giveawayError(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
