@@ -76,8 +76,12 @@ items_axe = item["axe"]
 axeKey = " ".join(items_axe.keys())
 axe_item = axeKey.split(" ")
 
-all_items = pickaxe_item + rod_item + bow_item + axe_item
-all_items_dict = items_axe | items_bow | items_fishingrods | items_pickaxes
+items_sword = item["sword"]
+swordKey = " ".join(items_sword.keys())
+sword_item = swordKey.split(" ")
+
+all_items = pickaxe_item + rod_item + bow_item + axe_item + sword_item
+all_items_dict = items_axe | items_bow | items_fishingrods | items_pickaxes | items_sword
 
 message_author_id = []
 
@@ -111,6 +115,7 @@ class Buttons(View):
         userChars = ["None"]
 
 
+
         if "fishes" in userData:
             userFishes = list(userData["fishes"].keys())
         if "mines" in userData:
@@ -121,6 +126,7 @@ class Buttons(View):
             userWood = list(userData["wood"].keys())
         if "heroes" in userData:
             userChars = userData["heroes"]
+
         
 
         

@@ -290,7 +290,7 @@ class SellButtons(View):
         await interaction.edit_original_response(content=f"✅ **|** Shop is succesfully closed.")
         await interaction.message.delete()
         message_author_id.remove(interaction.user.id)
-
+    
 # Main Class
 class Sell(commands.Cog, commands.Bot):
     def __init__(self, bot: commands.Bot):
