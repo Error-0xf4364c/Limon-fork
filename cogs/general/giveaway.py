@@ -160,13 +160,15 @@ class GiveawayModal(ui.Modal, title= "Giveaway"):
         while winner_count < int(str(self.winner_count)):
 
             winner = random.choice(participants)
-            
+            winner_count += 1
+            print(winner)
             if winner in winners:
-                pass
+                continue
             
             winners.append(winner)
-            winner_count += 1
-
+            
+        print("out")
+        print(winners)
         
         if len(winners) == 1:
            winners = f"<@{winner}>"
