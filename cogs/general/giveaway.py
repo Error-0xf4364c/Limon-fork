@@ -160,6 +160,10 @@ class GiveawayModal(ui.Modal, title= "Giveaway"):
         while winner_count < int(str(self.winner_count)):
 
             winner = random.choice(participants)
+            
+            if winner in winners:
+                continue
+            
             winners.append(winner)
             winner_count += 1
 
@@ -204,6 +208,7 @@ class Giveaway(commands.Cog, commands.Bot):
         modal = GiveawayModal()
     
         await interaction.response.send_modal(modal)
+        await interaction.response.send_message(content = "👍 You have successfully created a lottery", ephemeral = True)
         
     @giveaway.error
     async def giveawayError(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
