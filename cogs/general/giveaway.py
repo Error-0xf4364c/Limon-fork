@@ -209,4 +209,4 @@ class Giveaway(commands.Cog, commands.Bot):
     async def giveawayError(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         print(f"[GIVEAWAY] {error} ")
 async def setup(bot: commands.Bot):
-    await bot.add_cog(Giveaway(bot), guilds= [discord.Object(id =1028593523714437171)])
+    await bot.add_cog(Giveaway(bot))
