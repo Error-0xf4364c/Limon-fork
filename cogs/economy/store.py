@@ -507,7 +507,7 @@ class Bows(discord.ui.Select):
     async def callback(self, interaction: discord.Interaction):
         
         bowName = ""
-        bowPrice = "0"
+        bowPrice = 0
         bowId = ""
         
         if self.values[0] == "woodenbow":
