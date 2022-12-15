@@ -15,6 +15,7 @@ cross = emojis["cross"]
 cupcoinBack = emojis["cupcoinBack"]
 cupcoins = emojis["cupcoins"]
 clock = emojis["clock"] or "⏳"
+from fetchData import *
 
 
 woodenBox = 10000 # on bin
@@ -36,36 +37,9 @@ class gambles(commands.Cog, commands.Bot):
         1, 10.0, key=lambda i: (i.guild_id, i.user.id))
     async def coinflip(self, interaction: discord.Interaction, miktar: app_commands.Range[int, 1, 50000]):
 
-
-        db = self.bot.mongoConnect["cupcake"]
-        collection = db["economy"]
-        careerCollection = db['career']
-
-        if await collection.find_one({"_id" : interaction.user.id}) == None:
-            newData = {
-                "_id": interaction.user.id,
-                "coins" :0
-            }
-            await collection.insert_one(newData)
-
-        userData = await collection.find_one({"_id": interaction.user.id})
+        userData, collection = await economyData(self.bot, interaction.user.id)
+        userCareerData, careerCollection = await economyData(self.bot, interaction.user.id)
         
-        if await careerCollection.find_one({"_id": interaction.user.id}) == None:
-            newData = {
-                "_id": interaction.user.id,
-                "points": {"gamble_point": 0}
-            }
-            await careerCollection.insert_one(newData)
-
-        userCareerData = await careerCollection.find_one({"_id": interaction.user.id})
-            
-        if "points" not in userCareerData:
-            careerData = { "$set" : {"points" : {}}}
-            await careerCollection.update_one(userCareerData ,careerData)
-
-        if not "gamble_point" in  userCareerData["points"]:
-            gambleData = { "$set" : {"points.gamble_point" : 0}}
-            await careerCollection.update_one(userCareerData ,gambleData)
         userCareerData["points"]['gamble_point'] += 1
         await careerCollection.replace_one({"_id": interaction.user.id}, userCareerData)
 
@@ -114,36 +88,10 @@ class gambles(commands.Cog, commands.Bot):
     async def guessnumber(self, interaction: discord.Interaction, amount: app_commands.Range[int, 1, 50000], number: app_commands.Range[int, 1, 10]):
 
 
-
-        db = self.bot.mongoConnect["cupcake"]
-        collection = db["economy"]
-        careerCollection = db["career"]
+        userData, collection = await economyData(self.bot, interaction.user.id)
+        userCareerData, careerCollection = await economyData(self.bot, interaction.user.id)
 
         
-
-        if await collection.find_one({"_id": interaction.user.id}) == None:
-            return await interaction.response.send_message("You don't have an account. Please use this command: **`/wallet`**")
-
-        userData = await collection.find_one({"_id": interaction.user.id})
-
-        if await careerCollection.find_one({"_id": interaction.user.id}) == None:
-            newData = {
-                "_id": interaction.user.id,
-                "points": {"gamble_point": 0}
-            }
-            await careerCollection.insert_one(newData)
-        userCareerData = await careerCollection.find_one({"_id": interaction.user.id})
-
-        if userData["coins"] < amount:
-            return await interaction.response.send_message(f"{cross} There is not enough money in your wallet!")
-
-        if "points" not in userCareerData:
-            careerData = { "$set" : {"points" : {}}}
-            await careerCollection.update_one(userCareerData ,careerData)
-
-        if not "gamble_point" in  userCareerData["points"]:
-            gambleData = { "$set" : {"points.gamble_point" : 0}}
-            await careerCollection.update_one(userCareerData ,gambleData)
         userCareerData["points"]['gamble_point'] += 1
         await careerCollection.replace_one({"_id": interaction.user.id}, userCareerData)
 
@@ -180,32 +128,9 @@ class gambles(commands.Cog, commands.Bot):
     ])
     async def roll(self, interaction: discord.Interaction, choose: str, amount: app_commands.Range[int, 1, 50000]):
 
-        db = self.bot.mongoConnect["cupcake"]
-        collection = db["economy"]
-        careerCollection = db["career"]
-
-        if await collection.find_one({"_id": interaction.user.id}) == None:
-            return await interaction.response.send_message("You don't have an account. Please use this command: **`/wallet`**")
-
-        userData = await collection.find_one({"_id": interaction.user.id})
-
-        userData['coins']
-
-        if await careerCollection.find_one({"_id": interaction.user.id}) == None:
-            newData = {
-                "_id": interaction.user.id,
-                "points": {"gamble_point": 0}
-            }
-            await careerCollection.insert_one(newData)
-        userCareerData = await careerCollection.find_one({"_id": interaction.user.id})
-            
-        if "points" not in userCareerData:
-            careerData = { "$set" : {"points" : {}}}
-            await careerCollection.update_one(userCareerData ,careerData)
-
-        if not "gamble_point" in  userCareerData["points"]:
-            gambleData = { "$set" : {"points.gamble_point" : 0}}
-            await careerCollection.update_one(userCareerData ,gambleData)
+        userData, collection = await economyData(self.bot, interaction.user.id)
+        userCareerData, careerCollection = await economyData(self.bot, interaction.user.id)
+        
         userCareerData["points"]['gamble_point'] += 1
         await careerCollection.replace_one({"_id": interaction.user.id}, userCareerData)
 
@@ -270,13 +195,7 @@ class gambles(commands.Cog, commands.Bot):
         1, 14400, key=lambda i: (i.guild_id, i.user.id))
     async def openbox(self, interaction: discord.Interaction, box: str):
 
-        db = self.bot.mongoConnect["cupcake"]
-        collection = db["economy"]
-
-        if await collection.find_one({"_id": interaction.user.id}) == None:
-            return await interaction.response.send_message("You don't have an account. Please use this command: **`/wallet`**")
-
-        userData = await collection.find_one({"_id": interaction.user.id})
+        userData, collection = await economyData(self.bot, interaction.user.id)
 
         
 

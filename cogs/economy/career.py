@@ -5,6 +5,7 @@ from discord.ext import commands
 import datetime
 import yaml
 from yaml import Loader
+from fetchData import careerData
 
 badges_file = open("yamls/badges.yml", "rb")
 rozet = yaml.load(badges_file, Loader = Loader) 
@@ -51,13 +52,8 @@ class CareerView(commands.Cog, commands.Bot):
     @app_commands.checks.cooldown(
         1, 600, key=lambda i: (i.guild_id, i.user.id))
     async def career(self, interaction: discord.Interaction):
-        db = self.bot.mongoConnect["cupcake"]
-        collection = db["career"]
-
-        if await collection.find_one({"_id": interaction.user.id}) == None:
-            return await interaction.response.send_message(f"You have not a career. You can use `mining`, `forestry`, `hunting`, `fishing` etc. commands.", ephemeral=True)
-
-        userCareer = await collection.find_one({"_id": interaction.user.id})
+        userCareer, collection = await careerData(self.bot, interaction.user.id) 
+        
         userBadges = []
 
         userPoints = [ f"{' '.join(i.split('_')).title()} = {userCareer['points'][i]}" for i in userCareer["points"] ]

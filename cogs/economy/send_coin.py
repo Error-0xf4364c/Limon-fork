@@ -4,6 +4,7 @@ from discord.ext import commands
 import yaml
 from yaml import Loader
 import datetime
+from fetchData import *
 
 yaml_file = open("yamls/emojis.yml", "rb")
 emojis = yaml.load(yaml_file, Loader = Loader) 
@@ -24,28 +25,8 @@ class sendCoin(commands.Cog):
         1, 50.0, key=lambda i: (i.guild_id, i.user.id))
     async def send(self, interaction: discord.Interaction, friend: discord.User, amount: app_commands.Range[int, 1, 50000]):
 
-        db = self.bot.mongoConnect["cupcake"]
-        collection = db["economy"]
-        careerCollection = db["career"]
-        
-        if await careerCollection.find_one({"_id": interaction.user.id}) == None:
-            newData = {
-                "_id": interaction.user.id,
-                "points": {"send_point": 0}
-            }
-            await careerCollection.insert_one(newData)
-
-        userCareerData = await careerCollection.find_one({"_id": interaction.user.id})
-
-        if "points" not in userCareerData:
-            careerData = { "$set" : {"points" : {}}}
-            await careerCollection.update_one(userCareerData ,careerData)
-
-        if not "send_point" in  userCareerData["points"]:
-            sendCData = { "$set" : {"points.send_point" : 0}}
-            await careerCollection.update_one(userCareerData ,sendCData)
-
-        userCareerData = await careerCollection.find_one({"_id": interaction.user.id})
+        userData, collection = await economyData(self.bot, interaction.user.id)
+        userCareerData, careerCollection = await economyData(self.bot, interaction.user.id)
 
         userCareerData["points"]['send_point'] += 1
         await careerCollection.replace_one({"_id": interaction.user.id}, userCareerData)

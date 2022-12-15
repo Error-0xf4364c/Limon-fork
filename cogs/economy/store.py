@@ -786,8 +786,6 @@ class ItemsView(View):
         await interaction.response.send_message(content=f"The store was successfully closed.", ephemeral = True)
     
 
-  
-
 # MAIN CLASS
 class Store(commands.Cog, commands.Bot):
     def __init__(self, bot: commands.Bot):
@@ -799,8 +797,6 @@ class Store(commands.Cog, commands.Bot):
     async def store(self, interaction: discord.Interaction):
         
         view = ItemsView()
-        
-
 
         itemsEmbed = Embed(description = f"Hello 👋 Welcome to Store. You can buy items for mining, forestry, fishing, hunting. ")
         itemsEmbed.set_author(name = interaction.user.name, icon_url = interaction.user.avatar.url)
@@ -809,7 +805,6 @@ class Store(commands.Cog, commands.Bot):
 
         await interaction.response.send_message(embed = itemsEmbed, view = view) 
 
-
     @store.error
     async def storeError(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
@@ -817,7 +812,6 @@ class Store(commands.Cog, commands.Bot):
             await interaction.response.send_message(f"Please wait `{timeRemaining}`s and Try Again!",ephemeral=True)
         else:
             print(f"[STORE]: {error} ")
-
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(Store(bot))

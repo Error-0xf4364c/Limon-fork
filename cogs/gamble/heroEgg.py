@@ -7,6 +7,7 @@ import datetime
 import yaml
 from yaml import Loader
 import random
+from fetchData import economyData
 
 yaml_file = open("yamls/emojis.yml", "rb")
 emojis = yaml.load(yaml_file, Loader = Loader) 
@@ -37,9 +38,9 @@ class eggs(commands.Cog, commands.Bot):
         
         db = self.bot.mongoConnect["cupcake"]
         collection = db["inventory"]
-        economyCollection = db["economy"]
         userData = await collection.find_one({"_id" : interaction.user.id})
-        userCoins = await economyCollection.find_one({"_id" : interaction.user.id})
+
+        userCoins, economyCollection = await economyData(self.bot, interaction.user.id)
 
         if userCoins['coins'] < caseFee:
             return await interaction.response.send_message(f"{emojis['cross']} You need **{caseFee - userCoins['coins']:,}** Cupcoin to open a hero egg.", ephemeral=True)

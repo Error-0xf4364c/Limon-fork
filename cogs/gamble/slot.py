@@ -6,6 +6,7 @@ import datetime
 import random
 import yaml
 from yaml import Loader
+from fetchData import *
 
 yaml_file = open("yamls/emojis.yml", "rb")
 emojis = yaml.load(yaml_file, Loader = Loader) 
@@ -32,40 +33,14 @@ class Slot(commands.Cog, commands.Bot):
     @app_commands.checks.cooldown(
         1, 10, key=lambda i: (i.guild_id, i.user.id))
     async def slot(self, interaction: discord.Interaction, amount: app_commands.Range[int, 1, 50000]):
-        db = self.bot.mongoConnect["cupcake"]
-        collection = db["economy"]
-        careerCollection = db["career"]
-
         
-
-        if await collection.find_one({"_id" : interaction.user.id}) == None:
-            newData = {
-                "_id": interaction.user.id,
-                "coins" :0
-            }
-            await collection.insert_one(newData)
-
-        if await careerCollection.find_one({"_id" : interaction.user.id}) == None:
-            newData1 = {
-                "_id": interaction.user.id,
-                "gamble_point" :0
-            }
-            await careerCollection.insert_one(newData1)
-
-        userData = await collection.find_one({"_id": interaction.user.id})
+        userData, collection = await economyData(self.bot, interaction.user.id)
+        userCareerData, careerCollection = await careerData(self.bot, interaction.user.id)
+        
 
         if userData["coins"] < amount:
             return await interaction.response.send_message(f"{cross} **|** There is not enough Cupcoin in your wallet!")
 
-        userCareerData = await careerCollection.find_one({"_id": interaction.user.id})
-
-        if "points" not in userCareerData:
-            careerData = { "$set" : {"points" : {}}}
-            await careerCollection.update_one(userCareerData ,careerData)
-
-        if not "gamble_point" in  userCareerData["points"]:
-            gambleData = { "$set" : {"gamble_point" : 0}}
-            await careerCollection.update_one(userCareerData["points"] ,gambleData)
         userCareerData['gamble_point'] += 1
         await careerCollection.replace_one({"_id": interaction.user.id}, userCareerData)
 

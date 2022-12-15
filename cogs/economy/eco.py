@@ -6,6 +6,7 @@ import datetime
 import random
 import yaml
 from yaml import Loader
+from fetchData import economyData
 
 yaml_file = open("yamls/emojis.yml", "rb")
 emojis = yaml.load(yaml_file, Loader = Loader) 
@@ -26,18 +27,7 @@ class economy(commands.Cog):
         1, 86400, key=lambda i: (i.user.id))
     async def daily(self, interaction: discord.Interaction):
 
-        db = self.bot.mongoConnect["cupcake"]
-        collection = db["economy"]
-
-
-        if await collection.find_one({"_id" : interaction.user.id}) == None:
-            newData = {
-                "_id": interaction.user.id,
-                "coins" :0
-            }
-            await collection.insert_one(newData)
-
-        userData = await collection.find_one({"_id" : interaction.user.id})
+        userData, collection = await economyData(self.bot, interaction.user.id)
 
 
         moneyRecieved = random.randint(400, 1100)
