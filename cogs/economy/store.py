@@ -222,61 +222,60 @@ class Pickaxes(discord.ui.Select):
         inventoryCollection = db["inventory"]
         coinCollection = db["economy"]
         userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
-
+        print(1)
         if self.values[0] == "sellpickaxe":
             if "items" not in userInventory or "pickaxe" in userInventory["items"]:
                 
                 userInventory["items"].pop("pickaxe")
                 await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
-                await interaction.response.send_message("You have successfully sold the pickaxe")
+                await interaction.response.send_message(content = "You have successfully sold the pickaxe")
             else:
-                return await interaction.response.send_message("You don't have a pickaxe")
-
+                return await interaction.response.send_message(content = "You don't have a pickaxe")
+        print(1)
         # Wallet Check
         if await coinCollection.find_one({"_id" : interaction.user.id}) == None:
-            return await interaction.response.send_message("You don't have a wallet! Get a wallet with using the `/wallet` command", ephemeral = True)
+            return await interaction.response.send_message(content = "You don't have a wallet! Get a wallet with using the `/wallet` command", ephemeral = True)
 
-        
+        print(1)
         # User Wallet
         userWallet = await coinCollection.find_one({"_id" : interaction.user.id})
-
+        print(2)
         # Cupcoin (money) Check
         if userWallet["coins"] < pickaxePrice:
             needMoney = userWallet["coins"] - pickaxePrice
-            return await interaction.response.send_message(f"You don't have enough cupcoin in your wallet! You need {needMoney:,}", ephemeral = True)
-
+            return await interaction.response.send_message(content = f"You don't have enough cupcoin in your wallet! You need {needMoney:,}", ephemeral = True)
+        print(2)
         # Inventory Check
         if await inventoryCollection.find_one({"_id" : interaction.user.id}) == None:
-            newData = {
+            newUserData = {
                 "_id": interaction.user.id,
                 "items" : {}
             }
-            await inventoryCollection.insert_one(newData)
-            
-
+            await inventoryCollection.insert_one(newUserData)
+        print(2)
         # User Inventory (old)
         userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
-        
+        print(2)
         # Items Check
         if "items" not in userInventory:
             itemsData = { "$set" : {"items" : {}}}
             await userInventory.update_one(userInventory, itemsData)
-
+        print(3)
         # User Inventory (new)
         userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
-
+        print(3)
         # Pickaxe Check
         if "pickaxe" in userInventory["items"]:
             return await interaction.response.send_message("You already have a pickaxe", ephemeral = True)
-
+        print(3)
         # Fee received
         userWallet["coins"] -= pickaxePrice
         await coinCollection.replace_one({"_id" : interaction.user.id}, userWallet)
-        
+        print(4)
         # Add Item
         userInventory["items"].update({"pickaxe" : pickaxeId})
         await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
-
+        print(5)
         await interaction.response.send_message(f"✨⛏️ **|** You bought a new {pickaxeName} by paying {pickaxePrice:,}. Now you will be able to extract more valuable mines with this pickaxe")
 
 class Swords(discord.ui.Select):
