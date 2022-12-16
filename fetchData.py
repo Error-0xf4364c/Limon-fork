@@ -13,7 +13,7 @@ async def economyData(bot, _id):
         }
         await collection.insert_one(newData)
 
-    return await collection.find_one({"_id" : _id})
+    return await collection.find_one({"_id" : _id}), collection
 
 async def careerData(bot, _id):
 
@@ -35,4 +35,4 @@ async def careerData(bot, _id):
         }
         await collection.insert_one(newData)
 
-    return await collection.find_one({"_id" : _id})
+    return await collection.find_one({"_id" : _id}), collection
