@@ -26,7 +26,7 @@ class sendCoin(commands.Cog):
     async def send(self, interaction: discord.Interaction, friend: discord.User, amount: app_commands.Range[int, 1, 50000]):
 
         userData, collection = await economyData(self.bot, interaction.user.id)
-        userCareerData, careerCollection = await economyData(self.bot, interaction.user.id)
+        userCareerData, careerCollection = await careerData(self.bot, interaction.user.id)
 
         userCareerData["points"]['send_point'] += 1
         await careerCollection.replace_one({"_id": interaction.user.id}, userCareerData)
