@@ -44,8 +44,8 @@ class Slot(commands.Cog, commands.Bot):
 
 
         if "points" not in userCareerData:
-            careerData = { "$set" : {"points" : {}}}
-            await careerCollection.update_one(userCareerData ,careerData)
+            newCareerData = { "$set" : {"points" : {}}}
+            await careerCollection.update_one(userCareerData ,newCareerData)
 
         if not "gamble_point" in  userCareerData["points"]:
             gambleData = { "$set" : {"points.gamble_point" : 0}}
