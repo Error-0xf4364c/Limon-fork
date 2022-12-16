@@ -38,22 +38,23 @@ class Slot(commands.Cog, commands.Bot):
         userCareerData, careerCollection = await careerData(self.bot, interaction.user.id)
         
 
-
+        print(1)
         if userData["coins"] < amount:
             return await interaction.response.send_message(f"{cross} **|** There is not enough Cupcoin in your wallet!")
-
+        print(1)
 
         if "points" not in userCareerData:
             newCareerData = { "$set" : {"points" : {}}}
             await careerCollection.update_one(userCareerData ,newCareerData)
-
+        print(1)
         if not "gamble_point" in  userCareerData["points"]:
             gambleData = { "$set" : {"points.gamble_point" : 0}}
             await careerCollection.update_one(userCareerData ,gambleData)
-            
+        print(2)
         userCareerData["points"]['gamble_point'] += 1
+        print(2)
         await careerCollection.replace_one({"_id": interaction.user.id}, userCareerData)
-
+        print(2)
         
         await interaction.response.send_message(f"`CUP SLOT`\n{slot_left}{slot_mid}{slot_right}\n`------->` <:Cupcoins:997159042633961574>{amount:,}\n`------->` ???")
         
