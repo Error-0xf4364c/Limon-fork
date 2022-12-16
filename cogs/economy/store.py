@@ -224,7 +224,7 @@ class Pickaxes(discord.ui.Select):
         userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
 
         if self.values[0] == "sellpickaxe":
-            if "pickaxe" in userInventory["items"]:
+            if "items" not in userInventory or "pickaxe" in userInventory["items"]:
                 
                 userInventory["items"].pop("pickaxe")
                 await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
@@ -236,6 +236,7 @@ class Pickaxes(discord.ui.Select):
         if await coinCollection.find_one({"_id" : interaction.user.id}) == None:
             return await interaction.response.send_message("You don't have a wallet! Get a wallet with using the `/wallet` command", ephemeral = True)
 
+        
         # User Wallet
         userWallet = await coinCollection.find_one({"_id" : interaction.user.id})
 
@@ -251,6 +252,7 @@ class Pickaxes(discord.ui.Select):
                 "items" : {}
             }
             await inventoryCollection.insert_one(newData)
+            
 
         # User Inventory (old)
         userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
@@ -331,7 +333,7 @@ class Swords(discord.ui.Select):
         userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
 
         if self.values[0] == "sellsword":
-            if "sword" in userInventory["items"]:
+            if "items" not in userInventory or "sword" in userInventory["items"]:
                 
                 userInventory["items"].pop("sword")
                 await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
@@ -437,7 +439,7 @@ class Rods(discord.ui.Select):
         userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
 
         if self.values[0] == "sellrod":
-            if "rod" in userInventory["items"]:
+            if "items" not in userInventory or "rod" in userInventory["items"]:
                 userInventory["items"].pop("rod")
                 await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
                 await interaction.response.send_message("You have successfully sold the rod")
@@ -544,7 +546,7 @@ class Bows(discord.ui.Select):
 
         if self.values[0] == "sellbow":
             
-            if "bow" in userInventory["items"]:
+            if "items" not in userInventory or "bow" in userInventory["items"]:
                 
                 userInventory["items"].pop("bow")
                 await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
@@ -652,7 +654,7 @@ class Axes(discord.ui.Select):
         userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
 
         if self.values[0] == "sellaxe":
-            if "axe" in userInventory["items"]:
+            if "items" not in userInventory or "axe" in userInventory["items"]:
                 
                 userInventory["items"].pop("axe")
                 await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
@@ -674,7 +676,7 @@ class Axes(discord.ui.Select):
             return await interaction.response.send_message(f"You don't have enough cupcoin in your wallet! You need {needMoney:,}", ephemeral = True)
 
         # Inventory Check
-        elif await inventoryCollection.find_one({"_id" : interaction.user.id}) == None:
+        if await inventoryCollection.find_one({"_id" : interaction.user.id}) == None:
             newData = {
                 "_id": interaction.user.id,
                 "items" : {}
