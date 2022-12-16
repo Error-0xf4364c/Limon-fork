@@ -1,8 +1,6 @@
-from code import interact
 import discord
 from discord import app_commands
 from discord.ext import commands
-from interactions import Choice
 
 class test(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:

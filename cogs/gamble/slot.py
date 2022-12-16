@@ -33,15 +33,25 @@ class Slot(commands.Cog, commands.Bot):
     @app_commands.checks.cooldown(
         1, 10, key=lambda i: (i.guild_id, i.user.id))
     async def slot(self, interaction: discord.Interaction, amount: app_commands.Range[int, 1, 50000]):
-        
+
         userData, collection = await economyData(self.bot, interaction.user.id)
         userCareerData, careerCollection = await careerData(self.bot, interaction.user.id)
         
 
+
         if userData["coins"] < amount:
             return await interaction.response.send_message(f"{cross} **|** There is not enough Cupcoin in your wallet!")
 
-        userCareerData['gamble_point'] += 1
+
+        if "points" not in userCareerData:
+            careerData = { "$set" : {"points" : {}}}
+            await careerCollection.update_one(userCareerData ,careerData)
+
+        if not "gamble_point" in  userCareerData["points"]:
+            gambleData = { "$set" : {"points.gamble_point" : 0}}
+            await careerCollection.update_one(userCareerData["points"] ,gambleData)
+            
+        userCareerData["points"]['gamble_point'] += 1
         await careerCollection.replace_one({"_id": interaction.user.id}, userCareerData)
 
         
