@@ -49,7 +49,7 @@ class Slot(commands.Cog, commands.Bot):
 
         if not "gamble_point" in  userCareerData["points"]:
             gambleData = { "$set" : {"points.gamble_point" : 0}}
-            await careerCollection.update_one(userCareerData["points"] ,gambleData)
+            await careerCollection.update_one(userCareerData ,gambleData)
             
         userCareerData["points"]['gamble_point'] += 1
         await careerCollection.replace_one({"_id": interaction.user.id}, userCareerData)
