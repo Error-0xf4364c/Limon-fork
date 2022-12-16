@@ -38,7 +38,7 @@ class gambles(commands.Cog, commands.Bot):
     async def coinflip(self, interaction: discord.Interaction, miktar: app_commands.Range[int, 1, 50000]):
 
         userData, collection = await economyData(self.bot, interaction.user.id)
-        userCareerData, careerCollection = await economyData(self.bot, interaction.user.id)
+        userCareerData, careerCollection = await careerData(self.bot, interaction.user.id)
         
         userCareerData["points"]['gamble_point'] += 1
         await careerCollection.replace_one({"_id": interaction.user.id}, userCareerData)
@@ -89,7 +89,7 @@ class gambles(commands.Cog, commands.Bot):
 
 
         userData, collection = await economyData(self.bot, interaction.user.id)
-        userCareerData, careerCollection = await economyData(self.bot, interaction.user.id)
+        userCareerData, careerCollection = await careerData(self.bot, interaction.user.id)
 
         
         userCareerData["points"]['gamble_point'] += 1
@@ -129,7 +129,7 @@ class gambles(commands.Cog, commands.Bot):
     async def roll(self, interaction: discord.Interaction, choose: str, amount: app_commands.Range[int, 1, 50000]):
 
         userData, collection = await economyData(self.bot, interaction.user.id)
-        userCareerData, careerCollection = await economyData(self.bot, interaction.user.id)
+        userCareerData, careerCollection = await careerData(self.bot, interaction.user.id)
         
         userCareerData["points"]['gamble_point'] += 1
         await careerCollection.replace_one({"_id": interaction.user.id}, userCareerData)
