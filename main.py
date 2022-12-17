@@ -55,7 +55,7 @@ class MyBot(commands.Bot):
     
     async def on_ready(self):
         
-        await bot.change_presence(activity=discord.Streaming(name="Economy and Fun | Slash Commands", url="https://www.twitch.tv/iamabduley"))
+        await bot.change_presence(activity=discord.Streaming(name="Ekonomi ve Eğlence | Slash Commands", url="https://www.twitch.tv/iamabduley"))
         print(f"{self.user} is connected to Discord")
 
 
