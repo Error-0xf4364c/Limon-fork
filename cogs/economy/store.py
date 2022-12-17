@@ -237,7 +237,9 @@ class Pickaxes(discord.ui.Select):
         print(1)
         # Items Check
         if "items" not in userInventory:
+            print(12)
             itemsData = { "$set" : {"items" : {}}}
+            print(12)
             await userInventory.update_one(userInventory, itemsData)
         print(2)
         # User Inventory (new)
