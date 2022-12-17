@@ -159,9 +159,14 @@ class Fishing(commands.Cog, commands.Bot):
         if resultFish == "none":
             return await interaction.edit_original_response("🐟 **|** Maalesef hiç balık tutamadınız ;c")
 
+
         await interaction.edit_original_response(content = f"🐟 **|** Harika iş balıkçı! **{fishSize}**m/cm uzunluğunda bir **{fishName}** yakaladın . Anlık piyasa değeri: **{fishPrice}** Cupcoin.")
 
         # Update User Data
+        
+        if resultFish in userData["fishes"]:
+            fishSize = userData["fishes"][resultFish] + fishSize
+        
         userData["fishes"].update({resultFish : fishSize}) 
         userCareer["points"]["fisher_point"] +=1
         await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)

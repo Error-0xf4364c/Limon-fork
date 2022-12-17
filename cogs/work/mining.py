@@ -164,6 +164,9 @@ class Mining(commands.Cog, commands.Bot):
             return await interaction.edit_original_response("Maalesef madenden eli boş döndünüz ;c")
         await interaction.edit_original_response(content = f"💎 **|** Harika iş madenci! Madenden tam **{mineSize}** kilogram **{mineName}** madeni çıkardın. Anlık piyasa değeri: {minePrice}")
 
+        if resultMine in userData["mines"]:
+            mineSize = userData["mines"][resultMine] + mineSize
+        
         # Update User Data
         userData["mines"].update({resultMine : mineSize}) 
         userCareer["points"]["miner_point"] +=1

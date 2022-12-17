@@ -149,6 +149,9 @@ class Forester(commands.Cog, commands.Bot):
         await asyncio.sleep(4) 
         await interaction.edit_original_response(content = f"🪓 **|** Harika iş oduncu! Tam **{woodSize}** metre **{woodName}** ağacı kestin. Anlık piyasa değeri: **{woodPrice}** Cupcoin.")
 
+        if resultWood in userData["wood"]:
+            woodSize = userData["wood"][resultWood] + woodSize
+        
         # Update User Data
         userData["wood"].update({resultWood : woodSize}) 
         userCareer["points"]["forester_point"] +=1

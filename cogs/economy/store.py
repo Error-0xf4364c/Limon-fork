@@ -234,6 +234,14 @@ class Pickaxes(discord.ui.Select):
 
         # User Inventory (old)
         userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
+        
+        # Items Check
+        if "items" not in userInventory:
+            itemsData = { "$set" : {"items" : {}}}
+            await userInventory.update_one(userInventory, itemsData)
+
+        # User Inventory (new)
+        userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
 
         if self.values[0] == "sellpickaxe":
             if "items" not in userInventory or "pickaxe" in userInventory["items"]:
@@ -258,13 +266,7 @@ class Pickaxes(discord.ui.Select):
 
         
 
-        # Items Check
-        if "items" not in userInventory:
-            itemsData = { "$set" : {"items" : {}}}
-            await userInventory.update_one(userInventory, itemsData)
-
-        # User Inventory (new)
-        userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
+        
 
         # Pickaxe Check
         if "pickaxe" in userInventory["items"]:
@@ -339,9 +341,19 @@ class Swords(discord.ui.Select):
                 "items" : {}
             }
             await inventoryCollection.insert_one(newData)
-
+            
         # User Inventory (old)
         userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
+            
+        # Items Check
+        if "items" not in userInventory:
+            itemsData = { "$set" : {"items" : {}}}
+            await userInventory.update_one(userInventory, itemsData)
+
+        # User Inventory (new)
+        userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
+
+        
 
         if self.values[0] == "sellsword":
             if "items" not in userInventory or "sword" in userInventory["items"]:
@@ -364,14 +376,6 @@ class Swords(discord.ui.Select):
             needMoney = userWallet["coins"] - swordPrice
             return await interaction.response.send_message(f"Cüzdanınızda yeteri kadar Cupcoin bulunmuyır! {needMoney:,} Cupcoin'e ihtiyacınız var", ephemeral = True)
 
-        
-        # Items Check
-        if "items" not in userInventory:
-            itemsData = { "$set" : {"items" : {}}}
-            await userInventory.update_one(userInventory, itemsData)
-
-        # User Inventory (new)
-        userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
 
         # Pickaxe Check
         if "sword" in userInventory["items"]:
@@ -449,6 +453,14 @@ class Rods(discord.ui.Select):
 
         # User Inventory (old)
         userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
+        
+        # Items Check
+        if "items" not in userInventory:
+            itemsData = { "$set" : {"items" : {}}}
+            await userInventory.update_one(userInventory, itemsData)
+
+        # User Inventory (new)
+        userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
 
         if self.values[0] == "sellrod":
             if "items" not in userInventory or "rod" in userInventory["items"]:
@@ -470,15 +482,6 @@ class Rods(discord.ui.Select):
             needMoney = userWallet["coins"] - rodPrice
             return await interaction.response.send_message(f"Cüzdanınızda yeteri kadar Cupcoin bulunmuyor! {needMoney:,} Cupcoin'e ihtiyacınız var", ephemeral = True)
 
-
-        
-        # Items Check
-        if "items" not in userInventory:
-            itemsData = { "$set" : {"items" : {}}}
-            await userInventory.update_one(userInventory, itemsData)
-
-        # User Inventory (new)
-        userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
 
         # Pickaxe Check
         if "rod" in userInventory["items"]:
@@ -556,6 +559,14 @@ class Bows(discord.ui.Select):
 
         # User Inventory (old)
         userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
+        
+        # Items Check
+        if "items" not in userInventory:
+            itemsData = { "$set" : {"items" : {}}}
+            await userInventory.update_one(userInventory, itemsData)
+
+        # User Inventory (new)
+        userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
 
         if self.values[0] == "sellbow":
             
@@ -580,16 +591,6 @@ class Bows(discord.ui.Select):
             needMoney = userWallet["coins"] - bowPrice
             return await interaction.response.send_message(f"Cüzdanında yeterli Cupcoin bulunmuyor! {needMoney:,} Cupcoin'e ihtiyacın var", ephemeral = True)
 
-        
-        
-        
-        # Items Check
-        if "items" not in userInventory:
-            itemsData = { "$set" : {"items" : {}}}
-            await userInventory.update_one(userInventory, itemsData)
-
-        # User Inventory (new)
-        userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
 
         # Pickaxe Check
         if "bow" in userInventory["items"]:
@@ -671,6 +672,14 @@ class Axes(discord.ui.Select):
 
         # User Inventory (old)
         userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
+        
+        # Items Check
+        if "items" not in userInventory:
+            itemsData = { "$set" : {"items" : {}}}
+            await userInventory.update_one(userInventory, itemsData)
+
+        # User Inventory (new)
+        userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
 
         if self.values[0] == "sellaxe":
             if "items" not in userInventory or "axe" in userInventory["items"]:
@@ -694,16 +703,6 @@ class Axes(discord.ui.Select):
             needMoney = userWallet["coins"] - axePrice
             return await interaction.response.send_message(f"Cüzdanında yeteri kadar Cupcoin bulunamadı! {needMoney:,} Cupcoin'e ihtiyacınız var", ephemeral = True)
 
-        
-        
-        
-        # Items Check
-        if "items" not in userInventory:
-            itemsData = { "$set" : {"items" : {}}}
-            await userInventory.update_one(userInventory, itemsData)
-
-        # User Inventory (new)
-        userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
 
         # Pickaxe Check
         if "axe" in userInventory["items"]:
