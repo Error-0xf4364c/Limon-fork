@@ -261,12 +261,10 @@ class Pickaxes(discord.ui.Select):
 
         # Cupcoin (money) Check
         if userWallet["coins"] < pickaxePrice:
-            needMoney = userWallet["coins"] - pickaxePrice
+            needMoney = pickaxePrice - userWallet["coins"]
             return await interaction.response.send_message(content = f"Cüzdanınızda yeteri kadar Cupcoin bulunmuyor! {needMoney:,} Cupcoin'e ihtiyacınız var.", ephemeral = True)
 
-        
 
-        
 
         # Pickaxe Check
         if "pickaxe" in userInventory["items"]:
@@ -373,7 +371,7 @@ class Swords(discord.ui.Select):
 
         # Cupcoin (money) Check
         if userWallet["coins"] < swordPrice:
-            needMoney = userWallet["coins"] - swordPrice
+            needMoney = swordPrice - userWallet["coins"]
             return await interaction.response.send_message(f"Cüzdanınızda yeteri kadar Cupcoin bulunmuyır! {needMoney:,} Cupcoin'e ihtiyacınız var", ephemeral = True)
 
 
@@ -479,7 +477,7 @@ class Rods(discord.ui.Select):
 
         # Cupcoin (money) Check
         if userWallet["coins"] < rodPrice:
-            needMoney = userWallet["coins"] - rodPrice
+            needMoney = rodPrice - userWallet["coins"] 
             return await interaction.response.send_message(f"Cüzdanınızda yeteri kadar Cupcoin bulunmuyor! {needMoney:,} Cupcoin'e ihtiyacınız var", ephemeral = True)
 
 
@@ -588,7 +586,7 @@ class Bows(discord.ui.Select):
 
         # Cupcoin (money) Check
         if userWallet["coins"] < bowPrice:
-            needMoney = userWallet["coins"] - bowPrice
+            needMoney = bowPrice - userWallet["coins"]
             return await interaction.response.send_message(f"Cüzdanında yeterli Cupcoin bulunmuyor! {needMoney:,} Cupcoin'e ihtiyacın var", ephemeral = True)
 
 
@@ -700,7 +698,7 @@ class Axes(discord.ui.Select):
 
         # Cupcoin (money) Check
         if userWallet["coins"] < axePrice:
-            needMoney = userWallet["coins"] - axePrice
+            needMoney = axePrice - userWallet["coins"]
             return await interaction.response.send_message(f"Cüzdanında yeteri kadar Cupcoin bulunamadı! {needMoney:,} Cupcoin'e ihtiyacınız var", ephemeral = True)
 
 
