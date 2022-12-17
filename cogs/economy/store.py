@@ -223,7 +223,7 @@ class Pickaxes(discord.ui.Select):
         db = client.mongoConnect["cupcake"]
         inventoryCollection = db["inventory"]
         coinCollection = db["economy"]
-        print(1)
+
         # Inventory Check
         if await inventoryCollection.find_one({"_id" : interaction.user.id}) == None:
             newUserData = {
@@ -231,20 +231,20 @@ class Pickaxes(discord.ui.Select):
                 "items" : {}
             }
             await inventoryCollection.insert_one(newUserData)
-        print(1)
+
         # User Inventory (old)
         userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
-        print(1)
+
         # Items Check
         if "items" not in userInventory:
-            print(12)
+
             itemsData = { "$set" : {"items" : {}}}
-            print(12)
-            await userInventory.update_one(userInventory, itemsData)
-        print(2)
+
+            await inventoryCollection.update_one(userInventory, itemsData)
+
         # User Inventory (new)
         userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
-        print(2)
+
         if self.values[0] == "sellpickaxe":
             if "pickaxe" in userInventory["items"]:
                 
@@ -253,11 +253,11 @@ class Pickaxes(discord.ui.Select):
                 await interaction.response.send_message(content = "Kazmanı başarıyla sattın")
             else:
                 return await interaction.response.send_message(content = "Bir kazmaya sahip değilsin!")
-        print(3)
+
         # Wallet Check
         if await coinCollection.find_one({"_id" : interaction.user.id}) == None:
             return await interaction.response.send_message(content = "Cüzdanın yok! `/wallet` komutunu kullan ve bir cüzdan oluştur", ephemeral = True)
-        print(3)
+
         # User Wallet
         userWallet = await coinCollection.find_one({"_id" : interaction.user.id})
 
@@ -348,7 +348,7 @@ class Swords(discord.ui.Select):
         # Items Check
         if "items" not in userInventory:
             itemsData = { "$set" : {"items" : {}}}
-            await userInventory.update_one(userInventory, itemsData)
+            await inventoryCollection.update_one(userInventory, itemsData)
 
         # User Inventory (new)
         userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
@@ -457,7 +457,7 @@ class Rods(discord.ui.Select):
         # Items Check
         if "items" not in userInventory:
             itemsData = { "$set" : {"items" : {}}}
-            await userInventory.update_one(userInventory, itemsData)
+            await inventoryCollection.update_one(userInventory, itemsData)
 
         # User Inventory (new)
         userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
@@ -563,7 +563,7 @@ class Bows(discord.ui.Select):
         # Items Check
         if "items" not in userInventory:
             itemsData = { "$set" : {"items" : {}}}
-            await userInventory.update_one(userInventory, itemsData)
+            await inventoryCollection.update_one(userInventory, itemsData)
 
         # User Inventory (new)
         userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
@@ -676,7 +676,7 @@ class Axes(discord.ui.Select):
         # Items Check
         if "items" not in userInventory:
             itemsData = { "$set" : {"items" : {}}}
-            await userInventory.update_one(userInventory, itemsData)
+            await inventoryCollection.update_one(userInventory, itemsData)
 
         # User Inventory (new)
         userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
