@@ -17,7 +17,7 @@ class Forester(commands.Cog, commands.Bot):
 
     @app_commands.command(
         name = "forestry",
-        description = "Cut down the tree")
+        description = "Biraz ağaç kes bakalım")
     @app_commands.checks.cooldown(
         1, 8400, key = lambda i: (i.guild_id, i.user.id))
     async def forestry(self, interaction: discord.Interaction):
@@ -48,7 +48,7 @@ class Forester(commands.Cog, commands.Bot):
 
         # Axe check
         if "items" not in userData or "axe" not in userData["items"]:
-            return await interaction.response.send_message("To do forestry, you need to buy an axe. `/store` :)", ephemeral = True)
+            return await interaction.response.send_message("Odunculuk yapmak için baltaya ihtiyacın var. Mağazadan bir balta satın alabilirsin. `/store` :)", ephemeral = True)
 
         # Wood Check
         if "wood" not in userData:
@@ -145,9 +145,9 @@ class Forester(commands.Cog, commands.Bot):
             woodPrice = VH[resultWood]["price"] + priceByWoodSize # Result Wood Total Price
 
         # Send user a message
-        await interaction.response.send_message("🌲 **|** Searching for a beautiful tree...")
+        await interaction.response.send_message("🌲 **|** Güzel bir ağaç aranıyor...")
         await asyncio.sleep(4) 
-        await interaction.edit_original_response(content = f"🪓 **|** Great work lumberjack!  You got **{woodSize}** meters of wood from **{woodName}**. Instantaneous market value: **{woodPrice}** Cupcoin.")
+        await interaction.edit_original_response(content = f"🪓 **|** Harika iş oduncu! Tam **{woodSize}** metre **{woodName}** ağacı kestin. Anlık piyasa değeri: **{woodPrice}** Cupcoin.")
 
         # Update User Data
         userData["wood"].update({resultWood : woodSize}) 
@@ -160,7 +160,7 @@ class Forester(commands.Cog, commands.Bot):
     async def forestryError(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
-            await interaction.response.send_message(f"You're tired. Go home and rest for `{timeRemaining}`s",ephemeral=True)
+            await interaction.response.send_message(f"Yoruldun. Eve git ve `{timeRemaining}`s dinlen",ephemeral=True)
         else:
             print(f"[Forestry]: {error}")
 

@@ -1,38 +1,38 @@
 ---
 veryLowLevelHunt:
   none: none
-  quail: {name: Quail, price: 290}
-  sparrow: {name: Sparrow, price: 180}
-  partridge: {name: Partridge, price: 380}
-  mallard: {name: Mallard, price: 300}
-  wildgoose: {name: Wild Goose, price: 350}
+  quail: {name: Bıldırcın, price: 290}
+  sparrow: {name: Serçe, price: 180}
+  partridge: {name: Keklik, price: 380}
+  mallard: {name: Ördek, price: 300}
+  wildgoose: {name: Kaz, price: 350}
   none: none
 
 lowLevelHunt:
-  pig: {name: Pig, price: 450}
-  jackal: {name: Jackal, price: 480}
-  rabbit: {name: Rabbit, price: 500}
-  weasel: {name: Weasel, price: 550}
+  pig: {name: Domuz, price: 450}
+  jackal: {name: Çakal, price: 480}
+  rabbit: {name: Tavşan, price: 500}
+  weasel: {name: Gelincik, price: 550}
   none: none
 
 mediumLevelHunt:
-  fox : {name: Fox, price: 600}
-  bear: {name: Bear, price: 700}
-  wildgoat: {name: Wild Goat, price: 710}
-  wildsheep: {name: Anatolian Wild Sheep, price: 770}
+  fox : {name: Tilki, price: 600}
+  bear: {name: Ayı, price: 700}
+  wildgoat: {name: Yaban Keçisi, price: 710}
+  wildsheep: {name: Anadolu Yaban Koyunu, price: 770}
 
 highLevelHunt:
-  ibex: {name: Hooked Horned Ibex, price: 800}
-  roe: {name: Roe, price: 850}
-  gazelle: {name: Gazelle, price: 900}
-  reddeer: {name: Red Deer, price: 950}
-  ferret: {name: Ferret, price: 870}
+  ibex: {name: Kanca Boynuzlu Dağ Keçisi, price: 800}
+  roe: {name: Karaca, price: 850}
+  gazelle: {name: Ceylan, price: 900}
+  reddeer: {name: Kızıl Geyik, price: 950}
+  ferret: {name: Dağ Gelinciği, price: 870}
 
 veryHighLevelHunt:
-  deer: {name: Deer, price: 1100}
-  leopard: {name: Leopard, price: 1900}
-  wolf: {name: Wolf, price: 1500}
-  rhino: {name: Rhino, price: 1600}
-  elephant: {name: Eelephant, price: 2000}
-  bison: {name: Bison, price: 1700}
+  deer: {name: Geyik, price: 1100}
+  leopard: {name: Leopar, price: 1900}
+  wolf: {name: Kurt, price: 1500}
+  rhino: {name: Gergedan, price: 1600}
+  elephant: {name: Fil, price: 2000}
+  bison: {name: Bizon, price: 1700}
 

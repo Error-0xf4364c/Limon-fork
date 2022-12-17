@@ -3,11 +3,11 @@ from discord import ui, app_commands, Embed
 from discord.ext import commands
 import datetime
 
-class SuggestionModal(ui.Modal, title= "Suggestion"):
+class SuggestionModal(ui.Modal, title= "Öneri"):
     answer = ui.TextInput(
-        label = "Enter Your Suggestion",
+        label = "Öneriniz nedir?",
         style = discord.TextStyle.paragraph,
-        placeholder= "What is your suggestion?",
+        placeholder= "Öneriniz hakkında detaylı açıklama yapınız?",
         required = True,
         max_length= 4000
     )
@@ -27,7 +27,7 @@ class SuggestionModal(ui.Modal, title= "Suggestion"):
         )
 
         failMessage = Embed(
-            description = "❌ **|** Submission of suggestion failed. Please report this to the developer by coming to our [support server](https://discord.gg/M9S4Gv9Gwe).", 
+            description = "❌ **|** Upss, öneriniz gönderilemedi! Lütfen [destek sunucumuza](https://discord.gg/M9S4Gv9Gwe) gelin ve geliştiriciye bu sorunu bildirin.", 
             color = 0xff3333
         )
 
@@ -35,7 +35,7 @@ class SuggestionModal(ui.Modal, title= "Suggestion"):
         
         try:
             await suggestionsChannel.send(embed = suggestionMessage)
-            await interaction.response.send_message("✅ **|** You have successfully submitted your suggestion. Thank you :)", ephemeral = True)
+            await interaction.response.send_message("✅ **|** Önerilerinizi aldık. Teşekkür ederiz :)", ephemeral = True)
         except:
             await interaction.response.send_message(embed = failMessage, ephemeral = True)
 
@@ -44,7 +44,7 @@ class Suggestion(commands.Cog, commands.Bot):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
     
-    @app_commands.command(name = "suggestion", description = "Make a suggestion for Cupcake")
+    @app_commands.command(name = "suggestion", description = "Cupcake için bir öneride bulun")
     @app_commands.checks.cooldown(1, 300, key=lambda i: (i.user.id))
     async def suggestion(self, interaction: discord.Interaction):
         modal = SuggestionModal()
@@ -54,7 +54,7 @@ class Suggestion(commands.Cog, commands.Bot):
     async def suggestionError(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
-            await interaction.response.send_message(f"Please wait `{timeRemaining}` and Try Again!")
+            await interaction.response.send_message(f"Lütfen `{timeRemaining}`s bekleyin!")
         else:
             print(f"[SUGGESTION] {error}")
 

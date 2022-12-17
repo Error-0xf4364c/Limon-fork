@@ -19,8 +19,8 @@ class sendCoin(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    @app_commands.command(name = "send", description = "Send Cupcoin to your friends!")
-    @app_commands.describe(friend='Who will you send it to?', amount="The amount of coins you will send")
+    @app_commands.command(name = "send", description = "Arkadaşlarına Cupcoin gönder!")
+    @app_commands.describe(friend='Kime Cupcoin göndereceksin?', amount="Ne kadar Cupcoin göndereceksin?")
     @app_commands.checks.cooldown(
         1, 50.0, key=lambda i: (i.guild_id, i.user.id))
     async def send(self, interaction: discord.Interaction, friend: discord.User, amount: app_commands.Range[int, 1, 50000]):
@@ -28,34 +28,36 @@ class sendCoin(commands.Cog):
         userData, collection = await economyData(self.bot, interaction.user.id)
         userCareerData, careerCollection = await careerData(self.bot, interaction.user.id)
 
-        userCareerData["points"]['send_point'] += 1
-        await careerCollection.replace_one({"_id": interaction.user.id}, userCareerData)
+        
 
         if friend == interaction.user:
-            return await interaction.response.send_message(f"{cross} You don't send money to yourself!", ephemeral=True)
+            return await interaction.response.send_message(f"{cross} Kendine para gönderemezsin!", ephemeral=True)
 
         if await collection.find_one({"_id": interaction.user.id}) == None:
             return
         elif await collection.find_one({"_id": friend.id}) == None:
-            return await interaction.response.send_message(f"{whiteCross} The person you specified was not found ;c", ephemeral= True)
+            return await interaction.response.send_message(f"{whiteCross} Belirttiğiniz kullanıcı bulunamadı ;c", ephemeral= True)
 
         userData = await collection.find_one({"_id": interaction.user.id})
         targetData = await collection.find_one({"_id": friend.id})
 
         if userData['coins'] < amount:
-            return await interaction.response.send_message(f"{cross} There is not enough Cupcoin in your wallet!")
+            return await interaction.response.send_message(f"{cross} Göndermek istediğin kadar Cupcoine sahip değilsin!")
+        
+        userCareerData["points"]['send_point'] += 1
+        await careerCollection.replace_one({"_id": interaction.user.id}, userCareerData)
 
         userData['coins'] -= amount
         targetData['coins'] += amount
         await collection.replace_one({"_id": interaction.user.id}, userData)
         await collection.replace_one({"_id": friend.id}, targetData)
-        await interaction.response.send_message(f"{send} You successfully sent **{amount:,}** Cupcoin to your friend **{friend.name}**.")
+        await interaction.response.send_message(f"{send} **{friend.name}** arkadaşına başarıyla **{amount:,}** Cupcoin gönderdin.")
     @send.error
     async def sendError(self, interaction : discord.Interaction,
                          error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds = int(error.retry_after)))
-            await interaction.response.send_message(f"Please wait `{timeRemaining}`s and Try Again!",
+            await interaction.response.send_message(f"Lütfen `{timeRemaining}`s bekleyin!",
                                                     ephemeral=True)
         else:
             print(error)

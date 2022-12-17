@@ -92,19 +92,19 @@ class Buttons(View):
     async def interaction_check(self, interaction: discord.Interaction) -> bool:
 
         if not interaction.user.id in message_author_id:
-            await interaction.response.send_message("This inventory doesn't belong to you. You can't trade in someone else's inventory. Please use the /inventory command.", ephemeral=True)
+            await interaction.response.send_message("Bu envanter size ait değil! Herhangi bir işlem yapamazsınız. Lütfen **`/inventory`** komutunu kullanın.", ephemeral=True)
             return False
         return True
 
     
-    @button(label = "Backpack", style = discord.ButtonStyle.blurple)
+    @button(label = "Çanta", style = discord.ButtonStyle.blurple)
     async def backpack_callback(self, interaction, button):
 
         db = client.mongoConnect["cupcake"]
         collection = db["inventory"]
 
         if await collection.find_one({"_id": interaction.user.id}) == None:
-            return await interaction.response.send_message("Upss! You don't have an inventory! Please use this commands: `mining, forestry, hunting, fishing`", ephemeral = True)
+            return await interaction.response.send_message("Upss! Envanteriniz bulunmuyor! Şu komutları kullanmayı deneyiniz: `mining, forestry, hunting, fishing`", ephemeral = True)
 
         userData = await collection.find_one({"_id": interaction.user.id})
 
@@ -140,25 +140,25 @@ class Buttons(View):
 
 
 
-        fishes_ = "\n".join(fishes_) if len(fishes_)>0 else "*No fish in your inventory*"
-        hunts_ = "\n".join(hunts_) if len(hunts_)>0 else "*No hunt in your inventory*"
-        chars_ = "\n".join(chars_) if len(chars_)>0 else "*No hero in your inventory*"
-        mines_ = "\n".join(mines_) if len(mines_)>0 else "*No mine in your inventory*"
-        wood_ = "\n".join(wood_) if len(wood_)>0 else "*No wood in your inventory*"
+        fishes_ = "\n".join(fishes_) if len(fishes_)>0 else "*Çantanızda hiç balık yok*"
+        hunts_ = "\n".join(hunts_) if len(hunts_)>0 else "*Çantanızda hiç av yok*"
+        chars_ = "\n".join(chars_) if len(chars_)>0 else "*Çantanızda hiç kahraman yok*"
+        mines_ = "\n".join(mines_) if len(mines_)>0 else "*Çantanızda hiç maden yok*"
+        wood_ = "\n".join(wood_) if len(wood_)>0 else "*Çantanızda hiç odun yok*"
 
         
-        backpack_embed = Embed( description =  f"This is the section in your inventory that shows what you have achieved as a result of the work you have done. \n════════════════════════════════\n***FISHES:***\n{fishes_}\n════════════════════════════════\n***HUNTS:***\n{hunts_}\n════════════════════════════════\n***MINES:***\n{mines_}\n════════════════════════════════\n***WOOD:***\n{wood_}\n════════════════════════════════\n***HEROES:***\n{chars_}\n════════════════════════════════", color = 0x2E3136)
-        backpack_embed.set_author(name= f"{interaction.user.name}'s Backpack", icon_url = interaction.user.avatar.url)
+        backpack_embed = Embed( description =  f"Bu sizin çantanız. Burada rozetleriniz ve iş yaparak(balıkçılık, avcılık vs.) kazandıklarınız görünür. \n════════════════════════════════\n***BALIKLAR:***\n{fishes_}\n════════════════════════════════\n***AVLAR:***\n{hunts_}\n════════════════════════════════\n***MADENLER:***\n{mines_}\n════════════════════════════════\n***ODUNLAR:***\n{wood_}\n════════════════════════════════\n***KAHRAMANLAR:***\n{chars_}\n════════════════════════════════", color = 0x2E3136)
+        backpack_embed.set_author(name= f"{interaction.user.name} Adlı Kullanıcının Çantası", icon_url = interaction.user.avatar.url)
 
         await interaction.response.edit_message(embed = backpack_embed, view=self)
     
-    @button(label = "Items", style = discord.ButtonStyle.blurple)
+    @button(label = "Eşyalar", style = discord.ButtonStyle.blurple)
     async def items_callback(self, interaction, button):
         db = client.mongoConnect["cupcake"]
         collection = db["inventory"]
 
         if await collection.find_one({"_id": interaction.user.id}) == None:
-            return await interaction.response.send_message("Upss! You don't have items! Please buy an item. You can use this command: `store`", ephemeral = True)
+            return await interaction.response.send_message("Upss! Hiç eşyanız yok. **`store`** komutunu kullanarak yeni eşyalar satın alabilirsiniz.", ephemeral = True)
 
         userData = await collection.find_one({"_id": interaction.user.id})
 
@@ -168,10 +168,10 @@ class Buttons(View):
 
         items_ = [ f"**▸** {all_items_dict[i]['name']}" for i in all_items if i in userItems]
 
-        items_ = "\n".join(items_) if len(items_)>0 else "*No item in your inventory*"
+        items_ = "\n".join(items_) if len(items_)>0 else "*Hiç eşyanız yok*"
 
-        items_embed = Embed(description = f"This is the section with the items in your inventory. To buy more items, use `store` \n════════════════════════════════\n***ITEMS:***\n{items_}", color = 0x2E3136)
-        items_embed.set_author(name= f"{interaction.user.name}'s Items", icon_url = interaction.user.avatar.url)
+        items_embed = Embed(description = f"Bu sizin eşya çantanız. Burada satın aldığınız eşyalar görünür. Eşya satın almak için **`store`** komutunu kullanın \n════════════════════════════════\n***EŞYALAR:***\n{items_}", color = 0x2E3136)
+        items_embed.set_author(name= f"{interaction.user.name} Adlı Kullanıcının Eşyaları", icon_url = interaction.user.avatar.url)
 
         await interaction.response.edit_message(embed = items_embed, view=self)
 
@@ -182,7 +182,7 @@ class Inventory(commands.Cog):
         self.bot = bot
 
     # Show Inventory
-    @app_commands.command(name = "inventory", description = "View your inventory")
+    @app_commands.command(name = "inventory", description = "Envanterinizi görüntüleyin")
     @app_commands.checks.cooldown( 1, 60, key=lambda i: (i.guild_id, i.user.id))
     async def inventory(self, interaction: discord.Interaction):
         view = Buttons()
@@ -193,8 +193,8 @@ class Inventory(commands.Cog):
         userMines = ["Yok"]
 
         # Embed Message
-        menu_embed = Embed(description = '**What do you want to look at in your inventory?**\n To see what you have achieved as a result of your work, click on "Backpack"\n To look at the items you have purchased, click on: "Items"', color = 0x2E3136)
-        menu_embed.set_author(name= f"{interaction.user.name}'s Inventory", icon_url = interaction.user.avatar.url)
+        menu_embed = Embed(description = '**Envanterinizde nelere bakmak istiyorsunuz?**\n İşlerden kazandıklarınızı(balıkçılık, avcılık vs.) görmek için "Çanta" butonuna basın\n To look at the items you have purchased, click on: "Items"', color = 0x2E3136)
+        menu_embed.set_author(name= f"{interaction.user.name} Adlı Kullanıcının Envanteri", icon_url = interaction.user.avatar.url)
 
         if interaction.user.id in message_author_id:
             message_author_id.remove(interaction.user.id)
@@ -208,7 +208,7 @@ class Inventory(commands.Cog):
     async def inventoryError(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
-            await interaction.response.send_message(f"Upss! The inventory hasn't opened yet. Please try again after {timeRemaining}s.",ephemeral=True)
+            await interaction.response.send_message(f"Upss! Envanter açılamadı. Lütfen `{timeRemaining}`s bekleyin.",ephemeral=True)
         else:
             if len(message_author_id) >0:
                 message_author_id.clear()

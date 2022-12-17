@@ -24,15 +24,14 @@ class Help(commands.Cog, commands.Bot):
 
     @app_commands.command(
         name="bot-help",
-        description="Don't you know what's what?")
+        description="Ne nedir?")
     @app_commands.describe(topic = "Choose a topic")
     @app_commands.choices(topic=[
-        Choice(name="Basic Commands", value="basiccommandshelp"),
-        Choice(name="Gamble", value="gamblecommands"),
-        Choice(name="Hunting", value="huntingcommands"),
-        Choice(name="Badges", value="badgescommands"),
-        Choice(name="Heroes", value="heroescommands"),
-        Choice(name="Ranking", value="rankingsystem")
+        Choice(name="Temel Komutlar", value="basiccommandshelp"),
+        Choice(name="Kumar", value="gamblecommands"),
+        Choice(name="İşler", value="huntingcommands"),
+        Choice(name="Rozetler", value="badgescommands"),
+        Choice(name="Kahramanlar", value="heroescommands"),
 
     ])
     @app_commands.checks.cooldown(
@@ -44,88 +43,76 @@ class Help(commands.Cog, commands.Bot):
 
         if topic == "basiccommandshelp":
             commandsEmbed = Embed(description = """
-            ```Basic commands of Cupcake```\n
-            **/wallet** **››** You view your wallet.
-            **/daily** **››** You can earn your daily cupcoin.
-            **/inventory** **››** You view your inventory.
-            **/send** **››** You can send cupcoin to your friends.
-            **/user-info** **››** You view any user's information.
-            **/suggestion **››** Make a suggestion for Cupcake.
-            **/report** **››** Report Bugs/Errors
-            **/vote** **››** Vote Cupcake on Top.gg
+            ```Cupcake'in Temel Komutlar```\n
+            **/wallet** **››** Cüzdanınızı açın.
+            **/daily** **››** Günlük Cupcoin kazanın.
+            **/inventory** **››** Envanterinizi Görüntüleyin.
+            **/send** **››** Arkadaşlarınıza Cupcoin gönderin.
+            **/user-info** **››** Kullanıcılar hakkında bilgi edinin.
+            **/suggestion **››** Cupcake için bir öneride bulunun.
+            **/report** **››** Hataları bildirin.
+            **/vote** **››** Cupcake'e Top.gg üzerinden oy verin.
             """ )
-            commandsEmbed.set_author(name = "About the commands", icon_url = interaction.user.avatar.url)
+            commandsEmbed.set_author(name = "Komutlar hakkında", icon_url = interaction.user.avatar.url)
             await interaction.response.send_message(embed=commandsEmbed, view=view)
 
         elif topic == "gamblecommands":
             gamblesEmbed = Embed(description = """
-            ```Gambles with Cupcake```\n
-            **/coinflip** **››** You can play coin flip.
-            **/roll** **››** Guess the sum of 2 dice in odd or even.
-            **/guess-number** **››** Guess the number and win exactly 5 times Cupcoin.
-            **/open-box** **››** Open one of the 5 different safes and get rich.""" )
-            gamblesEmbed.set_author(name = "About the gambles", icon_url = interaction.user.avatar.url)
+            ```Kumar```\n
+            **/coinflip** **››** Yazı tura atın. Yazı gelirse siz, tura gelirse kasa kazanır.
+            **/roll** **››** 2 zarın toplam sonucunun tek mi, çift mi olduğunu tahmin edin.
+            **/guess-number** **››** 1 ile 10 arasındaki rakamı tahmin edin ve paranızı 5'e katlayın.
+            **/open-box** **››** 5 farklı kasadan bütçenize uygun olanı açın ve zengin olun.""" )
+            gamblesEmbed.set_author(name = "Kumar hakkında", icon_url = interaction.user.avatar.url)
             await interaction.response.send_message(embed=gamblesEmbed, view=view)
         elif topic == "huntingcommands":
             huntingEmbed = Embed(description = """
-            ```Hunting with Cupcake```\n
-            **/hunt** **››** Hunt animals.
-            **/fishing** **››** Fishing.
-            **/forestry** **››** Cut down the tree
-            **/mining** **››** Digging and earn valuable mines
-            **/store** **››** Buy items and start working!
-            **/inventory** **››** View your fishes and hunts.
-            **/sell** **››** You can sell your fishes and hunts""")
-            huntingEmbed.set_author(name = "About the hunting", icon_url = interaction.user.avatar.url)
+            ```İşler```\n
+            **/hunting** **››** Hayvan avlayın ve onları satarak Cupcoin kazanın.
+            **/fishing** **››** Balık tutun ve onları satarak Cupcoin kazanın.
+            **/forestry** **››** Odun kesin ve onları satarak Cupcoin kazanın.
+            **/mining** **››** Madene girin ve değerli madenler çıkarın
+            **/store** **››** İşe başlamak için ekipman satın alın!
+            **/inventory** **››** İşlerden kazandıklarını ve ekipmanlarınızı görüntüleyin.
+            **/sell** **››** İşlerden kazandıklarınızı satın.""")
+            huntingEmbed.set_author(name = "İşler hakkında", icon_url = interaction.user.avatar.url)
             await interaction.response.send_message(embed=huntingEmbed, view=view)
         elif topic == "badgescommands":
             badgesEmbed = Embed(description = """
-            ```What are badges?```\n
-            In a certain area (hunting, gambling, etc.) too much is given to interested users. 
-            It consists of 3 levels.Beginner, amateur and master. Except for hero owners and wonderful people badges
+            ```Rozetler nedir?```\n
+            Bir iş yaptığınızda, kumar oynadığınızda, arkadaşınıza Cupcoin gönderdiğinizde sahip olabileceğiniz,
+            toplam 3 farklı seviyesi (acemi, amatör ve usta) bulunan ve envanterinizde görünen sizin bir konuda ne kadar iyi olduğunuzu gösteren bir çeşit madalya 
             \n
-            ```How will I get a badge?```\n
-            You can get a gambler's badge by gambling. 
-            You can get a hunter badge by hunting animals. 
-            You can get a fisherman's badge by fishing. 
-            3 as a hero owner, you can get a hero owner badge. 
-            You can get a great person badge by sending Cupcoin to your friends.
+            ```Peki nasıl rozet alabilirim??```\n
+            Kumar oynayarak **Kumarbaz** rozeti kazanabilirsiniz. 
+            Avcılık yaparak **Avcı** rozeti kazanabilirsiniz. 
+            Balıkçılık yaparak **Balıkçı** rozeti kazanabilirsiniz. 
+            En az 3 kahraman sahip olarak **Kahraman Sahibi** rozeti kazanabilirsiniz. 
+            Arkadaşlarınıza Cupcoin göndererek **İyi İnsan** rozeti kazanabilirsiniz.
             """)
-            badgesEmbed.set_author(name = "About the badges", icon_url = interaction.user.avatar.url)
+            badgesEmbed.set_author(name = "Rozetler hakkında", icon_url = interaction.user.avatar.url)
             badgesEmbed.set_image(url="https://cdn.discordapp.com/attachments/899751701077164043/1001246682215878666/unknown.png")
             await interaction.response.send_message(embed=badgesEmbed, view=view)
         elif topic == "heroescommands":
             heroesEmbed = Embed(description = """
-            ```Heroesof with Cupcake```\n
-            **/hero-egg** **››** Open hero eggs and have one of them.
-            **/inventory** **››** You can view your heroes here for now.
-            \n```Why should I get a hero?```\n
-            Actually, you can think of it as a pre-registration. 
-            When you have a hero, you read his short story. 
-            You will learn the HP and Power values. You will learn about the degree of rarity. 
-            In the future, there will always be a command for your heroes, where you can get information.
-             You will be able to make heroes fight. You'll be able to trade them and sell them. 
-             You can't have the same hero 2 times. You can buy eggs, but inside some eggs may be empty
+            ```Kahramanlar```\n
+            **/hero-egg** **››** Bir yumurta açın ve kahraman sahibi olun. Bazı yumurtalar boş olabilir
+            **/inventory** **››** Kahramanlarınızı envanterinizde görüntüleyebilirsiniz.
+            \n```Neden bir kahraman sahibi olmalıyım?```\n 
+            Yumurtadan bir kahraman çıkardığınız zaman onun hikayesini okuyabilirsiniz. 
+            Can, nadirlik ve güç değerlerini öğrenebilirsiniz.
+            Yakında onları savaştırabilecek ve başkasıyla kahraman takası yapabileceksiniz. 
+            Aynı kahramana 2 kez sahip olamazsınız. Bir yumurta satın alın ve kahraman sahibi olun
             """)
-            heroesEmbed.set_author(name = "About the heroes", icon_url = interaction.user.avatar.url)
+            heroesEmbed.set_author(name = "Kahramanlar hakkında", icon_url = interaction.user.avatar.url)
             await interaction.response.send_message(embed=heroesEmbed, view=view)
 
-        elif topic == "rankingsystem":
-            rankingEmbed = Embed(description = """
-            ```How to raise my level```
-            You can talk with your friends on chat channels to raise your level.
-            ```How can i learn my level```
-            **/rank** **››** Shows your level card
-            **/leaderboard** **››** Shows the top 5 in the ranking
-            """)
-            rankingEmbed.set_author(name = "About the ranking system", icon_url = interaction.user.avatar.url)
-            await interaction.response.send_message(embed=rankingEmbed, view=view)
     @bothelp.error
     async def sellError(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
 
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
-            await interaction.response.send_message(f"{clock} **|** Please wait`{timeRemaining}`s try again!",ephemeral=True)
+            await interaction.response.send_message(f"{clock} **|** Lütfen `{timeRemaining}`s bekleyin!",ephemeral=True)
 
 
 

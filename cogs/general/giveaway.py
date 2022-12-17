@@ -34,7 +34,7 @@ def convert(time):
 
 class GiveawayButton(ui.View):
     
-    @ui.button(label = "Join", style = discord.ButtonStyle.blurple, emoji = "🎉")
+    @ui.button(label = "Katıl", style = discord.ButtonStyle.blurple, emoji = "🎉")
     async def join_callback(self, interaction, button):
         db = client.mongoConnect["cupcake"]
         collection = db["giveaway"]
@@ -44,53 +44,53 @@ class GiveawayButton(ui.View):
         participants = data["participants"]
         
         if interaction.user.id in participants:
-            return await interaction.response.send_message(content = "You have already joined the giveaway.", ephemeral = True)
+            return await interaction.response.send_message(content = "Çekilişe zaten katılmışsınız.", ephemeral = True)
         
         participants.append(interaction.user.id)
         
         await collection.replace_one({"_id" : interaction.guild.id}, data)
         
-        await interaction.response.send_message(content = "You have  joined the giveaway.", ephemeral = True)
+        await interaction.response.send_message(content = "Çekilişe başarıyla katıldınız.", ephemeral = True)
         
         
         
 
 
 
-class GiveawayModal(ui.Modal, title= "Giveaway"):
+class GiveawayModal(ui.Modal, title= "Çekiliş"):
     
     g_title = ui.TextInput(
-        label = "Title",
+        label = "Başlık",
         style = discord.TextStyle.short,
-        placeholder = "Giveaway Title",
+        placeholder = "Çekiliş Başlığı",
         required = True,
         max_length= 100
     )
     description = ui.TextInput(
-        label = "Description",
+        label = "Açıklama",
         style = discord.TextStyle.paragraph,
-        placeholder = "Giveaway Description",
+        placeholder = "Çekiliş hakkında bilgi verin",
         required = False,
         max_length= 4000
     )
     g_time = ui.TextInput(
-        label = "End Time",
+        label = "Bitiş tarihi",
         style = discord.TextStyle.short,
-        placeholder = "The Giveaway End Time (s/m/h/d) Ex. : 10h",
+        placeholder = "Çekilişin bitiş zamanını ayarlayın. (s/m/h/d) Ör. : 10h",
         required = True,
         max_length = 50
     )
     price = ui.TextInput(
-        label = "Price",
+        label = "Ödül",
         style = discord.TextStyle.short,
-        placeholder = "The Giveaway Price",
+        placeholder = "Çekilişte vereceğiniz ödül",
         required = True,
         max_length = 100
     )
     winner_count = ui.TextInput(
-        label = "Winner Count",
+        label = "Kazanan Sayısı",
         style = discord.TextStyle.short,
-        placeholder = "The Giveaway Winner Count",
+        placeholder = "Çekilişi kazanacak kişi sayısı",
         required = True,
         max_length = 2
     )
@@ -101,7 +101,7 @@ class GiveawayModal(ui.Modal, title= "Giveaway"):
         gtime = str(self.g_time)
         
         if not w_c.isnumeric():
-            return await interaction.response.send_message(content = "Winner Count is must be a integer!", ephemeral = True)
+            return await interaction.response.send_message(content = "Kazanan sayısı tamsayı olmalıdır!", ephemeral = True)
 
         
 
@@ -109,13 +109,13 @@ class GiveawayModal(ui.Modal, title= "Giveaway"):
         waiting_time = ""
         
         if gtime[-1] == "s":
-            waiting_time = "second"
+            waiting_time = "saniye"
         elif gtime[-1] == "m":
-            waiting_time = "minute"
+            waiting_time = "dakika"
         elif gtime[-1] == "h":
-            waiting_time = "hour"
+            waiting_time = "saat"
         elif gtime[-1] == "d":
-            waiting_time = "day"
+            waiting_time = "gün"
             
         buttons = GiveawayButton()
 
@@ -127,9 +127,9 @@ class GiveawayModal(ui.Modal, title= "Giveaway"):
             description = self.description,
             color = 0x2E3136
         )
-        giveaway_message.add_field(name = "Number of Winner", value = self.winner_count, inline = True)
-        giveaway_message.add_field(name = "Price", value = self.price, inline = True)
-        giveaway_message.set_footer(text = f"By {interaction.user} - End: {gtime} {waiting_time}", icon_url = interaction.client.user.avatar.url)
+        giveaway_message.add_field(name = "Kazanan Sayısı", value = self.winner_count, inline = True)
+        giveaway_message.add_field(name = "Ödül", value = self.price, inline = True)
+        giveaway_message.set_footer(text = f"{interaction.user} tarafından - Bitiş: {gtime} {waiting_time}", icon_url = interaction.client.user.avatar.url)
 
         await interaction.response.send_message(embed = giveaway_message, view = buttons)
         
@@ -147,9 +147,9 @@ class GiveawayModal(ui.Modal, title= "Giveaway"):
         participants = data["participants"]
         
         if participants == []:
-            await interaction.edit_original_response(content = f"❌ **| The Giveaway has been canceled due to**\n**Insufficient Participation**\nor\n⏳ **| Invalid End Time**")
+            await interaction.edit_original_response(content = f"❌ **| Çekiliş iptal edildi. Sebebi şu olabilir:**\n**Yetersiz katılımcı**\nor\n⏳ **| Geçersiz bitiş tarihi**")
             try:
-                interaction.user.send(content = f"Your giveaway on server {interaction.guild.name} has been canceled due to insufficient participation \n`Giveaway Title = {self.g_title}`")
+                interaction.user.send(content = f"{interaction.guild.name} adlı sunucudaki çekişiniz yetersiz katılımcı sebebiyle iptal edildi. \n`Çekiliş Başlığı = {self.g_title}`")
             except:
                 return
 
@@ -176,23 +176,23 @@ class GiveawayModal(ui.Modal, title= "Giveaway"):
             winners = " - ".join([f"<@{w}>" for w in winners])
         
         giveaway_end_message = Embed(
-            title = f"(Ended !!!) { self.g_title}",
+            title = f"(Bitti !!!) { self.g_title}",
             url = "https://discord.com/api/oauth2/authorize?client_id=994143430504620072&permissions=139586817088&scope=bot%20applications.commands",
             description = self.description,
             color = 0x2E3136
         )
-        giveaway_end_message.add_field(name = "Winners", value = winners, inline = True)
-        giveaway_end_message.add_field(name = "Price", value = self.price, inline = True)
-        giveaway_end_message.set_footer(text = f"By {interaction.user} - Ended",icon_url = interaction.client.user.avatar.url)
+        giveaway_end_message.add_field(name = "Kazananlar", value = winners, inline = True)
+        giveaway_end_message.add_field(name = "Ödül", value = self.price, inline = True)
+        giveaway_end_message.set_footer(text = f"{interaction.user} tarafından - Bitti",icon_url = interaction.client.user.avatar.url)
 
-        await interaction.edit_original_response(content = f"Winners of The Giveaway: {winners}", embed = giveaway_end_message, view = None)
+        await interaction.edit_original_response(content = f"Çekilişi Kazananlar: {winners}", embed = giveaway_end_message, view = None)
         await collection.delete_one({"_id" : interaction.guild.id})
 
 class Giveaway(commands.Cog, commands.Bot):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
     
-    @app_commands.command(name = "giveaway", description = "Giveaway")
+    @app_commands.command(name = "giveaway", description = "Hemen bir çekiliş yapın")
     async def giveaway(self, interaction: discord.Interaction):
         
         db = self.bot.mongoConnect["cupcake"]

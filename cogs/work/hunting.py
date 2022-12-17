@@ -28,7 +28,7 @@ class Hunting(commands.Cog, commands.Bot):
         self.bot = bot
 
 
-    @app_commands.command(name="hunting", description="Let's go hunting")
+    @app_commands.command(name="hunting", description="Biraz avlan bakalım")
     @app_commands.checks.cooldown(
         1, 300, key=lambda i: (i.guild_id, i.user.id))
     async def hunting(self, interaction: discord.Interaction):
@@ -58,7 +58,7 @@ class Hunting(commands.Cog, commands.Bot):
 
         # Bow check
         if "items" not in userData or "bow" not in userData["items"]:
-            return await interaction.response.send_message("You need to buy a bow for hunting. `/store` :)", ephemeral = True)
+            return await interaction.response.send_message("Avcılık yapabilmek için bir yaya ihtiyacınız var. Mağazadan bir yay satın alabilirsiniz. `/store` :)", ephemeral = True)
         # Hunt Check
         if "hunts" not in userData:
             foresterData = { "$set" : {"hunts" : []}}
@@ -135,13 +135,13 @@ class Hunting(commands.Cog, commands.Bot):
             huntPrice = VH[resultHunt]["price"] # Result HuntTotal Price
 
         # Send user a message
-        await interaction.response.send_message("🏹 **|** Searching for prey...")
+        await interaction.response.send_message("🏹 **|** Bir av aranıyor...")
         await asyncio.sleep(4) 
         print(resultHunt)
         if resultHunt == "none":
-            return await interaction.edit_original_response(content = "Unfortunately, we didn't find any prey ;c")
+            return await interaction.edit_original_response(content = "Maalesef, hiç av yakalayamadınız ;c")
 
-        await interaction.edit_original_response(content = f"🦌 **|** Great Hunt! You hunted a **{huntName}**. Instantaneous market value: **{huntPrice}** Cupcoin ")
+        await interaction.edit_original_response(content = f"🦌 **|** Harika bir av! Bir **{huntName}** avladın. Anlık piyasa değeri: **{huntPrice}** Cupcoin ")
 
         # Update User Data
         userData["hunts"].append(resultHunt)
@@ -154,7 +154,7 @@ class Hunting(commands.Cog, commands.Bot):
     async def huntingError(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
-            await interaction.response.send_message(f"{clock} **|** You're tired. Go home and rest for `{timeRemaining}`s.",ephemeral=True)
+            await interaction.response.send_message(f"{clock} **|** Yoruldun. Eve git ve `{timeRemaining}`s dinlen.",ephemeral=True)
         else:
             print(f"[HUNTING]: {error} ")
 

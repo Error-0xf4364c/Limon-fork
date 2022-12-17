@@ -181,14 +181,16 @@ class Pickaxes(discord.ui.Select):
     def __init__(self):
 
         options = [
-            discord.SelectOption(label='Stone Pickaxe', value= "stonepickaxe", description=f'Price: {stonePickaxePrice:,}', emoji='⛏️'),
-            discord.SelectOption(label='Steel Pickaxe', value= "steelpickaxe", description=f'Price: {steelPickaxePrice:,}', emoji='⛏️'),
-            discord.SelectOption(label='Golden Pickaxe', value= "goldenpickaxe", description=f'Price: {goldenPickaxePrice:,}', emoji='⛏️'),
-            discord.SelectOption(label='Reinforced Pickaxe', value= "reinforcedpickaxe", description=f'Price: {reinforcedPickaxePrice:,}', emoji='⛏️'),
-            discord.SelectOption(label='Mining Vehicle', value= "miningvehicle", description=f'Price: {miningVehiclePrice:,}', emoji='⛏️'),
-            discord.SelectOption(label='Sell Pickaxe', value= "sellpickaxe", description=f'Sell to buy new pickaxe', emoji='🗑️')
+            discord.SelectOption(label='Maden Aracı', value= "miningvehicle", description=f'Ücret: {miningVehiclePrice:,}', emoji='⛏️'),
+            discord.SelectOption(label='Güçlendirilmiş Kazma', value= "reinforcedpickaxe", description=f'Ücret: {reinforcedPickaxePrice:,}', emoji='⛏️'),
+            discord.SelectOption(label='Altın Kazma', value= "goldenpickaxe", description=f'Ücret: {goldenPickaxePrice:,}', emoji='⛏️'),
+            discord.SelectOption(label='Çelik Kazma', value= "steelpickaxe", description=f'Ücret: {steelPickaxePrice:,}', emoji='⛏️'),
+            discord.SelectOption(label='Taş Kazma', value= "stonepickaxe", description=f'Ücret: {stonePickaxePrice:,}', emoji='⛏️'),
+            
+            
+            discord.SelectOption(label='Kazmayı Sat', value= "sellpickaxe", description=f'Kazmanı sat ve yenisini satın al', emoji='🗑️')
         ]
-        super().__init__(placeholder='Choose a Picaxe', options=options)
+        super().__init__(placeholder='Bir Kazma Seç', options=options)
 
     async def callback(self, interaction: discord.Interaction):
         
@@ -197,23 +199,23 @@ class Pickaxes(discord.ui.Select):
         pickaxeId = ""
         
         if self.values[0] == "stonepickaxe":
-            pickaxeName = "Stone Pickaxe"
+            pickaxeName = "Taş Kazma"
             pickaxePrice = stonePickaxePrice
             pickaxeId = "stonepickaxe"
         elif self.values[0] == "steelpickaxe":
-            pickaxeName = "Steel Pickaxe"
+            pickaxeName = "Çelik Kazma"
             pickaxePrice = steelPickaxePrice
             pickaxeId = "steelpickaxe"
         elif self.values[0] == "goldenpickaxe":
-            pickaxeName = "Golden Pickaxe"
+            pickaxeName = "Altın Kazma"
             pickaxePrice = goldenPickaxePrice
             pickaxeId = "goldenpickaxe"
         elif self.values[0] == "reinforcedpickaxe":
-            pickaxeName = "Reinforced Pickaxe"
+            pickaxeName = "Güçlendirilmiş Kazma"
             pickaxePrice = reinforcedPickaxePrice
             pickaxeId = "reinforcedpickaxe"
         elif self.values[0] == "miningvehicle":
-            pickaxeName = "Mining Vehicle"
+            pickaxeName = "Maden Aracı"
             pickaxePrice = miningVehiclePrice
             pickaxeId = "mininigvehicle"
 
@@ -238,13 +240,13 @@ class Pickaxes(discord.ui.Select):
                 
                 userInventory["items"].pop("pickaxe")
                 await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
-                await interaction.response.send_message(content = "You have successfully sold the pickaxe")
+                await interaction.response.send_message(content = "Kazmanı başarıyla sattın")
             else:
-                return await interaction.response.send_message(content = "You don't have a pickaxe")
+                return await interaction.response.send_message(content = "Bir kazmaya sahip değilsin!")
 
         # Wallet Check
         if await coinCollection.find_one({"_id" : interaction.user.id}) == None:
-            return await interaction.response.send_message(content = "You don't have a wallet! Get a wallet with using the `/wallet` command", ephemeral = True)
+            return await interaction.response.send_message(content = "Cüzdanın yok! `/wallet` komutunu kullan ve bir cüzdan oluştur", ephemeral = True)
 
         # User Wallet
         userWallet = await coinCollection.find_one({"_id" : interaction.user.id})
@@ -252,7 +254,7 @@ class Pickaxes(discord.ui.Select):
         # Cupcoin (money) Check
         if userWallet["coins"] < pickaxePrice:
             needMoney = userWallet["coins"] - pickaxePrice
-            return await interaction.response.send_message(content = f"You don't have enough cupcoin in your wallet! You need {needMoney:,}", ephemeral = True)
+            return await interaction.response.send_message(content = f"Cüzdanınızda yeteri kadar Cupcoin bulunmuyor! {needMoney:,} Cupcoin'e ihtiyacınız var.", ephemeral = True)
 
         
 
@@ -266,7 +268,7 @@ class Pickaxes(discord.ui.Select):
 
         # Pickaxe Check
         if "pickaxe" in userInventory["items"]:
-            return await interaction.response.send_message("You already have a pickaxe", ephemeral = True)
+            return await interaction.response.send_message("Zaten bir kazmanız var", ephemeral = True)
 
         # Fee received
         userWallet["coins"] -= pickaxePrice
@@ -276,23 +278,23 @@ class Pickaxes(discord.ui.Select):
         userInventory["items"].update({"pickaxe" : pickaxeId})
         await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
 
-        await interaction.response.send_message(f"✨⛏️ **|** You bought a new {pickaxeName} by paying {pickaxePrice:,}. Now you will be able to extract more valuable mines with this pickaxe")
+        await interaction.response.send_message(f"✨⛏️ **|** {pickaxePrice:,} Cupcoin ödeyerek yeni bir {pickaxeName} satın aldınız. Artık daha değerli madenler çıkarabileceksiniz.")
 
 class Swords(discord.ui.Select):
     def __init__(self):
 
         options = [
-            discord.SelectOption(label='Gladius Sword', value= "gladius", description=f'Price: not {gladiusPrice:,}, but {gladiusDcPrice:,}', emoji='⚔️'),
-            discord.SelectOption(label='Chukuto Sword', value= "chokuto", description=f'Price: not {chukutoPrice:,}, but {chukutoDcPrice:,}', emoji='⚔️'),
-            discord.SelectOption(label='Katana Sword', value= "katana", description=f'Price: not {katanaPrice:,}, but {katanaDcPrice:,}', emoji='⚔️'),
-            discord.SelectOption(label='Rapier Sword', value= "rapier", description=f'Price: not {rapierPrice:,}, but {rapierDcPrice:,}', emoji='⚔️'),
-            discord.SelectOption(label='Odachi Sword', value= "odachi", description=f'Price: not {odachiPrice:,}, but {odachiDcPrice:,}', emoji='⚔️'),
-            discord.SelectOption(label='Claymore Sword', value= "claymore", description=f'Price: not {claymorePrice:,}, but {claymoreDcPrice:,}', emoji='⚔️'),
+            discord.SelectOption(label='Claymore Kılıcı', value= "claymore", description=f' {claymorePrice:,} yerine sadece {claymoreDcPrice:,} Cupcoin', emoji='⚔️'),
+            discord.SelectOption(label='Odachi Kılıcı', value= "odachi", description=f'{odachiPrice:,} yerine sadece {odachiDcPrice:,} Cupcoin', emoji='⚔️'),
+            discord.SelectOption(label='Rapier Kılıcı', value= "rapier", description=f'{rapierPrice:,} yerine sadece {rapierDcPrice:,} Cupcoin', emoji='⚔️'),
+            discord.SelectOption(label='Katana Kılıcı', value= "katana", description=f'{katanaPrice:,} yerine sadece {katanaDcPrice:,} Cupcoin', emoji='⚔️'),
+            discord.SelectOption(label='Chukuto Kılıcı', value= "chokuto", description=f'{chukutoPrice:,} yerine sadece {chukutoDcPrice:,} Cupcoin', emoji='⚔️'),
+            discord.SelectOption(label='Gladius Kılıcı', value= "gladius", description=f'{gladiusPrice:,} yerine sadece {gladiusDcPrice:,} Cupcoin', emoji='⚔️'),      
 
-            discord.SelectOption(label='Sell Sword', value= "sellsword", description=f'Sell to buy new sword', emoji='🗑️')
+            discord.SelectOption(label='Kılıcını Sat', value= "sellsword", description=f'Kılıcını sat ve yenisini al', emoji='🗑️')
 
         ]
-        super().__init__(placeholder='Choose a Sword', options=options)
+        super().__init__(placeholder='Bir Kılıç Seç', options=options)
 
     async def callback(self, interaction: discord.Interaction):
         
@@ -301,27 +303,27 @@ class Swords(discord.ui.Select):
         swordId = ""
         
         if self.values[0] == "gladius":
-            swordName = "Gladius Sword"
+            swordName = "Gladius Kılıcı"
             swordPrice = gladiusDcPrice
             swordId = "gladius"
         elif self.values[0] == "chokuto":
-            swordName = "Chukuto Sword"
+            swordName = "Chukuto Kılıcı"
             swordPrice = chukutoDcPrice
             swordId = "chokuto"
         elif self.values[0] == "katana":
-            swordName = "Katana Sword"
+            swordName = "Katana Kılıcı"
             swordPrice = katanaDcPrice
             swordId = "katana"
         elif self.values[0] == "rapier":
-            swordName = "Rapier Sword"
+            swordName = "Rapier Kılıcı"
             swordPrice = rapierDcPrice
             swordId = "rapier"
         elif self.values[0] == "odachi":
-            swordName = "Odachi Sword"
+            swordName = "Odachi Kılıcı"
             swordPrice = odachiDcPrice
             swordId = "odachi"
         elif self.values[0] == "claymore":
-            swordName = "Claymore Sword"
+            swordName = "Claymore Kılıcı"
             swordPrice = claymoreDcPrice
             swordId = "claymore"
 
@@ -346,13 +348,13 @@ class Swords(discord.ui.Select):
                 
                 userInventory["items"].pop("sword")
                 await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
-                await interaction.response.send_message("You have successfully sold the sword")
+                await interaction.response.send_message("Kılıcını başarıyla sattın")
             else:
-                return await interaction.response.send_message("You don't have a sword")
+                return await interaction.response.send_message("Bir kılıca sahip değilsin")
 
         # Wallet Check
         if await coinCollection.find_one({"_id" : interaction.user.id}) == None:
-            return await interaction.response.send_message("You don't have a wallet! Get a wallet with using the `/wallet` command", ephemeral = True)
+            return await interaction.response.send_message("Cüzdanın yok! `/wallet` komutunu kullan ve bir cüzdan oluştur", ephemeral = True)
 
         # User Wallet
         userWallet = await coinCollection.find_one({"_id" : interaction.user.id})
@@ -360,7 +362,7 @@ class Swords(discord.ui.Select):
         # Cupcoin (money) Check
         if userWallet["coins"] < swordPrice:
             needMoney = userWallet["coins"] - swordPrice
-            return await interaction.response.send_message(f"You don't have enough cupcoin in your wallet! You need {needMoney:,}", ephemeral = True)
+            return await interaction.response.send_message(f"Cüzdanınızda yeteri kadar Cupcoin bulunmuyır! {needMoney:,} Cupcoin'e ihtiyacınız var", ephemeral = True)
 
         
         # Items Check
@@ -373,7 +375,7 @@ class Swords(discord.ui.Select):
 
         # Pickaxe Check
         if "sword" in userInventory["items"]:
-            return await interaction.response.send_message("You already have a sword", ephemeral = True)
+            return await interaction.response.send_message("Zaten bir kılıca sahipsiniz", ephemeral = True)
 
         # Fee received
         userWallet["coins"] -= swordPrice
@@ -383,21 +385,22 @@ class Swords(discord.ui.Select):
         userInventory["items"].update({"sword" : swordId})
         await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
 
-        await interaction.response.send_message(f"✨⚔️ **|** You bought a new {swordName} by paying {swordPrice:,}. It's very smart to buy a sword already! It will do a lot of work in the future.")
+        await interaction.response.send_message(f"✨⚔️ **|** {swordPrice:,} Cupcoin ödeyerek yeni bir {swordName} satın aldınız. Bir kılıç almak çok akıllıca! Gelecekte çok iş yapacak.")
 
 class Rods(discord.ui.Select):
     def __init__(self):
 
         options = [
-            discord.SelectOption(label='Simple Rod', value= "simplerod", description=f'Price: {simpleRodPrice:,}', emoji='🎣'),
-            discord.SelectOption(label='Solid Rod', value= "solidrod", description=f'Price: {solidRodPrice:,}', emoji='🎣'),
-            discord.SelectOption(label='Silver Rod', value= "silverrod", description=f'Price: {silverRodPrice:,}', emoji='🎣'),
-            discord.SelectOption(label='Lucky Rod', value= "luckyrod", description=f'Price: {luckyRodPrice:,}', emoji='🎣'),
-            discord.SelectOption(label='Harpoon', value= "harpoon", description=f'Price: {harpoonPrice:,}', emoji='🎣'),
-            discord.SelectOption(label='Sell Rod', value= "sellrod", description=f"Sell to buy new fishing rod", emoji='🗑️')
+            discord.SelectOption(label='Zıpkın', value= "harpoon", description=f'Ücret: {harpoonPrice:,}', emoji='🎣'),
+            discord.SelectOption(label='Şanslı Olta', value= "luckyrod", description=f'Ücret: {luckyRodPrice:,}', emoji='🎣'),
+            discord.SelectOption(label='Gümüş Olta', value= "silverrod", description=f'Ücret: {silverRodPrice:,}', emoji='🎣'),
+            discord.SelectOption(label='Sağlam Olta', value= "solidrod", description=f'Ücret: {solidRodPrice:,}', emoji='🎣'),
+            discord.SelectOption(label='Basit Olta', value= "simplerod", description=f'Ücret: {simpleRodPrice:,}', emoji='🎣'),
+            
+            discord.SelectOption(label='Oltayı Sat', value= "sellrod", description=f"Oltanı sat ve yenisini al", emoji='🗑️')
 
         ]
-        super().__init__(placeholder='Choose a Rod', options=options)
+        super().__init__(placeholder='Bir Olta Seç', options=options)
 
     async def callback(self, interaction: discord.Interaction):
         
@@ -406,27 +409,27 @@ class Rods(discord.ui.Select):
         rodId = ""
         
         if self.values[0] == "simplerod":
-            rodName = "Simple Rod"
+            rodName = "Basit Olta"
             rodPrice = simpleRodPrice
             rodId = "simplerod"
         
         elif self.values[0] == "solidrod":
-            rodName = "Solid Rod"
+            rodName = "Sağlam Olta"
             rodPrice = solidRodPrice
             rodId = "solidrod"
         
         elif self.values[0] == "silverrod":
-            rodName = "Silver Rod"
+            rodName = "Gümüş Olta"
             rodPrice = silverRodPrice
             rodId = "silverrod"
         
         elif self.values[0] == "luckyrod":
-            rodName = "Lucky Rod"
+            rodName = "Şanslı Olta"
             rodPrice = luckyRodPrice
             rodId = "luckyrod"
         
         elif self.values[0] == "harpoon":
-            rodName = "Harpoon"
+            rodName = "Zıpkın"
             rodPrice = harpoonPrice
             rodId = "harpoon"
 
@@ -451,13 +454,13 @@ class Rods(discord.ui.Select):
             if "items" not in userInventory or "rod" in userInventory["items"]:
                 userInventory["items"].pop("rod")
                 await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
-                await interaction.response.send_message("You have successfully sold the rod")
+                await interaction.response.send_message("Oltanızı başarıyla sattınız")
                 return
             else:
-                return await interaction.response.send_message("You don't have a rod")
+                return await interaction.response.send_message("Zaten bir oltaya sahip değilsiniz")
         # Wallet Check
         if await coinCollection.find_one({"_id" : interaction.user.id}) == None:
-            return await interaction.response.send_message("You don't have a wallet! Get a wallet with using the `/wallet` command", ephemeral = True)
+            return await interaction.response.send_message("Cüzdanın yok! `/wallet` komutunu kullan ve bir cüzdan oluştur", ephemeral = True)
 
         # User Wallet
         userWallet = await coinCollection.find_one({"_id" : interaction.user.id})
@@ -465,7 +468,7 @@ class Rods(discord.ui.Select):
         # Cupcoin (money) Check
         if userWallet["coins"] < rodPrice:
             needMoney = userWallet["coins"] - rodPrice
-            return await interaction.response.send_message(f"You don't have enough cupcoin in your wallet! You need {needMoney:,}", ephemeral = True)
+            return await interaction.response.send_message(f"Cüzdanınızda yeteri kadar Cupcoin bulunmuyor! {needMoney:,} Cupcoin'e ihtiyacınız var", ephemeral = True)
 
 
         
@@ -479,7 +482,7 @@ class Rods(discord.ui.Select):
 
         # Pickaxe Check
         if "rod" in userInventory["items"]:
-            return await interaction.response.send_message("You already have a rod", ephemeral = True)
+            return await interaction.response.send_message("Zaten bir oltaya sahipsiniz", ephemeral = True)
 
         # Fee received
         userWallet["coins"] -= rodPrice
@@ -489,21 +492,22 @@ class Rods(discord.ui.Select):
         userInventory["items"].update({"rod" : rodId})
         await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
 
-        await interaction.response.send_message(f"✨🎣 **|** You bought a new {rodName} by paying {rodPrice:,}. Now you will be able to catch more valuable fish with this fishing rod")
+        await interaction.response.send_message(f"✨🎣 **|** {rodPrice:,} ödeyerek yeni bir {rodName} satın aldınız . Bu olta ile daha değerli balıklar tutabileceksiniz.")
 
 class Bows(discord.ui.Select):
     def __init__(self):
 
         options = [
-            discord.SelectOption(label='Wooden Bow', value= "woodenbow", description=f'Price: {woodenBowPrice:,}', emoji='🏹'),
-            discord.SelectOption(label='Copper Bow', value= "copperbow", description=f'Price: {copperBowPrice:,}', emoji='🏹'),
-            discord.SelectOption(label='Silver Bow', value= "silverbow", description=f'Price: {silverBowPrice:,}', emoji='🏹'),
-            discord.SelectOption(label='Accurate Bow', value= "accuratebow", description=f'Price: {accurateBowPrice:,}', emoji='🏹'),
-            discord.SelectOption(label='Crossbow', value= "crossbow", description=f'Price: {crossbowPrice:,}', emoji='🏹'),
-            discord.SelectOption(label='Sell Bow', value= "sellbow", description=f"Sell to buy new bow and arrow", emoji='🗑️')
+            discord.SelectOption(label='Arbalet', value= "crossbow", description=f'Ücret: {crossbowPrice:,}', emoji='🏹'),
+            discord.SelectOption(label='İsabetli Yay', value= "accuratebow", description=f'Ücret: {accurateBowPrice:,}', emoji='🏹'),
+            discord.SelectOption(label='Gümüş Yay', value= "silverbow", description=f'Ücret: {silverBowPrice:,}', emoji='🏹'),
+            discord.SelectOption(label='Bakır Yay', value= "copperbow", description=f'Ücret: {copperBowPrice:,}', emoji='🏹'),
+            discord.SelectOption(label='Tahta Yay', value= "woodenbow", description=f'Ücret: {woodenBowPrice:,}', emoji='🏹'),
+            
+            discord.SelectOption(label='Yayı Sat', value= "sellbow", description=f"Yayını sat ve yenisini al", emoji='🗑️')
 
         ]
-        super().__init__(placeholder='Choose a Bow', options=options)
+        super().__init__(placeholder='Bir Yay Seç', options=options)
 
     async def callback(self, interaction: discord.Interaction):
         
@@ -512,27 +516,27 @@ class Bows(discord.ui.Select):
         bowId = ""
         
         if self.values[0] == "woodenbow":
-            bowName = "Wooden Bow"
+            bowName = "Tahta Yay"
             bowPrice = woodenBowPrice
             bowId = "woodenbow"
         
         elif self.values[0] == "copperbow":
-            bowName = "Copper Bow"
+            bowName = "Bakır Yay"
             bowPrice = copperBowPrice
             bowId = "copperbow"
         
         elif self.values[0] == "silverbow":
-            bowName = "Silver Bow"
+            bowName = "Gümüş Yay"
             bowPrice = silverBowPrice
             bowId = "silverbow"
         
         elif self.values[0] == "accuratebow":
-            bowName = "Accurate Bow"
+            bowName = "İsabetli Yay"
             bowPrice = accurateBowPrice
             bowId = "accuratebow"
         
         elif self.values[0] == "crossbow":
-            bowName = "Crossbow"
+            bowName = "Arbalet"
             bowPrice = crossbowPrice
             bowId = "crossbow"
 
@@ -559,14 +563,14 @@ class Bows(discord.ui.Select):
                 
                 userInventory["items"].pop("bow")
                 await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
-                await interaction.response.send_message("You have successfully sold the bow")
+                await interaction.response.send_message("Yayınızı başarıyla sattınız")
                 return
             else:
-                return await interaction.response.send_message("You don't have a bow")
+                return await interaction.response.send_message("Zaten bir yaya sahip değilsiniz")
 
         # Wallet Check
         if await coinCollection.find_one({"_id" : interaction.user.id}) == None:
-            return await interaction.response.send_message("You don't have a wallet! Get a wallet with using the `/wallet` command", ephemeral = True)
+            return await interaction.response.send_message("Cüzdanın yok! `/wallet` komutunu kullan ve bir cüzdan oluştur", ephemeral = True)
 
         # User Wallet
         userWallet = await coinCollection.find_one({"_id" : interaction.user.id})
@@ -574,7 +578,7 @@ class Bows(discord.ui.Select):
         # Cupcoin (money) Check
         if userWallet["coins"] < bowPrice:
             needMoney = userWallet["coins"] - bowPrice
-            return await interaction.response.send_message(f"You don't have enough cupcoin in your wallet! You need {needMoney:,}", ephemeral = True)
+            return await interaction.response.send_message(f"Cüzdanında yeterli Cupcoin bulunmuyor! {needMoney:,} Cupcoin'e ihtiyacın var", ephemeral = True)
 
         
         
@@ -589,7 +593,7 @@ class Bows(discord.ui.Select):
 
         # Pickaxe Check
         if "bow" in userInventory["items"]:
-            return await interaction.response.send_message("You already have a bow", ephemeral = True)
+            return await interaction.response.send_message("Zaten bir yaya sahipsiniz", ephemeral = True)
 
         # Fee received
         userWallet["coins"] -= bowPrice
@@ -599,21 +603,26 @@ class Bows(discord.ui.Select):
         userInventory["items"].update({"bow" : bowId})
         await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
 
-        await interaction.response.send_message(f"✨🏹 **|** You bought a new {bowName} by paying {bowPrice:,}. Now you will be able to hunt more valuable prey with this bow")
+        await interaction.response.send_message(f"✨🏹 **|** {bowPrice:,} ödeyerek yeni bir {bowName} satın aldınız. Artık daha değerli avlar avlayabileceksiniz.")
 
 class Axes(discord.ui.Select):
     def __init__(self):
 
         options = [
-            discord.SelectOption(label='Stone Axe', value= "stoneaxe", description=f'Price: {stoneAxePrice:,}', emoji='🪓'),
-            discord.SelectOption(label='Steel Axe', value= "steelaxe", description=f'Price: {steelAxePrice:,}', emoji='🪓'),
-            discord.SelectOption(label='Golden Axe', value= "goldenaxe", description=f'Price: {goldenAxePrice:,}', emoji='🪓'),
-            discord.SelectOption(label='Reinforced Axe', value= "reinforcedaxe", description=f'Price: {reinforcedAxePrice:,}', emoji='🪓'),
-            discord.SelectOption(label='Enchanted Axe', value= "enchantedaxe", description=f'Price: {enchantedAxePrice:,}', emoji='🪓'),
-            discord.SelectOption(label='Sell Axe', value= "sellaxe", description=f"Sell to buy new axe", emoji='🗑️')
+            discord.SelectOption(label='Büyülü Balta', value= "enchantedaxe", description=f'Price: {enchantedAxePrice:,}', emoji='🪓'),
+            discord.SelectOption(label='Güçlendirilmiş Balta', value= "reinforcedaxe", description=f'Price: {reinforcedAxePrice:,}', emoji='🪓'),
+            discord.SelectOption(label='Altın Balta', value= "goldenaxe", description=f'Price: {goldenAxePrice:,}', emoji='🪓'),
+            discord.SelectOption(label='Çelik Balta', value= "steelaxe", description=f'Price: {steelAxePrice:,}', emoji='🪓'),
+            discord.SelectOption(label='Taş Balta', value= "stoneaxe", description=f'Price: {stoneAxePrice:,}', emoji='🪓'),
+            
+            
+            
+            
+            
+            discord.SelectOption(label='Baltanı Sata', value= "sellaxe", description=f"Baltanı sat ve yenisini al", emoji='🗑️')
 
         ]
-        super().__init__(placeholder='Choose a Axe', options=options)
+        super().__init__(placeholder='Bir Balta Seç', options=options)
 
     async def callback(self, interaction: discord.Interaction):
         
@@ -622,27 +631,27 @@ class Axes(discord.ui.Select):
         axeId = ""
         
         if self.values[0] == "stoneaxe":
-            axeName = "Stone Axe"
+            axeName = "Taş Balta"
             axePrice = stoneAxePrice
             axeId = "stoneaxe"
         
         elif self.values[0] == "steelaxe":
-            axeName = "Steel Axe"
+            axeName = "Çelik Balta"
             axePrice = steelAxePrice
             axeId = "steelaxe"
         
         elif self.values[0] == "goldenaxe":
-            axeName = "Golden Axe"
+            axeName = "Altın Balta"
             axePrice = goldenAxePrice
             axeId = "goldenaxe"
         
         elif self.values[0] == "reinforcedaxe":
-            axeName = "Reinforced Axe"
+            axeName = "Güçlendirilmiş Balta"
             axePrice = reinforcedAxePrice
             axeId = "reinforcedaxe"
         
         elif self.values[0] == "enchantedaxe":
-            axeName = "Enchanted Axe"
+            axeName = "Büyülü Balta"
             axePrice = enchantedAxePrice
             axeId = "enchantedaxe"
 
@@ -668,14 +677,14 @@ class Axes(discord.ui.Select):
                 
                 userInventory["items"].pop("axe")
                 await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
-                await interaction.response.send_message("You have successfully sold the axe")
+                await interaction.response.send_message("Baltanı başarıyla sattın")
                 return
             else:
-                return await interaction.response.send_message("You don't have a axe")
+                return await interaction.response.send_message("Zaten bir baltaya sahip değilsin")
 
         # Wallet Check
         if await coinCollection.find_one({"_id" : interaction.user.id}) == None:
-            return await interaction.response.send_message("You don't have a wallet! Get a wallet with using the `/wallet` command", ephemeral = True)
+            return await interaction.response.send_message("Cüzdanın yok! `/wallet` komutunu kullan ve bir cüzdan oluştur", ephemeral = True)
 
         # User Wallet
         userWallet = await coinCollection.find_one({"_id" : interaction.user.id})
@@ -683,7 +692,7 @@ class Axes(discord.ui.Select):
         # Cupcoin (money) Check
         if userWallet["coins"] < axePrice:
             needMoney = userWallet["coins"] - axePrice
-            return await interaction.response.send_message(f"You don't have enough cupcoin in your wallet! You need {needMoney:,}", ephemeral = True)
+            return await interaction.response.send_message(f"Cüzdanında yeteri kadar Cupcoin bulunamadı! {needMoney:,} Cupcoin'e ihtiyacınız var", ephemeral = True)
 
         
         
@@ -698,7 +707,7 @@ class Axes(discord.ui.Select):
 
         # Pickaxe Check
         if "axe" in userInventory["items"]:
-            return await interaction.response.send_message("You already have a axe", ephemeral = True)
+            return await interaction.response.send_message("Zaten bir baltaya sahipsiniz", ephemeral = True)
 
         # Fee received
         userWallet["coins"] -= axePrice
@@ -708,7 +717,7 @@ class Axes(discord.ui.Select):
         userInventory["items"].update({"axe" : axeId})
         await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
 
-        await interaction.response.send_message(f"✨🪓 **|** You bought a new {axeName} by paying {axePrice:,}. Now you will be able to cut down larger trees with this axe")
+        await interaction.response.send_message(f"✨🪓 **|** {axePrice:,} ödeyerek yeni bir {axeName} satın aldınız. Artık daha büyük ve değerli ağaçları kesebileceksiniz.")
 
 class PickaxeView(discord.ui.View):
     def __init__(self):
@@ -749,44 +758,44 @@ class AxeView(discord.ui.View):
 class ItemsView(View):
 
     # THIS BUTTON PURPOSE IS SHOW ALL PICKAXES
-    @discord.ui.button(label="Pickaxes", style=discord.ButtonStyle.primary, custom_id="showpickaxes")
+    @discord.ui.button(label="Kazmalar", style=discord.ButtonStyle.primary, custom_id="showpickaxes")
     async def pickaxe_callback(self, interaction, button):
         
         view = PickaxeView()
 
-        await interaction.response.send_message(content= "Are you going to buy a new pickaxe? This is great! Prices are indicated below the pickaxes", view = view)
+        await interaction.response.send_message(content= "Yeni bir kazma mı alacaksın? Bu harika! Aşağıdaki menüden kazmaları görüntüleyebilirsin.", view = view)
     
     # THIS BUTTON PURPOSE IS SHOW ALL RODS
-    @discord.ui.button(label="Fishing Rods", style=discord.ButtonStyle.primary, custom_id="showrods")
+    @discord.ui.button(label="Oltalar", style=discord.ButtonStyle.primary, custom_id="showrods")
     async def rods_callback(self, interaction, button):
         view = RodView()
-        await interaction.response.send_message(content= "Are you going to buy a new fishing rod? This is great! Prices are indicated below the fishing rods", view = view)
+        await interaction.response.send_message(content= "Yeni bir olta mı alacaksın? Bu harika! Aşağıdaki menüden oltaları görüntüleyebilirsin.", view = view)
 
     # THIS BUTTON PURPOSE IS SHOW ALL BOWS
-    @discord.ui.button(label="Bows", style=discord.ButtonStyle.primary, custom_id="showbows")
+    @discord.ui.button(label="Yaylar", style=discord.ButtonStyle.primary, custom_id="showbows")
     async def bows_callback(self, interaction, button):
         view = BowView()
-        await interaction.response.send_message(content= "Are you going to buy a new bow? This is great! Prices are indicated below the bows", view = view)
+        await interaction.response.send_message(content= "Yeni bir yay mı alacaksın? Bu harika! Aşağıdaki menüden yayları görüntüleyebilirsin.", view = view)
     
 
     # THIS BUTTON PURPOSE IS SHOW ALL AXES
-    @discord.ui.button(label="Axes", style=discord.ButtonStyle.primary, custom_id="showaxes")
+    @discord.ui.button(label="Baltalar", style=discord.ButtonStyle.primary, custom_id="showaxes")
     async def axes_callback(self, interaction, button):
         view = AxeView()
-        await interaction.response.send_message(content= "Are you going to buy a new axe? This is great! Prices are indicated below the axes", view = view)
+        await interaction.response.send_message(content= "Yeni bir balta mı alacaksın? Bu harika! Aşağıdaki menüden baltaları görüntüleyebilirsin.", view = view)
 
      # THIS BUTTON PURPOSE IS SHOW ALL SWORDS
-    @discord.ui.button(label="Swords", style=discord.ButtonStyle.success, custom_id="showswords")
+    @discord.ui.button(label="Kılıçlar", style=discord.ButtonStyle.success, custom_id="showswords")
     async def sword_callback(self, interaction, button):
         view = SwordView()
-        await interaction.response.send_message(content= "Are you going to buy a new sword? This is great! Prices are indicated below the swords", view = view)
+        await interaction.response.send_message(content= "Yeni bir kılıç mı alacaksın? Bu harika! Aşağıdaki menüden kılıçları görüntüleyebilirsin.", view = view)
 
 
     # THIS BUTTON PURPOSE IS CLOSE THE MENU
-    @discord.ui.button(label="Close", style=discord.ButtonStyle.danger, custom_id="closemenu")
+    @discord.ui.button(label="Kapat", style=discord.ButtonStyle.danger, custom_id="closemenu")
     async def close_callback(self, interaction, button):
         await interaction.message.delete()
-        await interaction.response.send_message(content=f"The store was successfully closed.", ephemeral = True)
+        await interaction.response.send_message(content=f"Mağaza başarıyla kapatıldı.", ephemeral = True)
     
 
 # MAIN CLASS
@@ -794,17 +803,17 @@ class Store(commands.Cog, commands.Bot):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    @app_commands.command(name = "store", description = "Open store and buy items") # Commands
+    @app_commands.command(name = "store", description = "Mağazayı aç ve eşya satın al!") # Commands
     @app_commands.guild_only
     @app_commands.checks.cooldown( 1, 20, key=lambda i: (i.guild_id, i.user.id)) # Cooldown
     async def store(self, interaction: discord.Interaction):
         
         view = ItemsView()
 
-        itemsEmbed = Embed(description = f"Hello 👋 Welcome to Store. You can buy items for mining, forestry, fishing, hunting. ")
+        itemsEmbed = Embed(description = f"Merhaba 👋 Mağazaya hoş geldin. Balıkçılık, avcılık, madencilik ve ormancılık için buradan ekipman satın alabilirsin. ")
         itemsEmbed.set_author(name = interaction.user.name, icon_url = interaction.user.avatar.url)
-        itemsEmbed.add_field(name = "How can i buy item?", value = "Click on the buttons and select the level of any item", inline = False)
-        itemsEmbed.add_field(name = "Am I going to pay for this?", value = "Yes, you will pay different fees according to the level of each item", inline = False)
+        itemsEmbed.add_field(name = "Nasıl Eşya Satın Alacağım?", value = "Butonlara tıklayın ve seviyelere göre eşya satın alınız", inline = False)
+        itemsEmbed.add_field(name = "Bunun için ödeme yapacak mıyım?", value = "Evet, eşyalara ve onların seviyelerine göre farklı ücretlendirmeler bulunuyor (Cupcoin ile)", inline = False)
 
         await interaction.response.send_message(embed = itemsEmbed, view = view) 
 
@@ -812,7 +821,7 @@ class Store(commands.Cog, commands.Bot):
     async def storeError(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
-            await interaction.response.send_message(f"Please wait `{timeRemaining}`s and Try Again!",ephemeral=True)
+            await interaction.response.send_message(f"Lütfen `{timeRemaining}`s bekleyin!",ephemeral=True)
         else:
             print(f"[STORE]: {error} ")
 

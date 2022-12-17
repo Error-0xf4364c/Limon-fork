@@ -25,7 +25,7 @@ class Mining(commands.Cog, commands.Bot):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    @app_commands.command(name="mining", description="Let's start digging and earn valuable mines")
+    @app_commands.command(name="mining", description="Hadi kaz ve değerli madenler çıkar.")
     @app_commands.checks.cooldown(
         1, 1200, key=lambda i: (i.guild_id, i.user.id))
     async def mining(self, interaction: discord.Interaction):
@@ -57,7 +57,7 @@ class Mining(commands.Cog, commands.Bot):
 
         # Axe check
         if "items" not in userData or "pickaxe" not in userData["items"]:
-            return await interaction.response.send_message("You need to buy a pickaxe for mining. `/store` :)", ephemeral = True)
+            return await interaction.response.send_message("Madencilik yapabilmek için bir kazmaya ihtiyacınız var. Mağazadan bir kazma satın alabilirsiniz. `/store` :)", ephemeral = True)
 
         # Wood Check
         if "mines" not in userData:
@@ -157,12 +157,12 @@ class Mining(commands.Cog, commands.Bot):
             minePrice = VHM[resultMine]["price"] + priceByMineSize # Result Mine Total Price
 
         # Send user a message
-        await interaction.response.send_message(f"⛏️ **|** You started digging. This process will take about {sleepTime} seconds")
+        await interaction.response.send_message(f"⛏️ **|** Kazmaya başladınız. Bu işlem yaklaşık {sleepTime} saniye sürecek.")
         await asyncio.sleep(sleepTime) 
 
         if resultMine == "none":
-            return await interaction.edit_original_response("Unfortunately, You came back empty-handed from the mine ;c")
-        await interaction.edit_original_response(content = f"💎 **|** Great Job Miner! You extracted **{mineSize}** kilograms of **{mineName}** from the mine. Instantaneous market value: {minePrice}")
+            return await interaction.edit_original_response("Maalesef madenden eli boş döndünüz ;c")
+        await interaction.edit_original_response(content = f"💎 **|** Harika iş madenci! Madenden tam **{mineSize}** kilogram **{mineName}** madeni çıkardın. Anlık piyasa değeri: {minePrice}")
 
         # Update User Data
         userData["mines"].update({resultMine : mineSize}) 
@@ -177,7 +177,7 @@ class Mining(commands.Cog, commands.Bot):
     async def miningError(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
-            await interaction.response.send_message(f"{clock} **|** You're tired. Go home and rest for `{timeRemaining}`s.",ephemeral=True)
+            await interaction.response.send_message(f"{clock} **|** Yoruldun. Eve git ve `{timeRemaining}`s dinlen.",ephemeral=True)
         else:
             print(f"[MINING]: {error} ")
 

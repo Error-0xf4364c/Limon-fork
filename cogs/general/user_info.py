@@ -35,7 +35,7 @@ class general(commands.Cog, commands.Bot):
             pfp.putalpha(mask)
             return pfp
 
-    @app_commands.command(name = "user-info", description = "You view user information")
+    @app_commands.command(name = "user-info", description = "Bir kullanıcı hakkında bilgi edinin")
     @app_commands.describe(user='Select a User')
     @app_commands.guild_only
     @app_commands.checks.cooldown(

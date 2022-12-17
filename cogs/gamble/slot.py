@@ -28,8 +28,8 @@ class Slot(commands.Cog, commands.Bot):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    @app_commands.command(name="slot", description="Play slots and win money.")
-    @app_commands.describe(amount='Enter the Amount')
+    @app_commands.command(name="slot", description="Slot oyna ve paranı katla!")
+    @app_commands.describe(amount='Miktar giriniz')
     @app_commands.checks.cooldown(
         1, 10, key=lambda i: (i.guild_id, i.user.id))
     async def slot(self, interaction: discord.Interaction, amount: app_commands.Range[int, 1, 50000]):
@@ -39,7 +39,7 @@ class Slot(commands.Cog, commands.Bot):
         
 
         if userData["coins"] < amount:
-            return await interaction.response.send_message(f"{cross} **|** There is not enough Cupcoin in your wallet!")
+            return await interaction.response.send_message(f"{cross} **|** Bakiyeniz yetersiz!")
 
 
         if "points" not in userCareerData:
@@ -90,14 +90,14 @@ class Slot(commands.Cog, commands.Bot):
         
         userData['coins'] -= amount
         await collection.replace_one({"_id" : interaction.user.id}, userData)
-        await interaction.edit_original_response(content = f"`CUP SLOT`\n{result1}{result2}{result3}\n`------->` <:Cupcoins:997159042633961574>{amount:,}\n`------->` Lost ;c")
+        await interaction.edit_original_response(content = f"`CUP SLOT`\n{result1}{result2}{result3}\n`------->` <:Cupcoins:997159042633961574>{amount:,}\n`------->` Kaybettin ;c")
 
     @slot.error
     async def slotError(self, interaction: discord.Interaction,
                          error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
-            await interaction.response.send_message(f"{clock} **|** Please wait `{timeRemaining}`s and Try Again!",ephemeral=True)
+            await interaction.response.send_message(f"{clock} **|** Lütfen `{timeRemaining}`s bekleyin!",ephemeral=True)
         else:
             print(f"SlotErr: {error}")
 

@@ -18,25 +18,25 @@ class VoteMe(commands.Cog, commands.Bot):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    @app_commands.command(name="vote", description = "Vote Cupcake on Top.gg")
+    @app_commands.command(name="vote", description = "Cupcake'e Top.gg'de oy ver!")
     async def vote(self, interaction: discord.Interaction):
         view = View()
 
-        VoteButton = Button(label="Vote", style=discord.ButtonStyle.link, url="https://top.gg/bot/994143430504620072/vote", emoji = topggLogo)
+        VoteButton = Button(label="Oy ver", style=discord.ButtonStyle.link, url="https://top.gg/bot/994143430504620072/vote", emoji = topggLogo)
 
         view.add_item(VoteButton)
     
         voteEmbed = Embed(color = 0x2E3136)
-        voteEmbed.set_author(name = "You can vote by pressing the button.", icon_url= interaction.user.avatar.url)
+        voteEmbed.set_author(name = "Butona basarak Top.gg'ye gidebilir ve bize oy verebilirsiniz.", icon_url= interaction.user.avatar.url)
         await interaction.response.send_message(embed= voteEmbed, view=view)
 
     @vote.error
     async def voteError(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
-            await interaction.response.send_message(f"**You can only vote every 12 hours!** Please wait `{timeRemaining}`s and Try Again!",ephemeral=True)
+            await interaction.response.send_message(f"**Her 12 saatte bir oy verebilirsin!** Lütfen `{timeRemaining}`s bekleyin!",ephemeral=True)
         else:
-            await interaction.response.send_message("An unexpected error occurred. Please inform the developer of this situation and try again later.")
+            await interaction.response.send_message("Bilinmedik bir hata ile karşılaştık ;c Lütfen bu durumu geliştiriciye bildiriniz.")
             print(f"[VOTE]: {error} ")
 
 

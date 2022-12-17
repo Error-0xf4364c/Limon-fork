@@ -25,7 +25,7 @@ class Fishing(commands.Cog, commands.Bot):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    @app_commands.command(name="fishing", description="Start fishing right now.")
+    @app_commands.command(name="fishing", description="Hadi biraz balık tut.")
     @app_commands.checks.cooldown(
         1, 100, key=lambda i: (i.guild_id, i.user.id))
     async def fishing(self, interaction: discord.Interaction):
@@ -56,7 +56,7 @@ class Fishing(commands.Cog, commands.Bot):
 
         # Axe check
         if "items" not in userData or "rod" not in userData["items"]:
-            return await interaction.response.send_message("You need to buy a rod for fishing. `/store` :)", ephemeral = True)
+            return await interaction.response.send_message("Balık tutmak için oltaya ihtiyacınız var. Mağazadan bir olta satın alabilirsiniz. `/store` :)", ephemeral = True)
 
         # Wood Check
         if "fishes" not in userData:
@@ -153,13 +153,13 @@ class Fishing(commands.Cog, commands.Bot):
             fishPrice = VHF[resultFish]["price"] + priceByFishSize # Result Fish Total Price
 
         # Send user a message
-        await interaction.response.send_message("🎣 **|** The fishing line was thrown. Godspeed.")
+        await interaction.response.send_message("🎣 **|** Olta atıldı. Rastgele")
         await asyncio.sleep(5) 
 
         if resultFish == "none":
-            return await interaction.edit_original_response("🐟 **|** Unfortunately, You couldn't fish ;c")
+            return await interaction.edit_original_response("🐟 **|** Maalesef hiç balık tutamadınız ;c")
 
-        await interaction.edit_original_response(content = f"🐟 **|** Great work fisher! You have caught a **{fishSize}**-inch long **{fishName}** . Instantaneous market value: **{fishPrice}** Cupcoin.")
+        await interaction.edit_original_response(content = f"🐟 **|** Harika iş balıkçı! **{fishSize}**m/cm uzunluğunda bir **{fishName}** yakaladın . Anlık piyasa değeri: **{fishPrice}** Cupcoin.")
 
         # Update User Data
         userData["fishes"].update({resultFish : fishSize}) 
@@ -171,7 +171,7 @@ class Fishing(commands.Cog, commands.Bot):
     async def fishingError(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
-            await interaction.response.send_message(f"{clock} **|** You're tired. Go home and rest for `{timeRemaining}`s.",ephemeral=True)
+            await interaction.response.send_message(f"{clock} **|** Yoruldun. Eve git ve `{timeRemaining}`s dinlen.",ephemeral=True)
         else:
             print(f"[FISHING]: {error} ")
 

@@ -3,11 +3,11 @@ from discord import ui, app_commands, Embed
 from discord.ext import commands
 import datetime
 
-class ReportModal(ui.Modal, title= "Report"):
+class ReportModal(ui.Modal, title= "Bildir"):
     answer = ui.TextInput(
-        label = "Enter Your Report",
+        label = "Hata Nedir?",
         style = discord.TextStyle.paragraph,
-        placeholder= "Explain in detail the error you received or the bug you encountered.. ",
+        placeholder= "Hata hakkında detaylı bilgiler giriniz.",
         required = True,
         max_length= 4000
     )
@@ -27,7 +27,7 @@ class ReportModal(ui.Modal, title= "Report"):
         )
 
         failMessage = Embed(
-            description = "❌ **|** Submission of report failed. Please report this to the developer by coming to our [support server](https://discord.gg/M9S4Gv9Gwe).", 
+            description = "❌ **|** Upss, rapor gönderilemedi! Lütfen [destek sunucumuza](https://discord.gg/M9S4Gv9Gwe) gelin ve geliştiriciye bu sorunu bildirin.", 
             color = 0xff3333
         )
 
@@ -35,7 +35,7 @@ class ReportModal(ui.Modal, title= "Report"):
         
         try:
             await reportsChannel.send(embed = reportMessage)
-            await interaction.response.send_message("✅ **|** You have successfully reported. Thank you :)", ephemeral = True)
+            await interaction.response.send_message("✅ **|** Rapor başarıyla gönderildi. Teşekkür ederiz :)", ephemeral = True)
         except:
             await interaction.response.send_message(embed = failMessage, ephemeral = True)
 
@@ -44,7 +44,7 @@ class Report(commands.Cog, commands.Bot):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
     
-    @app_commands.command(name = "report", description = "Report Bugs/Errors")
+    @app_commands.command(name = "report", description = "Hata ve Bugları bildirin")
     @app_commands.checks.cooldown(1, 300, key=lambda i: (i.user.id))
     async def report(self, interaction: discord.Interaction):
         modal = ReportModal()
@@ -54,7 +54,7 @@ class Report(commands.Cog, commands.Bot):
     async def reportError(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
-            await interaction.response.send_message(f"Please wait `{timeRemaining}` and Try Again!")
+            await interaction.response.send_message(f"Lütfen `{timeRemaining}`s bekleyin!")
         else:
             print(f"[REPORT] {error}")
 

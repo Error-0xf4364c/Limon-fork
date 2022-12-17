@@ -47,7 +47,7 @@ class CareerView(commands.Cog, commands.Bot):
     
     @app_commands.command(
         name = "career",
-        description= "View your career"
+        description= "Kariyer puanınızı görüntüleyin."
     )
     @app_commands.checks.cooldown(
         1, 600, key=lambda i: (i.guild_id, i.user.id))
@@ -60,7 +60,7 @@ class CareerView(commands.Cog, commands.Bot):
 
         viewUserPoints = "\n".join(userPoints)
 
-        """BADGES"""
+        """ROZETLERİNİZ"""
         if "fisher_point" in userCareer:
             totalBalikciPuani = userCareer['fisher_point']
             if totalBalikciPuani >= ustabalikcipuani:
@@ -91,12 +91,12 @@ class CareerView(commands.Cog, commands.Bot):
                 userBadges.append(goodperson)
 
         if len(userBadges) == 0:
-            badges_ = "No badge has been earned yet"
+            badges_ = "*Henüz rozet kazanılmamış*"
         else:
             badges_ = " ".join(userBadges)
 
-        careerResponse = Embed(description= f"{badges_}\n════════════════════════════════\n***Your Career Points:***\n {viewUserPoints}")
-        careerResponse.set_author(name = f"{interaction.user.name}'s Career", icon_url = interaction.user.avatar.url)
+        careerResponse = Embed(description= f"{badges_}\n════════════════════════════════\n***Kariyer Puanlarınız:***\n {viewUserPoints}")
+        careerResponse.set_author(name = f"{interaction.user.name} Adlı Kullanıcının Kariyeri", icon_url = interaction.user.avatar.url)
 
 
         await interaction.response.send_message(embed = careerResponse)
@@ -105,9 +105,9 @@ class CareerView(commands.Cog, commands.Bot):
     async def careerError(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
-            await interaction.response.send_message(f"Please wait `{timeRemaining}`s and Try Again",ephemeral=True)
+            await interaction.response.send_message(f"Lütfen `{timeRemaining}`s bekleyin.", ephemeral=True)
         else:
-            await interaction.response.send_message("An unexpected error occurred. Please inform the developer of this situation and try again later.")
+            await interaction.response.send_message("Beklenmedik bir hata oluştu. Lütfen geliştiriciye bildiriniz")
             print(f"[CAREER]: {error} ")
 
 

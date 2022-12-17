@@ -77,12 +77,12 @@ class SellButtons(View):
     async def interaction_check(self, interaction: discord.Interaction) -> bool:
 
         if not interaction.user.id in message_author_id:
-            await interaction.response.send_message("This shop doesn't belong to you. You can't trade in someone else's store. Please use the /sell command.", ephemeral=True)
+            await interaction.response.send_message("Bu satıcı sizin için gelmedi! İşlem yapamazsınız. Lütfen **`/sell`** komutunu kullanın", ephemeral=True)
             return False
         return True
     
     # Sell Fish Button
-    @button(label="Sell Fishes", style=discord.ButtonStyle.success, emoji = "🐟")
+    @button(label="Balıkları Sat", style=discord.ButtonStyle.success, emoji = "🐟")
     async def sell_fishes_callback(self, interaction: discord.Interaction, button):
         
         db = client.mongoConnect["cupcake"]
@@ -91,11 +91,11 @@ class SellButtons(View):
 
         # Making wallet inquiry
         if await walletCollection.find_one({ "_id" : interaction.user.id }) == None:
-            return await interaction.response.send_message("You need to create a wallet to receive the proceeds of your sales. `/wallet`", ephemeral = True)
+            return await interaction.response.send_message("Upss, cüzdanınız yok! Lütfen şu komutu kullanın: `/wallet`", ephemeral = True)
         
         # Making inventory inquiry
         if await inventoryCollection.find_one({ "_id" : interaction.user.id }) == None:
-            return await interaction.response.send_message("You don't have inventory", ephemeral=True)
+            return await interaction.response.send_message("Envanteriniz bulunmuyor! Lütfen biraz balık tutun `/fishing`", ephemeral=True)
         
         # User Data
         userInvData = await inventoryCollection.find_one({ "_id" : interaction.user.id }) # Inventory Data
@@ -103,11 +103,11 @@ class SellButtons(View):
         
         """If user does not have fishes collection or does not have any fish, this will work!"""
         if not 'fishes' in userInvData or len(userInvData["fishes"]) == 0:
-            button.label = "No Fish!" # New Button Label
+            button.label = "Balık Yok!" # New Button Label
             button.disabled = True # New Button Disabled
             button.style = discord.ButtonStyle.secondary # New Button Style
             await interaction.response.edit_message(view=self) # Updated Button
-            await interaction.followup.send("You don't have any fish in your inventory. catch some fish! **`/fishing`**", ephemeral=True) # Send Message
+            await interaction.followup.send("Envanterinizde hiç balık yok! Biraz balık tutun. **`/fishing`**", ephemeral=True) # Send Message
             return 
 
 
@@ -122,7 +122,7 @@ class SellButtons(View):
             if x in userFishes: # We are navigating the user fishes
                 sum_fish += int(all_fish[x]["price"]) # Adds the values ​​(prices) of all fish in the database to the default value
 
-        button.label = "Sold Fishes!" # New Button Label
+        button.label = "Balıklar Satıldı!" # New Button Label
         button.style = discord.ButtonStyle.secondary # New Button Stlye
         button.disabled = True # New Button Disabled
 
@@ -131,10 +131,10 @@ class SellButtons(View):
         await walletCollection.replace_one({"_id": interaction.user.id}, userWallet)
         await inventoryCollection.replace_one({"_id": interaction.user.id}, userInvData)
         await interaction.response.edit_message(view=self)
-        await interaction.followup.send(content=f"🐟 **| {interaction.user.name} **You have successfully sold the fish you caught. Your total winnings are **{sum_fish}** Cupcoin.")
+        await interaction.followup.send(content=f"🐟 **| {interaction.user.name} **Tuttuğun balıkları başarıyla sattın. Bu işten toplam kazancın **{sum_fish}** Cupcoin.")
         
     # Sell Hunt Button
-    @button(label="Sell Hunts", style=discord.ButtonStyle.success, emoji = "🦌")
+    @button(label="Avları Sat", style=discord.ButtonStyle.success, emoji = "🦌")
     async def sell_hunts_callback(self, interaction: discord.Interaction, button):
         db = client.mongoConnect["cupcake"]
         inventoryCollection = db["inventory"] # Get User Inventory Data
@@ -142,11 +142,11 @@ class SellButtons(View):
 
         # Making wallet inquiry
         if await walletCollection.find_one({ "_id" : interaction.user.id }) == None:
-            return await interaction.response.send_message("You need to create a wallet to receive the proceeds of your sales. `/wallet`", ephemeral = True)
+            return await interaction.response.send_message("Upss, cüzdanınız yok! Lütfen şu komutu kullanın: `/wallet`", ephemeral = True)
         
         # Making inventory inquiry
         if await inventoryCollection.find_one({ "_id" : interaction.user.id }) == None:
-            return await interaction.response.send_message("You don't have inventory", ephemeral=True)
+            return await interaction.response.send_message("Envanteriniz bulunmuyor! Ava çıkın. **`/hunting`**", ephemeral=True)
         
         # User Data
         userInvData = await inventoryCollection.find_one({ "_id" : interaction.user.id }) # Inventory Data
@@ -154,11 +154,11 @@ class SellButtons(View):
 
         """If user does not have hunts collection or does not have any hunt, this will work!"""
         if not 'hunts' in userInvData or len(userInvData["hunts"]) == 0:
-            button.label = "No Hunt!" # New Button Label
+            button.label = "Av Yok!" # New Button Label
             button.disabled = True # New Button Disabled
             button.style = discord.ButtonStyle.secondary # New Button Style
             await interaction.response.edit_message(view=self) # Updated Button
-            await interaction.followup.send("You don't have any hunt in your inventory. Hunt a little! **`/hunting`**", ephemeral=True) # Send Message
+            await interaction.followup.send("Envanterinizde hiç av yok! Biraz avlanın **`/hunting`**", ephemeral=True) # Send Message
             return 
 
 
@@ -169,7 +169,7 @@ class SellButtons(View):
                 sum_hunt += int(all_hunt[x]["price"])
         
 
-        button.label = "Sold Hunts!" # New Button Label
+        button.label = "Avlar Satıldı!" # New Button Label
         button.style = discord.ButtonStyle.secondary # New Button Stlye
         button.disabled = True # New Button Disabled
 
@@ -178,10 +178,10 @@ class SellButtons(View):
         await walletCollection.replace_one({"_id": interaction.user.id}, userWallet)
         await inventoryCollection.replace_one({"_id": interaction.user.id}, userInvData)
         await interaction.response.edit_message(view=self)
-        await interaction.followup.send(content=f"🦌 **| {interaction.user.name}** You have successfully sold the prey you have hunted. Your total winnings are **{sum_hunt}** Cupcoin.")
+        await interaction.followup.send(content=f"🦌 **| {interaction.user.name}** Avladığınız hayvanları başarıyla sattınız. Bu işten toplam kazancınız **{sum_hunt}** Cupcoin.")
     
     # Sell Mine Button
-    @button(label="Sell Mines", style=discord.ButtonStyle.success, emoji = "💎")
+    @button(label="Madenleri Sat", style=discord.ButtonStyle.success, emoji = "💎")
     async def sell_mines_callback(self, interaction: discord.Interaction, button):
         db = client.mongoConnect["cupcake"]
         inventoryCollection = db["inventory"] # Get User Inventory Data
@@ -189,11 +189,11 @@ class SellButtons(View):
 
         # Making wallet inquiry
         if await walletCollection.find_one({ "_id" : interaction.user.id }) == None:
-            return await interaction.response.send_message("You need to create a wallet to receive the proceeds of your sales. `/wallet`", ephemeral = True)
+            return await interaction.response.send_message("Upss, cüzdanınız yok! Lütfen şu komutu kullanın: `/wallet`", ephemeral = True)
         
         # Making inventory inquiry
         if await inventoryCollection.find_one({ "_id" : interaction.user.id }) == None:
-            return await interaction.response.send_message("You don't have inventory", ephemeral=True)
+            return await interaction.response.send_message("Envanteriniz bulunmuyor! Hadi kazmaya başlayın. **`/mining`**", ephemeral=True)
         
         # User Data
         userInvData = await inventoryCollection.find_one({ "_id" : interaction.user.id }) # Inventory Data
@@ -201,11 +201,11 @@ class SellButtons(View):
 
         """If user does not have mines collection or does not have any hunt, this will work!"""
         if not 'mines' in userInvData or len(userInvData["mines"]) == 0:
-            button.label = "No Mine!" # New Button Label
+            button.label = "Maden Yok!" # New Button Label
             button.disabled = True # New Button Disabled
             button.style = discord.ButtonStyle.secondary # New Button Style
             await interaction.response.edit_message(view=self) # Updated Button
-            await interaction.followup.send("You don't have any mine in your inventory. Let's start digging! **`/mining`**", ephemeral=True) # Send Message
+            await interaction.followup.send("Envanterinizde hiç maden bulunmuyor! Hadi kazmaya başlayın **`/mining`**", ephemeral=True) # Send Message
             return 
 
 
@@ -220,7 +220,7 @@ class SellButtons(View):
         
         
 
-        button.label = "Sold Mines!" # New Button Label
+        button.label = "Madenler Satıldı!" # New Button Label
         button.style = discord.ButtonStyle.secondary # New Button Stlye
         button.disabled = True # New Button Disabled
 
@@ -229,10 +229,10 @@ class SellButtons(View):
         await walletCollection.replace_one({"_id": interaction.user.id}, userWallet)
         await inventoryCollection.replace_one({"_id": interaction.user.id}, userInvData)
         await interaction.response.edit_message(view=self)
-        await interaction.followup.send(content=f"💎 **| {interaction.user.name}** You have successfully sold your mines. Your total winnings are **{sum_mine}** Cupcoin.")
+        await interaction.followup.send(content=f"💎 **| {interaction.user.name}** Çıkardığınız madenleri başarıyla sattınız! Bu işten toplam kazancınız **{sum_mine}** Cupcoin.")
 
     # Sell Wood Button
-    @button(label="Sell Wood", style=discord.ButtonStyle.success, emoji = "🌲")
+    @button(label="Odunları Sat", style=discord.ButtonStyle.success, emoji = "🌲")
     async def sell_wood_callback(self, interaction: discord.Interaction, button):
         db = client.mongoConnect["cupcake"]
         inventoryCollection = db["inventory"] # Get User Inventory Data
@@ -240,11 +240,11 @@ class SellButtons(View):
 
         # Making wallet inquiry
         if await walletCollection.find_one({ "_id" : interaction.user.id }) == None:
-            return await interaction.response.send_message("You need to create a wallet to receive the proceeds of your sales. `/wallet`", ephemeral = True)
+            return await interaction.response.send_message("Upss, cüzdanınız yok! Lütfen şu komutu kullanın: `/wallet`", ephemeral = True)
         
         # Making inventory inquiry
         if await inventoryCollection.find_one({ "_id" : interaction.user.id }) == None:
-            return await interaction.response.send_message("You don't have inventory", ephemeral=True)
+            return await interaction.response.send_message("Envanteriniz bulunmuyor! Biraz ağaç kesin. **`/forestry`**", ephemeral=True)
         
         # User Data
         userInvData = await inventoryCollection.find_one({ "_id" : interaction.user.id }) # Inventory Data
@@ -252,11 +252,11 @@ class SellButtons(View):
 
         """If user does not have wood collection or does not have any hunt, this will work!"""
         if not 'wood' in userInvData or len(userInvData["wood"]) == 0:
-            button.label = "No Wood!" # New Button Label
+            button.label = "Odun Yok!" # New Button Label
             button.disabled = True # New Button Disabled
             button.style = discord.ButtonStyle.secondary # New Button Style
             await interaction.response.edit_message(view=self) # Updated Button
-            await interaction.followup.send("You don't have any wood in your inventory. Grab your axe and dive into the forest! **`/forestry`**", ephemeral=True) # Send Message
+            await interaction.followup.send("Envanterinde hiç odun bulunmuyor! Baltanı kap ve ormana gir! **`/forestry`**", ephemeral=True) # Send Message
             return 
 
 
@@ -271,7 +271,7 @@ class SellButtons(View):
         
         
 
-        button.label = "Sold Wood!" # New Button Label
+        button.label = "Odunlar Satıldı!" # New Button Label
         button.style = discord.ButtonStyle.secondary # New Button Stlye
         button.disabled = True # New Button Disabled
 
@@ -280,24 +280,24 @@ class SellButtons(View):
         await walletCollection.replace_one({"_id": interaction.user.id}, userWallet)
         await inventoryCollection.replace_one({"_id": interaction.user.id}, userInvData)
         await interaction.response.edit_message(view=self)
-        await interaction.followup.send(content=f"🌲 **| {interaction.user.name}** You have successfully sold your wood. Your total winnings are **{sum_wood}** Cupcoin.")
+        await interaction.followup.send(content=f"🌲 **| {interaction.user.name}** Odunlarınızı başarıyla sattınız! Bu işten toplam kazancınız **{sum_wood}** Cupcoin.")
 
     # Close Button
-    @discord.ui.button(label="Close", style=discord.ButtonStyle.danger)
+    @discord.ui.button(label="Kapat", style=discord.ButtonStyle.danger)
     async def closemenu_callback(self, interaction, button):
-        await interaction.response.send_message(content=f"Closing...", ephemeral=True)
+        await interaction.response.send_message(content=f"Kapatılıyor...", ephemeral=True)
         await asyncio.sleep(3)
-        await interaction.edit_original_response(content=f"✅ **|** Shop is succesfully closed.")
+        await interaction.edit_original_response(content=f"✅ **|** Satıcı başarıyla kapatıldı.")
         await interaction.message.delete()
         message_author_id.remove(interaction.user.id)
     
 # Main Class
-class Sell(commands.Cog, commands.Bot):
+class Sell(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
     # Sell Comands
-    @app_commands.command(name="sell", description="Sell Hunts")
+    @app_commands.command(name="sell", description="İş yaparak kazandıklarınızı burada satın")
     @app_commands.guild_only
     @app_commands.checks.cooldown(1, 300, key=lambda i: (i.guild_id, i.user.id))
     async def sell(self, interaction: discord.Interaction):
@@ -310,26 +310,26 @@ class Sell(commands.Cog, commands.Bot):
 
         # Making inventory inquiry
         if await inventoryCollection.find_one({ "_id" : interaction.user.id }) == None:
-            return await interaction.response.send_message("You don't have inventory", ephemeral=True)
+            return await interaction.response.send_message("Upss, envanteriniz yok! Hadi biraz iş yapın (balıkçılık, ormancılık, avcılık vs.)", ephemeral=True)
         
         userData = await inventoryCollection.find_one({ "_id" : interaction.user.id })
         message_author_id.append(interaction.user.id) # We add the id of the message owner to the list
 
         sum_fish = 0
         number_fish = 0
-        embed_value_fishes = "No fish found in your inventory."
+        embed_value_fishes = "Envanterinizde hiç balık bulunamadı!."
 
         sum_hunt = 0
         number_hunt = 0
-        embed_value_hunts = "No hunt found in your inventory."
+        embed_value_hunts = "Envanterinizde hiç av bulunamadı!"
 
         sum_mine = 0
         number_mine = 0
-        embed_value_mines = "No mine found in your inventory."
+        embed_value_mines = "Envanterinizde hiç maden bulunamadı!."
 
         sum_wood = 0
         number_wood = 0
-        embed_value_wood = "No wood found in your inventory"
+        embed_value_wood = "Envanterinizde hiç odun bulunamadı!."
 
         
 
@@ -343,7 +343,7 @@ class Sell(commands.Cog, commands.Bot):
 
                     sum_fish += int(all_fish[x]["price"])
             number_fish = len(userData['fishes'])
-            embed_value_fishes = f"You have **{number_fish}** fish. Total = **{sum_fish}** Cupcoin."
+            embed_value_fishes = f"**{number_fish}** adet balığınız var. Toplam = **{sum_fish}** Cupcoin."
 
         if "mines" in userData and len(userData['mines']) > 0:
             userMines = list(userData['mines'].keys())
@@ -353,7 +353,7 @@ class Sell(commands.Cog, commands.Bot):
                 if x in userMines:
                     sum_mine += all_mine[x]["price"]
             number_mine = len(userData['mines'])
-            embed_value_mines = f"You have **{number_mine}** mine. Total = **{sum_mine}** Cupcoin."
+            embed_value_mines = f"**{number_mine}** adet madeniniz var. Total = **{sum_mine}** Cupcoin."
 
         if 'hunts' in userData and len(userData['hunts']) > 0:
             userHunts = userData['hunts']
@@ -361,7 +361,7 @@ class Sell(commands.Cog, commands.Bot):
                 if x in userHunts:
                     sum_hunt += all_hunt[x]["price"]
             number_hunt = len(userData['hunts'])
-            embed_value_hunts = f"You have **{number_hunt}** hunt. Total = **{sum_hunt}** Cupcoin."
+            embed_value_hunts = f"**{number_hunt}** adet avınız var. Toplam = **{sum_hunt}** Cupcoin."
 
         if "wood" in userData and len(userData['wood']) > 0:
             userWood = list(userData['wood'].keys())
@@ -371,7 +371,7 @@ class Sell(commands.Cog, commands.Bot):
                 if x in userWood:
                     sum_wood += all_wood[x]["price"]
             number_wood = len(userData['wood'])
-            embed_value_wood = f"You have **{number_wood}** wood. Total = **{sum_wood}** Cupcoin."
+            embed_value_wood = f"**{number_wood}** adet odununuz var. Toplam = **{sum_wood}** Cupcoin."
 
         
         if interaction.user.id in message_author_id:
@@ -379,13 +379,13 @@ class Sell(commands.Cog, commands.Bot):
             #return await interaction.response.send_message("You already have a shop opened. Turn it off first", ephemeral=True)
         message_author_id.append(interaction.user.id)
 
-        menuEmbed = Embed(description = f"Hello, welcome to the store. Here you can sell mines, hunts, fishes and wood. Here is your inventory:")
+        menuEmbed = Embed(description = f"Merhaba, satıcıya hoş geldin! Burada balıklarını, madenlerini, odunlarını ve avlarını satabilirsin. İşte senin envanterin:")
         menuEmbed.set_author(name = interaction.user.name, icon_url = interaction.user.avatar.url)
-        menuEmbed.add_field(name = "Fishes:", value =  embed_value_fishes, inline = True)
-        menuEmbed.add_field(name = "Hunts:", value =  embed_value_hunts, inline = True)
-        menuEmbed.add_field(name = "Mines:", value =  embed_value_mines, inline = True)
-        menuEmbed.add_field(name = "Wood:", value =  embed_value_wood, inline = True)
-        menuEmbed.set_footer(text = "Don't forget to close the shop. You can't open a new store without closing it!", icon_url= "https://cdn.discordapp.com/attachments/970118423143120896/1000526619691200522/dikkat.png")
+        menuEmbed.add_field(name = "Balıklar:", value =  embed_value_fishes, inline = True)
+        menuEmbed.add_field(name = "Avlar:", value =  embed_value_hunts, inline = True)
+        menuEmbed.add_field(name = "Madenler:", value =  embed_value_mines, inline = True)
+        menuEmbed.add_field(name = "Odunlar:", value =  embed_value_wood, inline = True)
+        menuEmbed.set_footer(text = "Satıcı menüsünü kapatmayı unutmayın! Bir menü kapanmadan yenisini açamazsınız", icon_url= "https://cdn.discordapp.com/attachments/970118423143120896/1000526619691200522/dikkat.png")
 
         await interaction.response.send_message(embed = menuEmbed, view=view)
 
@@ -395,7 +395,7 @@ class Sell(commands.Cog, commands.Bot):
     async def sellError(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
-            await interaction.response.send_message(f"Upss! The shop hasn't opened yet. Please try again after {timeRemaining}s.",ephemeral=True)
+            await interaction.response.send_message(f"Upss! Satıcı şu an açık değil! Lütfen `{timeRemaining}`s sonra tekrar gelin.",ephemeral=True)
         else:
             if len(message_author_id) >0:
                 message_author_id.clear()
