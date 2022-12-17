@@ -195,7 +195,7 @@ class Pickaxes(discord.ui.Select):
     async def callback(self, interaction: discord.Interaction):
         
         pickaxeName = ""
-        pickaxePrice = "0"
+        pickaxePrice = 0
         pickaxeId = ""
         
         if self.values[0] == "stonepickaxe":
@@ -244,7 +244,7 @@ class Pickaxes(discord.ui.Select):
         userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
 
         if self.values[0] == "sellpickaxe":
-            if "items" not in userInventory or "pickaxe" in userInventory["items"]:
+            if "pickaxe" in userInventory["items"]:
                 
                 userInventory["items"].pop("pickaxe")
                 await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
@@ -299,7 +299,7 @@ class Swords(discord.ui.Select):
     async def callback(self, interaction: discord.Interaction):
         
         swordName = ""
-        swordPrice = "0"
+        swordPrice = 0
         swordId = ""
         
         if self.values[0] == "gladius":
@@ -354,7 +354,7 @@ class Swords(discord.ui.Select):
         
 
         if self.values[0] == "sellsword":
-            if "items" not in userInventory or "sword" in userInventory["items"]:
+            if "sword" in userInventory["items"]:
                 
                 userInventory["items"].pop("sword")
                 await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
@@ -461,7 +461,7 @@ class Rods(discord.ui.Select):
         userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
 
         if self.values[0] == "sellrod":
-            if "items" not in userInventory or "rod" in userInventory["items"]:
+            if "rod" in userInventory["items"]:
                 userInventory["items"].pop("rod")
                 await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
                 await interaction.response.send_message("Oltanızı başarıyla sattınız")
@@ -568,7 +568,7 @@ class Bows(discord.ui.Select):
 
         if self.values[0] == "sellbow":
             
-            if "items" not in userInventory or "bow" in userInventory["items"]:
+            if "bow" in userInventory["items"]:
                 
                 userInventory["items"].pop("bow")
                 await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
@@ -626,7 +626,7 @@ class Axes(discord.ui.Select):
     async def callback(self, interaction: discord.Interaction):
         
         axeName = ""
-        axePrice = "0"
+        axePrice = 0
         axeId = ""
         
         if self.values[0] == "stoneaxe":
@@ -680,7 +680,7 @@ class Axes(discord.ui.Select):
         userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
 
         if self.values[0] == "sellaxe":
-            if "items" not in userInventory or "axe" in userInventory["items"]:
+            if "axe" in userInventory["items"]:
                 
                 userInventory["items"].pop("axe")
                 await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
