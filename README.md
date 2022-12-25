@@ -1,8 +1,8 @@
-# Cupcake Bot
+# 🧁 Cupcake Bot
 
 ## License
 
-OwO Bot is licensed under the terms of [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International](https://github.com/ChristopherBThai/Discord-OwO-Bot/blob/master/LICENSE) ("CC-BY-NC-SA-4.0"). Commercial use is not allowed under this license. This includes any kind of revenue made with or based upon the software, even donations.
+Cupcake Bot is licensed under the terms of [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International](https://github.com/abdurrahmancosar/Python-Bot/blob/main/LICENSE) ("CC-BY-NC-SA-4.0"). Commercial use is not allowed under this license. This includes any kind of revenue made with or based upon the software, even donations.
 
 The CC-BY-NC-SA-4.0 allows you to:
 
@@ -19,4 +19,4 @@ More information can be found [here](https://creativecommons.org/licenses/by-nc-
 
 ## Contributing
 
-All merge requests are welcome! Just make sure to sign the [CLA](https://cla-assistant.io/ChristopherBThai/Discord-OwO-Bot) or else we cannot merge your changes.
+All merge requests are welcome! Just make sure to sign the [CLA]() or else we cannot merge your changes.
