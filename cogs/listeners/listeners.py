@@ -16,7 +16,7 @@ class MessageContent(commands.Cog, commands.Bot):
             #* Button
             view = View()
 
-            supportServerButton = Button(label="Destek", style=discord.ButtonStyle.link, url="https://discord.gg/M9S4Gv9Gwe")
+            supportServerButton = Button(label="Destek", style=discord.ButtonStyle.link, url="https://discord.gg/8YX57rBGTM")
             inviteButton = Button(label="Davet Et", style=discord.ButtonStyle.link, url="https://discord.com/api/oauth2/authorize?client_id=994143430504620072&permissions=139586817088&scope=bot%20applications.commands")
 
             view.add_item(supportServerButton)
@@ -27,7 +27,7 @@ class MessageContent(commands.Cog, commands.Bot):
                 description = f"👋 **Merhaba {ctx.author.name}**.\n\n __Eğik Çizgi Komutlarını__ kullanabilirsiniz. Temel Komutlar, kahramanlar, rozetler, vs. için **`/bot-help`** komutunu kullanınız.\n😉 *Cüzdanını aç. Belki bir hediye vardır* => **`/wallet`**",
                 color = 0xf182ff
                 )
-            aboutMe.set_author(name = f"{self.bot.user.name} | Hadi Başla", url = "https://discord.gg/Vqg9KZveQ6", icon_url = self.bot.user.avatar.url)
+            aboutMe.set_author(name = f"{self.bot.user.name} | Hadi Başla", url = "https://discord.gg/8YX57rBGTM", icon_url = self.bot.user.avatar.url)
             
             #* Send Message
             await ctx.channel.send(embed = aboutMe, view = view)
