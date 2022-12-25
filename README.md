@@ -19,4 +19,4 @@ More information can be found [here](https://creativecommons.org/licenses/by-nc-
 
 ## Contributing
 
-All merge requests are welcome! Just make sure to sign the [CLA]() or else we cannot merge your changes.
+All merge requests are welcome! Just make sure to sign the [CLA](https://cla-assistant.io/AbdurrahmanCosar/Cupcake-Bot) or else we cannot merge your changes.
