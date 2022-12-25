@@ -5,7 +5,6 @@
  * For more information, see README.md and LICENSE
 """
 
-
 import asyncio
 import aiohttp
 import discord
@@ -17,11 +16,12 @@ from dotenv import load_dotenv
 import datetime, time
 
 load_dotenv()
-token = os.getenv("discordkey")
-prefix = os.getenv("prefix")
-app_id = os.getenv("application_id")
-guild_id = os.getenv("owner_guild_id")
-mongoConnection = os.getenv("mongoConnection")
+token = os.getenv("BOT_TOKEN")
+prefix = os.getenv("PREFIX")
+app_id = os.getenv("APP_ID")
+guild_id = os.getenv("OG_ID")
+mongoConnection = os.getenv("MONGO_CONNECTION")
+log_channel = os.getenv("LOG_CHANNEL")
 
 
 class MyBot(commands.Bot):
@@ -63,14 +63,14 @@ class MyBot(commands.Bot):
 
     #ADD GUILD
     async def on_guild_join(self, guild):
-        log_channel = self.get_channel(1036720107633786890)
+        log_channel = self.get_channel(log_channel)
         join_embed = Embed(color = 0x65ff50)
         join_embed.set_author(name = f"I join the {guild.name} server. It has {guild.member_count} members", icon_url = guild.icon or "https://cdn.discordapp.com/attachments/1009437091295395840/1009437593773015120/discordlogo.png")
         await log_channel.send(embed = join_embed)
 
     #REMOVE GUILD
     async def on_guild_remove(self, guild):
-        log_channel = self.get_channel(1036720107633786890)
+        log_channel = self.get_channel(log_channel)
         join_embed = Embed(color = 0xff3030)
         join_embed.set_author(name = f"I left the {guild.name} server. It has {guild.member_count - 1} members", icon_url = guild.icon or "https://cdn.discordapp.com/attachments/1009437091295395840/1009437593773015120/discordlogo.png")
         await log_channel.send(embed = join_embed)

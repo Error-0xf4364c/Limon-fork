@@ -37,7 +37,7 @@ class Help(commands.Cog, commands.Bot):
     @app_commands.checks.cooldown(
         1, 10, key=lambda i: (i.guild_id, i.user.id))
     async def bothelp(self, interaction: discord.Interaction, topic: str):
-        SupportServerButton = Button(label="Support Server", style=discord.ButtonStyle.link, url="https://discord.gg/Vqg9KZveQ6", emoji=settings)
+        SupportServerButton = Button(label="Support Server", style=discord.ButtonStyle.link, url="https://discord.gg/M9S4Gv9Gwe", emoji=settings)
         view = View()
         view.add_item(SupportServerButton)
 
