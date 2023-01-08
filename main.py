@@ -20,7 +20,7 @@ token = os.getenv("BOT_TOKEN")
 prefix = os.getenv("PREFIX")
 app_id = os.getenv("APP_ID")
 guild_id = os.getenv("OG_ID")
-mongoConnection = os.getenv("MONGO_CONNECTION")
+mongoConnection = str(os.getenv("MONGO_CONNECTION"))
 log_channel = os.getenv("LOG_CHANNEL")
 
 
