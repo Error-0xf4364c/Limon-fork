@@ -9,7 +9,7 @@ from yaml import Loader
 
 
 
-emojis_file = open("yamls/emojis.yml", "rb")
+emojis_file = open("assets/yamls/emojis.yml", "rb")
 emoji = yaml.load(emojis_file, Loader = Loader) 
 
 topggLogo = emoji["topgg"] or "✅"

@@ -6,7 +6,6 @@
 """
 
 import asyncio
-import aiohttp
 import discord
 import os
 from discord import Embed

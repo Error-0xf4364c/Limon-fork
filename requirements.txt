@@ -1,8 +1,0 @@
-discord.py
-easy-pil
-motor
-Pillow
-pymongo
-PyNaCl
-python-dotenv
-PyYAML

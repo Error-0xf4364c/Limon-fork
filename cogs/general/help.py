@@ -9,7 +9,7 @@ import yaml
 from yaml import Loader
 
 
-yaml_file = open("yamls/emojis.yml", "rb")
+yaml_file = open("assets/yamls/emojis.yml", "rb")
 emojis = yaml.load(yaml_file, Loader = Loader) 
 clock = emojis["clock"] or "⏳"
 settings = emojis["settings"] or "🔧"

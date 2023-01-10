@@ -10,11 +10,11 @@ from PIL import Image, ImageChops, ImageDraw, ImageFont
 
 
 
-back1 = Image.open(r"pictures/anime1_background.png").convert("RGBA")
-back2 = Image.open(r"pictures/anime2_background.png").convert("RGBA")
-back3 = Image.open(r"pictures/anime3_background.png").convert("RGBA")
-back4 = Image.open(r"pictures/gaming1_background.png").convert("RGBA")
-back5 = Image.open(r"pictures/gaming3_background.png").convert("RGBA")
+back1 = Image.open(r"assets/pictures/anime1_background.png").convert("RGBA")
+back2 = Image.open(r"assets/pictures/anime2_background.png").convert("RGBA")
+back3 = Image.open(r"assets/pictures/anime3_background.png").convert("RGBA")
+back4 = Image.open(r"assets/pictures/gaming1_background.png").convert("RGBA")
+back5 = Image.open(r"assets/pictures/gaming3_background.png").convert("RGBA")
 
 backgroundList = [back1, back2, back3, back4, back5]
 
@@ -80,7 +80,7 @@ class general(commands.Cog, commands.Bot):
         joined_at = member.joined_at.strftime("%a %b\n%B %Y")
         money, heroes = f"{userCoins:,}", str(userHeroes)
 
-        base = Image.open(r"pictures/baseFinal.png").convert("RGBA")
+        base = Image.open(r"assets/pictures/baseFinal.png").convert("RGBA")
 
         newBackground = random.choice(backgroundList)
 
@@ -108,9 +108,9 @@ class general(commands.Cog, commands.Bot):
 
         draw = ImageDraw.Draw(base)
         pfp = circle(pfp, size=(215, 215))
-        font = ImageFont.truetype("fonts/Nunito-Regular.ttf", 38)
-        akaFont = ImageFont.truetype("fonts/Nunito-Regular.ttf", 30)
-        subfont = ImageFont.truetype("fonts/Nunito-Regular.ttf", 25)
+        font = ImageFont.truetype("assets/fonts/Nunito-Regular.ttf", 38)
+        akaFont = ImageFont.truetype("assets/fonts/Nunito-Regular.ttf", 30)
+        subfont = ImageFont.truetype("assets/fonts/Nunito-Regular.ttf", 25)
 
         draw.text((280,240), name,font = font)
         draw.text((270, 315), nick,font = akaFont)

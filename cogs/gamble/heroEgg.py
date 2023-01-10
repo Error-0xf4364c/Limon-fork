@@ -9,7 +9,7 @@ from yaml import Loader
 import random
 from fetchData import economyData
 
-yaml_file = open("yamls/emojis.yml", "rb")
+yaml_file = open("assets/yamls/emojis.yml", "rb")
 emojis = yaml.load(yaml_file, Loader = Loader) 
 clock = emojis["clock"] or "⏳"
 siradan = emojis["siradan"]
@@ -18,7 +18,7 @@ ender = emojis["ender"]
 efsanevi = emojis["efsanevi"]
 kadim = emojis["kadim"]
 
-yaml_file2 = open("yamls/chars.yml", "rb")
+yaml_file2 = open("assets/yamls/chars.yml", "rb")
 heroes = yaml.load(yaml_file2, Loader = Loader) 
 
 

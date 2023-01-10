@@ -9,7 +9,7 @@ from yaml import Loader
 from main import MyBot
 
 # Fishes File
-fish_file = open("yamls/fishing.yml", "rb")
+fish_file = open("assets/yamls/fishing.yml", "rb")
 fish = yaml.load(fish_file, Loader = Loader)
 
 vlf = fish["veryLowLevelFish"]
@@ -23,7 +23,7 @@ fishesKey = " ".join(all_fish.keys()) # We get all the dictionary keys
 listFishes = fishesKey.split(" ") # We collect all the dictionary keys in the list
 
 # Hunts File
-hunt_file = open("yamls/hunt.yml", "rb")
+hunt_file = open("assets/yamls/hunt.yml", "rb")
 hunt = yaml.load(hunt_file, Loader = Loader)
 
 vlh = hunt["veryLowLevelHunt"]
@@ -36,7 +36,7 @@ huntsKey = " ".join(all_hunt.keys()) # We get all the dictionary keys
 listHunts = huntsKey.split(" ") # We collect all the dictionary keys in the list
 
 # Mines File
-mine_file = open("yamls/mines.yml", "rb")
+mine_file = open("assets/yamls/mines.yml", "rb")
 mine = yaml.load(mine_file, Loader = Loader)
 
 vlm = mine["veryLowLevelMine"]
@@ -50,7 +50,7 @@ minesKey = " ".join(all_mine.keys()) # We get all the dictionary keys
 listMines = minesKey.split(" ") # We collect all the dictionary keys in the list
 
 # Wood File
-wood_file = open("yamls/wood.yml", "rb")
+wood_file = open("assets/yamls/wood.yml", "rb")
 wood = yaml.load(wood_file, Loader = Loader)
 
 vlw = wood["veryLowLevelWood"]

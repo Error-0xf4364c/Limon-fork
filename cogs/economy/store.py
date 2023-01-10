@@ -11,7 +11,7 @@ from yaml import Loader
 
 
 # ALL ITEMS FILE
-items_file = open("yamls/items.yml", "rb")
+items_file = open("assets/yamls/items.yml", "rb")
 items = yaml.load(items_file, Loader = Loader) 
 
 

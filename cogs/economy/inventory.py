@@ -10,22 +10,22 @@ from main import MyBot
 
 client = MyBot()
 
-fish_file = open("yamls/fishing.yml", "rb")
+fish_file = open("assets/yamls/fishing.yml", "rb")
 fish = yaml.load(fish_file, Loader = Loader)
 
-hunt_file = open("yamls/hunt.yml", "rb")
+hunt_file = open("assets/yamls/hunt.yml", "rb")
 hunt = yaml.load(hunt_file, Loader = Loader)
 
-mine_file = open("yamls/mines.yml", "rb")
+mine_file = open("assets/yamls/mines.yml", "rb")
 mine = yaml.load(mine_file, Loader = Loader)
 
-wood_file = open("yamls/wood.yml", "rb")
+wood_file = open("assets/yamls/wood.yml", "rb")
 wood = yaml.load(wood_file, Loader = Loader)
 
-char_file = open("yamls/chars.yml", "rb")
+char_file = open("assets/yamls/chars.yml", "rb")
 chars = yaml.load(char_file, Loader = Loader)
 
-items_file = open("yamls/items.yml", "rb")
+items_file = open("assets/yamls/items.yml", "rb")
 item = yaml.load(items_file, Loader = Loader)
 
 vlf = fish["veryLowLevelFish"]

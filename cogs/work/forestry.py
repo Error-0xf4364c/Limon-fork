@@ -8,7 +8,7 @@ import yaml
 from yaml import Loader
 
 # Yaml file open
-yaml_file = open("yamls/wood.yml", "rb")
+yaml_file = open("assets/yamls/wood.yml", "rb")
 wood = yaml.load(yaml_file, Loader = Loader) 
 
 class Forester(commands.Cog, commands.Bot):

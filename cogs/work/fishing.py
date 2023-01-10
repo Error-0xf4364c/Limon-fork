@@ -8,10 +8,10 @@ import random
 import yaml
 from yaml import Loader
 
-yaml_file = open("yamls/emojis.yml", "rb")
+yaml_file = open("assets/yamls/emojis.yml", "rb")
 emojis = yaml.load(yaml_file, Loader = Loader) 
 
-yaml_file2 = open("yamls/fishing.yml", "rb")
+yaml_file2 = open("assets/yamls/fishing.yml", "rb")
 fish = yaml.load(yaml_file2, Loader = Loader)
 
 

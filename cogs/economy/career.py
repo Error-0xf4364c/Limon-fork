@@ -7,7 +7,7 @@ import yaml
 from yaml import Loader
 from fetchData import careerData
 
-badges_file = open("yamls/badges.yml", "rb")
+badges_file = open("assets/yamls/badges.yml", "rb")
 rozet = yaml.load(badges_file, Loader = Loader) 
 
 heropuani = rozet['heropuani']
