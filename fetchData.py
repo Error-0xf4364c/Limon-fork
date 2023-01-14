@@ -1,5 +1,3 @@
-import collections
-
 async def economyData(bot, _id):
 
     db = bot.mongoConnect["cupcake"]
