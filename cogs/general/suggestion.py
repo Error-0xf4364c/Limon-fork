@@ -27,11 +27,11 @@ class SuggestionModal(ui.Modal, title= "Öneri"):
         )
 
         failMessage = Embed(
-            description = "❌ **|** Upss, öneriniz gönderilemedi! Lütfen [destek sunucumuza](https://discord.gg/M9S4Gv9Gwe) gelin ve geliştiriciye bu sorunu bildirin.", 
+            description = "❌ **|** Upss, öneriniz gönderilemedi! Lütfen [destek sunucumuza](https://discord.gg/Fa26cW3Npx) gelin ve geliştiriciye bu sorunu bildirin.", 
             color = 0xff3333
         )
 
-        suggestionsChannel = interaction.client.get_channel(1036720085622083705)
+        suggestionsChannel = interaction.client.get_channel(1063608269404381255)
         
         try:
             await suggestionsChannel.send(embed = suggestionMessage)
@@ -54,7 +54,7 @@ class Suggestion(commands.Cog, commands.Bot):
     async def suggestionError(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
-            await interaction.response.send_message(f"Lütfen `{timeRemaining}`s bekleyin!")
+            await interaction.response.send_message(f"Lütfen `{timeRemaining}`s bekleyin!", ephemeral = True)
         else:
             print(f"[SUGGESTION] {error}")
 

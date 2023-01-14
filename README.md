@@ -1,5 +1,9 @@
 # 🧁 Cupcake Bot
 
+## How Can You Use?
+* Firstly you must add to your server the bot.  
+* 
+
 ## License
 
 Cupcake Bot is licensed under the terms of [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International](https://github.com/abdurrahmancosar/Python-Bot/blob/main/LICENSE) ("CC-BY-NC-SA-4.0"). Commercial use is not allowed under this license. This includes any kind of revenue made with or based upon the software, even donations.

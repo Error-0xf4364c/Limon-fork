@@ -27,11 +27,11 @@ class ReportModal(ui.Modal, title= "Bildir"):
         )
 
         failMessage = Embed(
-            description = "❌ **|** Upss, rapor gönderilemedi! Lütfen [destek sunucumuza](https://discord.gg/M9S4Gv9Gwe) gelin ve geliştiriciye bu sorunu bildirin.", 
+            description = "❌ **|** Upss, rapor gönderilemedi! Lütfen [destek sunucumuza](https://discord.gg/Fa26cW3Npx) gelin ve geliştiriciye bu sorunu bildirin.", 
             color = 0xff3333
         )
 
-        reportsChannel = interaction.client.get_channel(1036720065212588122)
+        reportsChannel = interaction.client.get_channel(1063608331836596244)
         
         try:
             await reportsChannel.send(embed = reportMessage)
@@ -54,7 +54,7 @@ class Report(commands.Cog, commands.Bot):
     async def reportError(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
-            await interaction.response.send_message(f"Lütfen `{timeRemaining}`s bekleyin!")
+            await interaction.response.send_message(f"Lütfen `{timeRemaining}`s bekleyin!", ephemeral = True)
         else:
             print(f"[REPORT] {error}")
 

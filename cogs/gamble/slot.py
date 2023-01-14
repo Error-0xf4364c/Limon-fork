@@ -33,7 +33,9 @@ class Slot(commands.Cog, commands.Bot):
     @app_commands.checks.cooldown(
         1, 10, key=lambda i: (i.guild_id, i.user.id))
     async def slot(self, interaction: discord.Interaction, amount: app_commands.Range[int, 1, 50000]):
-
+    
+        await interaction.response.send_message(content = "Slot makinesi arızalı! Lütfen daha sonra tekrar deneyiniz.", ephemeral = True)
+        """
         userData, collection = await economyData(self.bot, interaction.user.id)
         userCareerData, careerCollection = await careerData(self.bot, interaction.user.id)
         
@@ -91,7 +93,7 @@ class Slot(commands.Cog, commands.Bot):
         userData['coins'] -= amount
         await collection.replace_one({"_id" : interaction.user.id}, userData)
         await interaction.edit_original_response(content = f"`CUP SLOT`\n{result1}{result2}{result3}\n`------->` <:Cupcoins:997159042633961574>{amount:,}\n`------->` Kaybettin ;c")
-
+        """
     @slot.error
     async def slotError(self, interaction: discord.Interaction,
                          error: app_commands.AppCommandError):

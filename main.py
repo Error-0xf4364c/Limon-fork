@@ -12,7 +12,6 @@ from discord import Embed
 from discord.ext import commands
 import motor.motor_asyncio
 from dotenv import load_dotenv
-import datetime, time
 
 load_dotenv()
 token = os.getenv("BOT_TOKEN")
