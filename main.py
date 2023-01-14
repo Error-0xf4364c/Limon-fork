@@ -20,7 +20,6 @@ app_id = os.getenv("APP_ID")
 guild_id = os.getenv("OG_ID")
 mongoConnection = str(os.getenv("MONGO_CONNECTION"))
 log_channel = os.getenv("LOG_CHANNEL")
-mongoConnectionUrl = 'mongodb+srv://'+mongoConnection+'@cluster0.acpju.mongodb.net/test'
 
 class MyBot(commands.Bot):
 
