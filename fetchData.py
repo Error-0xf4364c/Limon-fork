@@ -3,7 +3,6 @@ async def economyData(bot, _id):
     db = bot.mongoConnect["cupcake"]
     collection = db["economy"]
 
-
     if await collection.find_one({"_id" : _id}) == None:
         newData = {
             "_id": _id,
@@ -17,7 +16,6 @@ async def careerData(bot, _id):
 
     db = bot.mongoConnect["cupcake"]
     collection = db["career"]
-
 
     if await collection.find_one({"_id" : _id}) == None:
         newData = {
