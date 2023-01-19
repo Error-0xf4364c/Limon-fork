@@ -3,14 +3,12 @@ priceByMineKg: 2
 
 
 veryLowLevelMine:
-  none: none
   lead: {name: Kurşun, price: 1000}
   zinc: {name: Çinko, price: 1100}
   coal: {name: Kömür, price: 900}
   boron: {name: Bor, price: 950}
   copper: {name: Bakır, price : 1200}
   manganese: {name: Manganez, price: 1050}
-  none: none
 
 lowLevelMine:
   chrome: {name: Krom, price: 1400}
@@ -18,7 +16,6 @@ lowLevelMine:
   aluminium: {name: Alüminyum, price: 1350}
   trona: {name: Trona, price: 1500}
   gypsum: {name: Alçı Taşı, price: 1250}
-  none: none
 
 mediumLevelMine:
   magnesite: {name: Magnezit, price: 1900}

@@ -9,7 +9,7 @@ veryLowLevelWood:
 lowLevelWood:
   redtree: {name: Kızıl Ağaç, price: 700}
   laden: {name: Ladin Ağacı, price: 800}
-  cedar: {name: "Sedir Ağacı", price: 900}
+  cedar: {name: Sedir Ağacı, price: 900}
 
 mediumLevelWood:
   beech: {name: Kayın Ağacı, price: 1100}

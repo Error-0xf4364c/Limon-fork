@@ -3,14 +3,11 @@
 priceByFishSize: 3
 
 veryLowLevelFish:
-  none: none
   anchovy: {name: Hamsi, price: 300}
   bonito: {name: Palamut, price: 350}
   carp: {name: Sazan, price: 400}
-  none: none
 
 lowLevelFish:
-  none: none
   tuna: {name: Orkinos, price: 500}
   sardine: {name: Sardalya, price: 580}
   perch: {name: Levrek, price: 600}

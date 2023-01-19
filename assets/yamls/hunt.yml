@@ -1,19 +1,16 @@
 ---
 veryLowLevelHunt:
-  none: none
   quail: {name: Bıldırcın, price: 290}
   sparrow: {name: Serçe, price: 180}
   partridge: {name: Keklik, price: 380}
   mallard: {name: Ördek, price: 300}
   wildgoose: {name: Kaz, price: 350}
-  none: none
 
 lowLevelHunt:
   pig: {name: Domuz, price: 450}
   jackal: {name: Çakal, price: 480}
   rabbit: {name: Tavşan, price: 500}
   weasel: {name: Gelincik, price: 550}
-  none: none
 
 mediumLevelHunt:
   fox : {name: Tilki, price: 600}
