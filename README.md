@@ -1,4 +1,4 @@
-# 🧁 Cupcake Bot
+# 🧁 [Cupcake Bot](https://discord.gg/8YX57rBGTM)
 *Economy & Fun*
 
 ## ⚠ Warning!
