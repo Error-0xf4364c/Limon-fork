@@ -35,6 +35,7 @@ hf = fish["highLevelFish"]
 vhf = fish["veryHighLevelFish"]
 
 all_fish = vlf | lf | mlf | hf | vhf
+
 all_fish_keys = list(all_fish.keys())
 
 vlh = hunt["veryLowLevelHunt"]
