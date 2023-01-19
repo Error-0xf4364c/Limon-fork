@@ -11,17 +11,18 @@ from main import MyBot
 # Fishes File
 fish_file = open("assets/yamls/fishing.yml", "rb")
 fish = yaml.load(fish_file, Loader=Loader)
-print(fish)
+
 vlf = fish["veryLowLevelFish"]
 lf = fish["lowLevelFish"]
 mlf = fish["mediumLevelFish"]
 hf = fish["highLevelFish"]
 vhf = fish["veryHighLevelFish"]
-print(type(vhf))
+
 priceByFishSize = fish["priceByFishSize"]
 all_fish = vlf | lf | mlf | hf | vhf # We combine all the fish in one dictionary
 fishesKey = " ".join(all_fish.keys())  # We get all the dictionary keys
 listFishes = fishesKey.split(" ")  # We collect all the dictionary keys in the list
+
 
 # Hunts File
 hunt_file = open("assets/yamls/hunt.yml", "rb")
