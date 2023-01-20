@@ -15,14 +15,6 @@ hunt = yaml.load(yaml_file2, Loader = Loader)
 
 
 
-
-cupcoin = emojis["cupcoin"]
-cross = emojis["cross"]
-cupcoinBack = emojis["cupcoinBack"]
-cupcoins = emojis["cupcoins"]
-clock = emojis["clock"] or "⏳"
-
-
 class Hunting(commands.Cog, commands.Bot):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
@@ -34,27 +26,27 @@ class Hunting(commands.Cog, commands.Bot):
     async def hunting(self, interaction: discord.Interaction):
 
         # Connecting Database
-        db = self.bot.mongoConnect["cupcake"]
+        db = self.bot.database["limon"]
         collection = db["inventory"]
         careerCollection = db["career"]
 
         # Database Checks
-        if await collection.find_one({"_id": interaction.user.id}) == None:
+        if collection.find_one({"_id": interaction.user.id}) == None:
             newData = {
                 "_id": interaction.user.id,
                 "hunts" : [],
             }
-            await collection.insert_one(newData)
+            collection.insert_one(newData)
 
-        if await careerCollection.find_one({"_id": interaction.user.id}) == None:
+        if careerCollection.find_one({"_id": interaction.user.id}) == None:
             newData = {
                 "_id": interaction.user.id,
                 "points": {"hunter_point": 0}
             }
-            await careerCollection.insert_one(newData)
+            careerCollection.insert_one(newData)
 
-        userData = await collection.find_one({"_id": interaction.user.id})
-        userCareer = await careerCollection.find_one({"_id": interaction.user.id})
+        userData = collection.find_one({"_id": interaction.user.id})
+        userCareer = careerCollection.find_one({"_id": interaction.user.id})
 
         # Bow check
         if "items" not in userData or "bow" not in userData["items"]:
@@ -62,20 +54,20 @@ class Hunting(commands.Cog, commands.Bot):
         # Hunt Check
         if "hunts" not in userData:
             foresterData = { "$set" : {"hunts" : []}}
-            await collection.update_one(userData ,foresterData)
+            collection.update_one(userData ,foresterData)
 
         if "points" not in userCareer:
             careerData = { "$set" : {"points" : {}}}
-            await careerCollection.update_one(userCareer ,careerData)
+            careerCollection.update_one(userCareer ,careerData)
         
         if "hunter_point" not in userCareer["points"]:
             careerData1 = { "$set" : {"points.hunter_point" : 0}}
-            await careerCollection.update_one(userCareer,careerData1)
+            careerCollection.update_one(userCareer,careerData1)
 
 
         # User Datas
-        userCareer = await careerCollection.find_one({"_id": interaction.user.id})
-        userData = await collection.find_one({"_id": interaction.user.id}) # User Data
+        userCareer = careerCollection.find_one({"_id": interaction.user.id})
+        userData = collection.find_one({"_id": interaction.user.id}) # User Data
         userBow = userData["items"]["bow"] # User Bow
 
 
@@ -137,24 +129,21 @@ class Hunting(commands.Cog, commands.Bot):
         # Send user a message
         await interaction.response.send_message("🏹 **|** Bir av aranıyor...")
         await asyncio.sleep(4) 
-        print(resultHunt)
-        if resultHunt == "none":
-            return await interaction.edit_original_response(content = "Maalesef, hiç av yakalayamadınız ;c")
 
         await interaction.edit_original_response(content = f"🦌 **|** Harika bir av! Bir **{huntName}** avladın. Anlık piyasa değeri: **{huntPrice}** Cupcoin ")
 
         # Update User Data
         userData["hunts"].append(resultHunt)
         userCareer["points"]["hunter_point"] +=1
-        await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
-        await collection.replace_one({"_id": interaction.user.id}, userData)
+        careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
+        collection.replace_one({"_id": interaction.user.id}, userData)
     
 
     @hunting.error
     async def huntingError(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
-            await interaction.response.send_message(f"{clock} **|** Yoruldun. Eve git ve `{timeRemaining}`s dinlen.",ephemeral=True)
+            await interaction.response.send_message(f"Yoruldun. Eve git ve `{timeRemaining}`s dinlen.",ephemeral=True)
         else:
             print(f"[HUNTING]: {error} ")
 

@@ -7,7 +7,7 @@ import datetime
 import yaml
 from yaml import Loader
 import random
-from fetchData import economyData
+from fetchdata import create_wallet
 
 yaml_file = open("assets/yamls/emojis.yml", "rb")
 emojis = yaml.load(yaml_file, Loader = Loader) 
@@ -27,39 +27,38 @@ class eggs(commands.Cog, commands.Bot):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    @app_commands.command(name="hero-egg", description="200,000 Cupcoin vererek bir kahraman yumurtası aç!")
+    @app_commands.command(name="hero-egg", description="200,000 LiCash vererek bir kahraman yumurtası aç!")
     @app_commands.guild_only
     @app_commands.checks.cooldown(
         1, 21600, key=lambda i: (i.guild_id, i.user.id))
     async def herobox(self, interaction: discord.Interaction):
-        #print(list(heroes.keys()))
 
         caseFee = 200000
         
-        db = self.bot.mongoConnect["cupcake"]
+        db = self.bot.mongoConnect["limon"]
         collection = db["inventory"]
-        userData = await collection.find_one({"_id" : interaction.user.id})
+        userData = collection.find_one({"_id" : interaction.user.id})
 
-        userCoins, economyCollection = await economyData(self.bot, interaction.user.id)
+        userCoins, economyCollection = create_wallet(self.bot, interaction.user.id)
 
-        if userCoins['coins'] < caseFee:
-            return await interaction.response.send_message(f"{emojis['cross']} Kahraman yumurtası açabilmek için **{caseFee - userCoins['coins']:,}** Cupcoine ihtiyacınız var.", ephemeral=True)
+        if userCoins['cash'] < caseFee:
+            return await interaction.response.send_message(f"{emojis['cross']} Kahraman yumurtası açabilmek için **{caseFee - userCoins['cash']:,}** LiCash'e ihtiyacınız var.", ephemeral=True)
 
-        if await collection.find_one({"_id" : interaction.user.id}) == None:
+        if collection.find_one({"_id" : interaction.user.id}) == None:
             newData = {
                 "_id": interaction.user.id,
                 "heroes" : []
             }
-            await collection.insert_one(newData)
+            collection.insert_one(newData)
 
-        userData = await collection.find_one({"_id" : interaction.user.id})
+        userData = collection.find_one({"_id" : interaction.user.id})
         
 
         if not "heroes" in  userData:
             fishData = { "$set" : {"heroes" : []}}
-            await collection.update_one(userData ,fishData)
+            collection.update_one(userData ,fishData)
         
-        userData = await collection.find_one({"_id" : interaction.user.id})
+        userData = collection.find_one({"_id" : interaction.user.id})
 
         
 
@@ -71,7 +70,7 @@ class eggs(commands.Cog, commands.Bot):
         # --------| HEROLAR
         yourHero = random.choice(sliceHero)
         userCoins['coins'] -= caseFee
-        await economyCollection.replace_one({"_id": interaction.user.id}, userCoins)
+        economyCollection.replace_one({"_id": interaction.user.id}, userCoins)
 
 
         
@@ -119,7 +118,7 @@ class eggs(commands.Cog, commands.Bot):
         await interaction.edit_original_response(content = None, embed=heroEmbed)
 
         userData['heroes'].append(yourHero) 
-        await collection.replace_one({"_id": interaction.user.id}, userData)
+        collection.replace_one({"_id": interaction.user.id}, userData)
 
         
 
@@ -130,7 +129,7 @@ class eggs(commands.Cog, commands.Bot):
     async def heroboxError(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
-            await interaction.response.send_message(f"{clock} **|** Heey! Diğer yumurtalar hazır değil! Lütfen`{timeRemaining}`s bekleyin!",ephemeral=True)
+            await interaction.response.send_message(f" Heey! Diğer yumurtalar hazır değil! Lütfen`{timeRemaining}`s bekleyin!",ephemeral=True)
 
 
 

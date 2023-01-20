@@ -5,7 +5,7 @@ from discord.ext import commands
 import datetime
 import yaml
 from yaml import Loader
-from fetchData import careerData
+from fetchdata import create_career_data
 
 badges_file = open("assets/yamls/badges.yml", "rb")
 rozet = yaml.load(badges_file, Loader = Loader) 
@@ -52,7 +52,7 @@ class CareerView(commands.Cog, commands.Bot):
     @app_commands.checks.cooldown(
         1, 600, key=lambda i: (i.guild_id, i.user.id))
     async def career(self, interaction: discord.Interaction):
-        userCareer, collection = await careerData(self.bot, interaction.user.id) 
+        userCareer, collection = create_career_data(self.bot, interaction.user.id) 
         
         userBadges = []
 

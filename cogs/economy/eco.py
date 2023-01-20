@@ -6,13 +6,13 @@ import datetime
 import random
 import yaml
 from yaml import Loader
-from fetchData import economyData
+from fetchdata import create_wallet
 
 yaml_file = open("assets/yamls/emojis.yml", "rb")
 emojis = yaml.load(yaml_file, Loader = Loader) 
 
 wallet = emojis["wallet"]
-cupcoins = emojis["cupcoins"]
+morelicash = emojis["morelicash"]
 clock = emojis["clock"] or "⏳"
 
 
@@ -22,18 +22,18 @@ class economy(commands.Cog):
         self.bot = bot
 #i.guild_id, 
     # ------ DAILY ------
-    @app_commands.command(name = "daily", description = "Günlük Cupcoin alın")
+    @app_commands.command(name = "daily", description = "Günlük LiCash alın")
     @app_commands.checks.cooldown(
         1, 86400, key=lambda i: (i.user.id))
     async def daily(self, interaction: discord.Interaction):
 
-        userData, collection = await economyData(self.bot, interaction.user.id)
+        userData, collection = create_wallet(self.bot, interaction.user.id)
         moneyRecieved = random.randint(400, 1100)
 
-        userData["coins"] += moneyRecieved
-        await collection.replace_one({"_id" : interaction.user.id}, userData)
+        userData["cash"] += moneyRecieved
+        collection.replace_one({"_id" : interaction.user.id}, userData)
 
-        await interaction.response.send_message(f"{cupcoins} Günlük kazancınız: **{moneyRecieved}** Cupcoin")
+        await interaction.response.send_message(f"{morelicash} Günlük kazancınız: **{moneyRecieved}** LiCash")
 
     @daily.error
     async def dailyError(self, interaction : discord.Interaction,
@@ -50,19 +50,19 @@ class economy(commands.Cog):
         1, 10.0, key=lambda i: (i.guild_id, i.user.id))
     async def wallet(self, interaction : discord.Interaction):
 
-        db = self.bot.mongoConnect["cupcake"]
-        collection = db["economy"]
+        db = self.bot.database["limon"]
+        collection = db["wallet"]
 
-        if await collection.find_one({"_id" : interaction.user.id}) == None:
+        if collection.find_one({"_id" : interaction.user.id}) == None:
             newData = {
                 "_id": interaction.user.id,
-                "coins" : 10000
+                "cash" : 10000
             }
-            await collection.insert_one(newData)
-            return await interaction.response.send_message(f"{wallet} | Bu harika! Geliştirici size tam **10,000** Cupcoin hediye etti!")
+            collection.insert_one(newData)
+            return await interaction.response.send_message(f"{wallet} | Bu harika! Geliştirici size tam **10,000** LiCash hediye etti!")
 
-        userData = await collection.find_one({"_id" : interaction.user.id})
-        await interaction.response.send_message(f"{wallet} Cüzdanınızda **{userData['coins']:,}** Cupcoin bulunuyor.")
+        userData = collection.find_one({"_id" : interaction.user.id})
+        await interaction.response.send_message(f"{wallet} Cüzdanınızda **{userData['cash']:,}** LiCash bulunuyor.")
 
     @wallet.error
     async def walletError(self, interaction: discord.Interaction,

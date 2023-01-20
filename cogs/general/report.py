@@ -15,10 +15,10 @@ class ReportModal(ui.Modal, title= "Bildir"):
     async def on_submit(self, interaction: discord.Interaction):
 
         reportMessage = Embed(
-            title = self.title,
+            title = "Hata",
             description = f"{self.answer}",
             timestamp= datetime.datetime.utcnow(),
-            color = 0xff3333 
+            color = 0xfff48a 
         )
 
         reportMessage.set_author(

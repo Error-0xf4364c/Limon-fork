@@ -44,15 +44,15 @@ class Help(commands.Cog, commands.Bot):
 
         if topic == "basiccommandshelp":
             commandsEmbed = Embed(description = """
-            ```Cupcake'in Temel Komutlar```\n
+            ```Limon'un Temel Komutlar```\n
             **/wallet** **››** Cüzdanınızı açın.
-            **/daily** **››** Günlük Cupcoin kazanın.
+            **/daily** **››** Günlük LiCash kazanın.
             **/inventory** **››** Envanterinizi Görüntüleyin.
-            **/send** **››** Arkadaşlarınıza Cupcoin gönderin.
+            **/send** **››** Arkadaşlarınıza LiCash gönderin.
             **/user-info** **››** Kullanıcılar hakkında bilgi edinin.
-            **/suggestion **››** Cupcake için bir öneride bulunun.
+            **/suggestion **››** Limon için bir öneride bulunun.
             **/report** **››** Hataları bildirin.
-            **/vote** **››** Cupcake'e Top.gg üzerinden oy verin.
+            **/vote** **››** Limon'a Top.gg üzerinden oy verin.
             """ )
             commandsEmbed.set_author(name = "Komutlar hakkında", icon_url = interaction.user.avatar.url)
             await interaction.response.send_message(embed=commandsEmbed, view=view)
@@ -81,7 +81,7 @@ class Help(commands.Cog, commands.Bot):
         elif topic == "badgescommands":
             badgesEmbed = Embed(description = """
             ```Rozetler nedir?```\n
-            Bir iş yaptığınızda, kumar oynadığınızda, arkadaşınıza Cupcoin gönderdiğinizde sahip olabileceğiniz,
+            Bir iş yaptığınızda, kumar oynadığınızda, arkadaşınıza LiCash gönderdiğinizde sahip olabileceğiniz,
             toplam 3 farklı seviyesi (acemi, amatör ve usta) bulunan ve envanterinizde görünen sizin bir konuda ne kadar iyi olduğunuzu gösteren bir çeşit madalya 
             \n
             ```Peki nasıl rozet alabilirim??```\n
@@ -89,7 +89,7 @@ class Help(commands.Cog, commands.Bot):
             Avcılık yaparak **Avcı** rozeti kazanabilirsiniz. 
             Balıkçılık yaparak **Balıkçı** rozeti kazanabilirsiniz. 
             En az 3 kahraman sahip olarak **Kahraman Sahibi** rozeti kazanabilirsiniz. 
-            Arkadaşlarınıza Cupcoin göndererek **İyi İnsan** rozeti kazanabilirsiniz.
+            Arkadaşlarınıza LiCash göndererek **İyi İnsan** rozeti kazanabilirsiniz.
             """)
             badgesEmbed.set_author(name = "Rozetler hakkında", icon_url = interaction.user.avatar.url)
             badgesEmbed.set_image(url="https://cdn.discordapp.com/attachments/899751701077164043/1001246682215878666/unknown.png")

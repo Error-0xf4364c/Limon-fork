@@ -18,7 +18,7 @@ class VoteMe(commands.Cog, commands.Bot):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    @app_commands.command(name="vote", description = "Cupcake'e Top.gg'de oy ver!")
+    @app_commands.command(name="vote", description = "Limon'a Top.gg'de oy ver!")
     async def vote(self, interaction: discord.Interaction):
         view = View()
 

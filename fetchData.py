@@ -1,23 +1,24 @@
-async def economyData(bot, _id):
+def create_wallet(bot, _id):
 
-    db = bot.mongoConnect["cupcake"]
-    collection = db["economy"]
+    db = bot.database["limon"]
+    collection = db["wallet"]
 
-    if await collection.find_one({"_id" : _id}) == None:
-        newData = {
+    if collection.find_one({"_id" : _id}) == None:
+        new_data = {
             "_id": _id,
-            "coins" :0
+            "cash" : 0
         }
-        await collection.insert_one(newData)
+        collection.insert_one(new_data)
+        
 
-    return await collection.find_one({"_id" : _id}), collection
+    return collection.find_one({"_id" : _id}), collection
 
-async def careerData(bot, _id):
+def create_career_data(bot, _id):
 
-    db = bot.mongoConnect["cupcake"]
+    db = bot.database["limon"]
     collection = db["career"]
 
-    if await collection.find_one({"_id" : _id}) == None:
+    if collection.find_one({"_id" : _id}) == None:
         newData = {
             "_id": _id,
             "points": {
@@ -29,6 +30,6 @@ async def careerData(bot, _id):
                 "gamble_point" : 0
             }
         }
-        await collection.insert_one(newData)
+        collection.insert_one(newData)
 
-    return await collection.find_one({"_id" : _id}), collection
+    return collection.find_one({"_id" : _id}), collection
