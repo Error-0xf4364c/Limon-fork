@@ -1,4 +1,4 @@
-# 🍋 Limon Discord Bot
+# 🍋 [Limon Discord Bot](https://discord.com/api/oauth2/authorize?client_id=994143430504620072&permissions=139586817088&scope=applications.commands%20bot)
 *Economy & Fun*
 
 ## License
