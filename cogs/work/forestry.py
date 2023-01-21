@@ -23,28 +23,28 @@ class Forester(commands.Cog, commands.Bot):
     async def forestry(self, interaction: discord.Interaction):
         
         # Database Connection
-        db = self.bot.mongoConnect["cupcake"]
+        db = self.bot.database["limon"]
         collection = db["inventory"]
         careerCollection = db["career"]
 
         # Database Checks
-        if await collection.find_one({"_id": interaction.user.id}) == None:
+        if collection.find_one({"_id": interaction.user.id}) == None:
             newData = {
                 "_id": interaction.user.id,
                 "wood" : {},
             }
-            await collection.insert_one(newData)
+            collection.insert_one(newData)
 
         # Career Check
-        if await careerCollection.find_one({"_id": interaction.user.id}) == None:
+        if careerCollection.find_one({"_id": interaction.user.id}) == None:
             newData = {
                 "_id": interaction.user.id,
                 "points":  {"forester_point": 0}
             }
-            await careerCollection.insert_one(newData)
+            careerCollection.insert_one(newData)
 
-        userData = await collection.find_one({"_id": interaction.user.id})
-        userCareer = await careerCollection.find_one({"_id": interaction.user.id})
+        userData = collection.find_one({"_id": interaction.user.id})
+        userCareer = careerCollection.find_one({"_id": interaction.user.id})
 
         # Axe check
         if "items" not in userData or "axe" not in userData["items"]:
@@ -53,19 +53,19 @@ class Forester(commands.Cog, commands.Bot):
         # Wood Check
         if "wood" not in userData:
             foresterData = { "$set" : {"wood" : {}}}
-            await collection.update_one(userData ,foresterData)
+            collection.update_one(userData ,foresterData)
 
         if "points" not in userCareer:
             careerData = { "$set" : {"points" : {}}}
-            await careerCollection.update_one(userCareer ,careerData)
+            careerCollection.update_one(userCareer ,careerData)
 
         if "forester_point" not in userCareer["points"]:
             careerData = { "$set" : {"points.forester_point" : 0}}
-            await careerCollection.update_one(userCareer ,careerData)
+            careerCollection.update_one(userCareer ,careerData)
 
         # User Datas
-        userData = await collection.find_one({"_id": interaction.user.id}) # User Data
-        userCareer = await careerCollection.find_one({"_id": interaction.user.id}) # User Career Data
+        userData = collection.find_one({"_id": interaction.user.id}) # User Data
+        userCareer = careerCollection.find_one({"_id": interaction.user.id}) # User Career Data
         userAxe = userData["items"]["axe"] # User Axe
 
         # Forestry System
@@ -155,8 +155,8 @@ class Forester(commands.Cog, commands.Bot):
         # Update User Data
         userData["wood"].update({resultWood : woodSize}) 
         userCareer["points"]["forester_point"] +=1
-        await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
-        await collection.replace_one({"_id": interaction.user.id}, userData)
+        careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
+        collection.replace_one({"_id": interaction.user.id}, userData)
 
     # Error Handler
     @forestry.error

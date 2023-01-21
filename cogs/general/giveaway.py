@@ -36,10 +36,10 @@ class GiveawayButton(ui.View):
     
     @ui.button(label = "Katıl", style = discord.ButtonStyle.blurple, emoji = "🎉")
     async def join_callback(self, interaction, button):
-        db = client.mongoConnect["cupcake"]
+        db = client.database["limon"]
         collection = db["giveaway"]
         
-        data = await collection.find_one({"_id" : interaction.guild.id})
+        data = collection.find_one({"_id" : interaction.guild.id})
         
         participants = data["participants"]
         
@@ -48,7 +48,7 @@ class GiveawayButton(ui.View):
         
         participants.append(interaction.user.id)
         
-        await collection.replace_one({"_id" : interaction.guild.id}, data)
+        collection.replace_one({"_id" : interaction.guild.id}, data)
         
         await interaction.response.send_message(content = "Çekilişe başarıyla katıldınız.", ephemeral = True)
         
@@ -133,23 +133,22 @@ class GiveawayModal(ui.Modal, title= "Çekiliş"):
 
         await interaction.response.send_message(embed = giveaway_message, view = buttons)
         
-        
-        
-        
-        
             
         await asyncio.sleep(time)
         
-        db = client.mongoConnect["cupcake"]
+        db = client.database["limon"]
         collection = db["giveaway"]
         
-        data = await collection.find_one({"_id" : interaction.guild.id})
+        data = collection.find_one({"_id" : interaction.guild.id})
         participants = data["participants"]
         
         if participants == []:
-            await interaction.edit_original_response(content = f"❌ **| Çekiliş iptal edildi. Sebebi şu olabilir:**\n**Yetersiz katılımcı**\nor\n⏳ **| Geçersiz bitiş tarihi**")
+            await interaction.edit_original_response(content = f"❌ **| Çekiliş iptal edildi. Sebebi şu olabilir:**\n`Yetersiz katılımcı`\nveya\n⏳ `| Geçersiz bitiş tarihi`")
+            collection.delete_one({"_id" : interaction.guild.id})
             try:
-                interaction.user.send(content = f"{interaction.guild.name} adlı sunucudaki çekişiniz yetersiz katılımcı sebebiyle iptal edildi. \n`Çekiliş Başlığı = {self.g_title}`")
+                user_send_embed = Embed(description = f"**{interaction.guild.name}** adlı sunucudaki **{self.g_title}** başlıklı çekişiniz yetersiz katılımcı sebebiyle iptal edildi.", color = 0xfa4b4b)
+
+                await interaction.user.send(embed = user_send_embed)
             except:
                 return
 
@@ -161,14 +160,12 @@ class GiveawayModal(ui.Modal, title= "Çekiliş"):
 
             winner = random.choice(participants)
             winner_count += 1
-            print(winner)
+            
             if winner in winners:
                 continue
             
             winners.append(winner)
             
-        print("out")
-        print(winners)
         
         if len(winners) == 1:
            winners = f"<@{winner}>"
@@ -186,7 +183,7 @@ class GiveawayModal(ui.Modal, title= "Çekiliş"):
         giveaway_end_message.set_footer(text = f"{interaction.user} tarafından - Bitti",icon_url = interaction.client.user.avatar.url)
 
         await interaction.edit_original_response(content = f"Çekilişi Kazananlar: {winners}", embed = giveaway_end_message, view = None)
-        await collection.delete_one({"_id" : interaction.guild.id})
+        collection.delete_one({"_id" : interaction.guild.id})
 
 class Giveaway(commands.Cog, commands.Bot):
     def __init__(self, bot: commands.Bot):
@@ -195,16 +192,16 @@ class Giveaway(commands.Cog, commands.Bot):
     @app_commands.command(name = "giveaway", description = "Hemen bir çekiliş yapın")
     async def giveaway(self, interaction: discord.Interaction):
         
-        db = self.bot.mongoConnect["cupcake"]
+        db = self.bot.database["limon"]
         collection = db["giveaway"]
         
-        if await collection.find_one({"_id" : interaction.guild.id}) == None:
+        if collection.find_one({"_id" : interaction.guild.id}) == None:
             new_data = {
                 "_id" : interaction.guild.id,
                 "participants" : []
                 
             }
-            await collection.insert_one(new_data)
+            collection.insert_one(new_data)
         
         
         modal = GiveawayModal()

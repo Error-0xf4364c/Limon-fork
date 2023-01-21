@@ -4,7 +4,7 @@ from discord.ext import commands
 import yaml
 from yaml import Loader
 import datetime
-from fetchData import *
+from fetchdata import *
 
 yaml_file = open("assets/yamls/emojis.yml", "rb")
 emojis = yaml.load(yaml_file, Loader = Loader) 
@@ -19,39 +19,39 @@ class sendCoin(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    @app_commands.command(name = "send", description = "Arkadaşlarına Cupcoin gönder!")
-    @app_commands.describe(friend='Kime Cupcoin göndereceksin?', amount="Ne kadar Cupcoin göndereceksin?")
+    @app_commands.command(name = "send", description = "Arkadaşlarına LiCash gönder!")
+    @app_commands.describe(friend='Kime LiCash göndereceksin?', amount="Ne kadar LiCash göndereceksin?")
     @app_commands.checks.cooldown(
         1, 50.0, key=lambda i: (i.guild_id, i.user.id))
     async def send(self, interaction: discord.Interaction, friend: discord.User, amount: app_commands.Range[int, 1, 50000]):
 
-        userData, collection = await economyData(self.bot, interaction.user.id)
-        userCareerData, careerCollection = await careerData(self.bot, interaction.user.id)
+        userData, collection = create_wallet(self.bot, interaction.user.id)
+        userCareerData, careerCollection = create_career_data(self.bot, interaction.user.id)
 
         
 
         if friend == interaction.user:
             return await interaction.response.send_message(f"{cross} Kendine para gönderemezsin!", ephemeral=True)
 
-        if await collection.find_one({"_id": interaction.user.id}) == None:
-            return
-        elif await collection.find_one({"_id": friend.id}) == None:
+        if collection.find_one({"_id": interaction.user.id}) == None:
+            return await interaction.response.send_message(f"{whiteCross} Hesabınız bulunamadı ;c", ephemeral= True)
+        elif collection.find_one({"_id": friend.id}) == None:
             return await interaction.response.send_message(f"{whiteCross} Belirttiğiniz kullanıcı bulunamadı ;c", ephemeral= True)
 
-        userData = await collection.find_one({"_id": interaction.user.id})
-        targetData = await collection.find_one({"_id": friend.id})
+        userData = collection.find_one({"_id": interaction.user.id})
+        targetData = collection.find_one({"_id": friend.id})
 
-        if userData['coins'] < amount:
-            return await interaction.response.send_message(f"{cross} Göndermek istediğin kadar Cupcoine sahip değilsin!")
+        if userData['cash'] < amount:
+            return await interaction.response.send_message(f"{cross} Göndermek istediğin kadar LiCash sahip değilsin!")
         
         userCareerData["points"]['send_point'] += 1
-        await careerCollection.replace_one({"_id": interaction.user.id}, userCareerData)
+        careerCollection.replace_one({"_id": interaction.user.id}, userCareerData)
 
-        userData['coins'] -= amount
-        targetData['coins'] += amount
-        await collection.replace_one({"_id": interaction.user.id}, userData)
-        await collection.replace_one({"_id": friend.id}, targetData)
-        await interaction.response.send_message(f"{send} **{friend.name}** arkadaşına başarıyla **{amount:,}** Cupcoin gönderdin.")
+        userData['cash'] -= amount
+        targetData['cash'] += amount
+        collection.replace_one({"_id": interaction.user.id}, userData)
+        collection.replace_one({"_id": friend.id}, targetData)
+        await interaction.response.send_message(f"{send} **{friend.name}** arkadaşına başarıyla **{amount:,}** LiCash gönderdin.")
     @send.error
     async def sendError(self, interaction : discord.Interaction,
                          error: app_commands.AppCommandError):

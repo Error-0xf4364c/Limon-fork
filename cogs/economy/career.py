@@ -5,10 +5,15 @@ from discord.ext import commands
 import datetime
 import yaml
 from yaml import Loader
-from fetchData import careerData
+from fetchdata import create_career_data
 
 badges_file = open("assets/yamls/badges.yml", "rb")
 rozet = yaml.load(badges_file, Loader = Loader) 
+
+emojis_file = open("assets/yamls/emojis.yml", "rb")
+emoji = yaml.load(emojis_file, Loader = Loader) 
+
+career_emoji = emoji["career"]
 
 heropuani = rozet['heropuani']
 
@@ -52,7 +57,7 @@ class CareerView(commands.Cog, commands.Bot):
     @app_commands.checks.cooldown(
         1, 600, key=lambda i: (i.guild_id, i.user.id))
     async def career(self, interaction: discord.Interaction):
-        userCareer, collection = await careerData(self.bot, interaction.user.id) 
+        userCareer, collection = create_career_data(self.bot, interaction.user.id) 
         
         userBadges = []
 
@@ -95,7 +100,7 @@ class CareerView(commands.Cog, commands.Bot):
         else:
             badges_ = " ".join(userBadges)
 
-        careerResponse = Embed(description= f"{badges_}\n════════════════════════════════\n***Kariyer Puanlarınız:***\n {viewUserPoints}")
+        careerResponse = Embed(description= f"{badges_}\n════════════════════════════════\n{career_emoji} ***Kariyer Puanlarınız:***\n {viewUserPoints}")
         careerResponse.set_author(name = f"{interaction.user.name} Adlı Kullanıcının Kariyeri", icon_url = interaction.user.avatar.url)
 
 

@@ -15,12 +15,6 @@ yaml_file2 = open("assets/yamls/mines.yml", "rb")
 mine = yaml.load(yaml_file2, Loader = Loader)
 
 
-cupcoin = emojis["cupcoin"]
-cross = emojis["cross"]
-cupcoinBack = emojis["cupcoinBack"]
-cupcoins = emojis["cupcoins"]
-clock = emojis["clock"] or "⏳"
-
 class Mining(commands.Cog, commands.Bot):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
@@ -31,28 +25,28 @@ class Mining(commands.Cog, commands.Bot):
     async def mining(self, interaction: discord.Interaction):
         
         # Database Connection
-        db = self.bot.mongoConnect["cupcake"]
+        db = self.bot.database["limon"]
         collection = db["inventory"]
         careerCollection = db["career"]
 
         # Database Checks
-        if await collection.find_one({"_id": interaction.user.id}) == None:
+        if collection.find_one({"_id": interaction.user.id}) == None:
             newData = {
                 "_id": interaction.user.id,
                 "mines" : {},
             }
-            await collection.insert_one(newData)
+            collection.insert_one(newData)
 
         # Career Check
-        if await careerCollection.find_one({"_id": interaction.user.id}) == None:
+        if careerCollection.find_one({"_id": interaction.user.id}) == None:
             newData = {
                 "_id": interaction.user.id,
                 "points": {"miner_point": 0}
             }
-            await careerCollection.insert_one(newData)
+            careerCollection.insert_one(newData)
 
-        userData = await collection.find_one({"_id": interaction.user.id})
-        userCareer = await careerCollection.find_one({"_id": interaction.user.id})
+        userData = collection.find_one({"_id": interaction.user.id})
+        userCareer = careerCollection.find_one({"_id": interaction.user.id})
 
 
         # Axe check
@@ -62,19 +56,19 @@ class Mining(commands.Cog, commands.Bot):
         # Wood Check
         if "mines" not in userData:
             foresterData = { "$set" : {"mines" : {}}}
-            await collection.update_one(userData ,foresterData)
+            collection.update_one(userData ,foresterData)
 
         if "points" not in userCareer:
             careerData = { "$set" : {"points" : {}}}
-            await careerCollection.update_one(userCareer ,careerData)
+            careerCollection.update_one(userCareer ,careerData)
 
         if "miner_point" not in userCareer["points"]:
             careerData = { "$set" : {"points.miner_point" : 0}}
-            await careerCollection.update_one(userCareer ,careerData)
+            careerCollection.update_one(userCareer ,careerData)
 
         # User Datas
-        userData = await collection.find_one({"_id": interaction.user.id}) # User Data
-        userCareer = await careerCollection.find_one({"_id": interaction.user.id}) # User Career Data
+        userData = collection.find_one({"_id": interaction.user.id}) # User Data
+        userCareer = careerCollection.find_one({"_id": interaction.user.id}) # User Career Data
         userPickaxe = userData["items"]["pickaxe"] # User Pickaxe
 
         # Mining System
@@ -160,8 +154,6 @@ class Mining(commands.Cog, commands.Bot):
         await interaction.response.send_message(f"⛏️ **|** Kazmaya başladınız. Bu işlem yaklaşık {sleepTime} saniye sürecek.")
         await asyncio.sleep(sleepTime) 
 
-        if resultMine == "none":
-            return await interaction.edit_original_response("Maalesef madenden eli boş döndünüz ;c")
         await interaction.edit_original_response(content = f"💎 **|** Harika iş madenci! Madenden tam **{mineSize}** kilogram **{mineName}** madeni çıkardın. Anlık piyasa değeri: {minePrice}")
 
         if resultMine in userData["mines"]:
@@ -170,8 +162,8 @@ class Mining(commands.Cog, commands.Bot):
         # Update User Data
         userData["mines"].update({resultMine : mineSize}) 
         userCareer["points"]["miner_point"] +=1
-        await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
-        await collection.replace_one({"_id": interaction.user.id}, userData)
+        careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
+        collection.replace_one({"_id": interaction.user.id}, userData)
 
 
 
@@ -180,7 +172,7 @@ class Mining(commands.Cog, commands.Bot):
     async def miningError(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
-            await interaction.response.send_message(f"{clock} **|** Yoruldun. Eve git ve `{timeRemaining}`s dinlen.",ephemeral=True)
+            await interaction.response.send_message(f"Yoruldun. Eve git ve `{timeRemaining}`s dinlen.",ephemeral=True)
         else:
             print(f"[MINING]: {error} ")
 

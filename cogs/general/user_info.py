@@ -47,8 +47,8 @@ class general(commands.Cog, commands.Bot):
         if member.bot == True:
             return await interaction.response.send_message("Bir bot hakkında bilgi edinemezsiniz.", ephemeral = True)
 
-        db = self.bot.mongoConnect["cupcake"]
-        collection = db["economy"]
+        db = self.bot.database["limon"]
+        collection = db["wallet"]
         heroesCollection = db["inventory"]
 
         
@@ -67,8 +67,8 @@ class general(commands.Cog, commands.Bot):
 
         
         
-        if "coins" in userData:
-            userCoins = userData['coins']
+        if "cash" in userData:
+            userCoins = userData['cash']
 
         if "heroes" in userHeroesData:
             userHeroes = len(userHeroesData['heroes'])

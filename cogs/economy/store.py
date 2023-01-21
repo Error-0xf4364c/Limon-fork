@@ -14,6 +14,12 @@ from yaml import Loader
 items_file = open("assets/yamls/items.yml", "rb")
 items = yaml.load(items_file, Loader = Loader) 
 
+emojis_file = open("assets/yamls/emojis.yml", "rb")
+emoji = yaml.load(emojis_file, Loader=Loader)
+
+sell_emoji = emoji["sell"]
+sold_emoji = emoji["sold"]
+new_emoji = emoji["new"]
 
 # MINING ITEMS 
 pickaxes = items["pickaxe"]
@@ -188,7 +194,7 @@ class Pickaxes(discord.ui.Select):
             discord.SelectOption(label='Taş Kazma', value= "stonepickaxe", description=f'Ücret: {stonePickaxePrice:,}', emoji='⛏️'),
             
             
-            discord.SelectOption(label='Kazmayı Sat', value= "sellpickaxe", description=f'Kazmanı sat ve yenisini satın al', emoji='🗑️')
+            discord.SelectOption(label='Kazmayı Sat', value= "sellpickaxe", description=f'Kazmanı sat ve yenisini satın al', emoji= sell_emoji or '🗑️')
         ]
         super().__init__(placeholder='Bir Kazma Seç', options=options)
 
@@ -220,51 +226,52 @@ class Pickaxes(discord.ui.Select):
             pickaxeId = "mininigvehicle"
 
         # Database Connection
-        db = client.mongoConnect["cupcake"]
+        db = client.database["limon"]
         inventoryCollection = db["inventory"]
-        coinCollection = db["economy"]
+        coinCollection = db["wallet"]
 
         # Inventory Check
-        if await inventoryCollection.find_one({"_id" : interaction.user.id}) == None:
+        if inventoryCollection.find_one({"_id" : interaction.user.id}) == None:
             newUserData = {
                 "_id": interaction.user.id,
                 "items" : {}
             }
-            await inventoryCollection.insert_one(newUserData)
+            inventoryCollection.insert_one(newUserData)
 
         # User Inventory (old)
-        userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
+        userInventory = inventoryCollection.find_one({"_id": interaction.user.id})
 
         # Items Check
         if "items" not in userInventory:
 
             itemsData = { "$set" : {"items" : {}}}
 
-            await inventoryCollection.update_one(userInventory, itemsData)
+            inventoryCollection.update_one(userInventory, itemsData)
 
         # User Inventory (new)
-        userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
+        userInventory = inventoryCollection.find_one({"_id": interaction.user.id})
 
         if self.values[0] == "sellpickaxe":
             if "pickaxe" in userInventory["items"]:
                 
                 userInventory["items"].pop("pickaxe")
-                await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
-                await interaction.response.send_message(content = "Kazmanı başarıyla sattın")
+                inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
+                await interaction.response.send_message(content = f"{sold_emoji} ** | {interaction.user.mention} Kazmanı başarıyla sattın**")
+                return
             else:
-                return await interaction.response.send_message(content = "Bir kazmaya sahip değilsin!")
+                return await interaction.response.send_message(content = "Bir kazmaya sahip değilsin!", ephemeral = True)
 
         # Wallet Check
-        if await coinCollection.find_one({"_id" : interaction.user.id}) == None:
-            return await interaction.response.send_message(content = "Cüzdanın yok! `/wallet` komutunu kullan ve bir cüzdan oluştur", ephemeral = True)
+        if coinCollection.find_one({"_id" : interaction.user.id}) == None:
+            return await interaction.response.send_message(content = "Banka hesabın yok! `/balance` komutunu kullan ve bir hesap oluştur", ephemeral = True)
 
         # User Wallet
-        userWallet = await coinCollection.find_one({"_id" : interaction.user.id})
+        userWallet = coinCollection.find_one({"_id" : interaction.user.id})
 
         # Cupcoin (money) Check
-        if userWallet["coins"] < pickaxePrice:
-            needMoney = pickaxePrice - userWallet["coins"]
-            return await interaction.response.send_message(content = f"Cüzdanınızda yeteri kadar Cupcoin bulunmuyor! {needMoney:,} Cupcoin'e ihtiyacınız var.", ephemeral = True)
+        if userWallet["cash"] < pickaxePrice:
+            needMoney = pickaxePrice - userWallet["cash"]
+            return await interaction.response.send_message(content = f"Hesabında yeteri kadar LiCash bulunmuyor! {needMoney:,} LiCash'e ihtiyacınız var.", ephemeral = True)
 
 
 
@@ -273,123 +280,15 @@ class Pickaxes(discord.ui.Select):
             return await interaction.response.send_message("Zaten bir kazmanız var", ephemeral = True)
 
         # Fee received
-        userWallet["coins"] -= pickaxePrice
-        await coinCollection.replace_one({"_id" : interaction.user.id}, userWallet)
+        userWallet["cash"] -= pickaxePrice
+        coinCollection.replace_one({"_id" : interaction.user.id}, userWallet)
 
         # Add Item
         userInventory["items"].update({"pickaxe" : pickaxeId})
-        await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
+        inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
 
-        await interaction.response.send_message(f"✨⛏️ **|** {pickaxePrice:,} Cupcoin ödeyerek yeni bir {pickaxeName} satın aldınız. Artık daha değerli madenler çıkarabileceksiniz.")
+        await interaction.response.send_message(f"{new_emoji}⛏️ **|** {interaction.user.mention} {pickaxePrice:,} LiCash ödeyerek yeni bir {pickaxeName} satın aldınız. Artık daha değerli madenler çıkarabileceksiniz.")
 
-class Swords(discord.ui.Select):
-    def __init__(self):
-
-        options = [
-            discord.SelectOption(label='Claymore Kılıcı', value= "claymore", description=f' {claymorePrice:,} yerine sadece {claymoreDcPrice:,} Cupcoin', emoji='⚔️'),
-            discord.SelectOption(label='Odachi Kılıcı', value= "odachi", description=f'{odachiPrice:,} yerine sadece {odachiDcPrice:,} Cupcoin', emoji='⚔️'),
-            discord.SelectOption(label='Rapier Kılıcı', value= "rapier", description=f'{rapierPrice:,} yerine sadece {rapierDcPrice:,} Cupcoin', emoji='⚔️'),
-            discord.SelectOption(label='Katana Kılıcı', value= "katana", description=f'{katanaPrice:,} yerine sadece {katanaDcPrice:,} Cupcoin', emoji='⚔️'),
-            discord.SelectOption(label='Chukuto Kılıcı', value= "chokuto", description=f'{chukutoPrice:,} yerine sadece {chukutoDcPrice:,} Cupcoin', emoji='⚔️'),
-            discord.SelectOption(label='Gladius Kılıcı', value= "gladius", description=f'{gladiusPrice:,} yerine sadece {gladiusDcPrice:,} Cupcoin', emoji='⚔️'),      
-
-            discord.SelectOption(label='Kılıcını Sat', value= "sellsword", description=f'Kılıcını sat ve yenisini al', emoji='🗑️')
-
-        ]
-        super().__init__(placeholder='Bir Kılıç Seç', options=options)
-
-    async def callback(self, interaction: discord.Interaction):
-        
-        swordName = ""
-        swordPrice = 0
-        swordId = ""
-        
-        if self.values[0] == "gladius":
-            swordName = "Gladius Kılıcı"
-            swordPrice = gladiusDcPrice
-            swordId = "gladius"
-        elif self.values[0] == "chokuto":
-            swordName = "Chukuto Kılıcı"
-            swordPrice = chukutoDcPrice
-            swordId = "chokuto"
-        elif self.values[0] == "katana":
-            swordName = "Katana Kılıcı"
-            swordPrice = katanaDcPrice
-            swordId = "katana"
-        elif self.values[0] == "rapier":
-            swordName = "Rapier Kılıcı"
-            swordPrice = rapierDcPrice
-            swordId = "rapier"
-        elif self.values[0] == "odachi":
-            swordName = "Odachi Kılıcı"
-            swordPrice = odachiDcPrice
-            swordId = "odachi"
-        elif self.values[0] == "claymore":
-            swordName = "Claymore Kılıcı"
-            swordPrice = claymoreDcPrice
-            swordId = "claymore"
-
-        # Database Connection
-        db = client.mongoConnect["cupcake"]
-        inventoryCollection = db["inventory"]
-        coinCollection = db["economy"]
-        
-        # Inventory Check
-        if await inventoryCollection.find_one({"_id" : interaction.user.id}) == None:
-            newData = {
-                "_id": interaction.user.id,
-                "items" : {}
-            }
-            await inventoryCollection.insert_one(newData)
-            
-        # User Inventory (old)
-        userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
-            
-        # Items Check
-        if "items" not in userInventory:
-            itemsData = { "$set" : {"items" : {}}}
-            await inventoryCollection.update_one(userInventory, itemsData)
-
-        # User Inventory (new)
-        userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
-
-        
-
-        if self.values[0] == "sellsword":
-            if "sword" in userInventory["items"]:
-                
-                userInventory["items"].pop("sword")
-                await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
-                await interaction.response.send_message("Kılıcını başarıyla sattın")
-            else:
-                return await interaction.response.send_message("Bir kılıca sahip değilsin")
-
-        # Wallet Check
-        if await coinCollection.find_one({"_id" : interaction.user.id}) == None:
-            return await interaction.response.send_message("Cüzdanın yok! `/wallet` komutunu kullan ve bir cüzdan oluştur", ephemeral = True)
-
-        # User Wallet
-        userWallet = await coinCollection.find_one({"_id" : interaction.user.id})
-
-        # Cupcoin (money) Check
-        if userWallet["coins"] < swordPrice:
-            needMoney = swordPrice - userWallet["coins"]
-            return await interaction.response.send_message(f"Cüzdanınızda yeteri kadar Cupcoin bulunmuyır! {needMoney:,} Cupcoin'e ihtiyacınız var", ephemeral = True)
-
-
-        # Pickaxe Check
-        if "sword" in userInventory["items"]:
-            return await interaction.response.send_message("Zaten bir kılıca sahipsiniz", ephemeral = True)
-
-        # Fee received
-        userWallet["coins"] -= swordPrice
-        await coinCollection.replace_one({"_id" : interaction.user.id}, userWallet)
-        
-        # Add Item
-        userInventory["items"].update({"sword" : swordId})
-        await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
-
-        await interaction.response.send_message(f"✨⚔️ **|** {swordPrice:,} Cupcoin ödeyerek yeni bir {swordName} satın aldınız. Bir kılıç almak çok akıllıca! Gelecekte çok iş yapacak.")
 
 class Rods(discord.ui.Select):
     def __init__(self):
@@ -401,7 +300,7 @@ class Rods(discord.ui.Select):
             discord.SelectOption(label='Sağlam Olta', value= "solidrod", description=f'Ücret: {solidRodPrice:,}', emoji='🎣'),
             discord.SelectOption(label='Basit Olta', value= "simplerod", description=f'Ücret: {simpleRodPrice:,}', emoji='🎣'),
             
-            discord.SelectOption(label='Oltayı Sat', value= "sellrod", description=f"Oltanı sat ve yenisini al", emoji='🗑️')
+            discord.SelectOption(label='Oltayı Sat', value= "sellrod", description=f"Oltanı sat ve yenisini al", emoji=sell_emoji or '🗑️')
 
         ]
         super().__init__(placeholder='Bir Olta Seç', options=options)
@@ -439,48 +338,48 @@ class Rods(discord.ui.Select):
 
 
         # Database Connection
-        db = client.mongoConnect["cupcake"]
+        db = client.database["limon"]
         inventoryCollection = db["inventory"]
-        coinCollection = db["economy"]
+        coinCollection = db["wallet"]
         
         # Inventory Check
-        if await inventoryCollection.find_one({"_id" : interaction.user.id}) == None:
+        if inventoryCollection.find_one({"_id" : interaction.user.id}) == None:
             newData = {
                 "_id": interaction.user.id,
                 "items" : {}
             }
-            await inventoryCollection.insert_one(newData)
+            inventoryCollection.insert_one(newData)
 
         # User Inventory (old)
-        userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
+        userInventory = inventoryCollection.find_one({"_id": interaction.user.id})
         
         # Items Check
         if "items" not in userInventory:
             itemsData = { "$set" : {"items" : {}}}
-            await inventoryCollection.update_one(userInventory, itemsData)
+            inventoryCollection.update_one(userInventory, itemsData)
 
         # User Inventory (new)
-        userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
+        userInventory = inventoryCollection.find_one({"_id": interaction.user.id})
 
         if self.values[0] == "sellrod":
             if "rod" in userInventory["items"]:
                 userInventory["items"].pop("rod")
-                await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
-                await interaction.response.send_message("Oltanızı başarıyla sattınız")
+                inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
+                await interaction.response.send_message(content = f"{sold_emoji} ** | {interaction.user.mention} Oltanı başarıyla sattın**")
                 return
             else:
-                return await interaction.response.send_message("Zaten bir oltaya sahip değilsiniz")
+                return await interaction.response.send_message("Zaten bir oltaya sahip değilsiniz", ephemeral = True)
         # Wallet Check
-        if await coinCollection.find_one({"_id" : interaction.user.id}) == None:
-            return await interaction.response.send_message("Cüzdanın yok! `/wallet` komutunu kullan ve bir cüzdan oluştur", ephemeral = True)
+        if coinCollection.find_one({"_id" : interaction.user.id}) == None:
+            return await interaction.response.send_message("Banka hesabın yok! `/balance` komutunu kullan ve bir hesap oluştur", ephemeral = True)
 
         # User Wallet
-        userWallet = await coinCollection.find_one({"_id" : interaction.user.id})
+        userWallet = coinCollection.find_one({"_id" : interaction.user.id})
 
         # Cupcoin (money) Check
-        if userWallet["coins"] < rodPrice:
-            needMoney = rodPrice - userWallet["coins"] 
-            return await interaction.response.send_message(f"Cüzdanınızda yeteri kadar Cupcoin bulunmuyor! {needMoney:,} Cupcoin'e ihtiyacınız var", ephemeral = True)
+        if userWallet["cash"] < rodPrice:
+            needMoney = rodPrice - userWallet["cash"] 
+            return await interaction.response.send_message(f"Hesabınızda yeteri kadar LiCash bulunmuyor! {needMoney:,} LiCash'e ihtiyacınız var", ephemeral = True)
 
 
         # Pickaxe Check
@@ -488,14 +387,14 @@ class Rods(discord.ui.Select):
             return await interaction.response.send_message("Zaten bir oltaya sahipsiniz", ephemeral = True)
 
         # Fee received
-        userWallet["coins"] -= rodPrice
-        await coinCollection.replace_one({"_id" : interaction.user.id}, userWallet)
+        userWallet["cash"] -= rodPrice
+        coinCollection.replace_one({"_id" : interaction.user.id}, userWallet)
         
         # Add Item
         userInventory["items"].update({"rod" : rodId})
-        await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
+        inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
 
-        await interaction.response.send_message(f"✨🎣 **|** {rodPrice:,} ödeyerek yeni bir {rodName} satın aldınız . Bu olta ile daha değerli balıklar tutabileceksiniz.")
+        await interaction.response.send_message(f"{new_emoji}🎣 **|** {interaction.user.mention} {rodPrice:,} LiCash ödeyerek yeni bir {rodName} satın aldınız . Bu olta ile daha değerli balıklar tutabileceksiniz.")
 
 class Bows(discord.ui.Select):
     def __init__(self):
@@ -507,7 +406,7 @@ class Bows(discord.ui.Select):
             discord.SelectOption(label='Bakır Yay', value= "copperbow", description=f'Ücret: {copperBowPrice:,}', emoji='🏹'),
             discord.SelectOption(label='Tahta Yay', value= "woodenbow", description=f'Ücret: {woodenBowPrice:,}', emoji='🏹'),
             
-            discord.SelectOption(label='Yayı Sat', value= "sellbow", description=f"Yayını sat ve yenisini al", emoji='🗑️')
+            discord.SelectOption(label='Yayı Sat', value= "sellbow", description=f"Yayını sat ve yenisini al", emoji={sell_emoji} or  '🗑️')
 
         ]
         super().__init__(placeholder='Bir Yay Seç', options=options)
@@ -545,51 +444,51 @@ class Bows(discord.ui.Select):
 
 
         # Database Connection
-        db = client.mongoConnect["cupcake"]
+        db = client.database["limon"]
         inventoryCollection = db["inventory"]
-        coinCollection = db["economy"]
+        coinCollection = db["wallet"]
         
         # Inventory Check
-        if await inventoryCollection.find_one({"_id" : interaction.user.id}) == None:
+        if inventoryCollection.find_one({"_id" : interaction.user.id}) == None:
             newData = {
                 "_id": interaction.user.id,
                 "items" : {}
             }
-            await inventoryCollection.insert_one(newData)
+            inventoryCollection.insert_one(newData)
 
         # User Inventory (old)
-        userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
+        userInventory = inventoryCollection.find_one({"_id": interaction.user.id})
         
         # Items Check
         if "items" not in userInventory:
             itemsData = { "$set" : {"items" : {}}}
-            await inventoryCollection.update_one(userInventory, itemsData)
+            inventoryCollection.update_one(userInventory, itemsData)
 
         # User Inventory (new)
-        userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
+        userInventory = inventoryCollection.find_one({"_id": interaction.user.id})
 
         if self.values[0] == "sellbow":
             
             if "bow" in userInventory["items"]:
                 
                 userInventory["items"].pop("bow")
-                await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
-                await interaction.response.send_message("Yayınızı başarıyla sattınız")
+                inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
+                await interaction.response.send_message(content = f"{sold_emoji} ** | {interaction.user.mention} Yayını başarıyla sattın**")
                 return
             else:
-                return await interaction.response.send_message("Zaten bir yaya sahip değilsiniz")
+                return await interaction.response.send_message("Zaten bir yaya sahip değilsiniz", ephemeral = True)
 
         # Wallet Check
-        if await coinCollection.find_one({"_id" : interaction.user.id}) == None:
-            return await interaction.response.send_message("Cüzdanın yok! `/wallet` komutunu kullan ve bir cüzdan oluştur", ephemeral = True)
+        if coinCollection.find_one({"_id" : interaction.user.id}) == None:
+            return await interaction.response.send_message("Banka hesabın yok! `/balance` komutunu kullan ve bir hesap oluştur", ephemeral = True)
 
         # User Wallet
-        userWallet = await coinCollection.find_one({"_id" : interaction.user.id})
+        userWallet = coinCollection.find_one({"_id" : interaction.user.id})
 
         # Cupcoin (money) Check
-        if userWallet["coins"] < bowPrice:
-            needMoney = bowPrice - userWallet["coins"]
-            return await interaction.response.send_message(f"Cüzdanında yeterli Cupcoin bulunmuyor! {needMoney:,} Cupcoin'e ihtiyacın var", ephemeral = True)
+        if userWallet["cash"] < bowPrice:
+            needMoney = bowPrice - userWallet["cash"]
+            return await interaction.response.send_message(f"Hesabınızda yeterli LiCash bulunmuyor! {needMoney:,} LiCash'e ihtiyacın var", ephemeral = True)
 
 
         # Pickaxe Check
@@ -597,14 +496,14 @@ class Bows(discord.ui.Select):
             return await interaction.response.send_message("Zaten bir yaya sahipsiniz", ephemeral = True)
 
         # Fee received
-        userWallet["coins"] -= bowPrice
-        await coinCollection.replace_one({"_id" : interaction.user.id}, userWallet)
+        userWallet["cash"] -= bowPrice
+        coinCollection.replace_one({"_id" : interaction.user.id}, userWallet)
         
 
         userInventory["items"].update({"bow" : bowId})
-        await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
+        inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
 
-        await interaction.response.send_message(f"✨🏹 **|** {bowPrice:,} ödeyerek yeni bir {bowName} satın aldınız. Artık daha değerli avlar avlayabileceksiniz.")
+        await interaction.response.send_message(f"{new_emoji}🏹 **|** {interaction.user.mention} {bowPrice:,} ödeyerek yeni bir {bowName} satın aldınız. Artık daha değerli avlar avlayabileceksiniz.")
 
 class Axes(discord.ui.Select):
     def __init__(self):
@@ -620,7 +519,7 @@ class Axes(discord.ui.Select):
             
             
             
-            discord.SelectOption(label='Baltanı Sata', value= "sellaxe", description=f"Baltanı sat ve yenisini al", emoji='🗑️')
+            discord.SelectOption(label='Baltanı Sat', value= "sellaxe", description=f"Baltanı sat ve yenisini al", emoji=sell_emoji or '🗑️')
 
         ]
         super().__init__(placeholder='Bir Balta Seç', options=options)
@@ -658,50 +557,50 @@ class Axes(discord.ui.Select):
 
 
         # Database Connection
-        db = client.mongoConnect["cupcake"]
+        db = client.database["limon"]
         inventoryCollection = db["inventory"]
-        coinCollection = db["economy"]
+        coinCollection = db["wallet"]
         
         # Inventory Check
-        if await inventoryCollection.find_one({"_id" : interaction.user.id}) == None:
+        if inventoryCollection.find_one({"_id" : interaction.user.id}) == None:
             newData = {
                 "_id": interaction.user.id,
                 "items" : {}
             }
-            await inventoryCollection.insert_one(newData)
+            inventoryCollection.insert_one(newData)
 
         # User Inventory (old)
-        userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
+        userInventory = inventoryCollection.find_one({"_id": interaction.user.id})
         
         # Items Check
         if "items" not in userInventory:
             itemsData = { "$set" : {"items" : {}}}
-            await inventoryCollection.update_one(userInventory, itemsData)
+            inventoryCollection.update_one(userInventory, itemsData)
 
         # User Inventory (new)
-        userInventory = await inventoryCollection.find_one({"_id": interaction.user.id})
+        userInventory = inventoryCollection.find_one({"_id": interaction.user.id})
 
         if self.values[0] == "sellaxe":
             if "axe" in userInventory["items"]:
                 
                 userInventory["items"].pop("axe")
-                await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
-                await interaction.response.send_message("Baltanı başarıyla sattın")
+                inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
+                await interaction.response.send_message(content = f"{sold_emoji} ** | {interaction.user.mention} Baltanı başarıyla sattın**")
                 return
             else:
-                return await interaction.response.send_message("Zaten bir baltaya sahip değilsin")
+                return await interaction.response.send_message(content = "Zaten bir baltaya sahip değilsin", ephemeral = True)
 
         # Wallet Check
-        if await coinCollection.find_one({"_id" : interaction.user.id}) == None:
-            return await interaction.response.send_message("Cüzdanın yok! `/wallet` komutunu kullan ve bir cüzdan oluştur", ephemeral = True)
+        if coinCollection.find_one({"_id" : interaction.user.id}) == None:
+            return await interaction.response.send_message("Banka hesabın yok! `/balance` komutunu kullan ve bir hesap oluştur", ephemeral = True)
 
         # User Wallet
-        userWallet = await coinCollection.find_one({"_id" : interaction.user.id})
+        userWallet = coinCollection.find_one({"_id" : interaction.user.id})
 
         # Cupcoin (money) Check
-        if userWallet["coins"] < axePrice:
-            needMoney = axePrice - userWallet["coins"]
-            return await interaction.response.send_message(f"Cüzdanında yeteri kadar Cupcoin bulunamadı! {needMoney:,} Cupcoin'e ihtiyacınız var", ephemeral = True)
+        if userWallet["cash"] < axePrice:
+            needMoney = axePrice - userWallet["cash"]
+            return await interaction.response.send_message(f"Hesabınızda yeteri kadar LiCash bulunamadı! {needMoney:,} LiCash'e ihtiyacınız var", ephemeral = True)
 
 
         # Pickaxe Check
@@ -709,14 +608,14 @@ class Axes(discord.ui.Select):
             return await interaction.response.send_message("Zaten bir baltaya sahipsiniz", ephemeral = True)
 
         # Fee received
-        userWallet["coins"] -= axePrice
-        await coinCollection.replace_one({"_id" : interaction.user.id}, userWallet)
+        userWallet["cash"] -= axePrice
+        coinCollection.replace_one({"_id" : interaction.user.id}, userWallet)
         
         # Add Item
         userInventory["items"].update({"axe" : axeId})
-        await inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
+        inventoryCollection.replace_one({"_id" : interaction.user.id}, userInventory)
 
-        await interaction.response.send_message(f"✨🪓 **|** {axePrice:,} ödeyerek yeni bir {axeName} satın aldınız. Artık daha büyük ve değerli ağaçları kesebileceksiniz.")
+        await interaction.response.send_message(f"{new_emoji}🪓 **|** {interaction.user.mention} {axePrice:,} ödeyerek yeni bir {axeName} satın aldınız. Artık daha büyük ve değerli ağaçları kesebileceksiniz.")
 
 class PickaxeView(discord.ui.View):
     def __init__(self):
@@ -725,11 +624,6 @@ class PickaxeView(discord.ui.View):
         # Adds the dropdown to our view object.
         self.add_item(Pickaxes())
         
-class SwordView(discord.ui.View):
-    def __init__(self):
-        super().__init__()
-        
-        self.add_item(Swords())
 
 class RodView(discord.ui.View):
     def __init__(self):
@@ -783,13 +677,6 @@ class ItemsView(View):
         view = AxeView()
         await interaction.response.send_message(content= "Yeni bir balta mı alacaksın? Bu harika! Aşağıdaki menüden baltaları görüntüleyebilirsin.", view = view)
 
-     # THIS BUTTON PURPOSE IS SHOW ALL SWORDS
-    @discord.ui.button(label="Kılıçlar", style=discord.ButtonStyle.success, custom_id="showswords")
-    async def sword_callback(self, interaction, button):
-        view = SwordView()
-        await interaction.response.send_message(content= "Yeni bir kılıç mı alacaksın? Bu harika! Aşağıdaki menüden kılıçları görüntüleyebilirsin.", view = view)
-
-
     # THIS BUTTON PURPOSE IS CLOSE THE MENU
     @discord.ui.button(label="Kapat", style=discord.ButtonStyle.danger, custom_id="closemenu")
     async def close_callback(self, interaction, button):
@@ -812,7 +699,7 @@ class Store(commands.Cog, commands.Bot):
         itemsEmbed = Embed(description = f"Merhaba 👋 Mağazaya hoş geldin. Balıkçılık, avcılık, madencilik ve ormancılık için buradan ekipman satın alabilirsin. ")
         itemsEmbed.set_author(name = interaction.user.name, icon_url = interaction.user.avatar.url)
         itemsEmbed.add_field(name = "Nasıl Eşya Satın Alacağım?", value = "Butonlara tıklayın ve seviyelere göre eşya satın alınız", inline = False)
-        itemsEmbed.add_field(name = "Bunun için ödeme yapacak mıyım?", value = "Evet, eşyalara ve onların seviyelerine göre farklı ücretlendirmeler bulunuyor (Cupcoin ile)", inline = False)
+        itemsEmbed.add_field(name = "Bunun için ödeme yapacak mıyım?", value = "Evet, eşyalara ve onların seviyelerine göre farklı ücretlendirmeler bulunuyor (LiCash ile)", inline = False)
 
         await interaction.response.send_message(embed = itemsEmbed, view = view) 
 

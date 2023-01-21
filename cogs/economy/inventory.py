@@ -102,13 +102,13 @@ class Buttons(View):
     @button(label = "Çanta", style = discord.ButtonStyle.blurple)
     async def backpack_callback(self, interaction, button):
 
-        db = client.mongoConnect["cupcake"]
+        db = client.database["limon"]
         collection = db["inventory"]
 
-        if await collection.find_one({"_id": interaction.user.id}) == None:
+        if collection.find_one({"_id": interaction.user.id}) == None:
             return await interaction.response.send_message("Upss! Envanteriniz bulunmuyor! Şu komutları kullanmayı deneyiniz: `mining, forestry, hunting, fishing`", ephemeral = True)
 
-        userData = await collection.find_one({"_id": interaction.user.id})
+        userData = collection.find_one({"_id": interaction.user.id})
 
         userFishes = ["None"]
         userMines = ["None"]
@@ -156,13 +156,13 @@ class Buttons(View):
     
     @button(label = "Eşyalar", style = discord.ButtonStyle.blurple)
     async def items_callback(self, interaction, button):
-        db = client.mongoConnect["cupcake"]
+        db = client.database["limon"]
         collection = db["inventory"]
 
-        if await collection.find_one({"_id": interaction.user.id}) == None:
+        if collection.find_one({"_id": interaction.user.id}) == None:
             return await interaction.response.send_message("Upss! Hiç eşyanız yok. **`store`** komutunu kullanarak yeni eşyalar satın alabilirsiniz.", ephemeral = True)
 
-        userData = await collection.find_one({"_id": interaction.user.id})
+        userData = collection.find_one({"_id": interaction.user.id})
 
         userItems = ["None"]
         if "items" in userData:

@@ -18,7 +18,7 @@ class SuggestionModal(ui.Modal, title= "Öneri"):
             title = self.title,
             description = f"{self.answer}",
             timestamp= datetime.datetime.utcnow(),
-            color = 0xffd32a 
+            color = 0xfff48a 
         )
 
         suggestionMessage.set_author(

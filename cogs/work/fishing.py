@@ -15,12 +15,6 @@ yaml_file2 = open("assets/yamls/fishing.yml", "rb")
 fish = yaml.load(yaml_file2, Loader = Loader)
 
 
-cupcoin = emojis["cupcoin"]
-cross = emojis["cross"]
-cupcoinBack = emojis["cupcoinBack"]
-cupcoins = emojis["cupcoins"]
-clock = emojis["clock"] or "⏳"
-
 class Fishing(commands.Cog, commands.Bot):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
@@ -31,28 +25,28 @@ class Fishing(commands.Cog, commands.Bot):
     async def fishing(self, interaction: discord.Interaction):
         
         # Database Connection
-        db = self.bot.mongoConnect["cupcake"]
+        db = self.bot.database["limon"]
         collection = db["inventory"]
         careerCollection = db["career"]
 
         # Database Checks
-        if await collection.find_one({"_id": interaction.user.id}) == None:
+        if collection.find_one({"_id": interaction.user.id}) == None:
             newData = {
                 "_id": interaction.user.id,
                 "fishes" : {},
             }
-            await collection.insert_one(newData)
+            collection.insert_one(newData)
 
         # Career Check
-        if await careerCollection.find_one({"_id": interaction.user.id}) == None:
+        if careerCollection.find_one({"_id": interaction.user.id}) == None:
             newData = {
                 "_id": interaction.user.id,
                 "points": {"fisher_point": 0}
             }
-            await careerCollection.insert_one(newData)
+            careerCollection.insert_one(newData)
 
-        userData = await collection.find_one({"_id": interaction.user.id})
-        userCareer = await careerCollection.find_one({"_id": interaction.user.id})
+        userData = collection.find_one({"_id": interaction.user.id})
+        userCareer = careerCollection.find_one({"_id": interaction.user.id})
 
         # Axe check
         if "items" not in userData or "rod" not in userData["items"]:
@@ -61,19 +55,19 @@ class Fishing(commands.Cog, commands.Bot):
         # Wood Check
         if "fishes" not in userData:
             fisherData = { "$set" : {"fishes" : {}}}
-            await collection.update_one(userData ,fisherData)
+            collection.update_one(userData ,fisherData)
 
         if "points" not in userCareer:
             careerData = { "$set" : {"points" : {}}}
-            await careerCollection.update_one(userCareer ,careerData)
+            careerCollection.update_one(userCareer ,careerData)
 
         if "fisher_point" not in userCareer["points"]:
             fisherPointData = { "$set" : {"points.fisher_point" : 0}}
-            await careerCollection.update_one(userCareer ,fisherPointData)
+            careerCollection.update_one(userCareer ,fisherPointData)
 
         # User Datas
-        userData = await collection.find_one({"_id": interaction.user.id}) # User Data
-        userCareer = await careerCollection.find_one({"_id": interaction.user.id}) # User Career Data
+        userData = collection.find_one({"_id": interaction.user.id}) # User Data
+        userCareer = careerCollection.find_one({"_id": interaction.user.id}) # User Career Data
         userRod = userData["items"]["rod"] # User Rod
 
         # Fishing System
@@ -93,7 +87,6 @@ class Fishing(commands.Cog, commands.Bot):
                 fishName = VLF[resultFish]["name"] # Result Fish Name
                 fishPrice = VLF[resultFish]["price"] + priceByFishSize # Result Fish Total Price
 
-        
         # Low Level Fisher
         if "solidrod" == userRod:
 
@@ -122,7 +115,6 @@ class Fishing(commands.Cog, commands.Bot):
             fishName = MF[resultFish]["name"] # Result Fish Name
             fishPrice = MF[resultFish]["price"] + priceByFishSize # Result Fish Total Price
 
-
         # High Level Fisher
         if "luckyrod" == userRod:
 
@@ -136,7 +128,6 @@ class Fishing(commands.Cog, commands.Bot):
 
             fishName = HF[resultFish]["name"] # Result Fish Name
             fishPrice = HF[resultFish]["price"] + priceByFishSize # Result Fish Total Price
-
 
         # Very High Level Fisher
         if "harpoon" == userRod:
@@ -160,7 +151,7 @@ class Fishing(commands.Cog, commands.Bot):
             return await interaction.edit_original_response("🐟 **|** Maalesef hiç balık tutamadınız ;c")
 
 
-        await interaction.edit_original_response(content = f"🐟 **|** Harika iş balıkçı! **{fishSize}**m/cm uzunluğunda bir **{fishName}** yakaladın . Anlık piyasa değeri: **{fishPrice}** Cupcoin.")
+        await interaction.edit_original_response(content = f"🐟 **|** Harika iş balıkçı! **{fishSize}**m/cm uzunluğunda bir **{fishName}** yakaladın. Anlık piyasa değeri: **{fishPrice}** Cupcoin.")
 
         # Update User Data
         
@@ -169,14 +160,14 @@ class Fishing(commands.Cog, commands.Bot):
         
         userData["fishes"].update({resultFish : fishSize}) 
         userCareer["points"]["fisher_point"] +=1
-        await careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
-        await collection.replace_one({"_id": interaction.user.id}, userData)
+        careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
+        collection.replace_one({"_id": interaction.user.id}, userData)
 
     @fishing.error
     async def fishingError(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
         if isinstance(error, app_commands.CommandOnCooldown):
             timeRemaining = str(datetime.timedelta(seconds=int(error.retry_after)))
-            await interaction.response.send_message(f"{clock} **|** Yoruldun. Eve git ve `{timeRemaining}`s dinlen.",ephemeral=True)
+            await interaction.response.send_message(f"Yoruldun. Eve git ve `{timeRemaining}`s dinlen.",ephemeral=True)
         else:
             print(f"[FISHING]: {error} ")
 
