@@ -11,7 +11,7 @@ from fetchdata import create_wallet
 yaml_file = open("assets/yamls/emojis.yml", "rb")
 emojis = yaml.load(yaml_file, Loader = Loader) 
 
-wallet = emojis["wallet"]
+wallet = emojis["limonbank"]
 morelicash = emojis["morelicash"]
 clock = emojis["clock"] or "⏳"
 
@@ -45,7 +45,7 @@ class economy(commands.Cog):
 
 
     # ------ WALLET ------
-    @app_commands.command(name = "wallet", description="Cüzdanını aç")
+    @app_commands.command(name = "balance", description="Hesap bakiyenizi öğrenin")
     @app_commands.checks.cooldown(
         1, 10.0, key=lambda i: (i.guild_id, i.user.id))
     async def wallet(self, interaction : discord.Interaction):
