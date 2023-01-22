@@ -21,7 +21,8 @@ hf = fish["highLevelFish"]
 vhf = fish["veryHighLevelFish"]
 
 priceByFishSize = fish["priceByFishSize"]
-all_fish = vlf | lf | mlf | hf | vhf # We combine all the fish in one dictionary
+# We combine all the fish in one dictionary
+all_fish = vlf | lf | mlf | hf | vhf 
 fishesKey = " ".join(all_fish.keys())  # We get all the dictionary keys
 listFishes = fishesKey.split(" ")  # We collect all the dictionary keys in the list
 
@@ -35,7 +36,8 @@ lh = hunt["lowLevelHunt"]
 mlh = hunt["mediumLevelHunt"]
 hh = hunt["highLevelHunt"]
 vhh = hunt["veryHighLevelHunt"]
-all_hunt = vlh | lh | mlh | hh | vhh  # We combine all the hunt in one dictionary
+# We combine all the hunt in one dictionary
+all_hunt = vlh | lh | mlh | hh | vhh  
 huntsKey = " ".join(all_hunt.keys())  # We get all the dictionary keys
 listHunts = huntsKey.split(" ")  # We collect all the dictionary keys in the list
 

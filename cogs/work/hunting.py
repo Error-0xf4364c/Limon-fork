@@ -6,6 +6,7 @@ import datetime
 import random
 import yaml
 from yaml import Loader
+from fetchdata import create_career_data
 
 yaml_file = open("assets/yamls/emojis.yml", "rb")
 emojis = yaml.load(yaml_file, Loader = Loader) 
@@ -28,7 +29,8 @@ class Hunting(commands.Cog, commands.Bot):
         # Connecting Database
         db = self.bot.database["limon"]
         collection = db["inventory"]
-        careerCollection = db["career"]
+        
+        userCareerData, careerCollection = create_career_data(self.bot, interaction.user.id)
 
         # Database Checks
         if collection.find_one({"_id": interaction.user.id}) == None:
@@ -38,15 +40,7 @@ class Hunting(commands.Cog, commands.Bot):
             }
             collection.insert_one(newData)
 
-        if careerCollection.find_one({"_id": interaction.user.id}) == None:
-            newData = {
-                "_id": interaction.user.id,
-                "points": {"hunter_point": 0}
-            }
-            careerCollection.insert_one(newData)
-
         userData = collection.find_one({"_id": interaction.user.id})
-        userCareer = careerCollection.find_one({"_id": interaction.user.id})
 
         # Bow check
         if "items" not in userData or "bow" not in userData["items"]:
@@ -56,17 +50,7 @@ class Hunting(commands.Cog, commands.Bot):
             foresterData = { "$set" : {"hunts" : []}}
             collection.update_one(userData ,foresterData)
 
-        if "points" not in userCareer:
-            careerData = { "$set" : {"points" : {}}}
-            careerCollection.update_one(userCareer ,careerData)
-        
-        if "hunter_point" not in userCareer["points"]:
-            careerData1 = { "$set" : {"points.hunter_point" : 0}}
-            careerCollection.update_one(userCareer,careerData1)
-
-
         # User Datas
-        userCareer = careerCollection.find_one({"_id": interaction.user.id})
         userData = collection.find_one({"_id": interaction.user.id}) # User Data
         userBow = userData["items"]["bow"] # User Bow
 
@@ -134,8 +118,8 @@ class Hunting(commands.Cog, commands.Bot):
 
         # Update User Data
         userData["hunts"].append(resultHunt)
-        userCareer["points"]["hunter_point"] +=1
-        careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
+        userCareerData["points"]["hunter_point"] += 2
+        careerCollection.replace_one({"_id": interaction.user.id}, userCareerData)
         collection.replace_one({"_id": interaction.user.id}, userData)
     
 

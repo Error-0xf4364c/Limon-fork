@@ -6,6 +6,7 @@ import random
 import asyncio
 import yaml
 from yaml import Loader
+from fetchdata import create_career_data
 
 # Yaml file open
 yaml_file = open("assets/yamls/wood.yml", "rb")
@@ -25,7 +26,8 @@ class Forester(commands.Cog, commands.Bot):
         # Database Connection
         db = self.bot.database["limon"]
         collection = db["inventory"]
-        careerCollection = db["career"]
+        
+        userCareerData, careerCollection = create_career_data(self.bot, interaction.user.id)
 
         # Database Checks
         if collection.find_one({"_id": interaction.user.id}) == None:
@@ -35,16 +37,8 @@ class Forester(commands.Cog, commands.Bot):
             }
             collection.insert_one(newData)
 
-        # Career Check
-        if careerCollection.find_one({"_id": interaction.user.id}) == None:
-            newData = {
-                "_id": interaction.user.id,
-                "points":  {"forester_point": 0}
-            }
-            careerCollection.insert_one(newData)
 
         userData = collection.find_one({"_id": interaction.user.id})
-        userCareer = careerCollection.find_one({"_id": interaction.user.id})
 
         # Axe check
         if "items" not in userData or "axe" not in userData["items"]:
@@ -55,17 +49,8 @@ class Forester(commands.Cog, commands.Bot):
             foresterData = { "$set" : {"wood" : {}}}
             collection.update_one(userData ,foresterData)
 
-        if "points" not in userCareer:
-            careerData = { "$set" : {"points" : {}}}
-            careerCollection.update_one(userCareer ,careerData)
-
-        if "forester_point" not in userCareer["points"]:
-            careerData = { "$set" : {"points.forester_point" : 0}}
-            careerCollection.update_one(userCareer ,careerData)
-
         # User Datas
         userData = collection.find_one({"_id": interaction.user.id}) # User Data
-        userCareer = careerCollection.find_one({"_id": interaction.user.id}) # User Career Data
         userAxe = userData["items"]["axe"] # User Axe
 
         # Forestry System
@@ -154,8 +139,8 @@ class Forester(commands.Cog, commands.Bot):
         
         # Update User Data
         userData["wood"].update({resultWood : woodSize}) 
-        userCareer["points"]["forester_point"] +=1
-        careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
+        userCareerData["points"]["forester_point"] +=1
+        careerCollection.replace_one({"_id": interaction.user.id}, userCareerData)
         collection.replace_one({"_id": interaction.user.id}, userData)
 
     # Error Handler
