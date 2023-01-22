@@ -148,7 +148,6 @@ enchantedAxePrice = enchantedAxe["price"] # Enchanted Axe Price
 
 
 
-
 # FOR DB CONNECTION
 client = MyBot()
 
@@ -277,7 +276,6 @@ class Rods(discord.ui.Select):
         super().__init__(placeholder='Bir Olta Seç', options=options)
 
     async def callback(self, interaction: discord.Interaction):
-        
         rodName = ""
         rodPrice = 0
         rodId = ""
@@ -377,14 +375,12 @@ class Bows(discord.ui.Select):
             discord.SelectOption(label='Gümüş Yay', value= "silverbow", description=f'Ücret: {silverBowPrice:,} yerine sadece {silverBowDiscountedPrice:,}', emoji='🏹'),
             discord.SelectOption(label='Bakır Yay', value= "copperbow", description=f'Ücret: {copperBowPrice:,} yerine sadece {copperBowDiscountedPrice:,}', emoji='🏹'),
             discord.SelectOption(label='Tahta Yay', value= "woodenbow", description=f'Ücret: {woodenBowPrice:,} yerine sadece {woodenBowDiscountedPrice:,}', emoji='🏹'),
-            
-            discord.SelectOption(label='Yayı Sat', value= "sellbow", description=f"Yayını sat ve yenisini al", emoji={sell_emoji} or  '🗑️')
+            discord.SelectOption(label='Yayı Sat', value= "sellbow", description=f"Yayını sat ve yenisini al", emoji=sell_emoji or  '🗑️')
 
         ]
         super().__init__(placeholder='Bir Yay Seç', options=options)
 
     async def callback(self, interaction: discord.Interaction):
-        
         bowName = ""
         bowPrice = 0
         bowId = ""
