@@ -7,6 +7,8 @@ import datetime
 import random
 import yaml
 from yaml import Loader
+from fetchdata import create_career_data
+
 
 yaml_file = open("assets/yamls/emojis.yml", "rb")
 emojis = yaml.load(yaml_file, Loader = Loader) 
@@ -18,6 +20,7 @@ fish = yaml.load(yaml_file2, Loader = Loader)
 class Fishing(commands.Cog, commands.Bot):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
+  
 
     @app_commands.command(name="fishing", description="Hadi biraz balık tut.")
     @app_commands.checks.cooldown(
@@ -27,26 +30,10 @@ class Fishing(commands.Cog, commands.Bot):
         # Database Connection
         db = self.bot.database["limon"]
         collection = db["inventory"]
-        careerCollection = db["career"]
 
-        # Database Checks
-        if collection.find_one({"_id": interaction.user.id}) == None:
-            newData = {
-                "_id": interaction.user.id,
-                "fishes" : {},
-            }
-            collection.insert_one(newData)
-
-        # Career Check
-        if careerCollection.find_one({"_id": interaction.user.id}) == None:
-            newData = {
-                "_id": interaction.user.id,
-                "points": {"fisher_point": 0}
-            }
-            careerCollection.insert_one(newData)
+        userCareerData, careerCollection = create_career_data(self.bot, interaction.user.id)
 
         userData = collection.find_one({"_id": interaction.user.id})
-        userCareer = careerCollection.find_one({"_id": interaction.user.id})
 
         # Axe check
         if "items" not in userData or "rod" not in userData["items"]:
@@ -57,17 +44,9 @@ class Fishing(commands.Cog, commands.Bot):
             fisherData = { "$set" : {"fishes" : {}}}
             collection.update_one(userData ,fisherData)
 
-        if "points" not in userCareer:
-            careerData = { "$set" : {"points" : {}}}
-            careerCollection.update_one(userCareer ,careerData)
-
-        if "fisher_point" not in userCareer["points"]:
-            fisherPointData = { "$set" : {"points.fisher_point" : 0}}
-            careerCollection.update_one(userCareer ,fisherPointData)
 
         # User Datas
         userData = collection.find_one({"_id": interaction.user.id}) # User Data
-        userCareer = careerCollection.find_one({"_id": interaction.user.id}) # User Career Data
         userRod = userData["items"]["rod"] # User Rod
 
         # Fishing System
@@ -159,8 +138,8 @@ class Fishing(commands.Cog, commands.Bot):
             fishSize = userData["fishes"][resultFish] + fishSize
         
         userData["fishes"].update({resultFish : fishSize}) 
-        userCareer["points"]["fisher_point"] +=1
-        careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
+        userCareerData["points"]["fisher_point"] += 2
+        careerCollection.replace_one({"_id": interaction.user.id}, userCareerData)
         collection.replace_one({"_id": interaction.user.id}, userData)
 
     @fishing.error
