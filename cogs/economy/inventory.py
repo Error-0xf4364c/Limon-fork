@@ -78,12 +78,8 @@ items_axe = item["axe"]
 axeKey = " ".join(items_axe.keys())
 axe_item = axeKey.split(" ")
 
-items_sword = item["sword"]
-swordKey = " ".join(items_sword.keys())
-sword_item = swordKey.split(" ")
-
-all_items = pickaxe_item + rod_item + bow_item + axe_item + sword_item
-all_items_dict = items_axe | items_bow | items_fishingrods | items_pickaxes | items_sword
+all_items = pickaxe_item + rod_item + bow_item + axe_item
+all_items_dict = items_axe | items_bow | items_fishingrods | items_pickaxes
 
 message_author_id = []
 
