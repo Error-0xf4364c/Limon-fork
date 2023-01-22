@@ -7,6 +7,7 @@ import datetime
 import random
 import yaml
 from yaml import Loader
+from fetchdata import create_career_data
 
 yaml_file = open("assets/yamls/emojis.yml", "rb")
 emojis = yaml.load(yaml_file, Loader = Loader) 
@@ -27,7 +28,8 @@ class Mining(commands.Cog, commands.Bot):
         # Database Connection
         db = self.bot.database["limon"]
         collection = db["inventory"]
-        careerCollection = db["career"]
+        
+        userCareerData, careerCollection = create_career_data(self.bot, interaction.user.id)
 
         # Database Checks
         if collection.find_one({"_id": interaction.user.id}) == None:
@@ -37,17 +39,8 @@ class Mining(commands.Cog, commands.Bot):
             }
             collection.insert_one(newData)
 
-        # Career Check
-        if careerCollection.find_one({"_id": interaction.user.id}) == None:
-            newData = {
-                "_id": interaction.user.id,
-                "points": {"miner_point": 0}
-            }
-            careerCollection.insert_one(newData)
 
         userData = collection.find_one({"_id": interaction.user.id})
-        userCareer = careerCollection.find_one({"_id": interaction.user.id})
-
 
         # Axe check
         if "items" not in userData or "pickaxe" not in userData["items"]:
@@ -58,17 +51,8 @@ class Mining(commands.Cog, commands.Bot):
             foresterData = { "$set" : {"mines" : {}}}
             collection.update_one(userData ,foresterData)
 
-        if "points" not in userCareer:
-            careerData = { "$set" : {"points" : {}}}
-            careerCollection.update_one(userCareer ,careerData)
-
-        if "miner_point" not in userCareer["points"]:
-            careerData = { "$set" : {"points.miner_point" : 0}}
-            careerCollection.update_one(userCareer ,careerData)
-
         # User Datas
         userData = collection.find_one({"_id": interaction.user.id}) # User Data
-        userCareer = careerCollection.find_one({"_id": interaction.user.id}) # User Career Data
         userPickaxe = userData["items"]["pickaxe"] # User Pickaxe
 
         # Mining System
@@ -83,11 +67,10 @@ class Mining(commands.Cog, commands.Bot):
             resultMine = random.choice(splittedMine) # Random Very Low Level Mine
             sleepTime = 30
 
-            if resultMine != "none":
-                mineSize = random.randint(5,10) # Random mine size
-                priceByMineSize = mineSize * priceByVlSize # Price By Mine Size
-                mineName = VLM[resultMine]["name"] # Result Mine Name
-                minePrice = VLM[resultMine]["price"] + priceByMineSize # Result Mine Total Price
+            mineSize = random.randint(5,10) # Random mine size
+            priceByMineSize = mineSize * priceByVlSize # Price By Mine Size
+            mineName = VLM[resultMine]["name"] # Result Mine Name
+            minePrice = VLM[resultMine]["price"] + priceByMineSize # Result Mine Total Price
 
         # Low Level Miner
         elif "steelpickaxe" == userPickaxe:
@@ -99,11 +82,10 @@ class Mining(commands.Cog, commands.Bot):
             resultMine = random.choice(splittedMine) # Random Low Level Mine
             sleepTime = 30
 
-            if resultMine != "none":
-                mineSize = random.randint(5,15) # Random mine size
-                priceByMineSize = mineSize * priceByLSize # Price By Mine Size
-                mineName = LM[resultMine]["name"] # Result Mine Name
-                minePrice = LM[resultMine]["price"] + priceByMineSize # Result Mine Total Price
+            mineSize = random.randint(5,15) # Random mine size
+            priceByMineSize = mineSize * priceByLSize # Price By Mine Size
+            mineName = LM[resultMine]["name"] # Result Mine Name
+            minePrice = LM[resultMine]["price"] + priceByMineSize # Result Mine Total Price
 
         #Medium Level Miner
         elif "goldenpickaxe" == userPickaxe:
@@ -161,8 +143,8 @@ class Mining(commands.Cog, commands.Bot):
         
         # Update User Data
         userData["mines"].update({resultMine : mineSize}) 
-        userCareer["points"]["miner_point"] +=1
-        careerCollection.replace_one({"_id": interaction.user.id}, userCareer)
+        userCareerData["points"]["miner_point"] += 2
+        careerCollection.replace_one({"_id": interaction.user.id}, userCareerData)
         collection.replace_one({"_id": interaction.user.id}, userData)
 
 

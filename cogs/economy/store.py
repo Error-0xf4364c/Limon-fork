@@ -58,26 +58,31 @@ rods = items["fishingrod"]
 simpleRod = rods["simplerod"]
 simpleRodName = simpleRod["name"] # Rod Name
 simpleRodPrice = simpleRod["price"] # Rod Price
+simpleRodDiscountedPrice = simpleRod["discounted_price"]
 
 # Solid Rod
 solidRod = rods["solidrod"]
 solidRodName = solidRod["name"] # Rod Name
 solidRodPrice = solidRod["price"] # Rod Price
+solidRodDiscountedPrice = solidRod["discounted_price"]
 
 # Silver Rod
 silverRod = rods["silverrod"]
 silverRodName = silverRod["name"] # Rod Name
 silverRodPrice = silverRod["price"] # Rod Price
+silverRodDiscountedPrice = silverRod["discounted_price"]
 
 # Lucky Rod
 luckyRod = rods["luckyrod"]
 luckyRodName = luckyRod["name"] # Rod Name
 luckyRodPrice = luckyRod["price"] # Rod Price
+luckyRodDiscountedPrice = luckyRod["discounted_price"]
 
 # Harpoon
 harpoon = rods["harpoon"]
 harpoonName = harpoon["name"] # Harpoon Name
 harpoonPrice = harpoon["price"] # Harpoon Price
+harpoonDiscountedPrice = harpoon["discounted_price"]
 
 
 # HUNTING ITEMS
@@ -88,26 +93,30 @@ bows = items["bow"]
 woodenBow = bows["woodenbow"]
 woodenBowName = woodenBow["name"] # Wooden Bow Name
 woodenBowPrice = woodenBow["price"] # Wooden Bow Price
-
+woodenBowDiscountedPrice = woodenBow["discounted_price"]
 # Copper Bow
 copperBow = bows["copperbow"]
 copperBowName = copperBow["name"] # Copper Bow Name
 copperBowPrice = copperBow["price"] # Copper Bow Price
+copperBowDiscountedPrice = copperBow["discounted_price"]
 
 # Silver Bow
 silverBow = bows["silverbow"]
 silverBowName = silverBow["name"] # Silver Bow Name
 silverBowPrice = silverBow["price"] # Silver Bow Price
+silverBowDiscountedPrice = silverBow["discounted_price"]
 
 # Accurate Bow
 accurateBow = bows["accuratebow"]
 accurateBowName = accurateBow["name"] # Accurate Bow Name
 accurateBowPrice = accurateBow["price"] # Accurate Bow Price
+accurateBowDiscountedPrice = accurateBow["discounted_price"]
 
 # Crossbow
 crossbow = bows["crossbow"]
 crossbowName = crossbow["name"] # Crossbow Name
 crossbowPrice = crossbow["price"] # Crossbow Price
+crossbowDiscountedPrice = crossbow["discounted_price"]
 
 # FORESTRY ITEMS
 axes = items["axe"]
@@ -137,44 +146,6 @@ enchantedAxe = axes["enchantedaxe"]
 enchantedAxeName = enchantedAxe["name"] # Enchanted Axe Name
 enchantedAxePrice = enchantedAxe["price"] # Enchanted Axe Price
 
-# SWORDS
-swords = items["sword"]
-
-# 
-gladius = swords["gladius"]
-gladiusName = gladius["name"]
-gladiusPrice = gladius["price"] 
-gladiusDcPrice = gladius["discounted_price"]
-
-# 
-chukuto = swords["chokuto"]
-chukutoName = chukuto["name"]
-chukutoPrice = chukuto["price"] 
-chukutoDcPrice = chukuto["discounted_price"]
-
-# 
-katana = swords["katana"]
-katanaName = katana["name"]
-katanaPrice = katana["price"] 
-katanaDcPrice = katana["discounted_price"]
-
-# 
-rapier = swords["rapier"]
-rapierName = rapier["name"]
-rapierPrice = rapier["price"] 
-rapierDcPrice = rapier["discounted_price"]
-
-# 
-odachi = swords["odachi"]
-odachiName = odachi["name"]
-odachiPrice = odachi["price"] 
-odachiDcPrice = odachi["discounted_price"]
-
-# 
-claymore = swords["claymore"]
-claymoreName = claymore["name"]
-claymorePrice = claymore["price"] 
-claymoreDcPrice = claymore["discounted_price"]
 
 
 
@@ -294,11 +265,11 @@ class Rods(discord.ui.Select):
     def __init__(self):
 
         options = [
-            discord.SelectOption(label='Zıpkın', value= "harpoon", description=f'Ücret: {harpoonPrice:,}', emoji='🎣'),
-            discord.SelectOption(label='Şanslı Olta', value= "luckyrod", description=f'Ücret: {luckyRodPrice:,}', emoji='🎣'),
-            discord.SelectOption(label='Gümüş Olta', value= "silverrod", description=f'Ücret: {silverRodPrice:,}', emoji='🎣'),
-            discord.SelectOption(label='Sağlam Olta', value= "solidrod", description=f'Ücret: {solidRodPrice:,}', emoji='🎣'),
-            discord.SelectOption(label='Basit Olta', value= "simplerod", description=f'Ücret: {simpleRodPrice:,}', emoji='🎣'),
+            discord.SelectOption(label='Zıpkın', value= "harpoon", description=f'Ücret: {harpoonPrice:,} yerine sadece {harpoonDiscountedPrice:,}', emoji='🎣'),
+            discord.SelectOption(label='Şanslı Olta', value= "luckyrod", description=f'Ücret: {luckyRodPrice:,} yerine sadece {luckyRodDiscountedPrice:,}', emoji='🎣'),
+            discord.SelectOption(label='Gümüş Olta', value= "silverrod", description=f'Ücret: {silverRodPrice:,} yerine sadece {silverRodDiscountedPrice:,}', emoji='🎣'),
+            discord.SelectOption(label='Sağlam Olta', value= "solidrod", description=f'Ücret: {solidRodPrice:,} yerine sadece {solidRodDiscountedPrice:,}', emoji='🎣'),
+            discord.SelectOption(label='Basit Olta', value= "simplerod", description=f'Ücret: {simpleRodPrice:,} yerine sadece {simpleRodDiscountedPrice:,}', emoji='🎣'),
             
             discord.SelectOption(label='Oltayı Sat', value= "sellrod", description=f"Oltanı sat ve yenisini al", emoji=sell_emoji or '🗑️')
 
@@ -313,27 +284,28 @@ class Rods(discord.ui.Select):
         
         if self.values[0] == "simplerod":
             rodName = "Basit Olta"
-            rodPrice = simpleRodPrice
+            rodPrice = simpleRodDiscountedPrice
+            
             rodId = "simplerod"
         
         elif self.values[0] == "solidrod":
             rodName = "Sağlam Olta"
-            rodPrice = solidRodPrice
+            rodPrice = solidRodDiscountedPrice
             rodId = "solidrod"
         
         elif self.values[0] == "silverrod":
             rodName = "Gümüş Olta"
-            rodPrice = silverRodPrice
+            rodPrice = silverRodDiscountedPrice
             rodId = "silverrod"
         
         elif self.values[0] == "luckyrod":
             rodName = "Şanslı Olta"
-            rodPrice = luckyRodPrice
+            rodPrice = luckyRodDiscountedPrice
             rodId = "luckyrod"
         
         elif self.values[0] == "harpoon":
             rodName = "Zıpkın"
-            rodPrice = harpoonPrice
+            rodPrice = harpoonDiscountedPrice
             rodId = "harpoon"
 
 
@@ -400,11 +372,11 @@ class Bows(discord.ui.Select):
     def __init__(self):
 
         options = [
-            discord.SelectOption(label='Arbalet', value= "crossbow", description=f'Ücret: {crossbowPrice:,}', emoji='🏹'),
-            discord.SelectOption(label='İsabetli Yay', value= "accuratebow", description=f'Ücret: {accurateBowPrice:,}', emoji='🏹'),
-            discord.SelectOption(label='Gümüş Yay', value= "silverbow", description=f'Ücret: {silverBowPrice:,}', emoji='🏹'),
-            discord.SelectOption(label='Bakır Yay', value= "copperbow", description=f'Ücret: {copperBowPrice:,}', emoji='🏹'),
-            discord.SelectOption(label='Tahta Yay', value= "woodenbow", description=f'Ücret: {woodenBowPrice:,}', emoji='🏹'),
+            discord.SelectOption(label='Arbalet', value= "crossbow", description=f'Ücret: {crossbowPrice:,} yerine sadece {crossbowDiscountedPrice:,}', emoji='🏹'),
+            discord.SelectOption(label='İsabetli Yay', value= "accuratebow", description=f'Ücret: {accurateBowPrice:,} yerine sadece {accurateBowDiscountedPrice:,}', emoji='🏹'),
+            discord.SelectOption(label='Gümüş Yay', value= "silverbow", description=f'Ücret: {silverBowPrice:,} yerine sadece {silverBowDiscountedPrice:,}', emoji='🏹'),
+            discord.SelectOption(label='Bakır Yay', value= "copperbow", description=f'Ücret: {copperBowPrice:,} yerine sadece {copperBowDiscountedPrice:,}', emoji='🏹'),
+            discord.SelectOption(label='Tahta Yay', value= "woodenbow", description=f'Ücret: {woodenBowPrice:,} yerine sadece {woodenBowDiscountedPrice:,}', emoji='🏹'),
             
             discord.SelectOption(label='Yayı Sat', value= "sellbow", description=f"Yayını sat ve yenisini al", emoji={sell_emoji} or  '🗑️')
 
@@ -419,27 +391,27 @@ class Bows(discord.ui.Select):
         
         if self.values[0] == "woodenbow":
             bowName = "Tahta Yay"
-            bowPrice = woodenBowPrice
+            bowPrice = woodenBowDiscountedPrice
             bowId = "woodenbow"
         
         elif self.values[0] == "copperbow":
             bowName = "Bakır Yay"
-            bowPrice = copperBowPrice
+            bowPrice = copperBowDiscountedPrice
             bowId = "copperbow"
         
         elif self.values[0] == "silverbow":
             bowName = "Gümüş Yay"
-            bowPrice = silverBowPrice
+            bowPrice = silverBowDiscountedPrice
             bowId = "silverbow"
         
         elif self.values[0] == "accuratebow":
             bowName = "İsabetli Yay"
-            bowPrice = accurateBowPrice
+            bowPrice = accurateBowDiscountedPrice
             bowId = "accuratebow"
         
         elif self.values[0] == "crossbow":
             bowName = "Arbalet"
-            bowPrice = crossbowPrice
+            bowPrice = crossbowDiscountedPrice
             bowId = "crossbow"
 
 

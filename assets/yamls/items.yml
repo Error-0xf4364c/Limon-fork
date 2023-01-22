@@ -8,18 +8,18 @@ pickaxe:
   miningvehicle: {custom_id: "mininigvehicle",name: Maden Aracı, price: 50000}
 
 fishingrod:
-  simplerod: {custom_id: "simplerod", name: Basit Olta, price: 6000}
-  solidrod: {custom_id: "solidrod", name: Sağlam Olta, price: 8000}
-  silverrod: {custom_id: "silverrod", name: Gümüş Olta, price: 14000}
-  luckyrod: {custom_id: "luckyrod", name: Şanslı Olta, price: 21000}
-  harpoon: {custom_id: "harpoon", name: Zıpkın, price: 40000}
+  simplerod: {custom_id: "simplerod", name: Basit Olta, price: 6000, discounted_price: 3999}
+  solidrod: {custom_id: "solidrod", name: Sağlam Olta, price: 8000, discounted_price: 4999}
+  silverrod: {custom_id: "silverrod", name: Gümüş Olta, price: 14000, discounted_price: 12999}
+  luckyrod: {custom_id: "luckyrod", name: Şanslı Olta, price: 21000, discounted_price: 18999}
+  harpoon: {custom_id: "harpoon", name: Zıpkın, price: 40000, discounted_price: 29999}
 
 bow:
-  woodenbow: {custom_id: "woodenbow", name: Tahta Yay, price: 5000}
-  copperbow: {custom_id: "copperbow", name: Bakır Yay, price: 8000}
-  silverbow: {custom_id: "silverbow", name: Gümüş Yay, price: 10000}
-  accuratebow: {custom_id: "accuratebow", name: İsabetli Yay, price: 14000}
-  crossbow: {custom_id: "crossbow", name: Arbalet, price: 20000}
+  woodenbow: {custom_id: "woodenbow", name: Tahta Yay, price: 5000, discounted_price: 2999}
+  copperbow: {custom_id: "copperbow", name: Bakır Yay, price: 8000, discounted_price: 4999}
+  silverbow: {custom_id: "silverbow", name: Gümüş Yay, price: 10000, discounted_price: 7499}
+  accuratebow: {custom_id: "accuratebow", name: İsabetli Yay, price: 14000, discounted_price: 12499}
+  crossbow: {custom_id: "crossbow", name: Arbalet, price: 20000, discounted_price: 14999}
 
 axe:
   stoneaxe: {custom_id: "stoneaxe", name: Taş Balta, price: 5500}
@@ -28,11 +28,4 @@ axe:
   reinforcedaxe: {custom_id: "reinforcedaxe", name: Güçlendirilmiş Balta, price: 16000}
   enchantedaxe: {custom_id: "enchantedaxe", name: Büyülü Balta, price: 55000}
 
-sword:
-  gladius: {custom_id: "gladius", name: "Gladius Kılıcı", price: 51500, discounted_price: 20000, min_damage: 140, max_damage: 190}
-  chokuto: {custom_id: "chokuto", name: "Chukuto Kılıcı", price: 63999, discounted_price: 32000, min_damage: 160, max_damage: 210}
-  katana: {custom_id: "katana", name: "Katana Kılıcı", price: 68399, discounted_price: 38000, min_damage: 180, max_damage: 230}
-  rapier: {custom_id: "rapier", name: "Rapier Kılıcı", price: 73400, discounted_price: 40000, min_damage: 200, max_damage: 260}
-  odachi: {custom_id: "odachi", name: "Odachi Kılıcı", price: 79999, discounted_price: 50000, min_damage: 225, max_damage: 265}
-  claymore: {custom_id: "claymore", name: "Claymore Kılıcı", price: 93100, discounted_price: 60000, min_damage: 240, max_damage: 299}
 
