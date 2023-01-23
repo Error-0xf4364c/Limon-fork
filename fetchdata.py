@@ -17,6 +17,8 @@ def create_career_data(bot, _id):
 
     db = bot.database["limon"]
     collection = db["career"]
+    
+    
 
     if collection.find_one({"_id" : _id}) == None:
         newData = {
@@ -32,4 +34,12 @@ def create_career_data(bot, _id):
         }
         collection.insert_one(newData)
 
+    user_data = collection.find_one({"_id" : _id})
+    
+    if "points" not in user_data:
+        
+        points = { "$set" : {"points" : {}}}
+
+        collection.update_one(user_data, points)
+    
     return collection.find_one({"_id" : _id}), collection

@@ -51,6 +51,8 @@ class MyBot(commands.Bot):
     
     async def on_ready(self):
         
+        self.uptime = discord.utils.utcnow()
+        
         await bot.change_presence(activity=discord.Streaming(name="Ekonomi ve Eğlence | Slash Commands", url="https://www.twitch.tv/iamabduley"))
         print(f"{self.user} is connected to Discord")
 
