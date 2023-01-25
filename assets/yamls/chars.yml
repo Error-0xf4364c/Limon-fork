@@ -10,6 +10,7 @@ alfield:
   hp: 113
   power: 73
   colorCode: 0x654321
+  price: 186000
 
 karaalfa:
   name: Kara Alfa ve Devasa Sürüsü
@@ -20,6 +21,7 @@ karaalfa:
   hp: 190
   power: 157
   colorCode: 0x0a0200
+  price: 347000
 
 inis:
   name: İnis
@@ -30,6 +32,7 @@ inis:
   hp: 150
   power: 110
   colorCode: 0x9df700
+  price: 260000
 
 groblar:
   name: Groblar
@@ -40,6 +43,7 @@ groblar:
   hp: 100
   power: 65
   colorCode: 0x356e00
+  price: 165000
 
 limon:
   name: Limon
@@ -50,6 +54,7 @@ limon:
   hp: 869
   power: 953
   colorCode: 0xffdf00
+  price: 1822000
 
 piola:
   name: Piola
@@ -59,4 +64,5 @@ piola:
   hp: 112
   power: 97
   colorCode: 0xfed3ff
+  price: 209000
 ...
