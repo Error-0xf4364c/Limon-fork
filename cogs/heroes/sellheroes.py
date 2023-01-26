@@ -110,6 +110,17 @@ class HeroesMenu(ui.Select):
 
         user_wallet["cash"] += price
         wallet.replace_one({"_id" : interaction.user.id}, user_wallet)
+        
+        if rarity == "Ancient":
+            rarity = "Kadim"
+        elif rarity == "Legendary":
+            rarity = "Efsanevi"
+        elif rarity == "Rare":
+            rarity = "Ender"
+        elif rarity == "Sparse":
+            rarity = "Seyrek"
+        else:
+            rarity = "Sıradan"
 
         await interaction.response.send_message(
             content = f"{done} **{rarity}** nadirlik derecesine sahip olan kahramanınız **{name}**, **{price:,}** LiCash karşılığında tüccara satıldı. - {interaction.user.mention}"
