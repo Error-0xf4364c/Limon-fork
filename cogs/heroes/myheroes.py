@@ -13,6 +13,7 @@ import yaml
 from yaml import Loader
 from main import MyBot
 import typing
+import datetime
 
 client = MyBot()
 
@@ -83,6 +84,7 @@ class MyHeroes(commands.Cog):
     
     @app_commands.command(name = "my-heroes", description = "Kahramanların hakkında bilgi edin")
     @app_commands.describe(heroes = "Hangi kahraman hakkında bilgi edinmek istersin?")
+    @app_commands.checks.cooldown(1, 15, key=lambda i: (i.guild_id, i.user.id))
     @app_commands.autocomplete(heroes=my_heroes_autocompletion)
     async def my_heroes(self, interaction: Interaction, heroes: str):
         
@@ -116,6 +118,13 @@ class MyHeroes(commands.Cog):
         
         await interaction.response.send_message(embed = hero_embed)
 
+    @my_heroes.error
+    async def my_heroesError(self, interaction : discord.Interaction,
+                         error: app_commands.AppCommandError):
+        if isinstance(error, app_commands.CommandOnCooldown):
+            timeRemaining = str(datetime.timedelta(seconds = int(error.retry_after)))
+            await interaction.response.send_message(f"{clock} **|** Lütfen `{timeRemaining}`s bekleyin!",
+                                                    ephemeral=True)
     
 async def setup(bot:commands.Bot):
     await bot.add_cog(MyHeroes(bot))

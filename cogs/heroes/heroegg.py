@@ -37,7 +37,7 @@ class eggs(commands.Cog, commands.Bot):
     @app_commands.command(name="hero-egg", description="200,000 LiCash vererek bir kahraman yumurtası aç!")
     @app_commands.guild_only
     @app_commands.checks.cooldown(
-        1, 3, key=lambda i: (i.guild_id, i.user.id))
+        1, 5, key=lambda i: (i.guild_id, i.user.id))
     async def herobox(self, interaction: discord.Interaction):
         # 21600
         caseFee = 200000 # 200.000
