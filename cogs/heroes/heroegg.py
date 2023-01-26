@@ -29,7 +29,7 @@ yaml_file2 = open("assets/yamls/chars.yml", "rb")
 heroes = yaml.load(yaml_file2, Loader = Loader) 
 
 
-class eggs(commands.Cog, commands.Bot):
+class OpenHeroEgg(commands.Cog):
 
     def __init__(self, bot: commands.Bot):
         self.bot = bot
@@ -137,4 +137,4 @@ class eggs(commands.Cog, commands.Bot):
 
 
 async def setup(bot:commands.Bot):
-    await bot.add_cog(eggs(bot))
+    await bot.add_cog(OpenHeroEgg(bot))
