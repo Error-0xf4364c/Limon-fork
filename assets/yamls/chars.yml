@@ -10,6 +10,7 @@ alfield:
   hp: 113
   power: 73
   colorCode: 0x654321
+  price: 186000
 
 karaalfa:
   name: Kara Alfa ve Devasa Sürüsü
@@ -20,6 +21,7 @@ karaalfa:
   hp: 190
   power: 157
   colorCode: 0x0a0200
+  price: 347000
 
 inis:
   name: İnis
@@ -27,9 +29,10 @@ inis:
     Bukalemun gibi derilerinin renklerini değiitirerek kamuflaj sağlayan insan zekasına sahip canlılardır.
     Genelde onları yakalayıp suikastçi olarak eğitmeye çalışırlar. Başarılı olanlar kesinlikler vardır.
   rarity: Sparse
-  hp: 150
-  power: 110
+  hp: 110
+  power: 83
   colorCode: 0x9df700
+  price: 193000
 
 groblar:
   name: Groblar
@@ -40,6 +43,7 @@ groblar:
   hp: 100
   power: 65
   colorCode: 0x356e00
+  price: 165000
 
 limon:
   name: Limon
@@ -50,6 +54,7 @@ limon:
   hp: 869
   power: 953
   colorCode: 0xffdf00
+  price: 1822000
 
 piola:
   name: Piola
@@ -59,4 +64,27 @@ piola:
   hp: 112
   power: 97
   colorCode: 0xfed3ff
+  price: 209000
+
+gorci:
+  name: Gorci
+  description: |
+    Gorciler, Phatonia İmparatorluğunun kuzeyinde bulunan Phamos Dağlarının zirvesinde yaşarlar. Çok yükseğe sıçrayabildikleri için alçaktan uçan ejderhaları çok rahat avlarlar.
+    İşin garip yanı ise ejderha avlayabilen bu türün boyunun çok kısa olmasıdır. Yetişkinlerinin boyu ortalama 1 - 1.20 metre arası, yavruları ise 15-30 cm arasıdır. Karlı dağlarda yaşayan bu türün tüy rengi ise beyazdır.
+  rarity: Rare
+  hp: 90
+  power: 130
+  colorCode: 0xe9e9e9
+  price: 220000
+
+moly:
+  name: Moly
+  description: |
+    Molyler pembe renkleriyle Neşe Ormanında kaybolan bir türdür. Bu karadar renkli bir ormana böylesine renkli bir tür yakışırdı zaten. Bu canlıların en etkili özellikleri görünmez olmalarıdır.
+    Sadece kendilerini tehlikede hissettikleri anda görünmez olurlar. Onun dışında bu özelliklerini pek kontrol edemezler.
+  rarity: Sparse
+  hp: 110
+  power: 70
+  colorCode: 0xff89f2
+  price: 180000
 ...
